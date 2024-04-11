@@ -13,9 +13,7 @@ class LobbyViewController: UIViewController {
     
     lazy var postButton: UIButton = {
         let button = UIButton()
-        // button.setTitleColor(<#T##color: UIColor?##UIColor?#>, for: <#T##UIControl.State#>)
         button.setTitle("Post", for: .normal)
-        // button.titleLabel?.font = UIFont(name: <#T##String#>, size: <#T##CGFloat#>)
         button.backgroundColor = .black
         button.addTarget(self, action: #selector(postBtnTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +21,8 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func postBtnTapped() {
-        print("Hi")
+        let pickPhotoViewController = PickPhotoViewController()
+        navigationController?.pushViewController(pickPhotoViewController, animated: true)
     }
     
     lazy var postsCollectionView: UICollectionView = {
@@ -36,13 +35,7 @@ class LobbyViewController: UIViewController {
         return collectionView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        postsCollectionView.delegate = self
-        postsCollectionView.dataSource = self
-        postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
-        
+    private func setUpUI() {
         view.addSubview(postsCollectionView)
         view.addSubview(postButton)
         
@@ -58,9 +51,20 @@ class LobbyViewController: UIViewController {
             postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        postsCollectionView.dataSource = self
+        postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
+        
+        setUpUI()
+    }
 }
 
-extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDataSource
+
+extension LobbyViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         images.count
     }
@@ -76,6 +80,8 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
 }
+
+// MARK: - LobbyLayoutDelegate
 
 extension LobbyViewController: LobbyLayoutDelegate {
   func collectionView(
