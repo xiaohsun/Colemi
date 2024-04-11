@@ -31,7 +31,10 @@ class PickPhotoViewController: UIViewController {
     }()
     
     @objc func choosePicButtonTapped() {
-        print(selectedPicIndex ?? 0)
+        guard let selectedPicIndex = selectedPicIndex else { return }
+        let writePostContentViewController = WritePostContentViewController()
+        // print("")
+        navigationController?.pushViewController(writePostContentViewController, animated: true)
     }
     
     lazy var photosCollectionView: UICollectionView = {

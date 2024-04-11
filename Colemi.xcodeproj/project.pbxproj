@@ -11,6 +11,7 @@
 		281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240A02BC79FE000777F91 /* LobbyLayout.swift */; };
 		281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */; };
 		281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */; };
+		281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */; };
 		28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */; };
 		28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */; };
 		28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */; };
@@ -24,6 +25,7 @@
 		281240A02BC79FE000777F91 /* LobbyLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyLayout.swift; sourceTree = "<group>"; };
 		281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickPhotoViewController.swift; sourceTree = "<group>"; };
 		281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostContentViewController.swift; sourceTree = "<group>"; };
 		28D24DC72BC6C24200B7E114 /* Colemi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colemi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
 				281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */,
 				281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */,
+				281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */,
 				281240A02BC79FE000777F91 /* LobbyLayout.swift */,
 				2812409E2BC7847700777F91 /* LobbyPostCell.swift */,
 			);
@@ -164,6 +167,7 @@
 			files = (
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
+				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */,
 				28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
