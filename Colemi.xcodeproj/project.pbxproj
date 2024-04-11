@@ -40,6 +40,7 @@
 		281240DC2BC8062600777F91 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 281240DB2BC8062600777F91 /* FirebaseRemoteConfigSwift */; };
 		281240DE2BC8062600777F91 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 281240DD2BC8062600777F91 /* FirebaseStorage */; };
 		281240E02BC8062600777F91 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 281240DF2BC8062600777F91 /* FirebaseStorageCombine-Community */; };
+		281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E22BC807C400777F91 /* WritePostContentViewModel.swift */; };
 		28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */; };
 		28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */; };
 		28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */; };
@@ -55,6 +56,7 @@
 		281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostContentViewController.swift; sourceTree = "<group>"; };
 		281240A82BC8059500777F91 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		281240E22BC807C400777F91 /* WritePostContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostContentViewModel.swift; sourceTree = "<group>"; };
 		28D24DC72BC6C24200B7E114 /* Colemi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colemi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,14 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		281240E12BC8079200777F91 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				281240E22BC807C400777F91 /* WritePostContentViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		28D24DBE2BC6C24200B7E114 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +148,7 @@
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
 				2812409D2BC7844E00777F91 /* ViewControllers */,
+				281240E12BC8079200777F91 /* ViewModels */,
 				28D24DD02BC6C24200B7E114 /* Main.storyboard */,
 				28D24DD32BC6C24400B7E114 /* Assets.xcassets */,
 				28D24DD52BC6C24400B7E114 /* LaunchScreen.storyboard */,
@@ -258,6 +269,7 @@
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */,
 				28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */,
+				281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,

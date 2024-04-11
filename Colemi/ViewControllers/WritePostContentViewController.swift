@@ -9,6 +9,8 @@ import UIKit
 
 class WritePostContentViewController: UIViewController {
     
+    let viewModel = WritePostContentViewModel()
+    
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +109,10 @@ class WritePostContentViewController: UIViewController {
     }()
     
     @objc func postButtonTapped() {
-        print("Hi")
+        let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: "http://1234145", description: "我是誰徐老師")
+        
+        viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
+        navigationController?.popToRootViewController(animated: true)
     }
     
     private func setUpUI() {
