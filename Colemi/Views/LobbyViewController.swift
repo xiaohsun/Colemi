@@ -27,6 +27,20 @@ class LobbyViewController: UIViewController {
         navigationController?.pushViewController(pickPhotoViewController, animated: true)
     }
     
+    lazy var chooseColorButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Color", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(chooseColorBtnTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func chooseColorBtnTapped() {
+        let chooseColorViewController = ChooseColorViewController()
+        navigationController?.pushViewController(chooseColorViewController, animated: true)
+    }
+    
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
         layout.delegate = self
@@ -40,6 +54,7 @@ class LobbyViewController: UIViewController {
     private func setUpUI() {
         view.addSubview(postsCollectionView)
         view.addSubview(postButton)
+        view.addSubview(chooseColorButton)
         
         NSLayoutConstraint.activate([
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -50,7 +65,12 @@ class LobbyViewController: UIViewController {
             postButton.heightAnchor.constraint(equalToConstant: 50),
             postButton.widthAnchor.constraint(equalToConstant: 100),
             postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
+            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
+            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            chooseColorButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50)
         ])
     }
     
