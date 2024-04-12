@@ -55,7 +55,7 @@ class WritePostContentViewModel {
         return contentJSON
     }
     
-    func uploadImgToFirebase(image: UIImage){
+    func uploadImgToFirebase(image: UIImage) {
         
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
             print("Failed to convert image to data.")
