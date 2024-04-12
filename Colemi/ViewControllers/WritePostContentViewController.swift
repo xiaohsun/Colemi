@@ -10,6 +10,8 @@ import UIKit
 class WritePostContentViewController: UIViewController {
     
     let viewModel = WritePostContentViewModel()
+    var pickPhotoViewController: PickPhotoViewController?
+    var selectedImage: UIImage?
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -23,8 +25,6 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "標題"
-        // label.font = UIFont(name: <#T##String#>, size: <#T##CGFloat#>)
-        // label.textColor = UIColor(named: <#T##String#>)
         
         return label
     }()
@@ -32,16 +32,8 @@ class WritePostContentViewController: UIViewController {
     lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        // textField.textColor = UIColor(named: <#T##String#>)
-        // textField.layer.borderColor = UIColor(named: <#T##String#>).cgColor
-        // textField.layer.borderWidth = 1
         textField.backgroundColor = .white
-        // textField.isEnabled = false
-        // textField.text = "<#1#>"
         textField.placeholder = "請填寫"
-        // textField.textColor = UIColor(named: <#T##String#>)
-        // textField.keyboardType = .numberPad
-        // textField.textAlignment = .center
         
         return textField
     }()
@@ -58,8 +50,6 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "內文"
-        // label.font = UIFont(name: <#T##String#>, size: <#T##CGFloat#>)
-        // label.textColor = UIColor(named: <#T##String#>)
         
         return label
     }()
@@ -76,8 +66,6 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "標籤"
-        // label.font = UIFont(name: <#T##String#>, size: <#T##CGFloat#>)
-        // label.textColor = UIColor(named: <#T##String#>)
         
         return label
     }()
@@ -85,16 +73,8 @@ class WritePostContentViewController: UIViewController {
     lazy var tagTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        // textField.textColor = UIColor(named: <#T##String#>)
-        // textField.layer.borderColor = UIColor(named: <#T##String#>).cgColor
-        // textField.layer.borderWidth = 1
         textField.backgroundColor = .white
-        // textField.isEnabled = false
-        // textField.text = "<#1#>"
         textField.placeholder = "請填寫"
-        // textField.textColor = UIColor(named: <#T##String#>)
-        // textField.keyboardType = .numberPad
-        // textField.textAlignment = .center
         
         return textField
     }()
@@ -109,10 +89,13 @@ class WritePostContentViewController: UIViewController {
     }()
     
     @objc func postButtonTapped() {
-        let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: "http://1234145", description: "我是誰徐老師")
         
-        viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
-        navigationController?.popToRootViewController(animated: true)
+        guard let image = selectedImage else {
+            print("Failed to get selectedImage")
+            return
+        }
+        
+        viewModel.uploadImgToFirebase(image: image)
     }
     
     private func setUpUI() {
@@ -133,6 +116,7 @@ class WritePostContentViewController: UIViewController {
         view.addSubview(tagTextField)
         view.addSubview(separatorView3)
         view.addSubview(postButton)
+
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -187,5 +171,23 @@ class WritePostContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        viewModel.delegate = self
+    }
+}
+
+extension WritePostContentViewController: PickPhotoViewControllerDelegate {
+    func passUIImage(_ image: UIImage) {
+        imageView.image = image
+        selectedImage = image
+    }
+}
+
+extension WritePostContentViewController: WritePostContentViewModelDelegate {
+    func readToAddData(_ imageUrl: String) {
+        let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
+        
+        viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
+        
+        navigationController?.popToRootViewController(animated: true)
     }
 }

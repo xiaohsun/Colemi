@@ -12,14 +12,22 @@ class PickPhotoViewController: UIViewController {
     
     var allPhotos: PHFetchResult<PHAsset>?
     var photoAssets: [PHAsset] = []
-    var userPhotos: [UIImage] = []
+    var photoUIImages: [UIImage] = []
     var selectedPicIndex: Int?
+    
+    weak var delegate: PickPhotoViewControllerDelegate?
     
     enum Section {
         case main
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
+    
+    lazy var writePostContentViewController: WritePostContentViewController = {
+        let viewController = WritePostContentViewController()
+        viewController.pickPhotoViewController = self
+        return viewController
+    }()
     
     lazy var choosePicButton: UIButton = {
         let button = UIButton()
@@ -32,8 +40,8 @@ class PickPhotoViewController: UIViewController {
     
     @objc func choosePicButtonTapped() {
         guard let selectedPicIndex = selectedPicIndex else { return }
-        let writePostContentViewController = WritePostContentViewController()
-        // print("")
+        writePostContentViewController.pickPhotoViewController?.delegate = writePostContentViewController
+        delegate?.passUIImage(photoUIImages[selectedPicIndex])
         navigationController?.pushViewController(writePostContentViewController, animated: true)
     }
     
@@ -54,7 +62,7 @@ class PickPhotoViewController: UIViewController {
                 if let result = result {
                     image = result
                 }
-                self.userPhotos.append(image)
+                self.photoUIImages.append(image)
             })
         }
     }
@@ -108,6 +116,8 @@ class PickPhotoViewController: UIViewController {
         
         setUpUI()
         fetchPhotosFromUser()
+        
+        
     }
 }
 
@@ -138,7 +148,7 @@ extension PickPhotoViewController: UICollectionViewDelegate {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier, for: indexPath) as? PhotoCollectionViewCell else { fatalError("Can't create new cell") }
             
-            cell.imageView.image = self.userPhotos[indexPath.item]
+            cell.imageView.image = self.photoUIImages[indexPath.item]
             
             return cell
         }
@@ -147,11 +157,15 @@ extension PickPhotoViewController: UICollectionViewDelegate {
     func updateSpanshot() {
         var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         initialSnapshot.appendSections([.main])
-        initialSnapshot.appendItems(Array(0..<self.userPhotos.count), toSection: .main)
+        initialSnapshot.appendItems(Array(0..<self.photoUIImages.count), toSection: .main)
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedPicIndex = indexPath.item
     }
+}
+
+protocol PickPhotoViewControllerDelegate: AnyObject {
+    func passUIImage(_ image: UIImage)
 }
