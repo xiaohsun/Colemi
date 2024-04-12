@@ -40,8 +40,21 @@ class ChooseColorViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
-        
+
         setUpUI()
+    }
+    
+    func currentWeather(for location: CLLocation) async {
+        if let forecast = try? await WeatherService().weather(for: location).dailyForecast.forecast {
+            print("//////forecast////////")
+            print(forecast)
+            if let today = forecast.first {
+                print("//////today////////")
+                print(today)
+                print("//////condition////////")
+                print(today.condition)
+            }
+        }
     }
 }
 
@@ -53,9 +66,10 @@ extension ChooseColorViewController: CLLocationManagerDelegate {
         if let location = locations.last {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
-            // Handle location update
-            print(latitude)
-            print(longitude)
+
+            Task.init {
+                await self.currentWeather(for: location)
+            }
         }
     }
 }
