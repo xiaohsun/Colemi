@@ -12,7 +12,11 @@ import CoreLocation
 class ChooseColorViewController: UIViewController {
     
     let chooseColorViewModel = ChooseColorViewModel()
+    let colorModel = ColorModel()
+    let userManager = UserManager.shared
     let locationManager = CLLocationManager()
+    var colorViews: [UIView] = []
+    var selectedUIColor: UIColor?
     
     lazy var chooseColorLabel: UILabel = {
         let label = UILabel()
@@ -36,12 +40,40 @@ class ChooseColorViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorTapped))
+        view.addGestureRecognizer(tapGesture)
+        view.tag = colorViews.count
+        colorViews.append(view)
+        
         return view
     }
     
-    lazy var color1 = createColorView()
-    lazy var color2 = createColorView()
-    lazy var color3 = createColorView()
+    @objc private func colorTapped(_ sender: UITapGestureRecognizer) {
+        guard let index = sender.view?.tag else { return }
+        selectedUIColor = colorModel.colors[index]
+    }
+    
+    lazy var selectColorButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("選擇", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(selectColorBtnTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc private func selectColorBtnTapped() {
+        if let selectedColor = selectedUIColor {
+            userManager.selectedColor = "\(selectedColor.rgba)"
+            print(userManager.selectedColor)
+            navigationController?.popViewController(animated: true)
+        }
+    }
+                                                
+    
+    lazy var colorView1 = createColorView()
+    lazy var colorView2 = createColorView()
+    lazy var colorView3 = createColorView()
     
     private func setUpUI() {
         
@@ -49,9 +81,10 @@ class ChooseColorViewController: UIViewController {
         
         view.addSubview(chooseColorLabel)
         view.addSubview(weatherDescriptionLabel)
-        view.addSubview(color1)
-        view.addSubview(color2)
-        view.addSubview(color3)
+        view.addSubview(colorView1)
+        view.addSubview(colorView2)
+        view.addSubview(colorView3)
+        view.addSubview(selectColorButton)
         
         NSLayoutConstraint.activate([
             chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -60,20 +93,25 @@ class ChooseColorViewController: UIViewController {
             weatherDescriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weatherDescriptionLabel.topAnchor.constraint(equalTo: chooseColorLabel.bottomAnchor, constant: 50),
             
-            color1.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 50),
-            color1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            color1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            color1.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            colorView1.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 50),
+            colorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorView1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            colorView1.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            color2.topAnchor.constraint(equalTo: color1.bottomAnchor, constant: 50),
-            color2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            color2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            color2.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            colorView2.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: 50),
+            colorView2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorView2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            colorView2.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            color3.topAnchor.constraint(equalTo: color2.bottomAnchor, constant: 50),
-            color3.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            color3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            color3.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3)
+            colorView3.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: 50),
+            colorView3.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorView3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            colorView3.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            
+            selectColorButton.heightAnchor.constraint(equalToConstant: 50),
+            selectColorButton.widthAnchor.constraint(equalToConstant: 100),
+            selectColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            selectColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -109,14 +147,15 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
         DispatchQueue.main.async {
             switch condition {
             case .partlyCloudy, .cloudy, .clear, .hot, .mostlyCloudy, .mostlyClear, .sunFlurries :
-                self.color1.backgroundColor = .red
-                self.color2.backgroundColor = .yellow
-                self.color3.backgroundColor = .green
-                self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
+                self.colorView1.backgroundColor = self.colorModel.colors[0]
+                self.colorView2.backgroundColor = self.colorModel.colors[1]
+                self.colorView3.backgroundColor = self.colorModel.colors[2]
+                // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
+                self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
             default:
-                self.color1.backgroundColor = .black
-                self.color2.backgroundColor = .lightGray
-                self.color3.backgroundColor = .gray
+                self.colorView1.backgroundColor = .black
+                self.colorView2.backgroundColor = .lightGray
+                self.colorView3.backgroundColor = .gray
                 self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
             }
         }
