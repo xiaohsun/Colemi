@@ -47,6 +47,8 @@
 		284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C22BC9839400A61E88 /* UIColor+Extension.swift */; };
 		284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C52BC98E0B00A61E88 /* ColorModel.swift */; };
 		284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C72BC98F8B00A61E88 /* UserManager.swift */; };
+		284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */; };
+		284F32CC2BCA641900A61E88 /* MPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPC.swift */; };
 		28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */; };
 		28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */; };
 		28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */; };
@@ -70,6 +72,8 @@
 		284F32C22BC9839400A61E88 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		284F32C52BC98E0B00A61E88 /* ColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
 		284F32C72BC98F8B00A61E88 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewController.swift; sourceTree = "<group>"; };
+		284F32CB2BCA641900A61E88 /* MPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPC.swift; sourceTree = "<group>"; };
 		28D24DC72BC6C24200B7E114 /* Colemi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colemi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
 				281240A02BC79FE000777F91 /* LobbyLayout.swift */,
 				2812409E2BC7847700777F91 /* LobbyPostCell.swift */,
+				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
 				281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */,
 				281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */,
 				281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */,
@@ -154,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				284F32C52BC98E0B00A61E88 /* ColorModel.swift */,
+				284F32CB2BCA641900A61E88 /* MPC.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -304,6 +310,7 @@
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
 				284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */,
+				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */,
 				281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */,
@@ -312,6 +319,7 @@
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
+				284F32CC2BCA641900A61E88 /* MPC.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,

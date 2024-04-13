@@ -10,6 +10,11 @@
 	<string>We need your photos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need your photos</string>
+    <key>NSBonjourServices</key>
+    <array>
+        <string>_colemi._tcp</string>
+        <string>_colemi._udp</string>
+    </array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

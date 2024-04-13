@@ -27,6 +27,20 @@ class LobbyViewController: UIViewController {
         navigationController?.pushViewController(pickPhotoViewController, animated: true)
     }
     
+    lazy var paletteButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("調色", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(paletteBtnTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func paletteBtnTapped() {
+        let paletteViewController = PaletteViewController()
+        navigationController?.pushViewController(paletteViewController, animated: true)
+    }
+    
     lazy var chooseColorButton: UIButton = {
         let button = UIButton()
         button.setTitle("Color", for: .normal)
@@ -55,12 +69,18 @@ class LobbyViewController: UIViewController {
         view.addSubview(postsCollectionView)
         view.addSubview(postButton)
         view.addSubview(chooseColorButton)
+        view.addSubview(paletteButton)
         
         NSLayoutConstraint.activate([
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             postsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            
+            paletteButton.heightAnchor.constraint(equalToConstant: 50),
+            paletteButton.widthAnchor.constraint(equalToConstant: 100),
+            paletteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            paletteButton.trailingAnchor.constraint(equalTo: postButton.leadingAnchor, constant: -50),
             
             postButton.heightAnchor.constraint(equalToConstant: 50),
             postButton.widthAnchor.constraint(equalToConstant: 100),
