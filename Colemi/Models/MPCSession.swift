@@ -64,7 +64,7 @@ class MPCSession: NSObject {
 //        sendData(data: data, peers: mcSession.connectedPeers, mode: .reliable)
 //    }
 
-    func sendData(colorToSend: UserDataReadyToSend, peers: [MCPeerID], mode: MCSessionSendDataMode) {
+    func sendData(colorToSend: UserDataReadyToSend, peers:[MCPeerID], mode: MCSessionSendDataMode) {
         do {
             let data = try JSONEncoder().encode(colorToSend)
             try mcSession.send(data, toPeers: peers, with: mode)
@@ -137,13 +137,13 @@ extension MPCSession: MCSessionDelegate {
         if let handler = peerConnectedHandler {
             DispatchQueue.main.async {
                 handler(peerID)
-                
             }
         }
-        print(peerID)
 //        if mcSession.connectedPeers.count == maxNumPeers {
 //            self.suspend()
 //        }
+        
+        sendData(colorToSend: UserDataReadyToSend(color: "012345") , peers: [peerID], mode: .reliable)
     }
 
     private func peerDisconnected(peerID: MCPeerID) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MultipeerConnectivity
 
 class PaletteViewController: UIViewController {
     
@@ -93,7 +94,34 @@ class PaletteViewController: UIViewController {
         setUpUI()
         
         mpc = MPCSession(service: "colemi", identity: "")
+        
+        mpc?.peerConnectedHandler = connectedToPeer
+        mpc?.peerDataHandler = dataReceivedHandler
+        // mpc?.peerDisconnectedHandler = disconnectedFromPeer
+        
         mpc?.invalidate()
         mpc?.start()
+    }
+    
+    func connectedToPeer(peer: MCPeerID) {
+        print(peer)
+    }
+    
+    func showAuthorInfoAlert(color: String) {
+        let alert = UIAlertController(title: "Data", message: "I'm awesome!", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Get \(color)", style: .default)
+        
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func dataReceivedHandler(data: Data, peer: MCPeerID) {
+        guard let colorData = try? JSONDecoder().decode(UserDataReadyToSend.self, from: data) else { return }
+        showAuthorInfoAlert(color: colorData.color)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        mpc?.invalidate()
     }
 }
