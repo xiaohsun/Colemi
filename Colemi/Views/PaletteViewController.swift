@@ -9,6 +9,9 @@ import UIKit
 
 class PaletteViewController: UIViewController {
     
+    let userDataReadyToSend = UserDataReadyToSend(color: UserManager.shared.selectedColor)
+    var mpc: MPCSession?
+    
     lazy var findColorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -88,5 +91,9 @@ class PaletteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
+        mpc = MPCSession(service: "colemi", identity: "")
+        mpc?.invalidate()
+        mpc?.start()
     }
 }

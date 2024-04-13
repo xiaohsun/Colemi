@@ -43,12 +43,13 @@
 		281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E22BC807C400777F91 /* WritePostContentViewModel.swift */; };
 		281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E42BC91B4700777F91 /* LobbyViewModel.swift */; };
 		281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E62BC9231800777F91 /* ChooseColorViewController.swift */; };
+		282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */; };
 		284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */; };
 		284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C22BC9839400A61E88 /* UIColor+Extension.swift */; };
 		284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C52BC98E0B00A61E88 /* ColorModel.swift */; };
 		284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C72BC98F8B00A61E88 /* UserManager.swift */; };
 		284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */; };
-		284F32CC2BCA641900A61E88 /* MPC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPC.swift */; };
+		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
 		28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */; };
 		28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */; };
 		28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */; };
@@ -68,12 +69,13 @@
 		281240E42BC91B4700777F91 /* LobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewModel.swift; sourceTree = "<group>"; };
 		281240E62BC9231800777F91 /* ChooseColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewController.swift; sourceTree = "<group>"; };
 		281240E82BC9315400777F91 /* Colemi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Colemi.entitlements; sourceTree = "<group>"; };
+		282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataReadyToSend.swift; sourceTree = "<group>"; };
 		284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewModel.swift; sourceTree = "<group>"; };
 		284F32C22BC9839400A61E88 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		284F32C52BC98E0B00A61E88 /* ColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
 		284F32C72BC98F8B00A61E88 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewController.swift; sourceTree = "<group>"; };
-		284F32CB2BCA641900A61E88 /* MPC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPC.swift; sourceTree = "<group>"; };
+		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
 		28D24DC72BC6C24200B7E114 /* Colemi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colemi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -159,7 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				284F32C52BC98E0B00A61E88 /* ColorModel.swift */,
-				284F32CB2BCA641900A61E88 /* MPC.swift */,
+				284F32CB2BCA641900A61E88 /* MPCSession.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -187,6 +189,7 @@
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
+				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
 				284F32C12BC9831700A61E88 /* Extensions */,
 				284F32C42BC98DF500A61E88 /* Models */,
 				2812409D2BC7844E00777F91 /* Views */,
@@ -319,8 +322,9 @@
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
-				284F32CC2BCA641900A61E88 /* MPC.swift in Sources */,
+				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
+				282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,
 			);
