@@ -70,7 +70,6 @@ class ChooseColorViewController: UIViewController {
         }
     }
                                                 
-    
     lazy var colorView1 = createColorView()
     lazy var colorView2 = createColorView()
     lazy var colorView3 = createColorView()
@@ -150,8 +149,8 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.colorView1.backgroundColor = self.colorModel.colors[0]
                 self.colorView2.backgroundColor = self.colorModel.colors[1]
                 self.colorView3.backgroundColor = self.colorModel.colors[2]
-                // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
-                self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
+                self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
+                // self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
             default:
                 self.colorView1.backgroundColor = .black
                 self.colorView2.backgroundColor = .lightGray
