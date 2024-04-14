@@ -96,7 +96,10 @@ class WritePostContentViewController: UIViewController {
             return
         }
         
-        viewModel.uploadImgToFirebase(image: image)
+        if let imageData = image.jpegData(compressionQuality: 0.5) {
+            colorSimilarityViewController.selectedImageData = imageData
+            viewModel.uploadImgToFirebase(imageData: imageData)
+        }
     }
     
     private func setUpUI() {
@@ -191,6 +194,7 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
         
         colorSimilarityViewController.selectedImage = selectedImage
+        // colorSimilarityViewController.selectedImageURL = imageUrl
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
 }

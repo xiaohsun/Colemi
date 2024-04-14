@@ -88,4 +88,7 @@ iOSInjectionProject/
 # Firebase
 GoogleService-Info.plist
 
+# GoogleCloudVision API Key
+crypto-talon-420308-bd30ce6fe978.json
+
 # End of https://www.toptal.com/developers/gitignore/api/swift

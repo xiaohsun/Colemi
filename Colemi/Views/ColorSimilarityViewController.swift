@@ -10,6 +10,9 @@ import UIKit
 class ColorSimilarityViewController: UIViewController {
     
     var selectedImage: UIImage?
+    // var selectedImageURL: String?
+    var selectedImageData: Data?
+    let cloudVisionManager = CloudVisionManager()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -51,5 +54,6 @@ class ColorSimilarityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
     }
 }
