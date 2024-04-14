@@ -10,8 +10,10 @@ import MultipeerConnectivity
 
 class PaletteViewController: UIViewController {
     
-    let userDataReadyToSend = UserDataReadyToSend(color: UserManager.shared.selectedColor)
+    let userManager = UserManager.shared
+    let userDataReadyToSend = UserDataReadyToSend(color: "")
     var mpc: MPCSession?
+    var peer: MCPeerID?
     
     lazy var findColorLabel: UILabel = {
         let label = UILabel()
@@ -35,9 +37,20 @@ class PaletteViewController: UIViewController {
     
     lazy var myColorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        
+        if let selectedColor = userManager.selectedUIColor {
+            view.backgroundColor = selectedColor
+        } else {
+            view.backgroundColor = .white
+        }
+        
+//        if let selectedColor = userManager.selectedColor {
+//            view.backgroundColor = UIColor(red: selectedColor.red, green: selectedColor.green, blue: selectedColor.blue, alpha: selectedColor.alpha)
+//        } else {
+//            view.backgroundColor = .white
+//        }
+        
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
         
         return view
     }()
@@ -49,6 +62,30 @@ class PaletteViewController: UIViewController {
         
         return view
     }()
+    
+    lazy var nearbyDeviceNameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.text = "早安少女"
+        
+        return label
+    }()
+    
+    lazy var passDataButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("傳遞顏色", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(passDataButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func passDataButtonTapped() {
+        if let peer = peer {
+            mpc?.sendData(colorToSend: userDataReadyToSend, peers: [peer], mode: .reliable)
+        }
+    }
     
     lazy var mixColorButton: UIButton = {
         let button = UIButton()
@@ -68,6 +105,8 @@ class PaletteViewController: UIViewController {
         view.addSubview(findColorLabel)
         view.addSubview(distanceLabel)
         view.addSubview(myColorView)
+        view.addSubview(nearbyDeviceNameLabel)
+        view.addSubview(passDataButton)
         view.addSubview(mixColorButton)
         
         NSLayoutConstraint.activate([
@@ -82,6 +121,14 @@ class PaletteViewController: UIViewController {
             myColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             myColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
+            nearbyDeviceNameLabel.topAnchor.constraint(equalTo: myColorView.bottomAnchor, constant: 20),
+            nearbyDeviceNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            passDataButton.heightAnchor.constraint(equalToConstant: 50),
+            passDataButton.widthAnchor.constraint(equalToConstant: 100),
+            passDataButton.topAnchor.constraint(equalTo: nearbyDeviceNameLabel.bottomAnchor, constant: 20),
+            passDataButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             mixColorButton.heightAnchor.constraint(equalToConstant: 50),
             mixColorButton.widthAnchor.constraint(equalToConstant: 100),
             mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
@@ -93,21 +140,28 @@ class PaletteViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         
+        userDataReadyToSend.color = userManager.selectedHexColor ?? ""
+        
         mpc = MPCSession(service: "colemi", identity: "")
         
         mpc?.peerConnectedHandler = connectedToPeer
         mpc?.peerDataHandler = dataReceivedHandler
-        // mpc?.peerDisconnectedHandler = disconnectedFromPeer
+        mpc?.peerDisconnectedHandler = disconnectedFromPeer
         
         mpc?.invalidate()
         mpc?.start()
     }
     
-    func connectedToPeer(peer: MCPeerID) {
-        print(peer)
+    override func viewWillDisappear(_ animated: Bool) {
+        mpc?.invalidate()
     }
     
-    func showAuthorInfoAlert(color: String) {
+    func connectedToPeer(peer: MCPeerID) {
+        self.peer = peer
+        nearbyDeviceNameLabel.text = peer.displayName
+    }
+    
+    func showGetDataAlert(color: String) {
         let alert = UIAlertController(title: "Data", message: "I'm awesome!", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Get \(color)", style: .default)
@@ -118,10 +172,10 @@ class PaletteViewController: UIViewController {
     
     func dataReceivedHandler(data: Data, peer: MCPeerID) {
         guard let colorData = try? JSONDecoder().decode(UserDataReadyToSend.self, from: data) else { return }
-        showAuthorInfoAlert(color: colorData.color)
+        showGetDataAlert(color: colorData.color)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        mpc?.invalidate()
+    func disconnectedFromPeer(peer: MCPeerID) {
+        // mpc?.invalidate()
     }
 }

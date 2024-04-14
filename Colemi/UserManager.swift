@@ -9,5 +9,7 @@ import UIKit
 
 class UserManager {
     static let shared = UserManager()
-    var selectedColor = ""
+    var selectedColor: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)?
+    var selectedUIColor: UIColor?
+    var selectedHexColor: String?
 }

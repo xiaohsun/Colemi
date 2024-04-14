@@ -16,6 +16,7 @@ class ChooseColorViewController: UIViewController {
     let userManager = UserManager.shared
     let locationManager = CLLocationManager()
     var colorViews: [UIView] = []
+    var goodWeather = true
     var selectedUIColor: UIColor?
     
     lazy var chooseColorLabel: UILabel = {
@@ -50,7 +51,12 @@ class ChooseColorViewController: UIViewController {
     
     @objc private func colorTapped(_ sender: UITapGestureRecognizer) {
         guard let index = sender.view?.tag else { return }
-        selectedUIColor = colorModel.colors[index]
+        
+        if goodWeather {
+            selectedUIColor = colorModel.sunnyColors[index]
+        } else {
+            selectedUIColor = colorModel.rainColors[index]
+        }
     }
     
     lazy var selectColorButton: UIButton = {
@@ -64,8 +70,9 @@ class ChooseColorViewController: UIViewController {
     
     @objc private func selectColorBtnTapped() {
         if let selectedColor = selectedUIColor {
-            userManager.selectedColor = "\(selectedColor.rgba)"
-            print(userManager.selectedColor)
+            userManager.selectedColor = selectedColor.rgba
+            userManager.selectedUIColor = selectedColor
+            userManager.selectedHexColor = selectedColor.toHexString()
             navigationController?.popViewController(animated: true)
         }
     }
@@ -146,15 +153,17 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
         DispatchQueue.main.async {
             switch condition {
             case .partlyCloudy, .cloudy, .clear, .hot, .mostlyCloudy, .mostlyClear, .sunFlurries :
-                self.colorView1.backgroundColor = self.colorModel.colors[0]
-                self.colorView2.backgroundColor = self.colorModel.colors[1]
-                self.colorView3.backgroundColor = self.colorModel.colors[2]
+                self.colorView1.backgroundColor = self.colorModel.sunnyColors[0]
+                self.colorView2.backgroundColor = self.colorModel.sunnyColors[1]
+                self.colorView3.backgroundColor = self.colorModel.sunnyColors[2]
+                self.goodWeather = true
                 self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
                 // self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
             default:
-                self.colorView1.backgroundColor = .black
-                self.colorView2.backgroundColor = .lightGray
-                self.colorView3.backgroundColor = .gray
+                self.colorView1.backgroundColor = self.colorModel.rainColors[0]
+                self.colorView2.backgroundColor = self.colorModel.rainColors[1]
+                self.colorView3.backgroundColor = self.colorModel.rainColors[2]
+                self.goodWeather = false
                 self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
             }
         }

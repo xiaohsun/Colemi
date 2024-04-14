@@ -8,6 +8,7 @@
 import Foundation
 import MultipeerConnectivity
 
+// 目前不知道是幹嘛用的
 struct MPCSessionConstants {
     static let kKeyIdentity: String = "identity"
 }
@@ -23,14 +24,15 @@ class MPCSession: NSObject {
     private let mcBrowser: MCNearbyServiceBrowser
     private let localPeerID = MCPeerID(displayName: UIDevice.current.name)
     private let serviceString: String
-    private let identityString: String
+    // private let identityString: String
     private var peerInvitee: MCPeerID?
     
+    // 目前 identity 用不到
     init(service: String, identity: String) {
         
         mcSession = MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none)
         serviceString = service
-        identityString = identity
+        // identityString = identity
         
         // discoveryInfo 先改成 nil，原本是這個 [MPCSessionConstants.kKeyIdentity: identityString]
         mcAdvertiser = MCNearbyServiceAdvertiser(peer: localPeerID, discoveryInfo: nil, serviceType: serviceString)
@@ -83,18 +85,24 @@ extension MPCSession: MCNearbyServiceBrowserDelegate {
 //            return
 //        }
         // if identityValue == identityString {
+        
+        // invite 應該要寫在別的地方
+        // 可能這裡 show peerID 在 UI 上
             browser.invitePeer(peerID, to: mcSession, withContext: nil, timeout: 10)
         // }
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        // 處理 lost peer 後
+        // lost peer 後的處理
     }
 }
 
 extension MPCSession: MCNearbyServiceAdvertiserDelegate {
     // 讓自己可以被查詢到
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
+        
+        // invite 完對方就會調到這裡
+        // 這裡就可以用 context 接收資訊
         invitationHandler(true, mcSession)
     }
 }
@@ -133,7 +141,7 @@ extension MPCSession: MCSessionDelegate {
     // MARK: - `MPCSession` private methods.
     
     private func peerConnected(peerID: MCPeerID) {
-        print("Hi")
+        // print("Hi")
         if let handler = peerConnectedHandler {
             DispatchQueue.main.async {
                 handler(peerID)
@@ -143,7 +151,7 @@ extension MPCSession: MCSessionDelegate {
 //            self.suspend()
 //        }
         
-        sendData(colorToSend: UserDataReadyToSend(color: "012345") , peers: [peerID], mode: .reliable)
+//        sendData(colorToSend: UserDataReadyToSend(color: "012345") , peers: [peerID], mode: .reliable)
     }
 
     private func peerDisconnected(peerID: MCPeerID) {

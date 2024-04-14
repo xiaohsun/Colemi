@@ -5,19 +5,19 @@
 //  Created by 徐柏勳 on 4/13/24.
 //
 
-import Foundation
+import UIKit
 
 class UserDataReadyToSend: Codable, Identifiable {
     var id = UUID()
     // let name: String
-    let color: String
+    var color: String
     
     init(color: String) {
-      self.color = color
+        self.color = color
     }
     
     func data() -> Data? {
-      let encoder = JSONEncoder()
-      return try? encoder.encode(self)
+        let encoder = JSONEncoder()
+        return try? encoder.encode(self)
     }
 }
