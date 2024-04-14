@@ -14,6 +14,8 @@ class PaletteViewController: UIViewController {
     let userDataReadyToSend = UserDataReadyToSend(color: "")
     var mpc: MPCSession?
     var peer: MCPeerID?
+    var peerUIColor: UIColor?
+    let colorModel = ColorModel()
     
     lazy var findColorLabel: UILabel = {
         let label = UILabel()
@@ -44,12 +46,6 @@ class PaletteViewController: UIViewController {
             view.backgroundColor = .white
         }
         
-//        if let selectedColor = userManager.selectedColor {
-//            view.backgroundColor = UIColor(red: selectedColor.red, green: selectedColor.green, blue: selectedColor.blue, alpha: selectedColor.alpha)
-//        } else {
-//            view.backgroundColor = .white
-//        }
-        
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -57,7 +53,15 @@ class PaletteViewController: UIViewController {
     
     lazy var nearbyColorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    lazy var mixColorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -97,7 +101,38 @@ class PaletteViewController: UIViewController {
     }()
     
     @objc func mixColorButtonTapped() {
-        print("Hi")
+        if peerUIColor == colorModel.sunnyColors[0] {
+            switch userManager.selectedUIColor {
+            case colorModel.sunnyColors[1]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
+            case colorModel.sunnyColors[2]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
+            default:
+                return
+            }
+        }
+        
+        if peerUIColor == colorModel.sunnyColors[1] {
+            switch userManager.selectedUIColor {
+            case colorModel.sunnyColors[0]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
+            case colorModel.sunnyColors[2]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
+            default:
+                return
+            }
+        }
+        
+        if peerUIColor == colorModel.sunnyColors[2] {
+            switch userManager.selectedUIColor {
+            case colorModel.sunnyColors[0]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
+            case colorModel.sunnyColors[1]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
+            default:
+                return
+            }
+        }
     }
     
     private func setUpUI() {
@@ -105,9 +140,11 @@ class PaletteViewController: UIViewController {
         view.addSubview(findColorLabel)
         view.addSubview(distanceLabel)
         view.addSubview(myColorView)
+        view.addSubview(nearbyColorView)
         view.addSubview(nearbyDeviceNameLabel)
         view.addSubview(passDataButton)
         view.addSubview(mixColorButton)
+        view.addSubview(mixColorView)
         
         NSLayoutConstraint.activate([
             findColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -117,9 +154,14 @@ class PaletteViewController: UIViewController {
             distanceLabel.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 100),
             
             myColorView.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 50),
-            myColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            myColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             myColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             myColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            
+            nearbyColorView.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 50),
+            nearbyColorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            nearbyColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            nearbyColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
             nearbyDeviceNameLabel.topAnchor.constraint(equalTo: myColorView.bottomAnchor, constant: 20),
             nearbyDeviceNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -132,7 +174,12 @@ class PaletteViewController: UIViewController {
             mixColorButton.heightAnchor.constraint(equalToConstant: 50),
             mixColorButton.widthAnchor.constraint(equalToConstant: 100),
             mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            mixColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            mixColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            mixColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            mixColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
         ])
     }
     
@@ -172,7 +219,10 @@ class PaletteViewController: UIViewController {
     
     func dataReceivedHandler(data: Data, peer: MCPeerID) {
         guard let colorData = try? JSONDecoder().decode(UserDataReadyToSend.self, from: data) else { return }
-        showGetDataAlert(color: colorData.color)
+        let peerUIColor = colorData.color
+        showGetDataAlert(color: peerUIColor)
+        nearbyColorView.backgroundColor = UIColor(hex: peerUIColor)
+        self.peerUIColor = UIColor(hex: peerUIColor)
     }
     
     func disconnectedFromPeer(peer: MCPeerID) {

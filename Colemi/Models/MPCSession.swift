@@ -141,7 +141,6 @@ extension MPCSession: MCSessionDelegate {
     // MARK: - `MPCSession` private methods.
     
     private func peerConnected(peerID: MCPeerID) {
-        // print("Hi")
         if let handler = peerConnectedHandler {
             DispatchQueue.main.async {
                 handler(peerID)
@@ -150,8 +149,6 @@ extension MPCSession: MCSessionDelegate {
 //        if mcSession.connectedPeers.count == maxNumPeers {
 //            self.suspend()
 //        }
-        
-//        sendData(colorToSend: UserDataReadyToSend(color: "012345") , peers: [peerID], mode: .reliable)
     }
 
     private func peerDisconnected(peerID: MCPeerID) {
