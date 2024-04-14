@@ -16,8 +16,6 @@ class PickPhotoViewController: UIViewController {
     var selectedPicIndex: Int?
     let userManager = UserManager.shared
     
-    weak var delegate: PickPhotoViewControllerDelegate?
-    
     enum Section {
         case main
     }
@@ -26,7 +24,6 @@ class PickPhotoViewController: UIViewController {
     
     lazy var writePostContentViewController: WritePostContentViewController = {
         let viewController = WritePostContentViewController()
-        viewController.pickPhotoViewController = self
         return viewController
     }()
     
@@ -41,8 +38,7 @@ class PickPhotoViewController: UIViewController {
     
     @objc func choosePicButtonTapped() {
         guard let selectedPicIndex = selectedPicIndex else { return }
-        writePostContentViewController.pickPhotoViewController?.delegate = writePostContentViewController
-        delegate?.passUIImage(photoUIImages[selectedPicIndex])
+        writePostContentViewController.selectedImage = photoUIImages[selectedPicIndex]
         navigationController?.pushViewController(writePostContentViewController, animated: true)
     }
     
@@ -193,8 +189,4 @@ extension PickPhotoViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedPicIndex = indexPath.item
     }
-}
-
-protocol PickPhotoViewControllerDelegate: AnyObject {
-    func passUIImage(_ image: UIImage)
 }

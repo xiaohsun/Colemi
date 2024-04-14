@@ -10,8 +10,9 @@ import UIKit
 class WritePostContentViewController: UIViewController {
     
     let viewModel = WritePostContentViewModel()
-    var pickPhotoViewController: PickPhotoViewController?
+    let colorSimilarityViewController = ColorSimilarityViewController()
     var selectedImage: UIImage?
+    let userManager = UserManager()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -103,7 +104,7 @@ class WritePostContentViewController: UIViewController {
         let separatorView1 = makeSeparatorView()
         let separatorView2 = makeSeparatorView()
         let separatorView3 = makeSeparatorView()
-            
+        
         view.backgroundColor = .white
         view.addSubview(imageView)
         view.addSubview(titleLabel)
@@ -116,7 +117,7 @@ class WritePostContentViewController: UIViewController {
         view.addSubview(tagTextField)
         view.addSubview(separatorView3)
         view.addSubview(postButton)
-
+        
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -166,6 +167,10 @@ class WritePostContentViewController: UIViewController {
             postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+        
+        if let selectedImage = selectedImage {
+            imageView.image = selectedImage
+        }
     }
     
     override func viewDidLoad() {
@@ -175,19 +180,17 @@ class WritePostContentViewController: UIViewController {
     }
 }
 
-extension WritePostContentViewController: PickPhotoViewControllerDelegate {
-    func passUIImage(_ image: UIImage) {
-        imageView.image = image
-        selectedImage = image
-    }
-}
-
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
     func readToAddData(_ imageUrl: String) {
         let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
         
+//        if let colorString = userManager.selectedHexColor {
+//            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, tags: ["Cute"])
+//        }
+        
         viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
         
-        navigationController?.popToRootViewController(animated: true)
+        colorSimilarityViewController.selectedImage = selectedImage
+        navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
 }
