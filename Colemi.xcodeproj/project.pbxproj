@@ -130,11 +130,11 @@
 				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
 				281240A02BC79FE000777F91 /* LobbyLayout.swift */,
 				2812409E2BC7847700777F91 /* LobbyPostCell.swift */,
+				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
 				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
 				281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */,
 				281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */,
 				281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */,
-				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

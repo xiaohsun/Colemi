@@ -14,6 +14,7 @@ class PickPhotoViewController: UIViewController {
     var photoAssets: [PHAsset] = []
     var photoUIImages: [UIImage] = []
     var selectedPicIndex: Int?
+    let userManager = UserManager.shared
     
     weak var delegate: PickPhotoViewControllerDelegate?
     
@@ -52,6 +53,23 @@ class PickPhotoViewController: UIViewController {
         return collectionView
     }()
     
+    lazy var missionColorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.text = "任務顏色"
+        
+        return label
+    }()
+    
+    lazy var colorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = userManager.selectedUIColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     private func getAssetThumbnail(assets: [PHAsset]) {
         for asset in assets {
             let manager = PHImageManager.default()
@@ -70,11 +88,22 @@ class PickPhotoViewController: UIViewController {
     private func setUpUI() {
         view.backgroundColor = .white
         
+        view.addSubview(missionColorLabel)
+        view.addSubview(colorView)
         view.addSubview(photosCollectionView)
         view.addSubview(choosePicButton)
         
         NSLayoutConstraint.activate([
-            photosCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            
+            missionColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            missionColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            
+            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 50),
+            colorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            colorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            
+            photosCollectionView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 50),
             photosCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
             photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

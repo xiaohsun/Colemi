@@ -16,6 +16,7 @@ class PaletteViewController: UIViewController {
     var peer: MCPeerID?
     var peerUIColor: UIColor?
     let colorModel = ColorModel()
+    var mixColor: UIColor?
     
     lazy var findColorLabel: UILabel = {
         let label = UILabel()
@@ -108,7 +109,7 @@ class PaletteViewController: UIViewController {
             case colorModel.sunnyColors[2]:
                 mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
             default:
-                return
+                mixColorView.backgroundColor = peerUIColor
             }
         }
         
@@ -119,7 +120,7 @@ class PaletteViewController: UIViewController {
             case colorModel.sunnyColors[2]:
                 mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
             default:
-                return
+                mixColorView.backgroundColor = peerUIColor
             }
         }
         
@@ -130,9 +131,25 @@ class PaletteViewController: UIViewController {
             case colorModel.sunnyColors[1]:
                 mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
             default:
-                return
+                mixColorView.backgroundColor = peerUIColor
             }
         }
+        
+        mixColor = mixColorView.backgroundColor
+    }
+    
+    lazy var saveMixColorButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Save", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(saveMixColorButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func saveMixColorButtonTapped() {
+        userManager.selectedUIColor = mixColor
+        navigationController?.popViewController(animated: true)
     }
     
     private func setUpUI() {
@@ -145,6 +162,7 @@ class PaletteViewController: UIViewController {
         view.addSubview(passDataButton)
         view.addSubview(mixColorButton)
         view.addSubview(mixColorView)
+        view.addSubview(saveMixColorButton)
         
         NSLayoutConstraint.activate([
             findColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -180,6 +198,11 @@ class PaletteViewController: UIViewController {
             mixColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             mixColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             mixColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
+            
+            saveMixColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            saveMixColorButton.heightAnchor.constraint(equalToConstant: 50),
+            saveMixColorButton.widthAnchor.constraint(equalToConstant: 100),
+            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
     }
     
