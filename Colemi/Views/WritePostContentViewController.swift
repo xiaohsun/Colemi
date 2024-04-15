@@ -194,7 +194,7 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
         
         colorSimilarityViewController.selectedImage = selectedImage
-        // colorSimilarityViewController.selectedImageURL = imageUrl
+        colorSimilarityViewController.selectedImageURL = imageUrl
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
 }

@@ -76,7 +76,7 @@ class PickPhotoViewController: UIViewController {
                 if let result = result {
                     image = result
                 }
-                self.photoUIImages.append(image)
+                    self.photoUIImages.append(image)
             })
         }
     }
@@ -119,8 +119,10 @@ class PickPhotoViewController: UIViewController {
                 self.allPhotos = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
                 
                 DispatchQueue.main.async {
-                    self.allPhotos?.enumerateObjects { (asset, _, _) in
-                        self.photoAssets.append(asset)
+                    self.allPhotos?.enumerateObjects { (asset, index, _) in
+                        if index <= 5 {
+                            self.photoAssets.append(asset)
+                        }
                     }
                     self.getAssetThumbnail(assets: self.photoAssets.reversed())
                     self.configureDataSource()
