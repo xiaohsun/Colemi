@@ -9,6 +9,8 @@ import Foundation
 
 class CloudVisionManager {
     
+    weak var delegate: CloudVisionManagerDelegate?
+    
     var apiKey = "AIzaSyDvV7Oc5opzGdY_UDsDufy4kfDbMehoZ74"
     
     func analyzeImageWithVisionAPI(imageData: Data, url: String) {
@@ -27,7 +29,7 @@ class CloudVisionManager {
                     ],
                     "features": [
                         [
-                            "maxResults": 50,
+                            "maxResults": 10,
                             "type": "IMAGE_PROPERTIES"
                         ]
                     ]
@@ -40,7 +42,6 @@ class CloudVisionManager {
         
         let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                // completion(nil, error)
                 print(error.localizedDescription)
                 return
             }
@@ -52,7 +53,9 @@ class CloudVisionManager {
                 let decoder = JSONDecoder()
                 do {
                     let decodedData = try decoder.decode(CloudVisionResponse.self, from: safeData)
-                    print("decodedData!!!\(decodedData)")
+                    let colors = decodedData.responses[0].imagePropertiesAnnotation.dominantColors.colors
+                    self.delegate?.getColorsRGB(colors: colors)
+                    
                 } catch {
                     print("error: \(error)")
                     return
@@ -61,4 +64,8 @@ class CloudVisionManager {
         }
         task.resume()
     }
+}
+
+protocol CloudVisionManagerDelegate: AnyObject {
+    func getColorsRGB(colors: [Color])
 }

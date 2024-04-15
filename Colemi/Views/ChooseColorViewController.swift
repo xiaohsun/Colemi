@@ -70,7 +70,7 @@ class ChooseColorViewController: UIViewController {
     
     @objc private func selectColorBtnTapped() {
         if let selectedColor = selectedUIColor {
-            userManager.selectedColor = selectedColor.rgba
+            // userManager.selectedColor = selectedColor.rgba
             userManager.selectedUIColor = selectedColor
             userManager.selectedHexColor = selectedColor.toHexString()
             navigationController?.popViewController(animated: true)
