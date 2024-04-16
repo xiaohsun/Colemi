@@ -105,6 +105,8 @@ class ColorSimilarityViewController: UIViewController {
         cloudVisionManager.delegate = self
         if let selectedImageData = selectedImageData, let url = selectedImageURL {
             cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)
+            
+            
         }
     }
 }

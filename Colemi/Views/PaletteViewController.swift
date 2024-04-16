@@ -197,6 +197,7 @@ class PaletteViewController: UIViewController {
     
     @objc func saveMixColorButtonTapped() {
         userManager.selectedUIColor = mixColor
+        userManager.selectedHexColor = mixColor?.toHexString()
         navigationController?.popViewController(animated: true)
     }
     

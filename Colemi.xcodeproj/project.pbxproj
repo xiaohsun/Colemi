@@ -45,6 +45,7 @@
 		281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E62BC9231800777F91 /* ChooseColorViewController.swift */; };
 		2823431B2BCCF2210040C1CA /* CloudVisionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */; };
 		282343912BCD22020040C1CA /* ColorSimilarityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282343902BCD22020040C1CA /* ColorSimilarityViewModel.swift */; };
+		282343932BCEB5D20040C1CA /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282343922BCEB5D20040C1CA /* PostModel.swift */; };
 		282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */; };
 		282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */; };
 		282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */; };
@@ -75,6 +76,7 @@
 		281240E82BC9315400777F91 /* Colemi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Colemi.entitlements; sourceTree = "<group>"; };
 		2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVisionResponseModel.swift; sourceTree = "<group>"; };
 		282343902BCD22020040C1CA /* ColorSimilarityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSimilarityViewModel.swift; sourceTree = "<group>"; };
+		282343922BCEB5D20040C1CA /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataReadyToSend.swift; sourceTree = "<group>"; };
 		282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSimilarityViewController.swift; sourceTree = "<group>"; };
 		282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVisionManager.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				284F32CB2BCA641900A61E88 /* MPCSession.swift */,
 				282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */,
 				2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */,
+				282343922BCEB5D20040C1CA /* PostModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
 				282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */,
+				282343932BCEB5D20040C1CA /* PostModel.swift in Sources */,
 				282343912BCD22020040C1CA /* ColorSimilarityViewModel.swift in Sources */,
 				282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,

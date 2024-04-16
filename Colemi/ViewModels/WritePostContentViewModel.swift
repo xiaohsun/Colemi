@@ -14,20 +14,20 @@ class WritePostContentViewModel {
     
     weak var delegate: WritePostContentViewModelDelegate?
     
-    func addData(authorId: String, content: String, type: Int, color: String, tags: [String]) {
+    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String]) {
         
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
         let data: [String: Any] = [
-            "authorId": "1213123",
-            "id": document.documentID,
-            "content": content,
-            "type": 0,
-            "color": "#123456",
-            "createdTime": FieldValue.serverTimestamp(),
-            "colorSimularity": 0.0,
-            "totalSaved": [] as [String] ,
-            "reports":  [] as [String]
+            P.authorId.rawValue: "1213123",
+            P.id.rawValue: document.documentID,
+            P.content.rawValue: content,
+            P.type.rawValue: 0,
+            P.color.rawValue: color,
+            P.createdTime.rawValue: FieldValue.serverTimestamp(),
+            P.colorSimularity.rawValue: colorSimularity,
+            P.totalSaved.rawValue: [] as [String] ,
+            P.reports.rawValue:  [] as [String]
         ]
         document.setData(data)
     }
@@ -73,7 +73,7 @@ class WritePostContentViewModel {
             storageRef.downloadURL { (downloadURL, error) in
                 if let downloadURL = downloadURL {
                     print("Image uploaded to: \(downloadURL.absoluteString)")
-                    self.delegate?.readToAddData(downloadURL.absoluteString)
+                    self.delegate?.addDataToFireBase(downloadURL.absoluteString)
                 } else {
                     print("Error getting download URL: \(error?.localizedDescription ?? "Unknown error")")
                 }
@@ -83,5 +83,5 @@ class WritePostContentViewModel {
 }
 
 protocol WritePostContentViewModelDelegate: AnyObject {
-    func readToAddData(_ imageUrl: String)
+    func addDataToFireBase(_ imageUrl: String)
 }

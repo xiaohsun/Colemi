@@ -101,6 +101,8 @@ class LobbyViewController: UIViewController {
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
+        
+        // viewModel.readData()
     }
     
     override func viewWillAppear(_ animated: Bool) {

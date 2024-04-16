@@ -12,7 +12,7 @@ class WritePostContentViewController: UIViewController {
     let viewModel = WritePostContentViewModel()
     let colorSimilarityViewController = ColorSimilarityViewController()
     var selectedImage: UIImage?
-    let userManager = UserManager()
+    let userManager = UserManager.shared
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -184,14 +184,12 @@ class WritePostContentViewController: UIViewController {
 }
 
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
-    func readToAddData(_ imageUrl: String) {
+    func addDataToFireBase(_ imageUrl: String) {
         let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
         
-//        if let colorString = userManager.selectedHexColor {
-//            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, tags: ["Cute"])
-//        }
-        
-        viewModel.addData(authorId: "11111", content: content, type: 0, color: "#123456", tags: ["Cute"])
+        if let colorString = userManager.selectedHexColor {
+            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"])
+        }
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
