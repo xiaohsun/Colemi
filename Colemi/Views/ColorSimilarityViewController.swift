@@ -30,7 +30,7 @@ class ColorSimilarityViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.text = "相似度為"
+        label.text = "顏色差異為"
         
         return label
     }()

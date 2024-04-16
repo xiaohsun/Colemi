@@ -102,6 +102,21 @@ class PaletteViewController: UIViewController {
     }()
     
     @objc func mixColorButtonTapped() {
+        guard let peerUIColor = peerUIColor else {
+            print("Can get peerUIColor!")
+            return
+        }
+        
+        if colorModel.sunnyColors.contains(peerUIColor) {
+            sunnyDayChangeColorView()
+        } else {
+            rainyDayChangeColorView()
+        }
+        
+        mixColor = mixColorView.backgroundColor
+    }
+    
+    func sunnyDayChangeColorView() {
         if peerUIColor == colorModel.sunnyColors[0] {
             switch userManager.selectedUIColor {
             case colorModel.sunnyColors[1]:
@@ -134,8 +149,41 @@ class PaletteViewController: UIViewController {
                 mixColorView.backgroundColor = peerUIColor
             }
         }
+    }
+    
+    func rainyDayChangeColorView() {
+        if peerUIColor == colorModel.rainColors[0] {
+            switch userManager.selectedUIColor {
+            case colorModel.rainColors[1]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[0]
+            case colorModel.rainColors[2]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[1]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
         
-        mixColor = mixColorView.backgroundColor
+        if peerUIColor == colorModel.rainColors[1] {
+            switch userManager.selectedUIColor {
+            case colorModel.rainColors[0]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[0]
+            case colorModel.rainColors[2]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[2]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+        
+        if peerUIColor == colorModel.rainColors[2] {
+            switch userManager.selectedUIColor {
+            case colorModel.rainColors[0]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[1]
+            case colorModel.rainColors[1]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[2]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
     }
     
     lazy var saveMixColorButton: UIButton = {

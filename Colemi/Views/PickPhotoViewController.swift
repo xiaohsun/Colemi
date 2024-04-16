@@ -11,7 +11,10 @@ import Photos
 class PickPhotoViewController: UIViewController {
     
     var allPhotos: PHFetchResult<PHAsset>?
-    var photoAssets: [PHAsset] = []
+    var totalPhotoCount: Int = 0
+    var nowPhotoCount: Int = 0
+    let batchNum = 50
+    // var photoAssets: [PHAsset] = []
     var photoUIImages: [UIImage] = []
     var selectedPicIndex: Int?
     let userManager = UserManager.shared
@@ -21,11 +24,6 @@ class PickPhotoViewController: UIViewController {
     }
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
-    
-    lazy var writePostContentViewController: WritePostContentViewController = {
-        let viewController = WritePostContentViewController()
-        return viewController
-    }()
     
     lazy var choosePicButton: UIButton = {
         let button = UIButton()
@@ -38,6 +36,7 @@ class PickPhotoViewController: UIViewController {
     
     @objc func choosePicButtonTapped() {
         guard let selectedPicIndex = selectedPicIndex else { return }
+        let writePostContentViewController = WritePostContentViewController()
         writePostContentViewController.selectedImage = photoUIImages[selectedPicIndex]
         navigationController?.pushViewController(writePostContentViewController, animated: true)
     }
@@ -66,19 +65,58 @@ class PickPhotoViewController: UIViewController {
         return view
     }()
     
-    private func getAssetThumbnail(assets: [PHAsset]) {
-        for asset in assets {
-            let manager = PHImageManager.default()
-            let option = PHImageRequestOptions()
-            var image = UIImage()
-            option.isSynchronous = true
-            manager.requestImage(for: asset, targetSize: CGSize(width: 400, height: 400), contentMode: .aspectFit, options: option, resultHandler: {(result, _) in
-                if let result = result {
-                    image = result
-                }
-                    self.photoUIImages.append(image)
-            })
+    private func fetchPhotosFromUser(completion: @escaping () -> Void) {
+        PHPhotoLibrary.requestAuthorization { (status) in
+            if status == .authorized {
+                let allPhotosOptions = PHFetchOptions()
+                allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+                
+                let allPhotos = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
+                self.allPhotos = allPhotos
+                self.totalPhotoCount = allPhotos.count
+                
+                completion()
+                
+            } else {
+                print("Failed to get photos from the user")
+            }
         }
+    }
+    
+    private func enumeratePHFetchResult(index: Int, completion: @escaping () -> Void) {
+        // DispatchQueue.global().async {
+            self.allPhotos?.enumerateObjects({ asset, index, _ in
+                if index >= self.nowPhotoCount && index <= self.nowPhotoCount + self.batchNum {
+                    self.getAssetThumbnail(asset: asset)
+                }
+            })
+        // }
+        
+        completion()
+    }
+    
+    private func getAssetThumbnail(asset: PHAsset) {
+        let manager = PHImageManager.default()
+        let option = PHImageRequestOptions()
+        option.isSynchronous = true
+        var image = UIImage()
+        manager.requestImage(for: asset, targetSize: CGSize(width: 400, height: 400), contentMode: .aspectFit, options: option, resultHandler: {(result, _) in
+            if let result = result {
+                image = result
+            }
+            self.photoUIImages.append(image)
+        })
+    }
+    
+    private func updateCollectionView() {
+        if totalPhotoCount >= nowPhotoCount + batchNum {
+            nowPhotoCount += batchNum
+        } else {
+            nowPhotoCount = totalPhotoCount
+        }
+        
+        configureDataSource()
+        updateSpanshot()
     }
     
     private func setUpUI() {
@@ -94,13 +132,13 @@ class PickPhotoViewController: UIViewController {
             missionColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             missionColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             
-            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 50),
+            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 30),
             colorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            photosCollectionView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 50),
-            photosCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            photosCollectionView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 30),
+            photosCollectionView.heightAnchor.constraint(equalTo: view.widthAnchor),
             photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
@@ -111,29 +149,6 @@ class PickPhotoViewController: UIViewController {
         ])
     }
     
-    private func fetchPhotosFromUser() {
-        PHPhotoLibrary.requestAuthorization { (status) in
-            if status == .authorized {
-                let allPhotosOptions = PHFetchOptions()
-                allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-                self.allPhotos = PHAsset.fetchAssets(with: .image, options: allPhotosOptions)
-                
-                DispatchQueue.main.async {
-                    self.allPhotos?.enumerateObjects { (asset, index, _) in
-                        if index <= 5 {
-                            self.photoAssets.append(asset)
-                        }
-                    }
-                    self.getAssetThumbnail(assets: self.photoAssets.reversed())
-                    self.configureDataSource()
-                    self.updateSpanshot()
-                }
-            } else {
-                print("Failed to get photos from the user")
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -142,9 +157,13 @@ class PickPhotoViewController: UIViewController {
         photosCollectionView.delegate = self
         
         setUpUI()
-        fetchPhotosFromUser()
-        
-        
+        fetchPhotosFromUser {
+            self.enumeratePHFetchResult(index: self.nowPhotoCount) {
+                DispatchQueue.main.async {
+                    self.updateCollectionView()
+                }
+            }
+        }
     }
 }
 
@@ -175,7 +194,9 @@ extension PickPhotoViewController: UICollectionViewDelegate {
             
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.reuseIdentifier, for: indexPath) as? PhotoCollectionViewCell else { fatalError("Can't create new cell") }
             
-            cell.imageView.image = self.photoUIImages[indexPath.item]
+            // if indexPath.item < self.photoUIImages.count {
+                cell.imageView.image = self.photoUIImages[indexPath.item]
+            // }
             
             return cell
         }
@@ -184,11 +205,26 @@ extension PickPhotoViewController: UICollectionViewDelegate {
     func updateSpanshot() {
         var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         initialSnapshot.appendSections([.main])
-        initialSnapshot.appendItems(Array(0..<self.photoUIImages.count), toSection: .main)
+        initialSnapshot.appendItems(Array(0..<nowPhotoCount), toSection: .main)
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedPicIndex = indexPath.item
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        let distanceToBottom = contentHeight - offsetY - height
+        
+        if distanceToBottom < 100 {
+            enumeratePHFetchResult(index: nowPhotoCount) {
+                DispatchQueue.main.async {
+                    self.updateCollectionView()
+                }
+            }
+        }
     }
 }

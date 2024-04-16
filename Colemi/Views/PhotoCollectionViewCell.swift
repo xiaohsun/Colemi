@@ -13,6 +13,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "square.and.arrow.down.on.square")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
