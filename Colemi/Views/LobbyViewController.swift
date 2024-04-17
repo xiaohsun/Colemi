@@ -12,7 +12,7 @@ class LobbyViewController: UIViewController {
     
     let viewModel = LobbyViewModel()
     
-    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
+//    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
     
     lazy var postButton: UIButton = {
         let button = UIButton()
@@ -99,6 +99,7 @@ class LobbyViewController: UIViewController {
         super.viewDidLoad()
         
         postsCollectionView.dataSource = self
+        postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
@@ -114,7 +115,7 @@ class LobbyViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension LobbyViewController: UICollectionViewDataSource {
+extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.posts.count
     }
@@ -129,9 +130,17 @@ extension LobbyViewController: UICollectionViewDataSource {
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
         cell.imageView.kf.setImage(with: url)
-        // cell.imageView.image?.size
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let postDetailViewController = PostDetailViewController()
+        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
+        postDetailViewController.photoImage = viewModel.images[indexPath.item]
+        // navigationController?.pushViewController(postDetailViewController, animated: true)
+        
+        present(postDetailViewController, animated: true)
     }
 }
 

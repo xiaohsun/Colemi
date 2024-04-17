@@ -14,6 +14,7 @@ class LobbyViewModel {
     
     var posts: [PostModel] = []
     var images: [UIImage] = []
+    var contentJSONString: [String] = []
     
     func readData(completion: @escaping () -> Void) {
         Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
@@ -37,9 +38,11 @@ class LobbyViewModel {
                            let type = data[Post.type.rawValue] as? Int,
                            let imageUrl = data[Post.imageUrl.rawValue] as? String {
                             
+                            self.contentJSONString.append(content)
+                            
                             self.posts.append(PostModel(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl))
                             
-                            var group = DispatchGroup()
+                            let group = DispatchGroup()
                             group.enter()
                             if let url = URL(string: imageUrl) {
                                 KingfisherManager.shared.retrieveImage(with: url) { result in
@@ -61,25 +64,6 @@ class LobbyViewModel {
                     }
                 }
             }
-        }
-    }
-    
-    func decodeContent(jsonString: String) {
-        let cleanedString = jsonString.replacingOccurrences(of: "\\", with: "")
-        
-        guard let jsonData = cleanedString.data(using: .utf8) else {
-            fatalError("無法將 JSON 字符串轉換為 Data")
-        }
-        
-        do {
-            let decodedData = try JSONDecoder().decode(Content.self, from: jsonData)
-            
-            print("imgURL: \(decodedData.imgURL)")
-            print("title: \(decodedData.title)")
-            print("description: \(decodedData.description)")
-            print("authorName: \(decodedData.authorName)")
-        } catch {
-            print("解析 JSON 失敗: \(error)")
         }
     }
 }
