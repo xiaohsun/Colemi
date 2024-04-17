@@ -8,10 +8,12 @@
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
+import Kingfisher
 
 class LobbyViewModel {
     
     var posts: [PostModel] = []
+    var images: [UIImage] = []
     
     func readData(completion: @escaping () -> Void) {
         Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
@@ -35,10 +37,28 @@ class LobbyViewModel {
                            let type = data[Post.type.rawValue] as? Int,
                            let imageUrl = data[Post.imageUrl.rawValue] as? String {
                             
-                                self.posts.append(PostModel(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl))
+                            self.posts.append(PostModel(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl))
+                            
+                            var group = DispatchGroup()
+                            group.enter()
+                            if let url = URL(string: imageUrl) {
+                                KingfisherManager.shared.retrieveImage(with: url) { result in
+                                    switch result {
+                                    case .success(let value):
+                                        self.images.append(value.image)
+                                        group.leave()
+                                        if self.images.count == snapshotDocuments.count {
+                                            group.notify(queue: .main) {
+                                                completion()
+                                            }
+                                        }
+                                    case .failure(let error):
+                                        print("Error: \(error)")
+                                    }
+                                }
+                            }
                         }
                     }
-                        completion()
                 }
             }
         }

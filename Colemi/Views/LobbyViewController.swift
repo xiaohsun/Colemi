@@ -126,9 +126,10 @@ extension LobbyViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-            let post = viewModel.posts[indexPath.item]
-            let url = URL(string: post.imageUrl)
-            cell.imageView.kf.setImage(with: url)
+        let post = viewModel.posts[indexPath.item]
+        let url = URL(string: post.imageUrl)
+        cell.imageView.kf.setImage(with: url)
+        // cell.imageView.image?.size
         
         return cell
     }
@@ -140,6 +141,11 @@ extension LobbyViewController: LobbyLayoutDelegate {
     func collectionView(
         _ collectionView: UICollectionView,
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
-            return images[indexPath.item].size
+            
+            if indexPath.item < viewModel.images.count {
+                return viewModel.images[indexPath.item].size
+            } else {
+                return CGSize(width: 300, height: 400)
+            }
         }
 }
