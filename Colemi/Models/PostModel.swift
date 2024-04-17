@@ -18,16 +18,18 @@ struct PostModel {
     let reports: [String]
     let totalSaved: [String]
     let type: Int
+    let imageUrl: String
 }
 
-enum P: String {
-    case authorId = "authorId"
-    case color = "color"
-    case colorSimularity = "colorSimularity"
-    case content = "content"
-    case createdTime = "createdTime"
-    case id = "id"
-    case reports = "reports"
-    case totalSaved = "totalSaved"
-    case type = "type"
+enum Post: String {
+    case authorId
+    case color
+    case colorSimularity
+    case content
+    case createdTime
+    case id
+    case reports
+    case totalSaved
+    case type
+    case imageUrl
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class LobbyViewController: UIViewController {
     
@@ -96,18 +97,18 @@ class LobbyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         postsCollectionView.dataSource = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
-        
-        // viewModel.readData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        postsCollectionView.reloadData()
+        viewModel.readData {
+            self.postsCollectionView.reloadData()
+        }
     }
 }
 
@@ -115,7 +116,7 @@ class LobbyViewController: UIViewController {
 
 extension LobbyViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        images.count
+        viewModel.posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -125,7 +126,10 @@ extension LobbyViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.imageView.image = images[indexPath.item]
+            let post = viewModel.posts[indexPath.item]
+            let url = URL(string: post.imageUrl)
+            cell.imageView.kf.setImage(with: url)
+        
         return cell
     }
 }
@@ -133,9 +137,9 @@ extension LobbyViewController: UICollectionViewDataSource {
 // MARK: - LobbyLayoutDelegate
 
 extension LobbyViewController: LobbyLayoutDelegate {
-  func collectionView(
-      _ collectionView: UICollectionView,
-      sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
-          return images[indexPath.item].size
-  }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
+            return images[indexPath.item].size
+        }
 }

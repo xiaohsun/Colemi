@@ -188,7 +188,7 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
         
         if let colorString = userManager.selectedHexColor {
-            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"])
+            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl)
         }
         
         colorSimilarityViewController.selectedImage = selectedImage

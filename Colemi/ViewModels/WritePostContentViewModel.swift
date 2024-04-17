@@ -14,20 +14,21 @@ class WritePostContentViewModel {
     
     weak var delegate: WritePostContentViewModelDelegate?
     
-    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String]) {
+    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String], imageUrl: String) {
         
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
         let data: [String: Any] = [
-            P.authorId.rawValue: "1213123",
-            P.id.rawValue: document.documentID,
-            P.content.rawValue: content,
-            P.type.rawValue: 0,
-            P.color.rawValue: color,
-            P.createdTime.rawValue: FieldValue.serverTimestamp(),
-            P.colorSimularity.rawValue: colorSimularity,
-            P.totalSaved.rawValue: [] as [String] ,
-            P.reports.rawValue:  [] as [String]
+            Post.authorId.rawValue: "1213123",
+            Post.id.rawValue: document.documentID,
+            Post.content.rawValue: content,
+            Post.type.rawValue: 0,
+            Post.color.rawValue: color,
+            Post.createdTime.rawValue: FieldValue.serverTimestamp(),
+            Post.colorSimularity.rawValue: colorSimularity,
+            Post.totalSaved.rawValue: [] as [String],
+            Post.reports.rawValue:  [] as [String],
+            Post.imageUrl.rawValue: imageUrl
         ]
         document.setData(data)
     }
