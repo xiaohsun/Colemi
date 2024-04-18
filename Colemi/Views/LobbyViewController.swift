@@ -56,6 +56,20 @@ class LobbyViewController: UIViewController {
         navigationController?.pushViewController(chooseColorViewController, animated: true)
     }
     
+    lazy var profileButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Profile", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func profileButtonTapped() {
+        let profileViewController = ProfileViewController()
+        navigationController?.pushViewController(profileViewController, animated: true)
+    }
+    
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
         layout.delegate = self
@@ -71,6 +85,7 @@ class LobbyViewController: UIViewController {
         view.addSubview(postButton)
         view.addSubview(chooseColorButton)
         view.addSubview(paletteButton)
+        view.addSubview(profileButton)
         
         NSLayoutConstraint.activate([
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -91,7 +106,12 @@ class LobbyViewController: UIViewController {
             chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
             chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
             chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            chooseColorButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50)
+            chooseColorButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50),
+            
+            profileButton.heightAnchor.constraint(equalToConstant: 50),
+            profileButton.widthAnchor.constraint(equalToConstant: 100),
+            profileButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
+            profileButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50)
         ])
     }
     
