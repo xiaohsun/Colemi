@@ -12,4 +12,6 @@ class UserManager {
     var selectedColor: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)?
     var selectedUIColor: UIColor?
     var selectedHexColor: String?
+    let id = "QyDCp0k8JIbjwhIuT0IP"
+    let name = "勳仔仔"
 }

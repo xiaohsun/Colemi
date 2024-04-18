@@ -65,6 +65,33 @@ class LobbyViewController: UIViewController {
         return button
     }()
     
+    lazy var loginUser1Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("loginUser1", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(loginUser1ButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func loginUser1ButtonTapped() {
+        // viewModel.createUser()
+    }
+    
+    lazy var chatRoomButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("ChatRoom", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(chatRoomButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func chatRoomButtonTapped() {
+        // viewModel.createUser()
+        print("chatRoomButton")
+    }
+    
     @objc func profileButtonTapped() {
         let profileViewController = ProfileViewController()
         navigationController?.pushViewController(profileViewController, animated: true)
@@ -86,12 +113,19 @@ class LobbyViewController: UIViewController {
         view.addSubview(chooseColorButton)
         view.addSubview(paletteButton)
         view.addSubview(profileButton)
+        view.addSubview(loginUser1Button)
+        view.addSubview(chatRoomButton)
         
         NSLayoutConstraint.activate([
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             postsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            
+            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
+            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
+            loginUser1Button.bottomAnchor.constraint(equalTo: paletteButton.topAnchor, constant: -50),
+            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
             paletteButton.heightAnchor.constraint(equalToConstant: 50),
             paletteButton.widthAnchor.constraint(equalToConstant: 100),
@@ -111,7 +145,12 @@ class LobbyViewController: UIViewController {
             profileButton.heightAnchor.constraint(equalToConstant: 50),
             profileButton.widthAnchor.constraint(equalToConstant: 100),
             profileButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
-            profileButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50)
+            profileButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50),
+            
+            chatRoomButton.heightAnchor.constraint(equalToConstant: 50),
+            chatRoomButton.widthAnchor.constraint(equalToConstant: 100),
+            chatRoomButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
+            chatRoomButton.leadingAnchor.constraint(equalTo: postButton.leadingAnchor),
         ])
     }
     

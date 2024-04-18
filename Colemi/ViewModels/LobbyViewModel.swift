@@ -16,6 +16,27 @@ class LobbyViewModel {
     var images: [UIImage] = []
     var contentJSONString: [String] = []
     
+    func createUser() {
+        let firestoreManager = FirestoreManager.shared
+        let docRef = firestoreManager.newDocument(of: FirestoreEndpoint.users.ref)
+        let user = User(id: docRef.documentID, 
+                        name: "柏勳",
+                        posts: [],
+                        likes: [],
+                        avatarPhoto: "",
+                        friend: [],
+                        description: "",
+                        savePosts: [],
+                        signUpTime: Date().timeIntervalSince1970,
+                        lastestLoginTime: Date().timeIntervalSince1970,
+                        colorToday: "",
+                        chatRooms: [],
+                        followers: [],
+                        following: [])
+        
+        firestoreManager.setData(user, at: docRef)
+    }
+    
     func readData(completion: @escaping () -> Void) {
         Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
             

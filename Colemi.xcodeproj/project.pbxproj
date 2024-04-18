@@ -74,6 +74,8 @@
 		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
+		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
+		2880644B2BD14A7000FC2EFA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644A2BD14A7000FC2EFA /* User.swift */; };
 		28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */; };
 		28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */; };
 		28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */; };
@@ -123,6 +125,8 @@
 		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
+		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		2880644A2BD14A7000FC2EFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		28D24DC72BC6C24200B7E114 /* Colemi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colemi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -257,6 +261,8 @@
 				282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */,
 				2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */,
 				282343922BCEB5D20040C1CA /* PostModel.swift */,
+				2880644A2BD14A7000FC2EFA /* User.swift */,
+				288064462BD143A300FC2EFA /* FirestoreManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -407,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
+				288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
@@ -447,6 +454,7 @@
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,
 				2823431B2BCCF2210040C1CA /* CloudVisionResponseModel.swift in Sources */,
 				281C65BB2BD0E7EB003D2ECE /* AchievementCell.swift in Sources */,
+				2880644B2BD14A7000FC2EFA /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
