@@ -36,6 +36,8 @@ class ProfileViewController: UIViewController {
         
         tableView.register(InformationCell.self, forCellReuseIdentifier: InformationCell.reuseIdentifier)
         tableView.register(MissionCell.self, forCellReuseIdentifier: MissionCell.reuseIdentifier)
+        tableView.register(SelectorHeaderView.self, forHeaderFooterViewReuseIdentifier: SelectorHeaderView.reuseIdentifier)
+        tableView.register(PostsAndSavesCell.self, forCellReuseIdentifier: PostsAndSavesCell.reuseIdentifier)
         
         tableView.estimatedRowHeight = 300
         tableView.rowHeight = UITableView.automaticDimension
@@ -54,8 +56,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
             
             return cell
-        default:
+        case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MissionCell.reuseIdentifier, for: indexPath) as? MissionCell else { return UITableViewCell() }
+            
+            return cell
+        default:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
             
             return cell
         }
@@ -64,13 +70,37 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 400
-        } else {
+            return 325
+        } else if indexPath.section == 1 {
             return 150
+        } else {
+            return 1000
         }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        3
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 2 {
+            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SelectorHeaderView.reuseIdentifier) as? SelectorHeaderView else { return nil }
+            
+            return headerView
+        } else {
+            return nil
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 2 {
+            60
+        } else {
+            0
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
     }
 }
