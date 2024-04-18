@@ -88,8 +88,8 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func chatRoomButtonTapped() {
-        // viewModel.createUser()
-        print("chatRoomButton")
+        let chatRoomViewController = ChatRoomViewController()
+        navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
     @objc func profileButtonTapped() {

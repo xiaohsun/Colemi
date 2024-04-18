@@ -51,9 +51,9 @@ class MissionCell: UITableViewCell {
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 50),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
-            containerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 1/3),
-            // containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 100),
-            // containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -100),
+            containerView.heightAnchor.constraint(equalToConstant: 50),
+            // containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
+            // containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30),
             containerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
             missionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),

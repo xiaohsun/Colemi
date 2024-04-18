@@ -37,6 +37,9 @@ class LobbyViewModel {
         firestoreManager.setData(user, at: docRef)
     }
     
+    func fetchUserOne(){
+    }
+    
     func readData(completion: @escaping () -> Void) {
         Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
             
