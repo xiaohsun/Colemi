@@ -42,7 +42,7 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
             
             savesLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             savesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -100),
-            savesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            savesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
     

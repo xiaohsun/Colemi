@@ -15,10 +15,10 @@ enum FirestoreEndpoint {
     case chatRooms
     case reports
     case messages
-
+    
     var ref: CollectionReference {
         let firestore = Firestore.firestore()
-
+        
         switch self {
         case .users:
             return firestore.collection("users")
@@ -44,6 +44,30 @@ class FirestoreManager {
         }
     }
     
+    func getSpecificDocument<T: Codable>(collection: CollectionReference, id: String) async -> T? {
+        
+        let docRef = collection.document(id)
+        
+        do {
+            let document = try await docRef.getDocument()
+            if document.exists {
+                if let data = document.data() {
+                    let decodedData = try Firestore.Decoder().decode(T.self, from: data)
+                    return decodedData
+                } else {
+                    print("Document data is empty")
+                    return nil
+                }
+            } else {
+                print("Document does not exist")
+                return nil
+            }
+        } catch {
+            print("Error getting document: \(error)")
+            return nil
+        }
+    }
+    
     func setData<T: Encodable>(_ data: T, at docRef: DocumentReference) {
         do {
             try docRef.setData(from: data)
@@ -51,18 +75,18 @@ class FirestoreManager {
             print("DEBUG: Error encoding \(data.self) data -", error.localizedDescription)
         }
     }
-
+    
     func newDocument(of collection: CollectionReference) -> DocumentReference {
         collection.document()
     }
-
+    
     private func parseDocuments<T: Decodable>(snapshot: QuerySnapshot?, error: Error?) -> [T] {
         guard let snapshot = snapshot else {
             let errorMessage = error?.localizedDescription ?? ""
             print("DEBUG: Error fetching snapshot -", errorMessage)
             return []
         }
-
+        
         var models: [T] = []
         snapshot.documents.forEach { document in
             do {

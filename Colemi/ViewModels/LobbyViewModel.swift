@@ -15,6 +15,7 @@ class LobbyViewModel {
     var posts: [PostModel] = []
     var images: [UIImage] = []
     var contentJSONString: [String] = []
+    let userManager = UserManager.shared
     
     func createUser() {
         let firestoreManager = FirestoreManager.shared
@@ -24,11 +25,11 @@ class LobbyViewModel {
                         posts: [],
                         likes: [],
                         avatarPhoto: "",
-                        friend: [],
+                        friends: [],
                         description: "",
                         savePosts: [],
-                        signUpTime: Date().timeIntervalSince1970,
-                        lastestLoginTime: Date().timeIntervalSince1970,
+                        signUpTime: Timestamp(),
+                        lastestLoginTime: Timestamp(),
                         colorToday: "",
                         chatRooms: [],
                         followers: [],
@@ -37,7 +38,33 @@ class LobbyViewModel {
         firestoreManager.setData(user, at: docRef)
     }
     
-    func fetchUserOne(){
+    func loginUserOne(completion: @escaping (User?) -> Void) async {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, id: "RUrCBxssACOTrwSOBJ2n")
+        completion(userData)
+//        let docRef = ref.document("uEXEtoFSGINxrlEDUypP")
+//        
+//        do {
+//            let document = try docRef.getDocument()
+//            if document.exists {
+//                if let data = document.data() {
+//                    let decodedData = try Firestore.Decoder().decode(User.self, from: data)
+//                    completion(decodedData)
+//                } else {
+//                    print("Document data is empty")
+//                }
+//            }
+//        } catch {
+//            print("Error getting document: \(error)")
+//        }
+    }
+    
+    func loginUserTwo(completion: @escaping (User?) -> Void) async {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, id: "CRNEeqIYbmpOcswYhkyz")
+        completion(userData)
     }
     
     func readData(completion: @escaping () -> Void) {

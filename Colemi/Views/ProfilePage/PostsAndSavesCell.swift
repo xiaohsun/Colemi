@@ -98,4 +98,3 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
             return images[indexPath.item].size
         }
 }
-

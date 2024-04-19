@@ -74,7 +74,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             return 120
         } else {
-            return 1000
+            return 2000
         }
     }
     

@@ -11,8 +11,9 @@ import Kingfisher
 class LobbyViewController: UIViewController {
     
     let viewModel = LobbyViewModel()
+    let userManager = UserManager.shared
     
-//    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
+    //    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
     
     lazy var postButton: UIButton = {
         let button = UIButton()
@@ -65,9 +66,22 @@ class LobbyViewController: UIViewController {
         return button
     }()
     
+    lazy var createUserButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("CreateUser", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(createUserButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func createUserButtonTapped() {
+        viewModel.createUser()
+    }
+    
     lazy var loginUser1Button: UIButton = {
         let button = UIButton()
-        button.setTitle("loginUser1", for: .normal)
+        button.setTitle("LoginUser1", for: .normal)
         button.backgroundColor = .black
         button.addTarget(self, action: #selector(loginUser1ButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +89,65 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func loginUser1ButtonTapped() {
-        // viewModel.createUser()
+        //        await viewModel.loginUserOne { user in
+        //            print(user)
+        //        }
+        Task {
+            await viewModel.loginUserOne { [weak self] user in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    if let user = user {
+                        self.userManager.avatarPhoto = user.avatarPhoto
+                        self.userManager.chatRooms = user.chatRooms
+                        self.userManager.description = user.description
+                        self.userManager.followers = user.followers
+                        self.userManager.following = user.following
+                        self.userManager.id = user.id
+                        self.userManager.lastestLoginTime = user.lastestLoginTime
+                        self.userManager.likes = user.likes
+                        self.userManager.name = user.name
+                        self.userManager.colorToday = user.colorToday
+                        self.userManager.savePosts = user.savePosts
+                        self.userManager.signUpTime = user.signUpTime
+                        print(self.userManager.name)
+                    }
+                }
+            }
+        }
+    }
+    
+    lazy var loginUser2Button: UIButton = {
+        let button = UIButton()
+        button.setTitle("LoginUser2", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(loginUser2ButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func loginUser2ButtonTapped() {
+        Task {
+            await viewModel.loginUserTwo { [weak self] user in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    if let user = user {
+                        self.userManager.avatarPhoto = user.avatarPhoto
+                        self.userManager.chatRooms = user.chatRooms
+                        self.userManager.description = user.description
+                        self.userManager.followers = user.followers
+                        self.userManager.following = user.following
+                        self.userManager.id = user.id
+                        self.userManager.lastestLoginTime = user.lastestLoginTime
+                        self.userManager.likes = user.likes
+                        self.userManager.name = user.name
+                        self.userManager.colorToday = user.colorToday
+                        self.userManager.savePosts = user.savePosts
+                        self.userManager.signUpTime = user.signUpTime
+                        print(self.userManager.name)
+                    }
+                }
+            }
+        }
     }
     
     lazy var chatRoomButton: UIButton = {
@@ -113,8 +185,10 @@ class LobbyViewController: UIViewController {
         view.addSubview(chooseColorButton)
         view.addSubview(paletteButton)
         view.addSubview(profileButton)
-        view.addSubview(loginUser1Button)
+        view.addSubview(createUserButton)
         view.addSubview(chatRoomButton)
+        view.addSubview(loginUser1Button)
+        view.addSubview(loginUser2Button)
         
         NSLayoutConstraint.activate([
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -122,10 +196,20 @@ class LobbyViewController: UIViewController {
             postsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
+            createUserButton.heightAnchor.constraint(equalToConstant: 50),
+            createUserButton.widthAnchor.constraint(equalToConstant: 100),
+            createUserButton.bottomAnchor.constraint(equalTo: paletteButton.topAnchor, constant: -50),
+            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            
             loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
             loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser1Button.bottomAnchor.constraint(equalTo: paletteButton.topAnchor, constant: -50),
+            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
             loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            
+            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
+            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
+            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             paletteButton.heightAnchor.constraint(equalToConstant: 50),
             paletteButton.widthAnchor.constraint(equalToConstant: 100),

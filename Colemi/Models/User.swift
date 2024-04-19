@@ -14,13 +14,13 @@ struct User: Codable {
     let posts: [String]
     let likes: [String]
     let avatarPhoto: String
-    let friend: [Friend]
+    let friends: [String]
     let description: String
     let savePosts: [String]
-    let signUpTime: TimeInterval
-    let lastestLoginTime: TimeInterval
+    let signUpTime: Timestamp
+    let lastestLoginTime: Timestamp
     let colorToday: String
-    let chatRooms: [ChatRoom]
+    let chatRooms: [String]
     let followers: [String]
     let following: [String]
 }

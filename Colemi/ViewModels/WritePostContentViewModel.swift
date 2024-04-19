@@ -27,7 +27,7 @@ class WritePostContentViewModel {
             Post.createdTime.rawValue: FieldValue.serverTimestamp(),
             Post.colorSimularity.rawValue: colorSimularity,
             Post.totalSaved.rawValue: [] as [String],
-            Post.reports.rawValue:  [] as [String],
+            Post.reports.rawValue: [] as [String],
             Post.imageUrl.rawValue: imageUrl
         ]
         document.setData(data)
