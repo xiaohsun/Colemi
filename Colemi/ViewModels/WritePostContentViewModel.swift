@@ -31,20 +31,36 @@ class WritePostContentViewModel {
             Post.imageUrl.rawValue: imageUrl
         ]
         document.setData(data)
+        
+        // doing
+        Task {
+            await self.updateData(postID: document.documentID, docID: UserManager.shared.id)
+        }
+    }
+    // doing
+    func updateData(postID: String, docID: String) async {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        
+        guard let user: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: docID), var friendsArray = user?.friends else { return }
+        
+        friendsArray.append(postID)
+        
+        firestoreManager.updateDocument(data: [ UserProperty.posts.rawValue: friendsArray], collection: ref, docID: docID)
     }
     
-    func makeContentJson( authorName: String, title: String, imgURL: String, description: String) -> String {
+    func makeContentJson(content: Content) -> String {
         var contentJSON = ""
         
-        let content: [String: Any] = [
-            "authorName": "柏勳",
-            "title": title,
-            "imgURL": imgURL,
-            "description": description
+        let contentDic: [String: Any] = [
+            "authorName": content.authorName,
+            "title": content.title,
+            "imgURL": content.imgURL,
+            "description": content.description
         ]
         
         do {
-            let jsonData = try JSONSerialization.data(withJSONObject: content, options: [.prettyPrinted, .withoutEscapingSlashes])
+            let jsonData = try JSONSerialization.data(withJSONObject: contentDic, options: [.prettyPrinted, .withoutEscapingSlashes])
             
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 contentJSON = jsonString

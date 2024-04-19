@@ -44,9 +44,9 @@ class FirestoreManager {
         }
     }
     
-    func getSpecificDocument<T: Codable>(collection: CollectionReference, id: String) async -> T? {
+    func getSpecificDocument<T: Codable>(collection: CollectionReference, docID: String) async -> T? {
         
-        let docRef = collection.document(id)
+        let docRef = collection.document(docID)
         
         do {
             let document = try await docRef.getDocument()
@@ -66,6 +66,10 @@ class FirestoreManager {
             print("Error getting document: \(error)")
             return nil
         }
+    }
+    
+    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
+        collection.document(docID).updateData(data)
     }
     
     func setData<T: Encodable>(_ data: T, at docRef: DocumentReference) {

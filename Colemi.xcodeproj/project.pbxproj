@@ -79,6 +79,9 @@
 		2880644D2BD153B500FC2EFA /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */; };
 		288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */; };
 		28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */; };
+		28C69B852BD2642600725BE7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28C69B842BD2642600725BE7 /* IQKeyboardManagerSwift */; };
+		28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */; };
+		28C69B892BD270BA00725BE7 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B882BD270BA00725BE7 /* Content.swift */; };
 		28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */; };
 		28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */; };
 		28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */; };
@@ -133,6 +136,8 @@
 		2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
+		28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		28C69B882BD270BA00725BE7 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		28D24DC72BC6C24200B7E114 /* Colemi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colemi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +180,7 @@
 				281240C22BC8062600777F91 /* FirebaseDynamicLinks in Frameworks */,
 				281240C62BC8062600777F91 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				281240D62BC8062600777F91 /* FirebaseMessaging in Frameworks */,
+				28C69B852BD2642600725BE7 /* IQKeyboardManagerSwift in Frameworks */,
 				281240D22BC8062600777F91 /* FirebaseInstallations in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,10 +191,8 @@
 		2812409D2BC7844E00777F91 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
+				28C69B822BD2638600725BE7 /* LobbyPage */,
 				281C657E2BCFEAB5003D2ECE /* PostDetailPage */,
-				281240A02BC79FE000777F91 /* LobbyLayout.swift */,
-				2812409E2BC7847700777F91 /* LobbyPostCell.swift */,
 				281C65AF2BD0C490003D2ECE /* ProfilePage */,
 				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
 				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
@@ -206,9 +210,10 @@
 			children = (
 				281240E42BC91B4700777F91 /* LobbyViewModel.swift */,
 				281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */,
-				281240E22BC807C400777F91 /* WritePostContentViewModel.swift */,
 				284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */,
+				281240E22BC807C400777F91 /* WritePostContentViewModel.swift */,
 				282343902BCD22020040C1CA /* ColorSimilarityViewModel.swift */,
+				28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -269,6 +274,7 @@
 				2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */,
 				282343922BCEB5D20040C1CA /* PostModel.swift */,
 				2880644A2BD14A7000FC2EFA /* User.swift */,
+				28C69B882BD270BA00725BE7 /* Content.swift */,
 				288064462BD143A300FC2EFA /* FirestoreManager.swift */,
 			);
 			path = Models;
@@ -282,6 +288,16 @@
 				28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */,
 			);
 			path = ChatRoomPage;
+			sourceTree = "<group>";
+		};
+		28C69B822BD2638600725BE7 /* LobbyPage */ = {
+			isa = PBXGroup;
+			children = (
+				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
+				281240A02BC79FE000777F91 /* LobbyLayout.swift */,
+				2812409E2BC7847700777F91 /* LobbyPostCell.swift */,
+			);
+			path = LobbyPage;
 			sourceTree = "<group>";
 		};
 		28D24DBE2BC6C24200B7E114 = {
@@ -367,6 +383,7 @@
 				281240DD2BC8062600777F91 /* FirebaseStorage */,
 				281240DF2BC8062600777F91 /* FirebaseStorageCombine-Community */,
 				281C65762BCF7848003D2ECE /* Kingfisher */,
+				28C69B842BD2642600725BE7 /* IQKeyboardManagerSwift */,
 			);
 			productName = Colemi;
 			productReference = 28D24DC72BC6C24200B7E114 /* Colemi.app */;
@@ -400,6 +417,7 @@
 				2854A7BD2BC76DC1008F6A58 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 				281240AA2BC8062600777F91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				281C65752BCF7848003D2ECE /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				28C69B832BD2642600725BE7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 28D24DC82BC6C24200B7E114 /* Products */;
 			projectDirPath = "";
@@ -470,8 +488,10 @@
 				281C658A2BD00233003D2ECE /* CommentCell.swift in Sources */,
 				281C65882BD000F7003D2ECE /* SeperatorCell.swift in Sources */,
 				281C65B12BD0C4E5003D2ECE /* InformationCell.swift in Sources */,
+				28C69B892BD270BA00725BE7 /* Content.swift in Sources */,
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,
 				2823431B2BCCF2210040C1CA /* CloudVisionResponseModel.swift in Sources */,
+				28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */,
 				281C65BB2BD0E7EB003D2ECE /* AchievementCell.swift in Sources */,
 				2880644B2BD14A7000FC2EFA /* User.swift in Sources */,
 				2880644D2BD153B500FC2EFA /* ChatRoomViewController.swift in Sources */,
@@ -734,6 +754,14 @@
 				minimumVersion = 0.54.0;
 			};
 		};
+		28C69B832BD2642600725BE7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -881,6 +909,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2854A7BD2BC76DC1008F6A58 /* XCRemoteSwiftPackageReference "SwiftLint" */;
 			productName = "plugin:SwiftLintPlugin";
+		};
+		28C69B842BD2642600725BE7 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 28C69B832BD2642600725BE7 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

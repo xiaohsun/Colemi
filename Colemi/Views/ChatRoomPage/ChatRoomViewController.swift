@@ -9,6 +9,8 @@ import UIKit
 
 class ChatRoomViewController: UIViewController {
     
+    let userManager = UserManager.shared
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,10 +35,26 @@ class ChatRoomViewController: UIViewController {
         return textView
     }()
     
+    lazy var sendMessageButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(sendMessageButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Send", for: .normal)
+        button.backgroundColor = .black
+        return button
+    }()
+    
+    @objc private func sendMessageButtonTapped() {
+        if var messageBody = chatTextView.text {
+            chatTextView.text = ""
+        }
+    }
+    
     private func setUpUI() {
         view.backgroundColor = .white
         view.addSubview(tableView)
         view.addSubview(chatTextView)
+        view.addSubview(sendMessageButton)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -46,8 +64,14 @@ class ChatRoomViewController: UIViewController {
             
             chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             chatTextView.heightAnchor.constraint(equalToConstant: 40),
-            chatTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            chatTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4)
+            chatTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+            
+            sendMessageButton.leadingAnchor.constraint(equalTo: chatTextView.trailingAnchor, constant: 12),
+            sendMessageButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
+            sendMessageButton.heightAnchor.constraint(equalToConstant: 30),
+            sendMessageButton.widthAnchor.constraint(equalToConstant: 50),
+            sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+            
         ])
         
     }

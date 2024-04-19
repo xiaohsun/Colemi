@@ -18,6 +18,8 @@ class WritePostContentViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -55,10 +57,14 @@ class WritePostContentViewController: UIViewController {
         return label
     }()
     
-    lazy var contentTextView: UITextView = {
+    lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .black
+        textView.backgroundColor = .white
+        textView.layer.cornerRadius = 10
+        textView.layer.borderWidth = 2
+        textView.layer.borderColor = UIColor.black.cgColor
+        textView.text = "哈哈哈"
         return textView
     }()
     
@@ -114,7 +120,7 @@ class WritePostContentViewController: UIViewController {
         view.addSubview(titleTextField)
         view.addSubview(separatorView1)
         view.addSubview(contentLabel)
-        view.addSubview(contentTextView)
+        view.addSubview(descriptionTextView)
         view.addSubview(separatorView2)
         view.addSubview(tagLabel)
         view.addSubview(tagTextField)
@@ -143,14 +149,14 @@ class WritePostContentViewController: UIViewController {
             contentLabel.leadingAnchor.constraint(equalTo: separatorView1.leadingAnchor),
             contentLabel.topAnchor.constraint(equalTo: separatorView1.bottomAnchor, constant: 20),
             
-            contentTextView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            contentTextView.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
-            contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/9),
+            descriptionTextView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+            descriptionTextView.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/9),
             
             separatorView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             separatorView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            separatorView2.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 20),
+            separatorView2.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
             separatorView2.heightAnchor.constraint(equalToConstant: 1),
             
             tagLabel.leadingAnchor.constraint(equalTo: separatorView2.leadingAnchor),
@@ -185,14 +191,16 @@ class WritePostContentViewController: UIViewController {
 
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
     func addDataToFireBase(_ imageUrl: String) {
-        let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
+        // let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
+        let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: userManager.name))
         
         if let colorString = userManager.selectedHexColor {
-            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl)
+            viewModel.addData(authorId: userManager.id, content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl)
         }
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
+        
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
 }

@@ -76,7 +76,7 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func createUserButtonTapped() {
-        viewModel.createUser()
+        // viewModel.createUser()
     }
     
     lazy var loginUser1Button: UIButton = {
@@ -234,7 +234,7 @@ class LobbyViewController: UIViewController {
             chatRoomButton.heightAnchor.constraint(equalToConstant: 50),
             chatRoomButton.widthAnchor.constraint(equalToConstant: 100),
             chatRoomButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
-            chatRoomButton.leadingAnchor.constraint(equalTo: postButton.leadingAnchor),
+            chatRoomButton.leadingAnchor.constraint(equalTo: postButton.leadingAnchor)
         ])
     }
     
@@ -252,6 +252,7 @@ class LobbyViewController: UIViewController {
         super.viewWillAppear(animated)
         viewModel.readData {
             self.postsCollectionView.reloadData()
+            self.postsCollectionView.layoutIfNeeded()
         }
     }
 }

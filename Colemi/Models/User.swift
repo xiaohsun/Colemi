@@ -25,6 +25,23 @@ struct User: Codable {
     let following: [String]
 }
 
+enum UserProperty: String {
+    case id
+    case name
+    case posts
+    case likes
+    case avatarPhoto
+    case friends
+    case description
+    case savePosts
+    case signUpTime
+    case lastestLoginTime
+    case colorToday
+    case chatRooms
+    case followers
+    case following
+}
+
 struct Friend: Codable {
 }
 

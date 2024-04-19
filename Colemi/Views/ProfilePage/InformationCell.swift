@@ -43,7 +43,7 @@ class InformationCell: UITableViewCell {
         return imageView
     }()
     
-    lazy var fansLabel: UILabel = {
+    lazy var followersLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -54,7 +54,7 @@ class InformationCell: UITableViewCell {
         return label
     }()
     
-    lazy var fansNumberLabel: UILabel = {
+    lazy var followersNumberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -106,8 +106,8 @@ class InformationCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(idLabel)
         contentView.addSubview(avatarImageView)
-        contentView.addSubview(fansLabel)
-        contentView.addSubview(fansNumberLabel)
+        contentView.addSubview(followersLabel)
+        contentView.addSubview(followersNumberLabel)
         contentView.addSubview(followingLabel)
         contentView.addSubview(followingNumberLabel)
         contentView.addSubview(collectionView)
@@ -124,17 +124,17 @@ class InformationCell: UITableViewCell {
             avatarImageView.heightAnchor.constraint(equalToConstant: 50),
             avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             
-            fansLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            fansLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
+            followersLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
+            followersLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
             
-            fansNumberLabel.centerXAnchor.constraint(equalTo: fansLabel.centerXAnchor),
-            fansNumberLabel.topAnchor.constraint(equalTo: fansLabel.bottomAnchor, constant: 10),
+            followersNumberLabel.centerXAnchor.constraint(equalTo: followersLabel.centerXAnchor),
+            followersNumberLabel.topAnchor.constraint(equalTo: followersLabel.bottomAnchor, constant: 10),
             
-            followingLabel.leadingAnchor.constraint(equalTo: fansLabel.trailingAnchor, constant: 30),
-            followingLabel.centerYAnchor.constraint(equalTo: fansLabel.centerYAnchor),
+            followingLabel.leadingAnchor.constraint(equalTo: followersLabel.trailingAnchor, constant: 30),
+            followingLabel.centerYAnchor.constraint(equalTo: followersLabel.centerYAnchor),
             
             followingNumberLabel.centerXAnchor.constraint(equalTo: followingLabel.centerXAnchor),
-            followingNumberLabel.centerYAnchor.constraint(equalTo: fansNumberLabel.centerYAnchor),
+            followingNumberLabel.centerYAnchor.constraint(equalTo: followersNumberLabel.centerYAnchor),
             
             collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             collectionView.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 35),
@@ -166,7 +166,11 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
-    func update(content: Content) {
+    func update(userData: UserManager) {
+        nameLabel.text = userData.name
+        // idLabel.text = userData.id
+        followersNumberLabel.text = "\(userData.followers.count)"
+        followingNumberLabel.text = "\(userData.following.count)"
     }
 }
 

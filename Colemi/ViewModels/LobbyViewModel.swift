@@ -41,7 +41,7 @@ class LobbyViewModel {
     func loginUserOne(completion: @escaping (User?) -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, id: "RUrCBxssACOTrwSOBJ2n")
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "RUrCBxssACOTrwSOBJ2n")
         completion(userData)
 //        let docRef = ref.document("uEXEtoFSGINxrlEDUypP")
 //        
@@ -63,7 +63,7 @@ class LobbyViewModel {
     func loginUserTwo(completion: @escaping (User?) -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, id: "CRNEeqIYbmpOcswYhkyz")
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "dT5NOxCPAgJEiEYjKUuu")
         completion(userData)
     }
     
@@ -71,6 +71,7 @@ class LobbyViewModel {
         Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
             
             self.posts = []
+            self.images = []
             
             if let e = error {
                 print("There was an issue saving data to firestore. \(e)")
@@ -117,9 +118,4 @@ class LobbyViewModel {
             }
         }
     }
-}
-
-struct Content: Codable {
-    let imgURL: String
-    let title, description, authorName: String
 }
