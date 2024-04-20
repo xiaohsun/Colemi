@@ -10,6 +10,9 @@ import UIKit
 class InformationCell: UITableViewCell {
     
     static let reuseIdentifier = "\(InformationCell.self)"
+    var isOthersPage: Bool = false
+    var othersID: String?
+    var otherUserData: User?
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -166,18 +169,18 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
-    func update(name: String, followers: [String], following: [String]) {
+    func update(name: String, followers: [String], following: [String], isOthersPage: Bool) {
         nameLabel.text = name
-        // idLabel.text = userData.id
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
+        self.isOthersPage = isOthersPage
     }
 }
 
 extension InformationCell {
     func configureLayout() -> UICollectionViewLayout {
         
-        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+        let sectionProvider = { (sectionIndex: Int, _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
             if sectionIndex == 0 {
                 let leftItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2/3), heightDimension: .fractionalHeight(1.0))
@@ -232,6 +235,12 @@ extension InformationCell {
                 default:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
                     
+                    if !self.isOthersPage {
+                        cell.update()
+                    }
+                    
+                    cell.delegate = self
+                    
                     return cell
                 }
                 
@@ -260,5 +269,13 @@ extension InformationCell {
         initialSnapshot.appendItems(Array(3...5), toSection: .bottom)
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+}
+
+extension InformationCell: FollowOrEditInfoCellDelegate {
+    func updateFollower() {
+        guard let otherUserData = otherUserData else { return }
+        let viewModel = ProfileViewModel()
+       //  viewModel.updateFollower(otherUserData: otherUserData)
     }
 }

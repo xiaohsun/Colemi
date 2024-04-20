@@ -90,9 +90,10 @@
 		28D24DD42BC6C24400B7E114 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28D24DD32BC6C24400B7E114 /* Assets.xcassets */; };
 		28D24DD72BC6C24400B7E114 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28D24DD52BC6C24400B7E114 /* LaunchScreen.storyboard */; };
 		28D253032BD36F2700864187 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253022BD36F2700864187 /* Friend.swift */; };
-		28D253052BD36FB700864187 /* UserChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253042BD36FB700864187 /* UserChatRoom.swift */; };
 		28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253072BD3740700864187 /* ChatRoomsViewController.swift */; };
 		28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */; };
+		28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */; };
+		28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,9 +154,10 @@
 		28D24DD62BC6C24400B7E114 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28D24DD82BC6C24400B7E114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		28D253022BD36F2700864187 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
-		28D253042BD36FB700864187 /* UserChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserChatRoom.swift; sourceTree = "<group>"; };
 		28D253072BD3740700864187 /* ChatRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewController.swift; sourceTree = "<group>"; };
 		28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
+		28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChatRoom.swift; sourceTree = "<group>"; };
+		28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedChatRoom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,7 +288,8 @@
 				282343922BCEB5D20040C1CA /* Post.swift */,
 				2880644A2BD14A7000FC2EFA /* User.swift */,
 				28D253022BD36F2700864187 /* Friend.swift */,
-				28D253042BD36FB700864187 /* UserChatRoom.swift */,
+				28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */,
+				28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */,
 				28C69B882BD270BA00725BE7 /* Content.swift */,
 				288064462BD143A300FC2EFA /* FirestoreManager.swift */,
 			);
@@ -488,11 +491,13 @@
 				281C65B52BD0E373003D2ECE /* FollowOrEditInfoCell.swift in Sources */,
 				281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */,
 				281C65B32BD0DC08003D2ECE /* TextViewCell.swift in Sources */,
+				28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */,
 				281C65BE2BD0EDDA003D2ECE /* MissionCell.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253032BD36F2700864187 /* Friend.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
+				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
 				281C65802BCFEB66003D2ECE /* DetailTableViewHeaderView.swift in Sources */,
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
@@ -502,7 +507,6 @@
 				282343932BCEB5D20040C1CA /* Post.swift in Sources */,
 				282343912BCD22020040C1CA /* ColorSimilarityViewModel.swift in Sources */,
 				282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */,
-				28D253052BD36FB700864187 /* UserChatRoom.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,
 				281C658A2BD00233003D2ECE /* CommentCell.swift in Sources */,
 				281C65882BD000F7003D2ECE /* SeperatorCell.swift in Sources */,

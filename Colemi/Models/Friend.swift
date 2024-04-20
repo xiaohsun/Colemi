@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
+// 很像不需要 Friend
 struct Friend: Codable {
     let id: String
     let status: Int

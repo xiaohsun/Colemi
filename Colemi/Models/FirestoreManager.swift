@@ -68,6 +68,7 @@ class FirestoreManager {
         }
     }
     
+    // Limitted 30
     func getMultipleDocument<T: Codable>(collection: CollectionReference, docIDs: [String]) async -> [T] {
         
         var documents: [T] = []

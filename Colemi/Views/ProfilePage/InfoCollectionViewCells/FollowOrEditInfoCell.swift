@@ -9,6 +9,8 @@ import UIKit
 
 class FollowOrEditInfoCell: UICollectionViewCell {
     
+    weak var delegate: FollowOrEditInfoCellDelegate?
+    
     static let reuseIdentifier = "\(FollowOrEditInfoCell.self)"
     
     lazy var containerView: UIView = {
@@ -16,9 +18,17 @@ class FollowOrEditInfoCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.layer.cornerRadius = 20
+        view.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followBtnTapped))
+        view.addGestureRecognizer(tapGesture)
         
         return view
     }()
+    
+    @objc private func followBtnTapped(_ sender: UITapGestureRecognizer) {
+        print("followed!")
+        delegate?.updateFollower()
+    }
     
     lazy var label: UILabel = {
         let label = UILabel()
@@ -27,6 +37,9 @@ class FollowOrEditInfoCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .black
         label.text = "追蹤"
+        label.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followBtnTapped))
+        label.addGestureRecognizer(tapGesture)
         
         return label
     }()
@@ -51,4 +64,15 @@ class FollowOrEditInfoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
+
+extension FollowOrEditInfoCell {
+    func update() {
+        containerView.isUserInteractionEnabled = false
+        label.isUserInteractionEnabled = false
+    }
+}
+
+protocol FollowOrEditInfoCellDelegate: AnyObject {
+    func updateFollower()
 }

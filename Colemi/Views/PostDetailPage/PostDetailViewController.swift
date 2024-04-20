@@ -204,17 +204,26 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
 extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func pushToAuthorProfilePage() {
         // let navigationController = UINavigationController(rootViewController: self)
+        let profileViewController = ProfileViewController()
         
-        let firestoreManager = FirestoreManager.shared
-        let ref = FirestoreEndpoint.users.ref
-        Task {
-            let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: authorID)
-            if let userData = userData {
-                let profileViewController = ProfileViewController()
-                profileViewController.isOthersPage = true
-                profileViewController.otherUserData = userData
-                // navigationController.pushViewController(profileViewController, animated: true)
-                present(profileViewController, animated: true)
+        if authorID == userData.id {
+            present(profileViewController, animated: true)
+        } else {
+            
+            let firestoreManager = FirestoreManager.shared
+            let ref = FirestoreEndpoint.users.ref
+            
+            
+            Task {
+                let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: authorID)
+                
+                if let userData = userData {
+                    
+                    profileViewController.isOthersPage = true
+                    profileViewController.otherUserData = userData
+                    // navigationController.pushViewController(profileViewController, animated: true)
+                    present(profileViewController, animated: true)
+                }
             }
         }
     }

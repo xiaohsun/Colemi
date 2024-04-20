@@ -62,13 +62,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
             
             if !isOthersPage {
-                cell.update(name: userData.name, followers: userData.followers, following: userData.following)
+                cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage)
             } else {
                 guard let otherUserData = otherUserData else {
                     print("Error get otherUserData.")
                     return cell
                 }
-                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following)
+                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage)
             }
             
             return cell
