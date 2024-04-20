@@ -9,9 +9,7 @@ import Foundation
 
 class PostDetailViewModel {
     
-    weak var delegate: PostDetailViewModelDelegate?
-    
-    func decodeContent(jsonString: String) {
+    func decodeContent(jsonString: String, completion: @escaping (Content) -> Void) {
         let cleanedString = jsonString.replacingOccurrences(of: "\\", with: "")
         
         guard let jsonData = cleanedString.data(using: .utf8) else {
@@ -21,13 +19,9 @@ class PostDetailViewModel {
         
         do {
             let decodedData = try JSONDecoder().decode(Content.self, from: jsonData)
-            delegate?.passContentData(content: decodedData)
+            completion(decodedData)
         } catch {
             print("error: \(error.localizedDescription)")
         }
     }
-}
-
-protocol PostDetailViewModelDelegate: AnyObject {
-    func passContentData(content: Content)
 }

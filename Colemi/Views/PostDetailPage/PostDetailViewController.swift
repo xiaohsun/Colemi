@@ -61,22 +61,13 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        viewModel.delegate = self
-        viewModel.decodeContent(jsonString: contentJSONString)
+        viewModel.decodeContent(jsonString: contentJSONString) { [weak self] content in
+            guard let self = self else { return }
+            self.content = content
+        }
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-    }
-}
-
-extension PostDetailViewController: PostDetailViewModelDelegate {
-    func passContentData(content: Content) {
-        self.content = content
-        // let url = URL(string: content.imgURL)
-        //        photoImageView.kf.setImage(with: url)
-        //        authorNameLabel.text = content.authorName
-        //        titleLabel.text = "- \(content.title)"
-        //        descriptionLabel.text = content.description
     }
 }
 

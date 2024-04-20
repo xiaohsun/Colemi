@@ -12,7 +12,7 @@ import Kingfisher
 
 class LobbyViewModel {
     
-    var posts: [PostModel] = []
+    var posts: [Post] = []
     var images: [UIImage] = []
     var contentJSONString: [String] = []
     let userManager = UserManager.shared
@@ -72,6 +72,7 @@ class LobbyViewModel {
             
             self.posts = []
             self.images = []
+            self.contentJSONString = []
             
             if let e = error {
                 print("There was an issue saving data to firestore. \(e)")
@@ -79,20 +80,20 @@ class LobbyViewModel {
                 if let snapshotDocuments = querySnapshot?.documents {
                     for doc in snapshotDocuments {
                         let data = doc.data()
-                        if let authorId = data[Post.authorId.rawValue] as? String,
-                           let color = data[Post.color.rawValue] as? String,
-                           let colorSimularity = data[Post.colorSimularity.rawValue] as? String,
-                           let content = data[Post.content.rawValue] as? String,
-                           let createdTime = data[Post.createdTime.rawValue] as? Timestamp,
-                           let id = data[Post.id.rawValue] as? String,
-                           let reports = data[Post.reports.rawValue] as? [String],
-                           let totalSaved = data[Post.totalSaved.rawValue] as? [String],
-                           let type = data[Post.type.rawValue] as? Int,
-                           let imageUrl = data[Post.imageUrl.rawValue] as? String {
+                        if let authorId = data[PostProperty.authorId.rawValue] as? String,
+                           let color = data[PostProperty.color.rawValue] as? String,
+                           let colorSimularity = data[PostProperty.colorSimularity.rawValue] as? String,
+                           let content = data[PostProperty.content.rawValue] as? String,
+                           let createdTime = data[PostProperty.createdTime.rawValue] as? Timestamp,
+                           let id = data[PostProperty.id.rawValue] as? String,
+                           let reports = data[PostProperty.reports.rawValue] as? [String],
+                           let totalSaved = data[PostProperty.totalSaved.rawValue] as? [String],
+                           let type = data[PostProperty.type.rawValue] as? Int,
+                           let imageUrl = data[PostProperty.imageUrl.rawValue] as? String {
                             
                             self.contentJSONString.append(content)
                             
-                            self.posts.append(PostModel(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl))
+                            self.posts.append(Post(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl))
                             
                             let group = DispatchGroup()
                             group.enter()

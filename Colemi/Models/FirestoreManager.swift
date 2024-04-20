@@ -68,6 +68,30 @@ class FirestoreManager {
         }
     }
     
+    func getMultipleDocument<T: Codable>(collection: CollectionReference, docIDs: [String]) async -> [T] {
+        
+        var documents: [T] = []
+        
+        if docIDs != [] {
+            let query = collection.whereField(FieldPath.documentID(), in: docIDs)
+            
+            do {
+                let querySnapshots = try await query.getDocuments()
+                for doc in querySnapshots.documents {
+                    let data = doc.data()
+                    if let decodedData = try? Firestore.Decoder().decode(T.self, from: data) {
+                        documents.append(decodedData)
+                    }
+                }
+            } catch {
+                print("Error fetching documents: \(error)")
+            }
+            return documents
+        }
+        
+        return documents
+    }
+    
     func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
         collection.document(docID).updateData(data)
     }

@@ -109,6 +109,7 @@ class LobbyViewController: UIViewController {
                         self.userManager.colorToday = user.colorToday
                         self.userManager.savePosts = user.savePosts
                         self.userManager.signUpTime = user.signUpTime
+                        self.userManager.posts = user.posts
                         print(self.userManager.name)
                     }
                 }
@@ -143,6 +144,7 @@ class LobbyViewController: UIViewController {
                         self.userManager.colorToday = user.colorToday
                         self.userManager.savePosts = user.savePosts
                         self.userManager.signUpTime = user.signUpTime
+                        self.userManager.posts = user.posts
                         print(self.userManager.name)
                     }
                 }
@@ -160,8 +162,8 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func chatRoomButtonTapped() {
-        let chatRoomViewController = ChatRoomViewController()
-        navigationController?.pushViewController(chatRoomViewController, animated: true)
+        let chatRoomsViewController = ChatRoomsViewController()
+        navigationController?.pushViewController(chatRoomsViewController, animated: true)
     }
     
     @objc func profileButtonTapped() {
@@ -251,8 +253,8 @@ class LobbyViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.readData {
-            self.postsCollectionView.reloadData()
-            self.postsCollectionView.layoutIfNeeded()
+                self.postsCollectionView.reloadData()
+                self.postsCollectionView.layoutIfNeeded()
         }
     }
 }
@@ -261,9 +263,14 @@ class LobbyViewController: UIViewController {
 
 extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.posts.count
+        return viewModel.posts.count
+        // 這裡是 3 次
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LobbyPostCell.reuseIdentifier, for: indexPath) as? LobbyPostCell else {
@@ -274,6 +281,8 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
         cell.imageView.kf.setImage(with: url)
+        //cell.imageView.image = viewModel.images[indexPath.item]
+        // 但是這裡只執行 2 次
         
         return cell
     }
@@ -283,7 +292,8 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         postDetailViewController.photoImage = viewModel.images[indexPath.item]
         // navigationController?.pushViewController(postDetailViewController, animated: true)
-        
+        // 這裡的 images 的 count 少 contentJSONString 一個
+        print(indexPath.item)
         present(postDetailViewController, animated: true)
     }
 }

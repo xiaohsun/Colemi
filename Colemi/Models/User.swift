@@ -42,8 +42,5 @@ enum UserProperty: String {
     case following
 }
 
-struct Friend: Codable {
-}
-
 struct ChatRoom: Codable {
 }

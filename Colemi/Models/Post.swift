@@ -1,5 +1,5 @@
 //
-//  PostsModel.swift
+//  Post.swift
 //  Colemi
 //
 //  Created by 徐柏勳 on 4/16/24.
@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct PostModel {
+struct Post: Codable {
     let authorId: String
     let color: String
     let colorSimularity: String
@@ -21,7 +21,7 @@ struct PostModel {
     let imageUrl: String
 }
 
-enum Post: String {
+enum PostProperty: String {
     case authorId
     case color
     case colorSimularity

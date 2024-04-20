@@ -9,6 +9,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
+    let viewModel = ProfileViewModel()
     let userData = UserManager.shared
     
     lazy var tableView: UITableView = {
@@ -65,6 +66,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
+            cell.update(viewModel: viewModel)
+            Task {
+                await viewModel.getMyPosts(postIDs: userData.posts) {
+                    cell.updateLayout()
+                }
+            }
             
             return cell
         }

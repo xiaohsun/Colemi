@@ -9,6 +9,8 @@ import UIKit
 
 class PostsAndSavesCell: UITableViewCell {
     
+    let userData = UserManager.shared
+    var viewModel: ProfileViewModel?
     static let reuseIdentifier = "\(PostsAndSavesCell.self)"
     
     var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
@@ -54,7 +56,8 @@ class PostsAndSavesCell: UITableViewCell {
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        images.count
+        // images.count
+        userData.posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -67,7 +70,12 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
 //        let post = viewModel.posts[indexPath.item]
 //        let url = URL(string: post.imageUrl)
 //        cell.imageView.kf.setImage(with: url)
-        cell.imageView.image = images[indexPath.item]
+        // cell.imageView.image = images[indexPath.item]
+        if let viewModel = viewModel {
+            if indexPath.item < viewModel.images.count {
+                cell.imageView.image = viewModel.images[indexPath.item]
+            }
+        }
         
         return cell
     }
@@ -90,11 +98,34 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
         _ collectionView: UICollectionView,
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
-//            if indexPath.item < viewModel.images.count {
-//                return viewModel.images[indexPath.item].size
-//            } else {
-//                return CGSize(width: 300, height: 400)
-//            }
-            return images[indexPath.item].size
+            if let viewModel = viewModel {
+                if indexPath.item < viewModel.images.count {
+                    return viewModel.images[indexPath.item].size
+                } else {
+                    return CGSize(width: 300, height: 400)
+                }
+            } else {
+                return CGSize(width: 300, height: 400)
+            }
+            
+            // return images[indexPath.item].size
         }
+}
+
+extension PostsAndSavesCell {
+    func update(viewModel: ProfileViewModel) {
+//        DispatchQueue.main.async {
+//            self.postsCollectionView.reloadData()
+//            self.postsCollectionView.layoutIfNeeded()
+//            self.layoutIfNeeded()
+//        }
+        self.viewModel = viewModel
+        
+    }
+    
+    func updateLayout() {
+        postsCollectionView.reloadData()
+        postsCollectionView.layoutIfNeeded()
+        self.layoutIfNeeded()
+    }
 }

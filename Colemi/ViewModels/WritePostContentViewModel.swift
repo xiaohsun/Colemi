@@ -19,16 +19,16 @@ class WritePostContentViewModel {
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
         let data: [String: Any] = [
-            Post.authorId.rawValue: "1213123",
-            Post.id.rawValue: document.documentID,
-            Post.content.rawValue: content,
-            Post.type.rawValue: 0,
-            Post.color.rawValue: color,
-            Post.createdTime.rawValue: FieldValue.serverTimestamp(),
-            Post.colorSimularity.rawValue: colorSimularity,
-            Post.totalSaved.rawValue: [] as [String],
-            Post.reports.rawValue: [] as [String],
-            Post.imageUrl.rawValue: imageUrl
+            PostProperty.authorId.rawValue: "1213123",
+            PostProperty.id.rawValue: document.documentID,
+            PostProperty.content.rawValue: content,
+            PostProperty.type.rawValue: 0,
+            PostProperty.color.rawValue: color,
+            PostProperty.createdTime.rawValue: FieldValue.serverTimestamp(),
+            PostProperty.colorSimularity.rawValue: colorSimularity,
+            PostProperty.totalSaved.rawValue: [] as [String],
+            PostProperty.reports.rawValue: [] as [String],
+            PostProperty.imageUrl.rawValue: imageUrl
         ]
         document.setData(data)
         
@@ -42,11 +42,11 @@ class WritePostContentViewModel {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        guard let user: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: docID), var friendsArray = user?.friends else { return }
+        guard let user: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: docID), var postsArray = user?.posts else { return }
         
-        friendsArray.append(postID)
+        postsArray.append(postID)
         
-        firestoreManager.updateDocument(data: [ UserProperty.posts.rawValue: friendsArray], collection: ref, docID: docID)
+        firestoreManager.updateDocument(data: [ UserProperty.posts.rawValue: postsArray], collection: ref, docID: docID)
     }
     
     func makeContentJson(content: Content) -> String {
