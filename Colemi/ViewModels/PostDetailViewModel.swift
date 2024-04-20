@@ -24,4 +24,12 @@ class PostDetailViewModel {
             print("error: \(error.localizedDescription)")
         }
     }
+    
+    // doing
+    func updateSavedPosts(savedPostsArray: [String], postID: String, docID: String) async {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        
+        firestoreManager.updateDocument(data: [UserProperty.savePosts.rawValue: savedPostsArray], collection: ref, docID: docID)
+    }
 }

@@ -247,14 +247,15 @@ class LobbyViewController: UIViewController {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        setUpUI()
+        // setUpUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.readData {
-                self.postsCollectionView.reloadData()
-                self.postsCollectionView.layoutIfNeeded()
+            self.setUpUI()
+            self.postsCollectionView.reloadData()
+            self.postsCollectionView.layoutIfNeeded()
         }
     }
 }
@@ -291,6 +292,7 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         postDetailViewController.photoImage = viewModel.images[indexPath.item]
+        postDetailViewController.postID = viewModel.posts[indexPath.item].id
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         // 這裡的 images 的 count 少 contentJSONString 一個
         print(indexPath.item)

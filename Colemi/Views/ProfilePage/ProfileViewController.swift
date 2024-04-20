@@ -67,6 +67,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
             cell.update(viewModel: viewModel)
+            cell.delegate = self
             Task {
                 await viewModel.getMyPosts(postIDs: userData.posts) {
                     cell.updateLayout()
@@ -112,5 +113,17 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension ProfileViewController: PostsAndSavesCellDelegate {
+    func presentDetailPage(index: Int) {
+        let postDetailViewController = PostDetailViewController()
+        postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
+        postDetailViewController.photoImage = viewModel.images[index]
+        // navigationController?.pushViewController(postDetailViewController, animated: true)
+        postDetailViewController.postID = viewModel.posts[index].id
+        
+        present(postDetailViewController, animated: true)
     }
 }

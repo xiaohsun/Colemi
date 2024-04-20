@@ -13,6 +13,8 @@ class PostDetailViewController: UIViewController {
     var contentJSONString = ""
     var photoImage: UIImage?
     var content: Content?
+    let userData = UserManager.shared
+    var postID = ""
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -33,10 +35,48 @@ class PostDetailViewController: UIViewController {
         return textView
     }()
     
+    lazy var starImageView: UIImageView = {
+        let imageView = UIImageView()
+        // imageView.backgroundColor = .white
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .black
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(starTapped))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        
+        return imageView
+    }()
+    
+    @objc private func starTapped(_ sender: UITapGestureRecognizer) {
+        if userData.savePosts.contains(postID) {
+            userData.savePosts.removeAll { $0 == postID }
+            starImageView.image = UIImage(systemName: "star")
+            Task {
+                await viewModel.updateSavedPosts(savedPostsArray: userData.savePosts, postID: postID, docID: userData.id)
+            }
+        } else {
+            userData.savePosts.append(postID)
+            starImageView.image = UIImage(systemName: "star.fill")
+            Task {
+                await viewModel.updateSavedPosts(savedPostsArray: userData.savePosts, postID: postID, docID: userData.id)
+            }
+        }
+    }
+    
+    private func setUpStarImageView() {
+        if userData.savePosts.contains(postID) {
+            starImageView.image = UIImage(systemName: "star.fill")
+        } else {
+            starImageView.image = UIImage(systemName: "star")
+        }
+    }
+    
     private func setUpUI() {
         view.backgroundColor = .white
         view.addSubview(tableView)
         view.addSubview(commentTextView)
+        view.addSubview(starImageView)
+        setUpStarImageView()
         
         tableView.register(DetailTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderView.reuseIdentifier)
         tableView.register(AuthorInfoAndTitleCell.self, forCellReuseIdentifier: AuthorInfoAndTitleCell.reuseIdentifier)
@@ -53,8 +93,13 @@ class PostDetailViewController: UIViewController {
             
             commentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
             commentTextView.heightAnchor.constraint(equalToConstant: 40),
-            commentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            commentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4)
+            commentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+            
+            starImageView.leadingAnchor.constraint(equalTo: commentTextView.trailingAnchor, constant: 12),
+            starImageView.heightAnchor.constraint(equalTo: commentTextView.heightAnchor),
+            starImageView.widthAnchor.constraint(equalTo: commentTextView.heightAnchor),
+            starImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
+            starImageView.bottomAnchor.constraint(equalTo: commentTextView.bottomAnchor)
         ])
     }
     

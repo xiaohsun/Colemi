@@ -12,6 +12,7 @@ class ProfileViewModel {
     
     var posts: [Post] = []
     var images: [UIImage] = []
+    var contentJSONString: [String] = []
     
     func getMyPosts(postIDs: [String], completion: @escaping() -> Void) async {
         let firestoreManager = FirestoreManager.shared
@@ -19,12 +20,16 @@ class ProfileViewModel {
         
         self.posts = []
         self.images = []
+        self.contentJSONString = []
         
         let posts: [Post] = await firestoreManager.getMultipleDocument(collection: ref, docIDs: postIDs)
         self.posts = posts
         
         for post in posts {
             let url = post.imageUrl
+            
+            self.contentJSONString.append(post.content)
+            
             let group = DispatchGroup()
             group.enter()
             if let url = URL(string: url) {

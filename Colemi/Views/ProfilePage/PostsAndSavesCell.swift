@@ -12,6 +12,7 @@ class PostsAndSavesCell: UITableViewCell {
     let userData = UserManager.shared
     var viewModel: ProfileViewModel?
     static let reuseIdentifier = "\(PostsAndSavesCell.self)"
+    weak var delegate: PostsAndSavesCellDelegate?
     
     var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
     
@@ -46,7 +47,7 @@ class PostsAndSavesCell: UITableViewCell {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        setUpUI()
+        //setUpUI()
     }
     
     required init?(coder: NSCoder) {
@@ -81,13 +82,9 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let postDetailViewController = PostDetailViewController()
-//        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-//        postDetailViewController.photoImage = viewModel.images[indexPath.item]
-//        // navigationController?.pushViewController(postDetailViewController, animated: true)
-//        
-//        present(postDetailViewController, animated: true)
-        print("Hi")
+        if let viewModel = viewModel {
+            delegate?.presentDetailPage(index: indexPath.row)
+        }
     }
 }
 
@@ -124,8 +121,14 @@ extension PostsAndSavesCell {
     }
     
     func updateLayout() {
-        postsCollectionView.reloadData()
-        postsCollectionView.layoutIfNeeded()
-        self.layoutIfNeeded()
+        setUpUI()
+        // postsCollectionView.reloadData()
+        // postsCollectionView.layoutIfNeeded()
+        // self.layoutIfNeeded()
+        
     }
+}
+
+protocol PostsAndSavesCellDelegate: AnyObject {
+    func presentDetailPage(index: Int)
 }
