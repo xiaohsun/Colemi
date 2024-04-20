@@ -16,7 +16,7 @@ struct User: Codable {
     let avatarPhoto: String
     let friends: [String]
     let description: String
-    let savePosts: [String]
+    let savedPosts: [String]
     let signUpTime: Timestamp
     let lastestLoginTime: Timestamp
     let colorToday: String
@@ -33,7 +33,7 @@ enum UserProperty: String {
     case avatarPhoto
     case friends
     case description
-    case savePosts
+    case savedPosts
     case signUpTime
     case lastestLoginTime
     case colorToday

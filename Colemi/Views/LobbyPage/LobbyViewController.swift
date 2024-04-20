@@ -107,7 +107,7 @@ class LobbyViewController: UIViewController {
                         self.userManager.likes = user.likes
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
-                        self.userManager.savePosts = user.savePosts
+                        self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
                         print(self.userManager.name)
@@ -142,7 +142,7 @@ class LobbyViewController: UIViewController {
                         self.userManager.likes = user.likes
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
-                        self.userManager.savePosts = user.savePosts
+                        self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
                         print(self.userManager.name)
@@ -247,13 +247,13 @@ class LobbyViewController: UIViewController {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        // setUpUI()
+        setUpUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.readData {
-            self.setUpUI()
+            // self.setUpUI()
             self.postsCollectionView.reloadData()
             self.postsCollectionView.layoutIfNeeded()
         }
@@ -293,6 +293,7 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         postDetailViewController.photoImage = viewModel.images[indexPath.item]
         postDetailViewController.postID = viewModel.posts[indexPath.item].id
+        postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         // 這裡的 images 的 count 少 contentJSONString 一個
         print(indexPath.item)

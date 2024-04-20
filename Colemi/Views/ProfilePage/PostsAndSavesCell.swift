@@ -57,8 +57,7 @@ class PostsAndSavesCell: UITableViewCell {
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // images.count
-        userData.posts.count
+        viewModel?.images.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

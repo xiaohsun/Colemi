@@ -166,11 +166,11 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
-    func update(userData: UserManager) {
-        nameLabel.text = userData.name
+    func update(name: String, followers: [String], following: [String]) {
+        nameLabel.text = name
         // idLabel.text = userData.id
-        followersNumberLabel.text = "\(userData.followers.count)"
-        followingNumberLabel.text = "\(userData.following.count)"
+        followersNumberLabel.text = "\(followers.count)"
+        followingNumberLabel.text = "\(following.count)"
     }
 }
 

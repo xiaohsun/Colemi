@@ -11,6 +11,9 @@ class ProfileViewController: UIViewController {
     
     let viewModel = ProfileViewModel()
     let userData = UserManager.shared
+    var isOthersPage: Bool = false
+    var othersID: String?
+    var otherUserData: User?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -57,7 +60,16 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
-            cell.update(userData: userData)
+            
+            if !isOthersPage {
+                cell.update(name: userData.name, followers: userData.followers, following: userData.following)
+            } else {
+                guard let otherUserData = otherUserData else {
+                    print("Error get otherUserData.")
+                    return cell
+                }
+                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following)
+            }
             
             return cell
         case 1:
@@ -68,9 +80,22 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
             cell.update(viewModel: viewModel)
             cell.delegate = self
-            Task {
-                await viewModel.getMyPosts(postIDs: userData.posts) {
-                    cell.updateLayout()
+            if !isOthersPage {
+                Task {
+                    await viewModel.getMyPosts(postIDs: userData.posts) {
+                        cell.updateLayout()
+                    }
+                }
+            } else {
+                guard let otherUserData = otherUserData else {
+                    print("Error get otherUserData.")
+                    return cell
+                }
+                
+                Task {
+                    await viewModel.getMyPosts(postIDs: otherUserData.posts) {
+                        cell.updateLayout()
+                    }
                 }
             }
             
@@ -123,6 +148,7 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         postDetailViewController.photoImage = viewModel.images[index]
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         postDetailViewController.postID = viewModel.posts[index].id
+        postDetailViewController.authorID = viewModel.posts[index].authorId
         
         present(postDetailViewController, animated: true)
     }

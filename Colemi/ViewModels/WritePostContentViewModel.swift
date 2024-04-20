@@ -19,7 +19,7 @@ class WritePostContentViewModel {
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
         let data: [String: Any] = [
-            PostProperty.authorId.rawValue: "1213123",
+            PostProperty.authorId.rawValue: authorId,
             PostProperty.id.rawValue: document.documentID,
             PostProperty.content.rawValue: content,
             PostProperty.type.rawValue: 0,

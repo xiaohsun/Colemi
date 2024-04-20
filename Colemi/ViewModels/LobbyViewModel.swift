@@ -27,7 +27,7 @@ class LobbyViewModel {
                         avatarPhoto: "",
                         friends: [],
                         description: "",
-                        savePosts: [],
+                        savedPosts: [],
                         signUpTime: Timestamp(),
                         lastestLoginTime: Timestamp(),
                         colorToday: "",
@@ -41,7 +41,7 @@ class LobbyViewModel {
     func loginUserOne(completion: @escaping (User?) -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "RUrCBxssACOTrwSOBJ2n")
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "6ZEYl7jlzOKtOWr7RzT9")
         completion(userData)
 //        let docRef = ref.document("uEXEtoFSGINxrlEDUypP")
 //        
@@ -63,7 +63,7 @@ class LobbyViewModel {
     func loginUserTwo(completion: @escaping (User?) -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "dT5NOxCPAgJEiEYjKUuu")
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "tDtyLXiLpg8RRTYgABaV")
         completion(userData)
     }
     

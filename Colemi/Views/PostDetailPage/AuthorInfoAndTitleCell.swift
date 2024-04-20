@@ -9,7 +9,9 @@ import UIKit
 
 class AuthorInfoAndTitleCell: UITableViewCell {
     
+    weak var delegate: AuthorInfoAndTitleCellDelegate?
     static let reuseIdentifier = "\(AuthorInfoAndTitleCell.self)"
+    var content: Content?
     
     lazy var authorImageView: UIImageView = {
         let imageView = UIImageView()
@@ -17,6 +19,9 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .black
+        imageView.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
+        imageView.addGestureRecognizer(tapGesture)
         
         return imageView
     }()
@@ -27,9 +32,17 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.black
+        label.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
+        label.addGestureRecognizer(tapGesture)
         
         return label
     }()
+    
+    @objc private func authorTapped(_ sender: UITapGestureRecognizer) {
+        print("Hi")
+        delegate?.pushToAuthorProfilePage()
+    }
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -80,8 +93,13 @@ class AuthorInfoAndTitleCell: UITableViewCell {
 
 extension AuthorInfoAndTitleCell {
     func update(content: Content) {
+        self.content = content
         authorNameLabel.text = content.authorName
         titleLabel.text = content.title
     }
+}
+
+protocol AuthorInfoAndTitleCellDelegate: AnyObject {
+    func pushToAuthorProfilePage()
 }
     

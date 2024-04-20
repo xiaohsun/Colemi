@@ -15,14 +15,14 @@ class UserManager {
     var selectedColor: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)?
     var selectedUIColor: UIColor?
     var selectedHexColor: String?
-    var id = "RUrCBxssACOTrwSOBJ2n"
+    var id = "6ZEYl7jlzOKtOWr7RzT9"
     var name = "柏勳一號"
     var posts: [String] = []
     var likes: [String] = []
     var avatarPhoto = ""
     var friends: [String] = []
     var description = ""
-    var savePosts: [String] = []
+    var savedPosts: [String] = []
     var signUpTime = Timestamp()
     var lastestLoginTime = Timestamp()
     var colorToday = ""

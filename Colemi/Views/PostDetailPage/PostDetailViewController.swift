@@ -15,6 +15,7 @@ class PostDetailViewController: UIViewController {
     var content: Content?
     let userData = UserManager.shared
     var postID = ""
+    var authorID = ""
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -48,23 +49,23 @@ class PostDetailViewController: UIViewController {
     }()
     
     @objc private func starTapped(_ sender: UITapGestureRecognizer) {
-        if userData.savePosts.contains(postID) {
-            userData.savePosts.removeAll { $0 == postID }
+        if userData.savedPosts.contains(postID) {
+            userData.savedPosts.removeAll { $0 == postID }
             starImageView.image = UIImage(systemName: "star")
             Task {
-                await viewModel.updateSavedPosts(savedPostsArray: userData.savePosts, postID: postID, docID: userData.id)
+                await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
             }
         } else {
-            userData.savePosts.append(postID)
+            userData.savedPosts.append(postID)
             starImageView.image = UIImage(systemName: "star.fill")
             Task {
-                await viewModel.updateSavedPosts(savedPostsArray: userData.savePosts, postID: postID, docID: userData.id)
+                await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
             }
         }
     }
     
     private func setUpStarImageView() {
-        if userData.savePosts.contains(postID) {
+        if userData.savedPosts.contains(postID) {
             starImageView.image = UIImage(systemName: "star.fill")
         } else {
             starImageView.image = UIImage(systemName: "star")
@@ -133,6 +134,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AuthorInfoAndTitleCell.reuseIdentifier, for: indexPath) as? AuthorInfoAndTitleCell else { return UITableViewCell() }
             
+            cell.delegate = self
             cell.update(content: content)
             
             return cell
@@ -196,5 +198,24 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
+    func pushToAuthorProfilePage() {
+        // let navigationController = UINavigationController(rootViewController: self)
+        
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        Task {
+            let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: authorID)
+            if let userData = userData {
+                let profileViewController = ProfileViewController()
+                profileViewController.isOthersPage = true
+                profileViewController.otherUserData = userData
+                // navigationController.pushViewController(profileViewController, animated: true)
+                present(profileViewController, animated: true)
+            }
+        }
     }
 }

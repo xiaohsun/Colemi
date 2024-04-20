@@ -30,6 +30,6 @@ class PostDetailViewModel {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        firestoreManager.updateDocument(data: [UserProperty.savePosts.rawValue: savedPostsArray], collection: ref, docID: docID)
+        firestoreManager.updateDocument(data: [UserProperty.savedPosts.rawValue: savedPostsArray], collection: ref, docID: docID)
     }
 }
