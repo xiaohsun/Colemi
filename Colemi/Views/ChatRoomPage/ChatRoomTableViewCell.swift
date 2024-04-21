@@ -75,3 +75,10 @@ class ChatRoomTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+extension ChatRoomTableViewCell {
+    func update(simpleChatRoomData: SimpleChatRoom) {
+        messageLabel.text = simpleChatRoomData.latestMessage
+        nameLabel.text = simpleChatRoomData.receiverName
+    }
+}

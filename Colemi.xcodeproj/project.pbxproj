@@ -94,6 +94,8 @@
 		28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */; };
 		28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */; };
 		28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */; };
+		28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530F2BD4BA3C00864187 /* FakeUserData.swift */; };
+		28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,6 +160,8 @@
 		28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChatRoom.swift; sourceTree = "<group>"; };
 		28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedChatRoom.swift; sourceTree = "<group>"; };
+		28D2530F2BD4BA3C00864187 /* FakeUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUserData.swift; sourceTree = "<group>"; };
+		28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +229,7 @@
 				284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */,
 				281240E22BC807C400777F91 /* WritePostContentViewModel.swift */,
 				282343902BCD22020040C1CA /* ColorSimilarityViewModel.swift */,
+				28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */,
 				28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */,
 				28C69B8A2BD2A4C000725BE7 /* ProfileViewModel.swift */,
 			);
@@ -302,8 +307,8 @@
 				28D253072BD3740700864187 /* ChatRoomsViewController.swift */,
 				28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */,
 				2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */,
-				2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */,
 				28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */,
+				2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */,
 			);
 			path = ChatRoomPage;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				281240E82BC9315400777F91 /* Colemi.entitlements */,
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
+				28D2530F2BD4BA3C00864187 /* FakeUserData.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
 				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
 				284F32C12BC9831700A61E88 /* Extensions */,
@@ -480,6 +486,7 @@
 				281C65AE2BD0C33F003D2ECE /* ProfileViewController.swift in Sources */,
 				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */,
+				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,
@@ -495,6 +502,7 @@
 				281C65BE2BD0EDDA003D2ECE /* MissionCell.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
+				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
 				28D253032BD36F2700864187 /* Friend.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,

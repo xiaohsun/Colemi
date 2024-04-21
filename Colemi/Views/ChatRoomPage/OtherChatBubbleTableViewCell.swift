@@ -78,3 +78,9 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+extension OtherChatBubbleTableViewCell {
+    func update(messageData: Message) {
+        messageLabel.text = messageData.body
+    }
+}

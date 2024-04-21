@@ -12,14 +12,16 @@ struct SimpleChatRoom: Codable {
     let id: String
     let receiverAvatarURL: String
     let latestMessage: String
-    let receiver: String
+    let receiverID: String
+    let receiverName: String
     let latestMessageTime: Timestamp
 }
 
-enum UserChatRoomProperty {
+enum SimpleChatRoomProperty {
     case id
     case receiverAvatarURL
     case latestMessage
-    case receiver
+    case receiverID
+    case receiverName
     case latestMessageTime
 }

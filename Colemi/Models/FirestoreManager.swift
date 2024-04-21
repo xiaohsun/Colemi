@@ -93,8 +93,22 @@ class FirestoreManager {
         return documents
     }
     
-    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
-        collection.document(docID).updateData(data)
+    // 不確定
+//    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
+//        collection.document(docID).updateData(data)
+//    }
+    
+    func updateDocument<T: Encodable>(data: [String: T], collection: CollectionReference, docID: String) {
+        do {
+            let jsonData = try JSONEncoder().encode(data)
+            guard let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+                print("Error: Could not convert data to JSON dictionary")
+                return
+            }
+            collection.document(docID).updateData(jsonDict)
+        } catch {
+            print("Error encoding data: \(error)")
+        }
     }
     
     func setData<T: Encodable>(_ data: T, at docRef: DocumentReference) {

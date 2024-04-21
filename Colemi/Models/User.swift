@@ -20,7 +20,7 @@ struct User: Codable {
     let signUpTime: Timestamp
     let lastestLoginTime: Timestamp
     let colorToday: String
-    let chatRooms: [String]
+    let chatRooms: [SimpleChatRoom]
     let followers: [String]
     let following: [String]
 }

@@ -41,7 +41,7 @@ class LobbyViewModel {
     func loginUserOne(completion: @escaping (User?) -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "6ZEYl7jlzOKtOWr7RzT9")
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: FakeUserData.shared.userOneID)
         completion(userData)
 //        let docRef = ref.document("uEXEtoFSGINxrlEDUypP")
 //        
@@ -63,7 +63,7 @@ class LobbyViewModel {
     func loginUserTwo(completion: @escaping (User?) -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: "tDtyLXiLpg8RRTYgABaV")
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: FakeUserData.shared.userTwoID)
         completion(userData)
     }
     

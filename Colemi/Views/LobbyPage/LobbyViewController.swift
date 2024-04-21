@@ -76,7 +76,7 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func createUserButtonTapped() {
-        // viewModel.createUser()
+        viewModel.createUser()
     }
     
     lazy var loginUser1Button: UIButton = {
@@ -271,7 +271,7 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LobbyPostCell.reuseIdentifier, for: indexPath) as? LobbyPostCell else {
@@ -296,7 +296,7 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
         postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         // 這裡的 images 的 count 少 contentJSONString 一個
-        print(indexPath.item)
+        // print(indexPath.item)
         present(postDetailViewController, animated: true)
     }
 }

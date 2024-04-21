@@ -25,7 +25,6 @@ class PostDetailViewModel {
         }
     }
     
-    // doing
     func updateSavedPosts(savedPostsArray: [String], postID: String, docID: String) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref

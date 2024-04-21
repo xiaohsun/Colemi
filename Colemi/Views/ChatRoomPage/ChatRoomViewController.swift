@@ -9,7 +9,10 @@ import UIKit
 
 class ChatRoomViewController: UIViewController {
     
-    let userManager = UserManager.shared
+    let userData = UserManager.shared
+    // 傳過來的資料要放哪
+    let viewModel = ChatRoomViewModel()
+    // var chatRoomID: String = ""
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -47,6 +50,8 @@ class ChatRoomViewController: UIViewController {
     @objc private func sendMessageButtonTapped() {
         if var messageBody = chatTextView.text {
             chatTextView.text = ""
+            // 更新 user chatroom 的時間
+            // 更新 Chatroom 內的 messages
         }
     }
     
@@ -71,9 +76,7 @@ class ChatRoomViewController: UIViewController {
             sendMessageButton.heightAnchor.constraint(equalToConstant: 30),
             sendMessageButton.widthAnchor.constraint(equalToConstant: 50),
             sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
-            
         ])
-        
     }
     
     override func viewDidLoad() {
@@ -84,18 +87,33 @@ class ChatRoomViewController: UIViewController {
 
 extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        // 5
+        viewModel.messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.item == 1 || indexPath.item == 4 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatBubbleTableViewCell else { return UITableViewCell() }
+        if viewModel.messages[indexPath.item].senderID == userData.id {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatBubbleTableViewCell else { return UITableViewCell() }
+            
+            cell.update(messageData: viewModel.messages[indexPath.item])
             
             return cell
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatBubbleTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatBubbleTableViewCell else { return UITableViewCell() }
+            
+            cell.update(messageData: viewModel.messages[indexPath.item])
             
             return cell
         }
+        
+//        if indexPath.item == 1 || indexPath.item == 4 {
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatBubbleTableViewCell else { return UITableViewCell() }
+//            
+//            return cell
+//        } else {
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatBubbleTableViewCell else { return UITableViewCell() }
+//            
+//            return cell
+//        }
     }
 }
