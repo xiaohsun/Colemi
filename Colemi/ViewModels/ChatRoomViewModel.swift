@@ -12,6 +12,7 @@ class ChatRoomViewModel {
     
     weak var delegate: ChatRoomViewModelDelegate?
     let firestoreManager = FirestoreManager.shared
+    var timestamp: Timestamp?
     
     var chatRoomID: String = "" {
         didSet {
@@ -25,18 +26,17 @@ class ChatRoomViewModel {
     func getDetailedChatRoomData(chatRoomID: String) {
         Task {
             let firestoreManager = FirestoreManager.shared
-            let ref = FirestoreEndpoint.users.ref
+            let ref = FirestoreEndpoint.chatRooms.ref
             
             let chatRoomData: DetailedChatRoom? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomID)
             
             if let chatRoomData = chatRoomData {
-                self.messages = messages
+                self.messages = chatRoomData.messages
                 self.chatRoomData = chatRoomData
                 delegate?.updateTableView()
             }
         }
     }
-    
     
     // 更新 Chatroom 內的 messages
     // 拿到原本的然後 append 後加回去
@@ -51,13 +51,17 @@ class ChatRoomViewModel {
     
     // 必須先有 user
     // doing
-    func updateUsersSimpleChatRoom(detailedChatRoomID: String, latestMessage: String) async {
+    func updateUsersSimpleChatRoom(latestMessage: String) async {
         let ref = FirestoreEndpoint.users.ref
+        
+        timestamp = Timestamp()
+        
+        guard let timestamp = timestamp else { return }
         
         guard let chatRoomData = chatRoomData, let myUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userOneID), var simpleChatRoomArray = myUserData?.chatRooms else { return }
         
         if let index = simpleChatRoomArray.firstIndex(where: { $0.id == chatRoomID }) {
-            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: Timestamp()))
+            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
             
             simpleChatRoomArray.remove(at: index)
             
@@ -66,10 +70,10 @@ class ChatRoomViewModel {
             }
         }
         
-        guard let otherUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userOneID), var simpleChatRoomArray = otherUserData?.chatRooms else { return }
+        guard let otherUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userTwoID), var simpleChatRoomArray = otherUserData?.chatRooms else { return }
         
         if let index = simpleChatRoomArray.firstIndex(where: { $0.id == chatRoomID }) {
-            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: Timestamp()))
+            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
             
             simpleChatRoomArray.remove(at: index)
             
@@ -77,6 +81,22 @@ class ChatRoomViewModel {
                 firestoreManager.updateDocument(data: [UserProperty.chatRooms.rawValue: simpleChatRoomArray], collection: ref, docID: otherUserData.id)
             }
         }
+        
+        Task {
+            await updateDetailedChatRoom(latestMessage: latestMessage)
+        }
+    }
+    
+    private func updateDetailedChatRoom(latestMessage: String) async {
+        let ref = FirestoreEndpoint.chatRooms.ref
+        
+        guard let timestamp = timestamp else { return }
+        
+        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: UserManager.shared.id, body: latestMessage, time: timestamp))
+        
+        firestoreManager.updateDocument(data: [DetailedChatRoomProperty.messages.rawValue: messages], collection: ref, docID: chatRoomID)
+        
+        delegate?.updateTableView()
     }
 }
 

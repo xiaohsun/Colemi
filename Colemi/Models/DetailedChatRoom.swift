@@ -15,12 +15,11 @@ struct DetailedChatRoom: Codable {
     let messages: [Message]
 }
 
-enum DetailedChatRoomProperty {
+enum DetailedChatRoomProperty: String {
     case id
-    case receiverAvatarURL
-    case latestMessage
-    case receiver
-    case latestMessageTime
+    case userOneID
+    case userTwoID
+    case messages
 }
 
 struct Message: Codable {
@@ -30,7 +29,7 @@ struct Message: Codable {
     let time: Timestamp
 }
 
-enum MessageProperty {
+enum MessageProperty: String {
     case id
     case senderID
     case body

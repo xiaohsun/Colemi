@@ -17,7 +17,7 @@ struct SimpleChatRoom: Codable {
     let latestMessageTime: Timestamp
 }
 
-enum SimpleChatRoomProperty {
+enum SimpleChatRoomProperty: String {
     case id
     case receiverAvatarURL
     case latestMessage

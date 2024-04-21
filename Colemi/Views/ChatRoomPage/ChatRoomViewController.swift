@@ -49,7 +49,14 @@ class ChatRoomViewController: UIViewController {
     
     @objc private func sendMessageButtonTapped() {
         if var messageBody = chatTextView.text {
-            chatTextView.text = ""
+            
+            Task {
+                await viewModel.updateUsersSimpleChatRoom(latestMessage: chatTextView.text)
+                DispatchQueue.main.async {
+                    self.chatTextView.text = ""
+                }
+            }
+            
             // 更新 user chatroom 的時間
             // 更新 Chatroom 內的 messages
         }
@@ -82,6 +89,7 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        viewModel.delegate = self
     }
 }
 
@@ -115,5 +123,13 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
 //            
 //            return cell
 //        }
+    }
+}
+
+extension ChatRoomViewController: ChatRoomViewModelDelegate {
+    func updateTableView() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
