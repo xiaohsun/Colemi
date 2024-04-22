@@ -14,7 +14,7 @@ class WritePostContentViewModel {
     
     weak var delegate: WritePostContentViewModelDelegate?
     
-    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String], imageUrl: String) {
+    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String], imageUrl: String, imageHeight: Double, imageWidth: Double) {
         
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
@@ -28,7 +28,9 @@ class WritePostContentViewModel {
             PostProperty.colorSimularity.rawValue: colorSimularity,
             PostProperty.totalSaved.rawValue: [] as [String],
             PostProperty.reports.rawValue: [] as [String],
-            PostProperty.imageUrl.rawValue: imageUrl
+            PostProperty.imageUrl.rawValue: imageUrl,
+            PostProperty.imageHeight.rawValue: imageHeight,
+            PostProperty.imageWidth.rawValue: imageWidth
         ]
         document.setData(data)
         
@@ -72,13 +74,13 @@ class WritePostContentViewModel {
         return contentJSON
     }
     
-    func uploadImgToFirebase(imageData: Data) {
+    func uploadImgToFirebase(imageData: Data, imageSize: CGSize) {
         
 //        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
 //            print("Failed to convert image to data.")
 //            return
 //        }
-        
+       
         let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")
         
         storageRef.putData(imageData, metadata: nil) { (metadata, error) in
@@ -86,11 +88,12 @@ class WritePostContentViewModel {
                 print("Error uploading image: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
+            // 把 size 存在 firestore
             
             storageRef.downloadURL { (downloadURL, error) in
                 if let downloadURL = downloadURL {
                     print("Image uploaded to: \(downloadURL.absoluteString)")
-                    self.delegate?.addDataToFireBase(downloadURL.absoluteString)
+                    self.delegate?.addDataToFireBase(downloadURL.absoluteString, imageSize: imageSize)
                 } else {
                     print("Error getting download URL: \(error?.localizedDescription ?? "Unknown error")")
                 }
@@ -100,5 +103,5 @@ class WritePostContentViewModel {
 }
 
 protocol WritePostContentViewModelDelegate: AnyObject {
-    func addDataToFireBase(_ imageUrl: String)
+    func addDataToFireBase(_ imageUrl: String, imageSize: CGSize)
 }

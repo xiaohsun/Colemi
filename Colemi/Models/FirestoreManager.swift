@@ -74,9 +74,17 @@ class FirestoreManager {
         var documents: [T] = []
         
         if docIDs != [] {
-            let query = collection.whereField(FieldPath.documentID(), in: docIDs)
+            
+            var query: Query?
+            
+            if collection == FirestoreEndpoint.posts.ref {
+                query = collection.whereField(FieldPath.documentID(), in: docIDs).order(by: "createdTime", descending: true)
+            } else {
+                query = collection.whereField(FieldPath.documentID(), in: docIDs)
+            }
             
             do {
+                guard let query = query else { return [] }
                 let querySnapshots = try await query.getDocuments()
                 for doc in querySnapshots.documents {
                     let data = doc.data()

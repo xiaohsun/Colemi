@@ -16,6 +16,7 @@ class PostDetailViewController: UIViewController {
     let userData = UserManager.shared
     var postID = ""
     var authorID = ""
+    var imageUrl = ""
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -177,9 +178,10 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
-            if let photoImage = photoImage {
-                headerView.photoImageView.image = photoImage
-            }
+            // if let photoImage = photoImage {
+            let url = URL(string: imageUrl)
+            headerView.photoImageView.kf.setImage(with: url)
+            // }
             
             return headerView
         } else {

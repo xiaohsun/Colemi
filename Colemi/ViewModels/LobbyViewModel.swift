@@ -15,6 +15,7 @@ class LobbyViewModel {
     var posts: [Post] = []
     var images: [UIImage] = []
     var contentJSONString: [String] = []
+    var sizes: [CGSize] = []
     let userManager = UserManager.shared
     
     func createUser() {
@@ -73,6 +74,7 @@ class LobbyViewModel {
             self.posts = []
             self.images = []
             self.contentJSONString = []
+            self.sizes = []
             
             if let e = error {
                 print("There was an issue saving data to firestore. \(e)")
@@ -89,31 +91,40 @@ class LobbyViewModel {
                            let reports = data[PostProperty.reports.rawValue] as? [String],
                            let totalSaved = data[PostProperty.totalSaved.rawValue] as? [String],
                            let type = data[PostProperty.type.rawValue] as? Int,
-                           let imageUrl = data[PostProperty.imageUrl.rawValue] as? String {
+                           let imageUrl = data[PostProperty.imageUrl.rawValue] as? String,
+                           let imageWidth = data[PostProperty.imageWidth.rawValue] as? Double,
+                           let imageHeight = data[PostProperty.imageHeight.rawValue] as? Double {
                             
                             self.contentJSONString.append(content)
                             
-                            self.posts.append(Post(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl))
+                            self.posts.append(Post(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth))
                             
-                            let group = DispatchGroup()
-                            group.enter()
-                            if let url = URL(string: imageUrl) {
-                                KingfisherManager.shared.retrieveImage(with: url) { result in
-                                    switch result {
-                                    case .success(let value):
-                                        self.images.append(value.image)
-                                        group.leave()
-                                        if self.images.count == snapshotDocuments.count {
-                                            group.notify(queue: .main) {
-                                                completion()
-                                            }
-                                        }
-                                    case .failure(let error):
-                                        print("Error: \(error)")
-                                    }
-                                }
-                            }
+                            let cgWidth = CGFloat(imageWidth)
+                            let cgHeight = CGFloat(imageHeight)
+                            
+                            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))
+                            
+                            
+                            
+
+//                            if let url = URL(string: imageUrl) {
+//                                KingfisherManager.shared.retrieveImage(with: url) { result in
+//                                    switch result {
+//                                    case .success(let value):
+//                                        self.images.append(value.image)
+//                                        group.leave()
+//                                        if self.images.count == snapshotDocuments.count {
+//                                            group.notify(queue: .main) {
+//                                                completion()
+//                                            }
+//                                        }
+//                                    case .failure(let error):
+//                                        print("Error: \(error)")
+//                                    }
+//                                }
+                            // }
                         }
+                        completion()
                     }
                 }
             }

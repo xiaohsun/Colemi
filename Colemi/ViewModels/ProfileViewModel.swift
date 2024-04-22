@@ -12,6 +12,7 @@ class ProfileViewModel {
     
     var posts: [Post] = []
     var images: [UIImage] = []
+    var sizes: [CGSize] = []
     var contentJSONString: [String] = []
     let userData = UserManager.shared
     
@@ -40,6 +41,7 @@ class ProfileViewModel {
         self.posts = []
         self.images = []
         self.contentJSONString = []
+        self.sizes = []
         
         // 一次只能 30 筆，要改
         let posts: [Post] = await firestoreManager.getMultipleDocument(collection: ref, docIDs: postIDs)
@@ -50,25 +52,31 @@ class ProfileViewModel {
             
             self.contentJSONString.append(post.content)
             
-            let group = DispatchGroup()
-            group.enter()
-            if let url = URL(string: url) {
-                KingfisherManager.shared.retrieveImage(with: url) { result in
-                    switch result {
-                    case .success(let value):
-                        self.images.append(value.image)
-                        group.leave()
-                        if self.images.count == posts.count {
-                            group.notify(queue: .main) {
-                                completion()
-                            }
-                        }
-                    case .failure(let error):
-                        print("Error: \(error)")
-                    }
-                }
-            }
+            let cgWidth = CGFloat(post.imageWidth)
+            let cgHeight = CGFloat(post.imageHeight)
+            
+            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))
+            
+//            let group = DispatchGroup()
+//            group.enter()
+//            if let url = URL(string: url) {
+//                KingfisherManager.shared.retrieveImage(with: url) { result in
+//                    switch result {
+//                    case .success(let value):
+//                        self.images.append(value.image)
+//                        group.leave()
+//                        if self.images.count == posts.count {
+//                            group.notify(queue: .main) {
+//                                completion()
+//                            }
+//                        }
+//                    case .failure(let error):
+//                        print("Error: \(error)")
+//                    }
+//                }
+//            }
         }
+        completion()
     }
     
     func getSaves() {

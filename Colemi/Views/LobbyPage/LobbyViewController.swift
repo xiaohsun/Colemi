@@ -254,8 +254,14 @@ class LobbyViewController: UIViewController {
         super.viewWillAppear(animated)
         viewModel.readData {
             // self.setUpUI()
-            self.postsCollectionView.reloadData()
-            self.postsCollectionView.layoutIfNeeded()
+            // self.postsCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                self.postsCollectionView.reloadData()
+                // self.postsCollectionView.reloadSections([0])
+            }
+            
+            // self.postsCollectionView.layoutIfNeeded()
         }
     }
 }
@@ -289,14 +295,17 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(viewModel.posts[indexPath.item].imageUrl)
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-        postDetailViewController.photoImage = viewModel.images[indexPath.item]
+        // postDetailViewController.photoImage = viewModel.images[indexPath.item]
         postDetailViewController.postID = viewModel.posts[indexPath.item].id
         postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+        postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         // 這裡的 images 的 count 少 contentJSONString 一個
         // print(indexPath.item)
+        
         present(postDetailViewController, animated: true)
     }
 }
@@ -308,8 +317,9 @@ extension LobbyViewController: LobbyLayoutDelegate {
         _ collectionView: UICollectionView,
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
-            if indexPath.item < viewModel.images.count {
-                return viewModel.images[indexPath.item].size
+            if indexPath.item < viewModel.posts.count {
+                // return viewModel.images[indexPath.item].size
+                return viewModel.sizes[indexPath.item]
             } else {
                 return CGSize(width: 300, height: 400)
             }

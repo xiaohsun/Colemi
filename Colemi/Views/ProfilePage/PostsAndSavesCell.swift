@@ -47,7 +47,7 @@ class PostsAndSavesCell: UITableViewCell {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        //setUpUI()
+        setUpUI()
     }
     
     required init?(coder: NSCoder) {
@@ -57,7 +57,7 @@ class PostsAndSavesCell: UITableViewCell {
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel?.images.count ?? 0
+        viewModel?.posts.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -72,8 +72,11 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
 //        cell.imageView.kf.setImage(with: url)
         // cell.imageView.image = images[indexPath.item]
         if let viewModel = viewModel {
-            if indexPath.item < viewModel.images.count {
-                cell.imageView.image = viewModel.images[indexPath.item]
+            if indexPath.item < viewModel.posts.count {
+                let post = viewModel.posts[indexPath.item]
+                let url = URL(string: post.imageUrl)
+                cell.imageView.kf.setImage(with: url)
+                // cell.imageView.image = images[indexPath.item]
             }
         }
         
@@ -95,8 +98,8 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
             if let viewModel = viewModel {
-                if indexPath.item < viewModel.images.count {
-                    return viewModel.images[indexPath.item].size
+                if indexPath.item < viewModel.sizes.count {
+                    return viewModel.sizes[indexPath.item]
                 } else {
                     return CGSize(width: 300, height: 400)
                 }
@@ -120,7 +123,12 @@ extension PostsAndSavesCell {
     }
     
     func updateLayout() {
-        setUpUI()
+        // setUpUI()
+        DispatchQueue.main.async {
+            self.postsCollectionView.collectionViewLayout.invalidateLayout()
+            self.postsCollectionView.reloadData()
+        }
+        
         // postsCollectionView.reloadData()
         // postsCollectionView.layoutIfNeeded()
         // self.layoutIfNeeded()

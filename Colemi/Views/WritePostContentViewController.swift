@@ -104,7 +104,7 @@ class WritePostContentViewController: UIViewController {
         
         if let imageData = image.jpegData(compressionQuality: 0.5) {
             colorSimilarityViewController.selectedImageData = imageData
-            viewModel.uploadImgToFirebase(imageData: imageData)
+            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: image.size)
         }
     }
     
@@ -190,12 +190,14 @@ class WritePostContentViewController: UIViewController {
 }
 
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
-    func addDataToFireBase(_ imageUrl: String) {
+    func addDataToFireBase(_ imageUrl: String, imageSize: CGSize) {
         // let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
         let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: userManager.name))
+        let imageHeight = Double(imageSize.height)
+        let imageWidth = Double(imageSize.width)
         
         if let colorString = userManager.selectedHexColor {
-            viewModel.addData(authorId: userManager.id, content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl)
+            viewModel.addData(authorId: userManager.id, content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         }
         
         colorSimilarityViewController.selectedImage = selectedImage
