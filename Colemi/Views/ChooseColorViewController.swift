@@ -99,24 +99,24 @@ class ChooseColorViewController: UIViewController {
             weatherDescriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weatherDescriptionLabel.topAnchor.constraint(equalTo: chooseColorLabel.bottomAnchor, constant: 50),
             
-            colorView1.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 50),
+            colorView1.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 30),
             colorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView1.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            colorView2.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: 50),
+            colorView2.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: 30),
             colorView2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView2.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            colorView3.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: 50),
+            colorView3.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: 30),
             colorView3.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView3.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
             selectColorButton.heightAnchor.constraint(equalToConstant: 50),
             selectColorButton.widthAnchor.constraint(equalToConstant: 100),
-            selectColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            selectColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             selectColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }

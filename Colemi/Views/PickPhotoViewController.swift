@@ -17,7 +17,7 @@ class PickPhotoViewController: UIViewController {
     // var photoAssets: [PHAsset] = []
     var photoUIImages: [UIImage] = []
     var selectedPicIndex: Int?
-    let userManager = UserManager.shared
+    var userData: UserManager?
     
     enum Section {
         case main
@@ -59,7 +59,7 @@ class PickPhotoViewController: UIViewController {
     
     lazy var colorView: UIView = {
         let view = UIView()
-        view.backgroundColor = userManager.selectedUIColor
+        view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -144,7 +144,7 @@ class PickPhotoViewController: UIViewController {
             
             choosePicButton.heightAnchor.constraint(equalToConstant: 50),
             choosePicButton.widthAnchor.constraint(equalToConstant: 100),
-            choosePicButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            choosePicButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             choosePicButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -163,6 +163,15 @@ class PickPhotoViewController: UIViewController {
                     self.updateCollectionView()
                 }
             }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userData = UserManager.shared
+        
+        if let userData = userData {
+            colorView.backgroundColor = userData.selectedUIColor
         }
     }
 }

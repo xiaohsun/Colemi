@@ -102,10 +102,7 @@ class LobbyViewModel {
                             let cgWidth = CGFloat(imageWidth)
                             let cgHeight = CGFloat(imageHeight)
                             
-                            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))
-                            
-                            
-                            
+                            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))              
 
 //                            if let url = URL(string: imageUrl) {
 //                                KingfisherManager.shared.retrieveImage(with: url) { result in

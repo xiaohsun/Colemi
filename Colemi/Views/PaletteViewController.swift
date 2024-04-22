@@ -240,7 +240,7 @@ class PaletteViewController: UIViewController {
             
             mixColorButton.heightAnchor.constraint(equalToConstant: 50),
             mixColorButton.widthAnchor.constraint(equalToConstant: 100),
-            mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             mixColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
@@ -251,7 +251,7 @@ class PaletteViewController: UIViewController {
             saveMixColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             saveMixColorButton.heightAnchor.constraint(equalToConstant: 50),
             saveMixColorButton.widthAnchor.constraint(equalToConstant: 100),
-            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
     }
     

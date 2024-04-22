@@ -15,33 +15,33 @@ class LobbyViewController: UIViewController {
     
     //    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
     
-    lazy var postButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Post", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(postBtnTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    lazy var postButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Post", for: .normal)
+//        button.backgroundColor = .black
+//        button.addTarget(self, action: #selector(postBtnTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
+//    
+//    @objc func postBtnTapped() {
+//        let pickPhotoViewController = PickPhotoViewController()
+//        navigationController?.pushViewController(pickPhotoViewController, animated: true)
+//    }
     
-    @objc func postBtnTapped() {
-        let pickPhotoViewController = PickPhotoViewController()
-        navigationController?.pushViewController(pickPhotoViewController, animated: true)
-    }
-    
-    lazy var paletteButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("調色", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(paletteBtnTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    @objc func paletteBtnTapped() {
-        let paletteViewController = PaletteViewController()
-        navigationController?.pushViewController(paletteViewController, animated: true)
-    }
+//    lazy var paletteButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("調色", for: .normal)
+//        button.backgroundColor = .black
+//        button.addTarget(self, action: #selector(paletteBtnTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
+//    
+//    @objc func paletteBtnTapped() {
+//        let paletteViewController = PaletteViewController()
+//        navigationController?.pushViewController(paletteViewController, animated: true)
+//    }
     
     lazy var chooseColorButton: UIButton = {
         let button = UIButton()
@@ -57,14 +57,14 @@ class LobbyViewController: UIViewController {
         navigationController?.pushViewController(chooseColorViewController, animated: true)
     }
     
-    lazy var profileButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Profile", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    lazy var profileButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Profile", for: .normal)
+//        button.backgroundColor = .black
+//        button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
     lazy var createUserButton: UIButton = {
         let button = UIButton()
@@ -89,9 +89,6 @@ class LobbyViewController: UIViewController {
     }()
     
     @objc func loginUser1ButtonTapped() {
-        //        await viewModel.loginUserOne { user in
-        //            print(user)
-        //        }
         Task {
             await viewModel.loginUserOne { [weak self] user in
                 guard let self = self else { return }
@@ -152,24 +149,24 @@ class LobbyViewController: UIViewController {
         }
     }
     
-    lazy var chatRoomButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("ChatRoom", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(chatRoomButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    @objc func chatRoomButtonTapped() {
-        let chatRoomsViewController = ChatRoomsViewController()
-        navigationController?.pushViewController(chatRoomsViewController, animated: true)
-    }
-    
-    @objc func profileButtonTapped() {
-        let profileViewController = ProfileViewController()
-        navigationController?.pushViewController(profileViewController, animated: true)
-    }
+//    lazy var chatRoomButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("ChatRoom", for: .normal)
+//        button.backgroundColor = .black
+//        button.addTarget(self, action: #selector(chatRoomButtonTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
+//    
+//    @objc func chatRoomButtonTapped() {
+//        let chatRoomsViewController = ChatRoomsViewController()
+//        navigationController?.pushViewController(chatRoomsViewController, animated: true)
+//    }
+//    
+//    @objc func profileButtonTapped() {
+//        let profileViewController = ProfileViewController()
+//        navigationController?.pushViewController(profileViewController, animated: true)
+//    }
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
@@ -183,12 +180,12 @@ class LobbyViewController: UIViewController {
     
     private func setUpUI() {
         view.addSubview(postsCollectionView)
-        view.addSubview(postButton)
+        // view.addSubview(postButton)
         view.addSubview(chooseColorButton)
-        view.addSubview(paletteButton)
-        view.addSubview(profileButton)
+        // view.addSubview(paletteButton)
+        // view.addSubview(profileButton)
         view.addSubview(createUserButton)
-        view.addSubview(chatRoomButton)
+        // view.addSubview(chatRoomButton)
         view.addSubview(loginUser1Button)
         view.addSubview(loginUser2Button)
         
@@ -200,7 +197,7 @@ class LobbyViewController: UIViewController {
             
             createUserButton.heightAnchor.constraint(equalToConstant: 50),
             createUserButton.widthAnchor.constraint(equalToConstant: 100),
-            createUserButton.bottomAnchor.constraint(equalTo: paletteButton.topAnchor, constant: -50),
+            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
             loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
@@ -213,30 +210,30 @@ class LobbyViewController: UIViewController {
             loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
             loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            paletteButton.heightAnchor.constraint(equalToConstant: 50),
-            paletteButton.widthAnchor.constraint(equalToConstant: 100),
-            paletteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            paletteButton.trailingAnchor.constraint(equalTo: postButton.leadingAnchor, constant: -50),
+//            paletteButton.heightAnchor.constraint(equalToConstant: 50),
+//            paletteButton.widthAnchor.constraint(equalToConstant: 100),
+//            paletteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+//            paletteButton.trailingAnchor.constraint(equalTo: postButton.leadingAnchor, constant: -50),
             
-            postButton.heightAnchor.constraint(equalToConstant: 50),
-            postButton.widthAnchor.constraint(equalToConstant: 100),
-            postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            postButton.heightAnchor.constraint(equalToConstant: 50),
+//            postButton.widthAnchor.constraint(equalToConstant: 100),
+//            postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+//            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
             chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
-            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            chooseColorButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50),
+            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             
-            profileButton.heightAnchor.constraint(equalToConstant: 50),
-            profileButton.widthAnchor.constraint(equalToConstant: 100),
-            profileButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
-            profileButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50),
-            
-            chatRoomButton.heightAnchor.constraint(equalToConstant: 50),
-            chatRoomButton.widthAnchor.constraint(equalToConstant: 100),
-            chatRoomButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
-            chatRoomButton.leadingAnchor.constraint(equalTo: postButton.leadingAnchor)
+//            profileButton.heightAnchor.constraint(equalToConstant: 50),
+//            profileButton.widthAnchor.constraint(equalToConstant: 100),
+//            profileButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
+//            profileButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50),
+//            
+//            chatRoomButton.heightAnchor.constraint(equalToConstant: 50),
+//            chatRoomButton.widthAnchor.constraint(equalToConstant: 100),
+//            chatRoomButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
+//            chatRoomButton.leadingAnchor.constraint(equalTo: postButton.leadingAnchor)
         ])
     }
     
@@ -252,16 +249,14 @@ class LobbyViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+        
         viewModel.readData {
-            // self.setUpUI()
-            // self.postsCollectionView.reloadData()
             DispatchQueue.main.async {
                 self.postsCollectionView.collectionViewLayout.invalidateLayout()
                 self.postsCollectionView.reloadData()
-                // self.postsCollectionView.reloadSections([0])
             }
-            
-            // self.postsCollectionView.layoutIfNeeded()
         }
     }
 }

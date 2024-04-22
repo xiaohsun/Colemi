@@ -9,7 +9,7 @@ import UIKit
 
 class ChatRoomsViewController: UIViewController {
     
-    let userManager = UserManager.shared
+    var userData: UserManager?
     let viewModel = ChatRoomsViewModel()
     
     lazy var createChatRoomButton: UIButton = {
@@ -22,7 +22,6 @@ class ChatRoomsViewController: UIViewController {
     }()
     
     @objc private func createChatRoomButtonTapped() {
-        print("Hi")
         viewModel.createDetailedChatRoom()
     }
     
@@ -51,7 +50,7 @@ class ChatRoomsViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             createChatRoomButton.heightAnchor.constraint(equalToConstant: 50),
-            createChatRoomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            createChatRoomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             createChatRoomButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             createChatRoomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
@@ -62,23 +61,31 @@ class ChatRoomsViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userData = UserManager.shared
+        tableView.reloadData()
+    }
 }
 
 extension ChatRoomsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        userManager.chatRooms.count
+        guard let userData = userData else { return 0 }
+        return userData.chatRooms.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let userData = userData else { return }
         let chatRoomViewController = ChatRoomViewController()
-        chatRoomViewController.viewModel.chatRoomID = userManager.chatRooms[indexPath.item].id
+        chatRoomViewController.viewModel.chatRoomID = userData.chatRooms[indexPath.item].id
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatRoomTableViewCell.reuseIdentifier, for: indexPath) as? ChatRoomTableViewCell else { return UITableViewCell() }
+        guard let userData = userData, let cell = tableView.dequeueReusableCell(withIdentifier: ChatRoomTableViewCell.reuseIdentifier, for: indexPath) as? ChatRoomTableViewCell else { return UITableViewCell() }
         
-        cell.update(simpleChatRoomData: userManager.chatRooms[indexPath.item])
+        cell.update(simpleChatRoomData: userData.chatRooms[indexPath.item])
         
         return cell
     }

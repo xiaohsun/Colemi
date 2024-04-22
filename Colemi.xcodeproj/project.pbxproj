@@ -96,6 +96,7 @@
 		28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */; };
 		28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530F2BD4BA3C00864187 /* FakeUserData.swift */; };
 		28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */; };
+		28D253162BD62D1600864187 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253152BD62D1600864187 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -162,6 +163,7 @@
 		28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedChatRoom.swift; sourceTree = "<group>"; };
 		28D2530F2BD4BA3C00864187 /* FakeUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUserData.swift; sourceTree = "<group>"; };
 		28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewModel.swift; sourceTree = "<group>"; };
+		28D253152BD62D1600864187 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 		2812409D2BC7844E00777F91 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				28D253152BD62D1600864187 /* TabBarController.swift */,
 				28C69B822BD2638600725BE7 /* LobbyPage */,
 				281C657E2BCFEAB5003D2ECE /* PostDetailPage */,
 				281C65AF2BD0C490003D2ECE /* ProfilePage */,
@@ -484,6 +487,7 @@
 				284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */,
 				288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */,
 				281C65AE2BD0C33F003D2ECE /* ProfileViewController.swift in Sources */,
+				28D253162BD62D1600864187 /* TabBarController.swift in Sources */,
 				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */,
 				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,

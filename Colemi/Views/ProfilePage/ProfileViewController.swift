@@ -10,7 +10,7 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     let viewModel = ProfileViewModel()
-    let userData = UserManager.shared
+    var userData: UserManager?
     var isOthersPage: Bool = false
     var othersID: String?
     var otherUserData: User?
@@ -49,6 +49,12 @@ class ProfileViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userData = UserManager.shared
+        tableView.reloadData()
+    }
 }
 
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
@@ -57,6 +63,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let userData = userData else { return UITableViewCell()}
+        
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
