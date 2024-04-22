@@ -23,15 +23,15 @@ class PostDetailViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         return tableView
     }()
     
     lazy var commentTextView: UITextView = {
         let textView = UITextView()
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
         textView.layer.borderWidth = 1.5
-        textView.layer.cornerRadius = 10
+        textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -41,7 +41,7 @@ class PostDetailViewController: UIViewController {
         let imageView = UIImageView()
         // imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = .black
+        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(starTapped))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
@@ -74,7 +74,7 @@ class PostDetailViewController: UIViewController {
     }
     
     private func setUpUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(commentTextView)
         view.addSubview(starImageView)

@@ -16,7 +16,7 @@ class CommentCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
         return imageView
     }()
@@ -46,6 +46,7 @@ class CommentCell: UITableViewCell {
         contentView.addSubview(authorImageView)
         contentView.addSubview(authorNameLabel)
         contentView.addSubview(commentLabel)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
             authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor),

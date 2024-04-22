@@ -20,6 +20,7 @@ class WritePostContentViewController: UIViewController {
         imageView.backgroundColor = .black
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return imageView
     }()
     
@@ -28,6 +29,7 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "標題"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -35,7 +37,7 @@ class WritePostContentViewController: UIViewController {
     lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
+        textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
         textField.placeholder = "請填寫"
         
         return textField
@@ -53,6 +55,7 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "內文"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -61,9 +64,9 @@ class WritePostContentViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
-        textView.layer.cornerRadius = 10
+        textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.layer.borderWidth = 2
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
         textView.text = "哈哈哈"
         return textView
     }()
@@ -73,6 +76,7 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "標籤"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -80,7 +84,7 @@ class WritePostContentViewController: UIViewController {
     lazy var tagTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
+        textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
         textField.placeholder = "請填寫"
         
         return textField
@@ -89,7 +93,8 @@ class WritePostContentViewController: UIViewController {
     lazy var postButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         button.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -114,7 +119,7 @@ class WritePostContentViewController: UIViewController {
         let separatorView2 = makeSeparatorView()
         let separatorView3 = makeSeparatorView()
         
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(imageView)
         view.addSubview(titleLabel)
         view.addSubview(titleTextField)
@@ -127,6 +132,7 @@ class WritePostContentViewController: UIViewController {
         view.addSubview(separatorView3)
         view.addSubview(postButton)
         
+        tabBarController?.tabBar.isHidden = true
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),

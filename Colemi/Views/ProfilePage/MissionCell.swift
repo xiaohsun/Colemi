@@ -14,8 +14,8 @@ class MissionCell: UITableViewCell {
     lazy var containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(hex: "#F9F4E8")
-        view.layer.cornerRadius = 20
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        view.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         
         return view
     }()
@@ -34,8 +34,8 @@ class MissionCell: UITableViewCell {
     lazy var colorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.layer.cornerRadius = 10
+        view.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return view
     }()

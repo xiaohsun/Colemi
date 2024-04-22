@@ -24,6 +24,7 @@ class TagCell: UITableViewCell {
     
     func setUpUI() {
         contentView.addSubview(tagLabel)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
             tagLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),

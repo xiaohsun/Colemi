@@ -15,7 +15,7 @@ class LobbyPostCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return imageView
     }()

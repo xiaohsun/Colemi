@@ -20,6 +20,7 @@ class SeperatorCell: UITableViewCell {
     
     func setUpUI() {
         contentView.addSubview(separatorView)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
             separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),

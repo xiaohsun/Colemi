@@ -31,7 +31,7 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     func setUpUI() {
         contentView.addSubview(postsLabel)
         contentView.addSubview(savesLabel)
-        contentView.layer.cornerRadius = 20
+        contentView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.backgroundColor = UIColor(hex: "#F9F4E8")
         

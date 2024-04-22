@@ -16,7 +16,7 @@ class MyChatBubbleTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 15
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
         view.backgroundColor = .white
         
         return view
@@ -26,7 +26,7 @@ class MyChatBubbleTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = UIColor.black
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "嗨嗨"
         
         return label
@@ -35,7 +35,7 @@ class MyChatBubbleTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(messageView)
         contentView.addSubview(messageLabel)
         

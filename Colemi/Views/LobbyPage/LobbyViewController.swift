@@ -173,14 +173,14 @@ class LobbyViewController: UIViewController {
         layout.delegate = self
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor(hex: "#F9F4E8")
+        collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
         
         return collectionView
     }()
     
     private func setUpUI() {
-        view.backgroundColor = UIColor(hex: "#F9F4E8")
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         view.addSubview(postsCollectionView)
         // view.addSubview(postButton)
@@ -253,7 +253,7 @@ class LobbyViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+        navigationController?.isNavigationBarHidden = true
         
         viewModel.readData {
             DispatchQueue.main.async {

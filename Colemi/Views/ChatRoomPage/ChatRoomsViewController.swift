@@ -15,14 +15,14 @@ class ChatRoomsViewController: UIViewController {
     lazy var createChatRoomButton: UIButton = {
         let button = UIButton()
         button.setTitle("Create user 1,2 ChatRoom", for: .normal)
-        button.backgroundColor = UIColor.black
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(createChatRoomButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     @objc private func createChatRoomButtonTapped() {
-        viewModel.createDetailedChatRoom()
+        // viewModel.createDetailedChatRoom()
     }
     
     lazy var tableView: UITableView = {
@@ -34,12 +34,12 @@ class ChatRoomsViewController: UIViewController {
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
         // tableView.separatorStyle = .singleLine
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         return tableView
     }()
     
     private func setUpUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(createChatRoomButton)
         
@@ -66,6 +66,7 @@ class ChatRoomsViewController: UIViewController {
         super.viewWillAppear(animated)
         userData = UserManager.shared
         tableView.reloadData()
+        tabBarController?.tabBar.isHidden = false
     }
 }
 

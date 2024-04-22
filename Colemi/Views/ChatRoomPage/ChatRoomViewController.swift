@@ -24,15 +24,15 @@ class ChatRoomViewController: UIViewController {
         tableView.estimatedRowHeight = 150
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         return tableView
     }()
     
     lazy var chatTextView: UITextView = {
         let textView = UITextView()
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
         textView.layer.borderWidth = 1.5
-        textView.layer.cornerRadius = 10
+        textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -43,7 +43,8 @@ class ChatRoomViewController: UIViewController {
         button.addTarget(self, action: #selector(sendMessageButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Send", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button
     }()
     
@@ -63,10 +64,12 @@ class ChatRoomViewController: UIViewController {
     }
     
     private func setUpUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(chatTextView)
         view.addSubview(sendMessageButton)
+        
+        tabBarController?.tabBar.isHidden = true
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -90,6 +93,10 @@ class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         viewModel.delegate = self
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
 }
 

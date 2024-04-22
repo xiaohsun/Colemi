@@ -22,6 +22,13 @@ class ColorSimilarityViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        
+        if let selectedImage = selectedImage {
+            imageView.image = selectedImage
+        }
         
         return imageView
     }()
@@ -39,6 +46,7 @@ class ColorSimilarityViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return view
     }()
@@ -46,9 +54,10 @@ class ColorSimilarityViewController: UIViewController {
     lazy var showSimilarityButton: UIButton = {
         let button = UIButton()
         button.setTitle("看相似度", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(showSimilarityButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return button
     }()
@@ -71,7 +80,7 @@ class ColorSimilarityViewController: UIViewController {
         view.addSubview(similarityLabel)
         view.addSubview(colorView)
         view.addSubview(showSimilarityButton)
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         colorView.backgroundColor = userManager.selectedUIColor
         
         NSLayoutConstraint.activate([
@@ -93,10 +102,6 @@ class ColorSimilarityViewController: UIViewController {
             showSimilarityButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             showSimilarityButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-        
-        if let selectedImage = selectedImage {
-            imageView.image = selectedImage
-        }
     }
     
     override func viewDidLoad() {

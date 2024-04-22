@@ -15,7 +15,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
         return imageView
     }()
@@ -23,8 +23,8 @@ class ChatRoomTableViewCell: UITableViewCell {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.textColor = UIColor.black
+        label.numberOfLines = 1
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "勳寶貝"
         
         return label
@@ -34,13 +34,11 @@ class ChatRoomTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = UIColor.black
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "你真是太棒了"
         
         return label
     }()
-    
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -61,7 +59,7 @@ class ChatRoomTableViewCell: UITableViewCell {
             nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -100),
             
             messageLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -100),
+            messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -150),
             messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             messageLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor)
         ])

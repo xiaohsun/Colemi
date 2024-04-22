@@ -23,6 +23,7 @@ class DescriptionCell: UITableViewCell {
     
     func setUpUI() {
         contentView.addSubview(descriptionLabel)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
             descriptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),

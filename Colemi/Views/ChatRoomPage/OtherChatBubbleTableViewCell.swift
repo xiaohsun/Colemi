@@ -16,7 +16,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
         return imageView
     }()
@@ -26,7 +26,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 15
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
         view.backgroundColor = .white
         
         return view
@@ -36,7 +36,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = UIColor.black
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "dleqwfkewmlkfmklfmwkflewmfklewmfklwemfklmfeklwmfkwlemfweklfmkwelewmkfmwleklfmlw"
         
         return label

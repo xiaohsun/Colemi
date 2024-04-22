@@ -28,9 +28,10 @@ class PickPhotoViewController: UIViewController {
     lazy var choosePicButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(choosePicButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button
     }()
     
@@ -53,6 +54,7 @@ class PickPhotoViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "任務顏色"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -61,6 +63,7 @@ class PickPhotoViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return view
     }()
@@ -120,7 +123,7 @@ class PickPhotoViewController: UIViewController {
     }
     
     private func setUpUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         view.addSubview(missionColorLabel)
         view.addSubview(colorView)
@@ -130,21 +133,21 @@ class PickPhotoViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             missionColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            missionColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            missionColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
             
-            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 30),
+            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 25),
             colorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            photosCollectionView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 30),
+            photosCollectionView.topAnchor.constraint(equalTo: colorView.bottomAnchor, constant: 25),
             photosCollectionView.heightAnchor.constraint(equalTo: view.widthAnchor),
             photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             choosePicButton.heightAnchor.constraint(equalToConstant: 50),
             choosePicButton.widthAnchor.constraint(equalToConstant: 100),
-            choosePicButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            choosePicButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110),
             choosePicButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -169,6 +172,8 @@ class PickPhotoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         userData = UserManager.shared
+        
+        tabBarController?.tabBar.isHidden = false
         
         if let userData = userData {
             colorView.backgroundColor = userData.selectedUIColor

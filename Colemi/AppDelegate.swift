@@ -17,13 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         IQKeyboardManager.shared.enable = true
         
-        UITabBar.appearance().barTintColor = UIColor(hex: "#4D4D4D")
-        UITabBar.appearance().tintColor = UIColor(hex: "#F9F4E8")
+        UITabBar.appearance().barTintColor = ThemeColorProperty.darkColor.getColor()
+        UITabBar.appearance().tintColor = ThemeColorProperty.lightColor.getColor()
         UITabBar.appearance().isTranslucent = true
         
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(hex: "#4D4D4D")
+        appearance.backgroundColor = ThemeColorProperty.darkColor.getColor()
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = UITabBar.appearance().standardAppearance
         

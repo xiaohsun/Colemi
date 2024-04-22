@@ -41,7 +41,7 @@ class InformationCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
         return imageView
     }()
@@ -156,6 +156,8 @@ class InformationCell: UITableViewCell {
         collectionView.register(BestColorCell.self, forCellWithReuseIdentifier: BestColorCell.reuseIdentifier)
         collectionView.register(AchievementCell.self, forCellWithReuseIdentifier: AchievementCell.reuseIdentifier)
         configureDataSource()
+        
+        
     }
     
     override func layoutSubviews() {

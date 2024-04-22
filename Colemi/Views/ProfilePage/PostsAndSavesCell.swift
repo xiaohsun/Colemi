@@ -22,6 +22,7 @@ class PostsAndSavesCell: UITableViewCell {
         let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = UIColor(hex: "#F9F4E8")
+        collectionView.showsVerticalScrollIndicator = false
         
         return collectionView
     }()
@@ -33,6 +34,7 @@ class PostsAndSavesCell: UITableViewCell {
         NSLayoutConstraint.activate([
             postsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             postsCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            postsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
             postsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             postsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
@@ -48,11 +50,21 @@ class PostsAndSavesCell: UITableViewCell {
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
+        
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+//        self.contentView.frame = self.bounds
+//        self.contentView.layoutIfNeeded()
+//        return postsCollectionView.contentSize
+//    }
+    
+    
 }
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -87,6 +99,13 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
         if let viewModel = viewModel {
             delegate?.presentDetailPage(index: indexPath.row)
         }
+    }
+    
+    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+        self.contentView.frame = self.bounds
+        self.contentView.layoutIfNeeded()
+        // delegate?.reloadTableView()
+        return postsCollectionView.contentSize
     }
 }
 
@@ -138,4 +157,6 @@ extension PostsAndSavesCell {
 
 protocol PostsAndSavesCellDelegate: AnyObject {
     func presentDetailPage(index: Int)
+    
+    // func reloadTableView()
 }

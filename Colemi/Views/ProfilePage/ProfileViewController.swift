@@ -21,11 +21,22 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        tableView.register(InformationCell.self, forCellReuseIdentifier: InformationCell.reuseIdentifier)
+        tableView.register(MissionCell.self, forCellReuseIdentifier: MissionCell.reuseIdentifier)
+        tableView.register(SelectorHeaderView.self, forHeaderFooterViewReuseIdentifier: SelectorHeaderView.reuseIdentifier)
+        tableView.register(PostsAndSavesCell.self, forCellReuseIdentifier: PostsAndSavesCell.reuseIdentifier)
+        
+        tableView.estimatedRowHeight = 300
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        tableView.showsVerticalScrollIndicator = false
+        tableView.sectionHeaderTopPadding = 0
+        
         return tableView
     }()
     
     private func setUpUI() {
-        view.backgroundColor = .white
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -39,19 +50,11 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        
-        tableView.register(InformationCell.self, forCellReuseIdentifier: InformationCell.reuseIdentifier)
-        tableView.register(MissionCell.self, forCellReuseIdentifier: MissionCell.reuseIdentifier)
-        tableView.register(SelectorHeaderView.self, forHeaderFooterViewReuseIdentifier: SelectorHeaderView.reuseIdentifier)
-        tableView.register(PostsAndSavesCell.self, forCellReuseIdentifier: PostsAndSavesCell.reuseIdentifier)
-        
-        tableView.estimatedRowHeight = 300
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
         userData = UserManager.shared
         tableView.reloadData()
     }
@@ -118,6 +121,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             return 120
         } else {
+            // return UITableView.automaticDimension
             return 2000
         }
     }
@@ -150,6 +154,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
+    func reloadTableView() {
+        tableView.layoutIfNeeded()
+    }
+    
     func presentDetailPage(index: Int) {
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.contentJSONString = viewModel.contentJSONString[index]

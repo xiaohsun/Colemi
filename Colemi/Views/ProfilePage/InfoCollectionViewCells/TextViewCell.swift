@@ -15,7 +15,7 @@ class TextViewCell: UICollectionViewCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         
         return view
     }()
@@ -24,7 +24,7 @@ class TextViewCell: UICollectionViewCell {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
-        textView.layer.cornerRadius = 10
+        textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return textView
     }()

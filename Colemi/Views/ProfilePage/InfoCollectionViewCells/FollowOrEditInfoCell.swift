@@ -17,7 +17,7 @@ class FollowOrEditInfoCell: UICollectionViewCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
-        view.layer.cornerRadius = 20
+        view.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         view.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followBtnTapped))
         view.addGestureRecognizer(tapGesture)

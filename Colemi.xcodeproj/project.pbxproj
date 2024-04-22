@@ -66,6 +66,7 @@
 		282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */; };
 		282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */; };
 		282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */; };
+		2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */; };
 		284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */; };
 		284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C22BC9839400A61E88 /* UIColor+Extension.swift */; };
 		284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C52BC98E0B00A61E88 /* ColorModel.swift */; };
@@ -132,6 +133,7 @@
 		282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataReadyToSend.swift; sourceTree = "<group>"; };
 		282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSimilarityViewController.swift; sourceTree = "<group>"; };
 		282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVisionManager.swift; sourceTree = "<group>"; };
+		2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColorProperty.swift; sourceTree = "<group>"; };
 		284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewModel.swift; sourceTree = "<group>"; };
 		284F32C22BC9839400A61E88 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		284F32C52BC98E0B00A61E88 /* ColorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
 				28D2530F2BD4BA3C00864187 /* FakeUserData.swift */,
+				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
 				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
 				284F32C12BC9831700A61E88 /* Extensions */,
@@ -509,6 +512,7 @@
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
 				28D253032BD36F2700864187 /* Friend.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
+				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
 				281C65802BCFEB66003D2ECE /* DetailTableViewHeaderView.swift in Sources */,

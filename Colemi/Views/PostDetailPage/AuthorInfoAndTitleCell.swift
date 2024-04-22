@@ -18,7 +18,7 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         imageView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
         imageView.addGestureRecognizer(tapGesture)
@@ -58,6 +58,7 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         contentView.addSubview(authorImageView)
         contentView.addSubview(authorNameLabel)
         contentView.addSubview(titleLabel)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
             
