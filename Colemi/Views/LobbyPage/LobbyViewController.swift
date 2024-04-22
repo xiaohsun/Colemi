@@ -173,12 +173,15 @@ class LobbyViewController: UIViewController {
         layout.delegate = self
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = UIColor(hex: "#F9F4E8")
+        collectionView.showsVerticalScrollIndicator = false
         
         return collectionView
     }()
     
     private func setUpUI() {
+        view.backgroundColor = UIColor(hex: "#F9F4E8")
+        
         view.addSubview(postsCollectionView)
         // view.addSubview(postButton)
         view.addSubview(chooseColorButton)
@@ -191,9 +194,9 @@ class LobbyViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             
             createUserButton.heightAnchor.constraint(equalToConstant: 50),
             createUserButton.widthAnchor.constraint(equalToConstant: 100),
