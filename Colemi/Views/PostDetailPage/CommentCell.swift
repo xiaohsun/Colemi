@@ -49,17 +49,19 @@ class CommentCell: UITableViewCell {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             authorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            authorImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            // authorImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             authorImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/10),
             authorImageView.widthAnchor.constraint(equalTo: authorImageView.heightAnchor),
             
-            authorNameLabel.centerYAnchor.constraint(equalTo: authorImageView.centerYAnchor),
+            authorNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
             
-            commentLabel.centerYAnchor.constraint(equalTo: authorNameLabel.centerYAnchor),
-            commentLabel.leadingAnchor.constraint(equalTo: authorNameLabel.trailingAnchor, constant: 12)
+            commentLabel.topAnchor.constraint(equalTo: authorNameLabel.bottomAnchor, constant: 10),
+            commentLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
+            commentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -50),
+            commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
     
@@ -80,8 +82,9 @@ class CommentCell: UITableViewCell {
 }
 
 extension CommentCell {
-    func update(content: Content) {
-        
+    func update(comment: Comment) {
+        commentLabel.text = comment.body
+        authorNameLabel.text = comment.userName
     }
 }
     

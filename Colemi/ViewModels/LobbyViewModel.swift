@@ -69,62 +69,88 @@ class LobbyViewModel {
     }
     
     func readData(completion: @escaping () -> Void) {
-        Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
+        let ref = FirestoreEndpoint.posts.ref
+        let query = ref.order(by: "createdTime", descending: true)
+        let firestoreManager = FirestoreManager.shared
+        
+        self.posts = []
+        self.contentJSONString = []
+        self.sizes = []
+        
+        firestoreManager.getDocuments(query) { [weak self] (posts: [Post]) in
+            guard let `self` = self else { return }
+            self.posts = posts
             
-            self.posts = []
-            self.images = []
-            self.contentJSONString = []
-            self.sizes = []
-            
-            if let e = error {
-                print("There was an issue saving data to firestore. \(e)")
-            } else {
-                if let snapshotDocuments = querySnapshot?.documents {
-                    for doc in snapshotDocuments {
-                        let data = doc.data()
-                        if let authorId = data[PostProperty.authorId.rawValue] as? String,
-                           let color = data[PostProperty.color.rawValue] as? String,
-                           let colorSimularity = data[PostProperty.colorSimularity.rawValue] as? String,
-                           let content = data[PostProperty.content.rawValue] as? String,
-                           let createdTime = data[PostProperty.createdTime.rawValue] as? Timestamp,
-                           let id = data[PostProperty.id.rawValue] as? String,
-                           let reports = data[PostProperty.reports.rawValue] as? [String],
-                           let totalSaved = data[PostProperty.totalSaved.rawValue] as? [String],
-                           let type = data[PostProperty.type.rawValue] as? Int,
-                           let imageUrl = data[PostProperty.imageUrl.rawValue] as? String,
-                           let imageWidth = data[PostProperty.imageWidth.rawValue] as? Double,
-                           let imageHeight = data[PostProperty.imageHeight.rawValue] as? Double {
-                            
-                            self.contentJSONString.append(content)
-                            
-                            self.posts.append(Post(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth))
-                            
-                            let cgWidth = CGFloat(imageWidth)
-                            let cgHeight = CGFloat(imageHeight)
-                            
-                            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))              
-
-//                            if let url = URL(string: imageUrl) {
-//                                KingfisherManager.shared.retrieveImage(with: url) { result in
-//                                    switch result {
-//                                    case .success(let value):
-//                                        self.images.append(value.image)
-//                                        group.leave()
-//                                        if self.images.count == snapshotDocuments.count {
-//                                            group.notify(queue: .main) {
-//                                                completion()
-//                                            }
-//                                        }
-//                                    case .failure(let error):
-//                                        print("Error: \(error)")
-//                                    }
-//                                }
-                            // }
-                        }
-                        completion()
-                    }
-                }
+            for post in posts {
+                
+                let cgWidth = CGFloat(post.imageWidth)
+                let cgHeight = CGFloat(post.imageHeight)
+                
+                self.sizes.append(CGSize(width: cgWidth, height: cgHeight))
+                self.contentJSONString.append(post.content)
             }
+            completion()
         }
     }
+    
+    
+//    func readData(completion: @escaping () -> Void) {
+//        Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in
+//            
+//            self.posts = []
+//            self.images = []
+//            self.contentJSONString = []
+//            self.sizes = []
+//            
+//            if let e = error {
+//                print("There was an issue saving data to firestore. \(e)")
+//            } else {
+//                if let snapshotDocuments = querySnapshot?.documents {
+//                    for doc in snapshotDocuments {
+//                        let data = doc.data()
+//                        if let authorId = data[PostProperty.authorId.rawValue] as? String,
+//                           let color = data[PostProperty.color.rawValue] as? String,
+//                           let colorSimularity = data[PostProperty.colorSimularity.rawValue] as? String,
+//                           let content = data[PostProperty.content.rawValue] as? String,
+//                           let createdTime = data[PostProperty.createdTime.rawValue] as? Timestamp,
+//                           let id = data[PostProperty.id.rawValue] as? String,
+//                           let reports = data[PostProperty.reports.rawValue] as? [String],
+//                           let totalSaved = data[PostProperty.totalSaved.rawValue] as? [String],
+//                           let type = data[PostProperty.type.rawValue] as? Int,
+//                           let imageUrl = data[PostProperty.imageUrl.rawValue] as? String,
+//                           let imageWidth = data[PostProperty.imageWidth.rawValue] as? Double,
+//                           let imageHeight = data[PostProperty.imageHeight.rawValue] as? Double,
+//                           let comments = data[PostProperty.comments.rawValue] as? [Comment] {
+//                            
+//                            self.contentJSONString.append(content)
+//                            
+//                            self.posts.append(Post(authorId: authorId, color: color, colorSimularity: colorSimularity, content: content, createdTime: createdTime, id: id, reports: reports, totalSaved: totalSaved, type: type, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth, comments: comments))
+//                            
+//                            let cgWidth = CGFloat(imageWidth)
+//                            let cgHeight = CGFloat(imageHeight)
+//                            
+//                            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))              
+//
+////                            if let url = URL(string: imageUrl) {
+////                                KingfisherManager.shared.retrieveImage(with: url) { result in
+////                                    switch result {
+////                                    case .success(let value):
+////                                        self.images.append(value.image)
+////                                        group.leave()
+////                                        if self.images.count == snapshotDocuments.count {
+////                                            group.notify(queue: .main) {
+////                                                completion()
+////                                            }
+////                                        }
+////                                    case .failure(let error):
+////                                        print("Error: \(error)")
+////                                    }
+////                                }
+//                            // }
+//                        }
+//                        completion()
+//                    }
+//                }
+//            }
+//        }
 }

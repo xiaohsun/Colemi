@@ -7,11 +7,22 @@
 
 import Foundation
 
-struct Comment<T: Codable>: Codable {
+struct Comment: Codable {
     let id: String
     let postID: String
     let userID: String
     let avatarURL: String
+    let userName: String
     let body: String
-    let time: T
+    let createdTime: String
+}
+
+enum CommentProperty: String {
+    case id
+    case postID
+    case userID
+    case userName
+    case avatarURL
+    case body
+    case createdTime
 }

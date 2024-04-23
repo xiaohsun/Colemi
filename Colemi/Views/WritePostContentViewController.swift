@@ -107,9 +107,11 @@ class WritePostContentViewController: UIViewController {
             return
         }
         
-        if let imageData = image.jpegData(compressionQuality: 0.5) {
+        if let imageData = image.jpegData(compressionQuality: 1) {
             colorSimilarityViewController.selectedImageData = imageData
-            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: image.size)
+            let imageWidth = image.size.width * image.scale
+            let imageHeight = image.size.height * image.scale
+            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
         }
     }
     

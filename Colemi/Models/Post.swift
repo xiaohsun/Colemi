@@ -21,6 +21,7 @@ struct Post: Codable {
     let imageUrl: String
     let imageHeight: Double
     let imageWidth: Double
+    let comments: [Comment]
 }
 
 enum PostProperty: String {
@@ -36,4 +37,5 @@ enum PostProperty: String {
     case imageUrl
     case imageHeight
     case imageWidth
+    case comments
 }

@@ -172,12 +172,15 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
     
     func presentDetailPage(index: Int) {
         let postDetailViewController = PostDetailViewController()
+        postDetailViewController.viewModel.post = viewModel.posts[index]
         postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
         // postDetailViewController.photoImage = viewModel.images[index]
         postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         postDetailViewController.postID = viewModel.posts[index].id
         postDetailViewController.authorID = viewModel.posts[index].authorId
+        postDetailViewController.comments = viewModel.posts[index].comments
+        postDetailViewController.post = viewModel.posts[index]
         
         present(postDetailViewController, animated: true)
     }

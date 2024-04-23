@@ -30,7 +30,8 @@ class WritePostContentViewModel {
             PostProperty.reports.rawValue: [] as [String],
             PostProperty.imageUrl.rawValue: imageUrl,
             PostProperty.imageHeight.rawValue: imageHeight,
-            PostProperty.imageWidth.rawValue: imageWidth
+            PostProperty.imageWidth.rawValue: imageWidth,
+            PostProperty.comments.rawValue: []
         ]
         document.setData(data)
         

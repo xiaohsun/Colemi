@@ -253,6 +253,13 @@ class LobbyViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+//        viewModel.readData {
+//            DispatchQueue.main.async {
+//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
+//                self.postsCollectionView.reloadData()
+//            }
+//        }
+        
         viewModel.readData {
             DispatchQueue.main.async {
                 self.postsCollectionView.collectionViewLayout.invalidateLayout()
@@ -293,11 +300,15 @@ extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
         let postDetailViewController = PostDetailViewController()
+        postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
+        
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         // postDetailViewController.photoImage = viewModel.images[indexPath.item]
         postDetailViewController.postID = viewModel.posts[indexPath.item].id
         postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
+        postDetailViewController.comments = viewModel.posts[indexPath.item].comments
+        postDetailViewController.post = viewModel.posts[indexPath.item]
         // navigationController?.pushViewController(postDetailViewController, animated: true)
         // 這裡的 images 的 count 少 contentJSONString 一個
         // print(indexPath.item)

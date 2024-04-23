@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 class PostDetailViewController: UIViewController {
     
@@ -17,6 +18,12 @@ class PostDetailViewController: UIViewController {
     var postID = ""
     var authorID = ""
     var imageUrl = ""
+    var post: Post?
+    var comments: [Comment] = []
+    let textViewMaxHeight: CGFloat = 100
+    
+    var commentTextViewTrailing: NSLayoutConstraint?
+    var commentTextViewHeight: NSLayoutConstraint?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -27,6 +34,32 @@ class PostDetailViewController: UIViewController {
         return tableView
     }()
     
+    lazy var sendButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Send", for: .normal)
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        return button
+    }()
+    
+    @objc private func sendButtonTapped() {
+        viewModel.updateComments(commentText: commentTextView.text)
+        tableView.reloadData()
+        commentTextView.resignFirstResponder()
+        commentTextView.text = ""
+        
+        UIView.animate(withDuration: 0.3) {
+            self.commentTextViewTrailing?.constant = -10
+            self.commentTextViewHeight?.constant = 33
+            self.sendButton.alpha = 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     lazy var commentTextView: UITextView = {
         let textView = UITextView()
         textView.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
@@ -34,12 +67,14 @@ class PostDetailViewController: UIViewController {
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = .systemFont(ofSize: 14)
+        textView.delegate = self
+        
         return textView
     }()
     
     lazy var starImageView: UIImageView = {
         let imageView = UIImageView()
-        // imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = ThemeColorProperty.darkColor.getColor()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(starTapped))
@@ -78,7 +113,14 @@ class PostDetailViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(commentTextView)
         view.addSubview(starImageView)
+        view.addSubview(sendButton)
         setUpStarImageView()
+        
+        commentTextViewTrailing = commentTextView.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -10)
+        commentTextViewTrailing?.isActive = true
+        
+        commentTextViewHeight = commentTextView.heightAnchor.constraint(equalToConstant: 33)
+        commentTextViewHeight?.isActive = true
         
         tableView.register(DetailTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderView.reuseIdentifier)
         tableView.register(AuthorInfoAndTitleCell.self, forCellReuseIdentifier: AuthorInfoAndTitleCell.reuseIdentifier)
@@ -94,14 +136,17 @@ class PostDetailViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: commentTextView.topAnchor),
             
             commentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            commentTextView.heightAnchor.constraint(equalToConstant: 40),
             commentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
             
-            starImageView.leadingAnchor.constraint(equalTo: commentTextView.trailingAnchor, constant: 12),
-            starImageView.heightAnchor.constraint(equalTo: commentTextView.heightAnchor),
-            starImageView.widthAnchor.constraint(equalTo: commentTextView.heightAnchor),
+            sendButton.heightAnchor.constraint(equalToConstant: 33),
+            sendButton.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -12),
+            sendButton.leadingAnchor.constraint(equalTo: commentTextView.trailingAnchor, constant: 12),
+            sendButton.bottomAnchor.constraint(equalTo: commentTextView.bottomAnchor),
+            
+            starImageView.heightAnchor.constraint(equalToConstant: 30),
+            starImageView.widthAnchor.constraint(equalToConstant: 30),
             starImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            starImageView.bottomAnchor.constraint(equalTo: commentTextView.bottomAnchor)
+            starImageView.bottomAnchor.constraint(equalTo: commentTextView.bottomAnchor, constant: -2)
         ])
     }
     
@@ -125,7 +170,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         } else if section == 1 {
             return 3
         } else {
-            return 5
+            return viewModel.comments.count
         }
     }
     
@@ -166,7 +211,9 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseIdentifier, for: indexPath) as? CommentCell else { return UITableViewCell() }
             
-            cell.update(content: content)
+            let comment = viewModel.comments[indexPath.item]
+            cell.update(comment: comment)
+            
             return cell
         }
     }
@@ -182,6 +229,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             let url = URL(string: imageUrl)
             headerView.photoImageView.kf.setImage(with: url)
             // }
+            // headerView.photoImageView.image?.size.height
             
             return headerView
         } else {
@@ -191,11 +239,15 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // photoImage?.size.height ??
-        if section == 0 {
-            500
-        } else {
-            0
-        }
+//        guard let post = post else { return 0 }
+//        
+//        if section == 0 {
+//            return post.imageHeight
+//        } else {
+//            return 0
+//        }
+        guard let post = viewModel.post, section == 0 else { return 0 }
+        return post.imageHeight
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -226,6 +278,35 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
                     // navigationController.pushViewController(profileViewController, animated: true)
                     present(profileViewController, animated: true)
                 }
+            }
+        }
+    }
+}
+
+extension PostDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: commentTextView.frame.size.width, height: .infinity)
+        let estimatedSize = commentTextView.sizeThatFits(size)
+        
+        guard commentTextView.contentSize.height < 100 else {
+            commentTextView.isScrollEnabled = true
+            return
+        }
+        
+        commentTextView.isScrollEnabled = false
+        commentTextViewHeight?.constant = estimatedSize.height
+        
+        if textView.text != "" {
+            UIView.animate(withDuration: 0.3) {
+                self.commentTextViewTrailing?.constant = -80
+                self.sendButton.alpha = 1
+                self.view.layoutIfNeeded()
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.commentTextViewTrailing?.constant = -10
+                self.sendButton.alpha = 0
+                self.view.layoutIfNeeded()
             }
         }
     }
