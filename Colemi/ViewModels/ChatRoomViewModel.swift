@@ -67,6 +67,7 @@ class ChatRoomViewModel {
             
             if let myUserData = myUserData {
                 firestoreManager.updateDocument(data: [UserProperty.chatRooms.rawValue: simpleChatRoomArray], collection: ref, docID: myUserData.id)
+                UserManager.shared.chatRooms = simpleChatRoomArray
             }
         }
         

@@ -76,6 +76,7 @@ class PaletteViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "早安少女"
+        label.textColor = .white
         
         return label
     }()
