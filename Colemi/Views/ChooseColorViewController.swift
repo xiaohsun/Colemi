@@ -44,6 +44,7 @@ class ChooseColorViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorTapped))
         view.addGestureRecognizer(tapGesture)
         view.tag = colorViews.count
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         colorViews.append(view)
         
         return view
@@ -65,6 +66,8 @@ class ChooseColorViewController: UIViewController {
         button.backgroundColor = .black
         button.addTarget(self, action: #selector(selectColorBtnTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         return button
     }()
     
@@ -83,7 +86,7 @@ class ChooseColorViewController: UIViewController {
     
     private func setUpUI() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         view.addSubview(chooseColorLabel)
         view.addSubview(weatherDescriptionLabel)
@@ -99,24 +102,24 @@ class ChooseColorViewController: UIViewController {
             weatherDescriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             weatherDescriptionLabel.topAnchor.constraint(equalTo: chooseColorLabel.bottomAnchor, constant: 50),
             
-            colorView1.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 50),
+            colorView1.topAnchor.constraint(equalTo: weatherDescriptionLabel.bottomAnchor, constant: 30),
             colorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView1.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            colorView2.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: 50),
+            colorView2.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: 30),
             colorView2.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView2.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            colorView3.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: 50),
+            colorView3.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: 30),
             colorView3.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorView3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             colorView3.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
             selectColorButton.heightAnchor.constraint(equalToConstant: 50),
             selectColorButton.widthAnchor.constraint(equalToConstant: 100),
-            selectColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            selectColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130),
             selectColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }

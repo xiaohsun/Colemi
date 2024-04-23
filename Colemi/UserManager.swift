@@ -6,10 +6,28 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
+// 會不會是這裡沒被更新！！！！！？
 class UserManager {
+    
     static let shared = UserManager()
+    
     var selectedColor: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)?
     var selectedUIColor: UIColor?
     var selectedHexColor: String?
+    var id = FakeUserData.shared.userOneID
+    var name = "柏勳一號"
+    var posts: [String] = []
+    var likes: [String] = []
+    var avatarPhoto = ""
+    var friends: [String] = []
+    var description = ""
+    var savedPosts: [String] = []
+    var signUpTime = Timestamp()
+    var lastestLoginTime = Timestamp()
+    var colorToday = ""
+    var chatRooms: [SimpleChatRoom] = []
+    var followers: [String] = []
+    var following: [String] = []
 }

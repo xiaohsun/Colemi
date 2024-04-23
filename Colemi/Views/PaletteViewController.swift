@@ -48,6 +48,7 @@ class PaletteViewController: UIViewController {
         }
         
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return view
     }()
@@ -56,6 +57,7 @@ class PaletteViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return view
     }()
@@ -64,6 +66,7 @@ class PaletteViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return view
     }()
@@ -73,6 +76,7 @@ class PaletteViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "早安少女"
+        label.textColor = .white
         
         return label
     }()
@@ -80,9 +84,11 @@ class PaletteViewController: UIViewController {
     lazy var passDataButton: UIButton = {
         let button = UIButton()
         button.setTitle("傳遞顏色", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
         button.addTarget(self, action: #selector(passDataButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button
     }()
     
@@ -95,9 +101,11 @@ class PaletteViewController: UIViewController {
     lazy var mixColorButton: UIButton = {
         let button = UIButton()
         button.setTitle("Mix", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
         button.addTarget(self, action: #selector(mixColorButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button
     }()
     
@@ -189,9 +197,11 @@ class PaletteViewController: UIViewController {
     lazy var saveMixColorButton: UIButton = {
         let button = UIButton()
         button.setTitle("Save", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
         button.addTarget(self, action: #selector(saveMixColorButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button
     }()
     
@@ -202,7 +212,7 @@ class PaletteViewController: UIViewController {
     }
     
     private func setUpUI() {
-        view.backgroundColor = .darkGray
+        view.backgroundColor = UIColor(hex: "#3c3c3c")
         view.addSubview(findColorLabel)
         view.addSubview(distanceLabel)
         view.addSubview(myColorView)
@@ -218,7 +228,7 @@ class PaletteViewController: UIViewController {
             findColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             
             distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            distanceLabel.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 100),
+            distanceLabel.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 50),
             
             myColorView.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 50),
             myColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
@@ -240,10 +250,10 @@ class PaletteViewController: UIViewController {
             
             mixColorButton.heightAnchor.constraint(equalToConstant: 50),
             mixColorButton.widthAnchor.constraint(equalToConstant: 100),
-            mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130),
             mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            mixColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200),
+            mixColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -230),
             mixColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             mixColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             mixColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
@@ -251,7 +261,7 @@ class PaletteViewController: UIViewController {
             saveMixColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             saveMixColorButton.heightAnchor.constraint(equalToConstant: 50),
             saveMixColorButton.widthAnchor.constraint(equalToConstant: 100),
-            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130)
         ])
     }
     

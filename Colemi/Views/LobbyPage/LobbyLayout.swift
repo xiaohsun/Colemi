@@ -19,6 +19,7 @@ class LobbyLayout: UICollectionViewLayout {
     private let numberOfColumns = 2
     private let cellPadding: CGFloat = 6
     
+    // private var testCache: [IndexPath: UICollectionViewLayoutAttributes] = [:]
     private var cache: [UICollectionViewLayoutAttributes] = []
     
     private var contentHeight: CGFloat = 0
@@ -35,7 +36,16 @@ class LobbyLayout: UICollectionViewLayout {
         return CGSize(width: contentWidth, height: contentHeight)
     }
     
+    override func invalidateLayout() {
+        cache = []
+    }
+    
     override func prepare() {
+        
+        // 找出要算的人，就算那些人
+        // 以下不能這樣判斷
+        // testCache = [:]
+        // cache = []
         
         guard cache.isEmpty, let collectionView = collectionView else { return }
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
@@ -61,6 +71,8 @@ class LobbyLayout: UICollectionViewLayout {
             
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = insetFrame
+            // 要 append 新的東西
+            // testCache[indexPath] = attributes
             cache.append(attributes)
             
             contentHeight = max(contentHeight, frame.maxY)
@@ -82,6 +94,7 @@ class LobbyLayout: UICollectionViewLayout {
     
     override func layoutAttributesForItem(at indexPath: IndexPath)
     -> UICollectionViewLayoutAttributes? {
-        return cache[indexPath.item]
+        // return testCache[indexPath]
+       return cache[indexPath.item]
     }
 }

@@ -18,6 +18,9 @@ class WritePostContentViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return imageView
     }()
     
@@ -26,6 +29,7 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "標題"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -33,7 +37,7 @@ class WritePostContentViewController: UIViewController {
     lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
+        textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
         textField.placeholder = "請填寫"
         
         return textField
@@ -51,14 +55,19 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "內文"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
     
-    lazy var contentTextView: UITextView = {
+    lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .black
+        textView.backgroundColor = .white
+        textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        textView.layer.borderWidth = 2
+        textView.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
+        textView.text = "哈哈哈"
         return textView
     }()
     
@@ -67,6 +76,7 @@ class WritePostContentViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "標籤"
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -74,7 +84,7 @@ class WritePostContentViewController: UIViewController {
     lazy var tagTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .white
+        textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
         textField.placeholder = "請填寫"
         
         return textField
@@ -83,7 +93,8 @@ class WritePostContentViewController: UIViewController {
     lazy var postButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         button.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -96,9 +107,11 @@ class WritePostContentViewController: UIViewController {
             return
         }
         
-        if let imageData = image.jpegData(compressionQuality: 0.5) {
+        if let imageData = image.jpegData(compressionQuality: 1) {
             colorSimilarityViewController.selectedImageData = imageData
-            viewModel.uploadImgToFirebase(imageData: imageData)
+            let imageWidth = image.size.width * image.scale
+            let imageHeight = image.size.height * image.scale
+            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
         }
     }
     
@@ -108,19 +121,20 @@ class WritePostContentViewController: UIViewController {
         let separatorView2 = makeSeparatorView()
         let separatorView3 = makeSeparatorView()
         
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(imageView)
         view.addSubview(titleLabel)
         view.addSubview(titleTextField)
         view.addSubview(separatorView1)
         view.addSubview(contentLabel)
-        view.addSubview(contentTextView)
+        view.addSubview(descriptionTextView)
         view.addSubview(separatorView2)
         view.addSubview(tagLabel)
         view.addSubview(tagTextField)
         view.addSubview(separatorView3)
         view.addSubview(postButton)
         
+        tabBarController?.tabBar.isHidden = true
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -143,14 +157,14 @@ class WritePostContentViewController: UIViewController {
             contentLabel.leadingAnchor.constraint(equalTo: separatorView1.leadingAnchor),
             contentLabel.topAnchor.constraint(equalTo: separatorView1.bottomAnchor, constant: 20),
             
-            contentTextView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            contentTextView.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
-            contentTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            contentTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/9),
+            descriptionTextView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
+            descriptionTextView.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 20),
+            descriptionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            descriptionTextView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/9),
             
             separatorView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             separatorView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            separatorView2.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 20),
+            separatorView2.topAnchor.constraint(equalTo: descriptionTextView.bottomAnchor, constant: 20),
             separatorView2.heightAnchor.constraint(equalToConstant: 1),
             
             tagLabel.leadingAnchor.constraint(equalTo: separatorView2.leadingAnchor),
@@ -184,15 +198,18 @@ class WritePostContentViewController: UIViewController {
 }
 
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
-    func addDataToFireBase(_ imageUrl: String) {
-        let content = viewModel.makeContentJson(authorName: "柏勳", title: "早安", imgURL: imageUrl, description: "我是誰徐老師")
+    func addDataToFireBase(_ imageUrl: String, imageSize: CGSize) {
+        let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: userManager.name))
+        let imageHeight = Double(imageSize.height)
+        let imageWidth = Double(imageSize.width)
         
         if let colorString = userManager.selectedHexColor {
-            viewModel.addData(authorId: "11111", content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"])
+            viewModel.addData(authorId: userManager.id, content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         }
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
+        
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
 }
