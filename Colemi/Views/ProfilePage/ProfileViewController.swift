@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController {
     var isOthersPage: Bool = false
     var othersID: String?
     var otherUserData: User?
+    var isShowingMyPosts: Bool = true
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -39,6 +40,8 @@ class ProfileViewController: UIViewController {
     private func setUpUI() {
         view.addSubview(tableView)
         
+        navigationController?.navigationBar.barTintColor = ThemeColorProperty.darkColor.getColor()
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -54,7 +57,6 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.isNavigationBarHidden = true
         userData = UserManager.shared
         tableView.reloadData()
     }
@@ -92,11 +94,20 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell.update(viewModel: viewModel)
             cell.delegate = self
             if !isOthersPage {
-                Task {
-                    await viewModel.getMyPosts(postIDs: userData.posts) {
-                        cell.updateLayout()
+                if isShowingMyPosts {
+                    Task {
+                        await viewModel.getMyPosts(postIDs: userData.posts) {
+                            cell.updateLayout()
+                        }
+                    }
+                } else {
+                    Task {
+                        await viewModel.getMyPosts(postIDs: userData.savedPosts) {
+                            cell.updateLayout()
+                        }
                     }
                 }
+                
             } else {
                 guard let otherUserData = otherUserData else {
                     print("Error get otherUserData.")
@@ -133,6 +144,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 2 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SelectorHeaderView.reuseIdentifier) as? SelectorHeaderView else { return nil }
+            headerView.delegate = self
             
             return headerView
         } else {
@@ -168,5 +180,13 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         postDetailViewController.authorID = viewModel.posts[index].authorId
         
         present(postDetailViewController, animated: true)
+    }
+}
+
+extension ProfileViewController: SelectorHeaderViewDelegate {
+    func changeShowingPostsOrSaved(isShowingMyPosts: Bool) {
+        self.isShowingMyPosts = isShowingMyPosts
+        print("Hi delegate")
+        tableView.reloadData()
     }
 }

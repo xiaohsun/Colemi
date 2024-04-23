@@ -66,6 +66,7 @@
 		282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */; };
 		282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */; };
 		282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */; };
+		283EF6582BD757420007C8D8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283EF6572BD757420007C8D8 /* Comment.swift */; };
 		2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */; };
 		284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */; };
 		284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C22BC9839400A61E88 /* UIColor+Extension.swift */; };
@@ -133,6 +134,7 @@
 		282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataReadyToSend.swift; sourceTree = "<group>"; };
 		282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSimilarityViewController.swift; sourceTree = "<group>"; };
 		282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVisionManager.swift; sourceTree = "<group>"; };
+		283EF6572BD757420007C8D8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColorProperty.swift; sourceTree = "<group>"; };
 		284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewModel.swift; sourceTree = "<group>"; };
 		284F32C22BC9839400A61E88 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */,
 				282343922BCEB5D20040C1CA /* Post.swift */,
 				2880644A2BD14A7000FC2EFA /* User.swift */,
+				283EF6572BD757420007C8D8 /* Comment.swift */,
 				28D253022BD36F2700864187 /* Friend.swift */,
 				28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */,
 				28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */,
@@ -494,6 +497,7 @@
 				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */,
 				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,
+				283EF6582BD757420007C8D8 /* Comment.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,

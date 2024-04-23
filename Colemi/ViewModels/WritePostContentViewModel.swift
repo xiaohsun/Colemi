@@ -47,6 +47,7 @@ class WritePostContentViewModel {
         guard let user: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: docID), var postsArray = user?.posts else { return }
         
         postsArray.append(postID)
+        UserManager.shared.posts.append(postID)
         
         firestoreManager.updateDocument(data: [ UserProperty.posts.rawValue: postsArray], collection: ref, docID: docID)
     }

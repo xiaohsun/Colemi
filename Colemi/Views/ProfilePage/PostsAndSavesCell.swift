@@ -63,8 +63,6 @@ class PostsAndSavesCell: UITableViewCell {
 //        self.contentView.layoutIfNeeded()
 //        return postsCollectionView.contentSize
 //    }
-    
-    
 }
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -79,16 +77,11 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
             return UICollectionViewCell()
         }
         
-//        let post = viewModel.posts[indexPath.item]
-//        let url = URL(string: post.imageUrl)
-//        cell.imageView.kf.setImage(with: url)
-        // cell.imageView.image = images[indexPath.item]
         if let viewModel = viewModel {
             if indexPath.item < viewModel.posts.count {
                 let post = viewModel.posts[indexPath.item]
                 let url = URL(string: post.imageUrl)
                 cell.imageView.kf.setImage(with: url)
-                // cell.imageView.image = images[indexPath.item]
             }
         }
         

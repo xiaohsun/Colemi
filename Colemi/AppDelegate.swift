@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = UITabBar.appearance().standardAppearance
         
+        UINavigationBar.appearance().barTintColor = ThemeColorProperty.lightColor.getColor()
+        
         return true
     }
 

@@ -9,12 +9,18 @@ import UIKit
 
 class SelectorHeaderView: UITableViewHeaderFooterView {
     static let reuseIdentifier = "\(SelectorHeaderView.self)"
+    weak var delegate: SelectorHeaderViewDelegate?
+    
+    // let viewModel = ProfileViewModel()
+    var isShowingMyPosts = true
     
     lazy var postsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
         label.text = "貼文"
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(postsGetTapped))
+        label.addGestureRecognizer(tapGesture)
+        label.isUserInteractionEnabled = true
         
         return label
     }()
@@ -22,11 +28,23 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     lazy var savesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
         label.text = "收藏"
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(savedGetTapped))
+        label.addGestureRecognizer(tapGesture)
+        label.isUserInteractionEnabled = true
         
         return label
     }()
+    
+    @objc private func postsGetTapped(_ sender: UITapGestureRecognizer ) {
+        isShowingMyPosts = true
+        delegate?.changeShowingPostsOrSaved(isShowingMyPosts: isShowingMyPosts)
+    }
+    
+    @objc private func savedGetTapped(_ sender: UITapGestureRecognizer ) {
+        isShowingMyPosts = false
+        delegate?.changeShowingPostsOrSaved(isShowingMyPosts: isShowingMyPosts)
+    }
     
     func setUpUI() {
         contentView.addSubview(postsLabel)
@@ -54,4 +72,8 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+}
+
+protocol SelectorHeaderViewDelegate: AnyObject {
+    func changeShowingPostsOrSaved(isShowingMyPosts: Bool)
 }

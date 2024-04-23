@@ -253,8 +253,6 @@ class LobbyViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = true
-        
         viewModel.readData {
             DispatchQueue.main.async {
                 self.postsCollectionView.collectionViewLayout.invalidateLayout()
