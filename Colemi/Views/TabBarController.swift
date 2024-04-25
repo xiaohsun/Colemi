@@ -14,7 +14,6 @@ class TabBarController: UITabBarController {
         setUpTabs()
         // tabBar.barTintColor = UIColor(hex: "#414141")
         // tabBar.tintColor = UIColor(hex: "#F9F4E8")
-        
     }
     
     private func setUpTabs() {

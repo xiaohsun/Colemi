@@ -1,33 +1,36 @@
 //
-//  ViewController.swift
+//  TodayColorViewController.swift
 //  Colemi
 //
-//  Created by 徐柏勳 on 4/10/24.
+//  Created by 徐柏勳 on 4/25/24.
 //
 
 import UIKit
-import Kingfisher
 
-class LobbyViewController: UIViewController {
-    
-    let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+class TodayColorViewController: UIViewController {
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
-    var buttonWidth: CGFloat = 80
+    var buttonWidth: CGFloat = 50
     var buttonHeight: CGFloat = 25
     
-    private lazy var allColorChild = AllColorViewController()
-    private lazy var todayColorChild = TodayColorViewController()
-    private lazy var mixColorChild = MixColorViewController()
+    var indicatorLeading: NSLayoutConstraint?
+    
+    private lazy var firstChild = FirstColorViewController()
+    private lazy var secondChild = SecondColorViewController()
+    private lazy var thirdChild = ThirdColorViewController()
+    
+    private lazy var indicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     lazy var buttonOne: UIButton = {
         let button = UIButton()
-        button.setTitle("全部顏色", for: .normal)
-        button.isSelected = true
-        button.setTitleColor(.black, for: .selected)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("One", for: .normal)
+        button.backgroundColor = .black
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -35,9 +38,8 @@ class LobbyViewController: UIViewController {
     
     lazy var buttonTwo: UIButton = {
         let button = UIButton()
-        button.setTitle("今日顏色", for: .normal)
-        button.setTitleColor(.black, for: .selected)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("Two", for: .normal)
+        button.backgroundColor = .black
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -45,29 +47,21 @@ class LobbyViewController: UIViewController {
     
     lazy var buttonThree: UIButton = {
         let button = UIButton()
-        button.setTitle("今日混色", for: .normal)
-        button.setTitleColor(.black, for: .selected)
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("Three", for: .normal)
+        button.backgroundColor = .black
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     @objc private func buttonTapped(_ sender: UIButton) {
-        for button in buttons {
-            button.isSelected = false
-        }
-        
         switch sender {
         case buttonOne:
             scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-            buttonOne.isSelected = true
         case buttonTwo:
             scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
-            buttonTwo.isSelected = true
         case buttonThree:
             scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width * 2, y: 0), animated: true)
-            buttonThree.isSelected = true
         default:
             break
         }
@@ -85,9 +79,9 @@ class LobbyViewController: UIViewController {
     }()
     
     private func addChildVCs() {
-        addChild(allColorChild)
-        addChild(todayColorChild)
-        addChild(mixColorChild)
+        addChild(firstChild)
+        addChild(secondChild)
+        addChild(thirdChild)
         
         for (index, childVC) in children.enumerated() {
             childVC.view.frame = CGRect(x: CGFloat(index) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
@@ -97,37 +91,41 @@ class LobbyViewController: UIViewController {
     }
     
     private func setUpUI() {
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
-        navigationController?.navigationBar.isHidden = true
-        
+        view.addSubview(scrollView)
         view.addSubview(buttonOne)
         view.addSubview(buttonTwo)
         view.addSubview(buttonThree)
-        view.addSubview(scrollView)
+        view.addSubview(indicatorView)
         
         buttons.append(buttonOne)
         buttons.append(buttonTwo)
         buttons.append(buttonThree)
         
+        indicatorLeading = indicatorView.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor)
+        indicatorLeading?.isActive = true
+        
         NSLayoutConstraint.activate([
-            
             buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonOne.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -45),
+            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -buttonWidth),
             buttonOne.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
             buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonTwo.heightAnchor.constraint(equalToConstant: buttonHeight),
             buttonTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonTwo.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
+            buttonTwo.topAnchor.constraint(equalTo: view.topAnchor),
             
             buttonThree.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonThree.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: 45),
+            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: buttonWidth),
             buttonThree.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
-            scrollView.topAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: 30),
+            indicatorView.widthAnchor.constraint(equalToConstant: 10),
+            indicatorView.heightAnchor.constraint(equalToConstant: 10),
+            indicatorView.topAnchor.constraint(equalTo: buttonOne.bottomAnchor, constant: 10),
+            
+            scrollView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 15),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -142,36 +140,33 @@ class LobbyViewController: UIViewController {
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
     }
+    
+    override func viewDidLayoutSubviews() {
+        indicatorView.layer.cornerRadius = indicatorView.frame.width / 2
+    }
 }
 
+// MARK: UIScrollViewDelegate
 
-// MARK: - LobbyLayoutDelegate
-
-extension LobbyViewController: UIScrollViewDelegate {
+extension TodayColorViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        if scrollView.contentOffset.y != 0 {
-                scrollView.contentOffset.y = 0
-        } else {
-            let pageWidth = scrollView.bounds.width
-            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
-            
-            if currentIndex != currentPage {
-                currentIndex = currentPage
-                print("Switched to child view controller at index \(currentIndex)")
-            }
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.bounds.width
         let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
         
-        for button in buttons {
-            button.isSelected = false
+        if currentIndex != currentPage {
+            currentIndex = currentPage
+            print("Switched to child view controller at index \(currentIndex)")
         }
         
-        buttons[currentPage].isSelected = true
+        let offset = scrollView.contentOffset.x
+        let scrollViewWidth = scrollView.bounds.width
+
+        let indicatorOffset = offset / scrollViewWidth * (buttonTwo.center.x - buttonOne.center.x)
+
+        indicatorLeading?.constant = indicatorOffset
     }
 }
+
+
+

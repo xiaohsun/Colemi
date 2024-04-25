@@ -43,6 +43,12 @@
 		281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E22BC807C400777F91 /* WritePostContentViewModel.swift */; };
 		281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E42BC91B4700777F91 /* LobbyViewModel.swift */; };
 		281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E62BC9231800777F91 /* ChooseColorViewController.swift */; };
+		2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */; };
+		2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */; };
+		2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7432BDA3C5200434EBF /* MixColorViewController.swift */; };
+		2818B7462BDA3C8400434EBF /* FirstColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */; };
+		2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */; };
+		2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */; };
 		281C65772BCF7848003D2ECE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 281C65762BCF7848003D2ECE /* Kingfisher */; };
 		281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65782BCFC918003D2ECE /* PostDetailViewController.swift */; };
 		281C657B2BCFCA91003D2ECE /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */; };
@@ -112,6 +118,12 @@
 		281240E42BC91B4700777F91 /* LobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewModel.swift; sourceTree = "<group>"; };
 		281240E62BC9231800777F91 /* ChooseColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewController.swift; sourceTree = "<group>"; };
 		281240E82BC9315400777F91 /* Colemi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Colemi.entitlements; sourceTree = "<group>"; };
+		2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllColorViewController.swift; sourceTree = "<group>"; };
+		2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorViewController.swift; sourceTree = "<group>"; };
+		2818B7432BDA3C5200434EBF /* MixColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorViewController.swift; sourceTree = "<group>"; };
+		2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstColorViewController.swift; sourceTree = "<group>"; };
+		2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondColorViewController.swift; sourceTree = "<group>"; };
+		2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdColorViewController.swift; sourceTree = "<group>"; };
 		281C65782BCFC918003D2ECE /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		281C657F2BCFEB66003D2ECE /* DetailTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewHeaderView.swift; sourceTree = "<group>"; };
@@ -325,6 +337,12 @@
 			isa = PBXGroup;
 			children = (
 				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
+				2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */,
+				2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */,
+				2818B7432BDA3C5200434EBF /* MixColorViewController.swift */,
+				2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */,
+				2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */,
+				2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */,
 				281240A02BC79FE000777F91 /* LobbyLayout.swift */,
 				2812409E2BC7847700777F91 /* LobbyPostCell.swift */,
 			);
@@ -480,11 +498,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */,
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
 				288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
+				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
 				28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */,
 				281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */,
 				28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */,
@@ -499,6 +519,7 @@
 				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,
 				283EF6582BD757420007C8D8 /* Comment.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
+				2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,
 				281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */,
@@ -518,10 +539,12 @@
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
+				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
 				281C65802BCFEB66003D2ECE /* DetailTableViewHeaderView.swift in Sources */,
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
+				2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */,
 				281C65862BCFFE29003D2ECE /* TagCell.swift in Sources */,
 				282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */,
 				282343932BCEB5D20040C1CA /* Post.swift in Sources */,
@@ -538,6 +561,7 @@
 				28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */,
 				281C65BB2BD0E7EB003D2ECE /* AchievementCell.swift in Sources */,
 				2880644B2BD14A7000FC2EFA /* User.swift in Sources */,
+				2818B7462BDA3C8400434EBF /* FirstColorViewController.swift in Sources */,
 				2880644D2BD153B500FC2EFA /* ChatRoomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
