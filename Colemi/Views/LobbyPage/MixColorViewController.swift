@@ -89,7 +89,7 @@ class MixColorViewController: UIViewController {
         }
     }
     
-    private func setUpUI(){
+    private func setUpUI() {
         
         view.addSubview(scrollView)
         view.addSubview(buttonOne)
@@ -150,12 +150,16 @@ class MixColorViewController: UIViewController {
 extension MixColorViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.bounds.width
-        let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
-        
-        if currentIndex != currentPage {
-            currentIndex = currentPage
-            print("Switched to child view controller at index \(currentIndex)")
+        if scrollView.contentOffset.y != 0 {
+                scrollView.contentOffset.y = 0
+        } else {
+            let pageWidth = scrollView.bounds.width
+            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+            
+            if currentIndex != currentPage {
+                currentIndex = currentPage
+                print("Switched to child view controller at index \(currentIndex)")
+            }
         }
         
         let offset = scrollView.contentOffset.x

@@ -12,13 +12,19 @@ class AllColorViewController: UIViewController {
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     
+    private let popAnimator = PopAnimator()
+    private let dismissAnimator = DismissAnimator()
+    // doing
+    var selectedImageView: UIImageView?
+    var selectedCell: LobbyPostCell?
+    
     var colorViewWidth: CGFloat = 30
     
-    lazy var colorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    lazy var colorImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "ColemiIcon")
+        return imageView
     }()
     
     lazy var postsCollectionView: UICollectionView = {
@@ -36,18 +42,16 @@ class AllColorViewController: UIViewController {
         
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
-        view.addSubview(colorView)
+        view.addSubview(colorImageView)
         view.addSubview(postsCollectionView)
         
         NSLayoutConstraint.activate([
-            colorView.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorView.heightAnchor.constraint(equalToConstant: colorViewWidth),
-            colorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorView.topAnchor.constraint(equalTo: view.topAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            postsCollectionView.topAnchor.constraint(equalTo: colorView.bottomAnchor,constant: 30),
+            colorImageView.widthAnchor.constraint(equalToConstant: colorViewWidth),
+            colorImageView.heightAnchor.constraint(equalToConstant: colorViewWidth),
+            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            
+            postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
             postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
             postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
@@ -192,10 +196,6 @@ class AllColorViewController: UIViewController {
             chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ]
         )
-        
-        //
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -237,6 +237,12 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
+        
+        if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
+            selectedImageView = cell.imageView
+            selectedCell = cell
+        }
+        
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
         
@@ -247,7 +253,8 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
         // navigationController?.pushViewController(postDetailViewController, animated: true)
-        
+        postDetailViewController.modalPresentationStyle = .custom
+        postDetailViewController.transitioningDelegate = self
         present(postDetailViewController, animated: true)
     }
 }
@@ -265,4 +272,16 @@ extension AllColorViewController: LobbyLayoutDelegate {
                 return CGSize(width: 300, height: 400)
             }
         }
+}
+
+extension AllColorViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        // popAnimator.presenting = false
+        return dismissAnimator
+    }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 class TabBarController: UITabBarController {
     
+    var lobbyViewController: LobbyViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabs()
@@ -18,6 +20,7 @@ class TabBarController: UITabBarController {
     
     private func setUpTabs() {
         let lobbyViewController = LobbyViewController()
+        self.lobbyViewController = lobbyViewController
         let lobbyNavController = UINavigationController(rootViewController: lobbyViewController)
         lobbyNavController.tabBarItem.image = UIImage.lobbyIcon
         lobbyNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)

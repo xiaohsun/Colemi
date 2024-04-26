@@ -151,13 +151,18 @@ class TodayColorViewController: UIViewController {
 extension TodayColorViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.bounds.width
-        let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
-        
-        if currentIndex != currentPage {
-            currentIndex = currentPage
-            print("Switched to child view controller at index \(currentIndex)")
+        if scrollView.contentOffset.y != 0 {
+                scrollView.contentOffset.y = 0
+        } else {
+            let pageWidth = scrollView.bounds.width
+            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+            
+            if currentIndex != currentPage {
+                currentIndex = currentPage
+                print("Switched to child view controller at index \(currentIndex)")
+            }
         }
+        
         
         let offset = scrollView.contentOffset.x
         let scrollViewWidth = scrollView.bounds.width
@@ -167,6 +172,3 @@ extension TodayColorViewController: UIScrollViewDelegate {
         indicatorLeading?.constant = indicatorOffset
     }
 }
-
-
-

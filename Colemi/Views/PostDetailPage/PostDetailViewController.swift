@@ -21,9 +21,13 @@ class PostDetailViewController: UIViewController {
     var post: Post?
     var comments: [Comment] = []
     let textViewMaxHeight: CGFloat = 100
+    var headerView: DetailTableViewHeaderView?
     
     var commentTextViewTrailing: NSLayoutConstraint?
     var commentTextViewHeight: NSLayoutConstraint?
+    
+    var xPosition: CGFloat = 0
+    var yPosition: CGFloat = 0
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -108,6 +112,10 @@ class PostDetailViewController: UIViewController {
         }
     }
     
+    @objc private func viewTapped(_ sender: UITapGestureRecognizer) {
+        dismiss(animated: true)
+    }
+    
     private func setUpUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
@@ -131,12 +139,12 @@ class PostDetailViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: commentTextView.topAnchor),
             
             commentTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            commentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+            commentTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30),
             
             sendButton.heightAnchor.constraint(equalToConstant: 33),
             sendButton.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -12),
@@ -226,10 +234,15 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
             // if let photoImage = photoImage {
+            self.headerView = headerView
             let url = URL(string: imageUrl)
             headerView.photoImageView.kf.setImage(with: url)
             // }
             // headerView.photoImageView.image?.size.height
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+            headerView.addGestureRecognizer(tapGesture)
+            headerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
+
             
             return headerView
         } else {
@@ -238,11 +251,8 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-
-        
-//        guard let post = viewModel.post, section == 0 else { return 0 }
-//        return post.imageHeight
-        return 500
+        guard let post = viewModel.post, section == 0 else { return 0 }
+        return post.imageHeight
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -302,6 +312,35 @@ extension PostDetailViewController: UITextViewDelegate {
                 self.commentTextViewTrailing?.constant = -10
                 self.sendButton.alpha = 0
                 self.view.layoutIfNeeded()
+            }
+        }
+    }
+}
+
+extension PostDetailViewController {
+    @objc func handlePanGesture(gesture: UIPanGestureRecognizer) {
+        var startPoint = self.view.transform
+        if gesture.state == .began {
+        } else if gesture.state == .changed {
+            let translation = gesture.translation(in: self.view)
+            let transform = CGAffineTransform(translationX: translation.x, y: translation.y)
+            // headerView?.photoImageView.transform = transform
+            view.transform = transform
+            // self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            
+            
+        } else if gesture.state == .ended {
+            xPosition = gesture.translation(in: self.view).x
+            yPosition = gesture.translation(in: self.view).y
+            if abs(gesture.translation(in: self.view).x) >= 150 {
+                dismiss(animated: true)
+            } else {
+                UIView.animate(withDuration: 0.4) {
+                    // self.headerView?.photoImageView.transform = .identity
+                    self.view.transform = .identity
+                    // startPoint = CGAffineTransform(translationX: 0, y: self.view.safeAreaLayoutGuide.layoutFrame.origin.y)
+                    // self.view.transform = startPoint
+                }
             }
         }
     }
