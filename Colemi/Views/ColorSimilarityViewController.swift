@@ -17,7 +17,8 @@ class ColorSimilarityViewController: UIViewController {
     var colorViews: [UIView] = []
     let colorSimilarityViewModel = ColorSimilarityViewModel()
     let userManager = UserManager.shared
-    var colorDistance: Double?
+    var colorDistances: [Double] = []
+    var colorDistancesString: [String] = []
     let fakeUIColors: [UIColor] = [UIColor.red, UIColor.green, UIColor.blue, UIColor.yellow, UIColor.brown]
     
     var distanceLabelBottomConstraint: NSLayoutConstraint?
@@ -31,6 +32,8 @@ class ColorSimilarityViewController: UIViewController {
     let colorViewWidth: CGFloat = 260
     
     var animationCount = 0
+    
+    var totalBonusCount: Double = 0
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -59,7 +62,8 @@ class ColorSimilarityViewController: UIViewController {
     lazy var distanceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "距離為"
+        label.text = "點擊螢幕"
+        label.textAlignment = .center
         label.alpha = 0
         
         return label
@@ -84,18 +88,18 @@ class ColorSimilarityViewController: UIViewController {
     }
     
     private func setupColorViews() {
-//        for (index, color) in colors.enumerated() {
-//            let colorView = colorViews[index]
-//            let red = CGFloat(color.color.red) / 255
-//            let green = CGFloat(color.color.green) / 255
-//            let blue = CGFloat(color.color.blue) / 255
-//            colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
-//        }
-        
-        for (index, colorView) in colorViews.enumerated() {
+        for (index, color) in colors.enumerated() {
             let colorView = colorViews[index]
-            colorView.backgroundColor = fakeUIColors[index]
+            let red = CGFloat(color.color.red) / 255
+            let green = CGFloat(color.color.green) / 255
+            let blue = CGFloat(color.color.blue) / 255
+            colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         }
+//        
+//        for (index, colorView) in colorViews.enumerated() {
+//            let colorView = colorViews[index]
+//            colorView.backgroundColor = fakeUIColors[index]
+//        }
     }
     
     lazy var showSimilarityButton: UIButton = {
@@ -112,7 +116,7 @@ class ColorSimilarityViewController: UIViewController {
     lazy var congratsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "恭喜！"
+        label.text = "恭喜"
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.alpha = 0
@@ -123,7 +127,6 @@ class ColorSimilarityViewController: UIViewController {
     lazy var totalCountsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "顏色里程 +90"
         label.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.alpha = 0
@@ -146,6 +149,7 @@ class ColorSimilarityViewController: UIViewController {
     
     @objc private func backToMainPageButtonTapped() {
         print("Hi")
+        navigationController?.popToRootViewController(animated: true)
     }
     
     @objc private func showSimilarityButtonTapped() {
@@ -163,13 +167,21 @@ class ColorSimilarityViewController: UIViewController {
         }
         
         if let selectedUIColor = userManager.selectedUIColor {
-            colorDistance = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
-            guard let colorDistance = colorDistance else {
-                print("Have trouble print colorDistance")
-                return
+            colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
+            for colorDistance in colorDistances {
+                let roundedNumber = (colorDistance * 10).rounded() / 10
+                // let formattedSimilarity = String(format: "%.1f", colorDistance)
+                if roundedNumber < 100 {
+                    colorDistancesString.append(String(roundedNumber))
+                    totalBonusCount += (100 - roundedNumber)
+                } else {
+                    colorDistancesString.append(String(100))
+                    totalBonusCount += 0
+                }
             }
-            let formattedSimilarity = String(format: "%.2f", colorDistance)
+            totalBonusCount = (totalBonusCount / 10).rounded()
             // similarityLabel.text = "顏色差異為\(formattedSimilarity)"
+            totalCountsLabel.text = "顏色里程 +\(String(format: "%.0f", totalBonusCount))"
         }
     }
     
@@ -186,18 +198,23 @@ class ColorSimilarityViewController: UIViewController {
         @objc private func colorViewsMoveUp() {
             if animationCount == 0 {
                 colorViewOneTrailingConstraint?.constant = -20
+                distanceLabel.text = "距離為 \(colorDistancesString[0])"
             } else if animationCount == 1 {
                 colorViewTwoLeadingConstraint?.constant = 10
                 distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[1])"
             } else if animationCount == 2 {
                 colorViewThreeTrailingConstraint?.constant = -30
                 distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[2])"
             } else if animationCount == 3 {
                 colorViewFourLeadingConstraint?.constant = 20
                 distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[3])"
             } else if animationCount == 4 {
                 colorViewFiveTrailingConstraint?.constant = -10
                 distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[4])"
             }
             
             view.isUserInteractionEnabled = false
@@ -277,6 +294,7 @@ class ColorSimilarityViewController: UIViewController {
             missionColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
             
             distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            distanceLabel.widthAnchor.constraint(equalToConstant: 100),
             
             colorViewOne.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             colorViewOne.widthAnchor.constraint(equalToConstant: colorViewWidth),
@@ -313,9 +331,9 @@ class ColorSimilarityViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         cloudVisionManager.delegate = self
-        //if let selectedImageData = selectedImageData, let url = selectedImageURL {
-            // cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)
-        //}
+        if let selectedImageData = selectedImageData, let url = selectedImageURL {
+             cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)
+        }
     }
     
     override func viewDidLayoutSubviews() {

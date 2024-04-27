@@ -11,7 +11,7 @@ class ColorSimilarityViewModel {
     
     var colorsDistance: [Double] = []
     
-    func caculateColorDistance(selectedUIColor: UIColor, colors: [Color]) -> Double {
+    func caculateColorDistance(selectedUIColor: UIColor, colors: [Color]) -> [Double] {
         for color in colors {
             let red = CGFloat(color.color.red) / 255
             let green = CGFloat(color.color.green) / 255
@@ -20,6 +20,7 @@ class ColorSimilarityViewModel {
             colorsDistance.append(distance)
         }
         
-        return colorsDistance.min() ?? 0
+        // return colorsDistance.min() ?? 0
+        return colorsDistance
     }
 }
