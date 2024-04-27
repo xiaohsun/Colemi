@@ -43,6 +43,7 @@ class ChatRoomViewController: UIViewController {
         button.addTarget(self, action: #selector(sendMessageButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Send", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button

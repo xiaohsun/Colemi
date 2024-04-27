@@ -88,6 +88,13 @@
 		2880644B2BD14A7000FC2EFA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644A2BD14A7000FC2EFA /* User.swift */; };
 		2880644D2BD153B500FC2EFA /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */; };
 		288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */; };
+		289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */; };
+		289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */; };
+		289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729D2BDD4C4300051D07 /* GenSenRounded-H.ttc */; };
+		289D72A32BDD4CCD00051D07 /* GenSenRounded-L.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729C2BDD4C4200051D07 /* GenSenRounded-L.ttc */; };
+		289D72A42BDD4CCF00051D07 /* GenSenRounded-M.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729E2BDD4C4300051D07 /* GenSenRounded-M.ttc */; };
+		289D72A52BDD4CD100051D07 /* GenSenRounded-R.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */; };
+		289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A62BDD4FCB00051D07 /* FontProperty.swift */; };
 		28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */; };
 		28C69B852BD2642600725BE7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28C69B842BD2642600725BE7 /* IQKeyboardManagerSwift */; };
 		28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */; };
@@ -164,6 +171,13 @@
 		2880644A2BD14A7000FC2EFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
+		289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-B.ttc"; sourceTree = "<group>"; };
+		289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-EL.ttc"; sourceTree = "<group>"; };
+		289D729C2BDD4C4200051D07 /* GenSenRounded-L.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-L.ttc"; sourceTree = "<group>"; };
+		289D729D2BDD4C4300051D07 /* GenSenRounded-H.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-H.ttc"; sourceTree = "<group>"; };
+		289D729E2BDD4C4300051D07 /* GenSenRounded-M.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-M.ttc"; sourceTree = "<group>"; };
+		289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-R.ttc"; sourceTree = "<group>"; };
+		289D72A62BDD4FCB00051D07 /* FontProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontProperty.swift; sourceTree = "<group>"; };
 		28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		28C69B882BD270BA00725BE7 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -346,6 +360,19 @@
 			path = ChatRoomPage;
 			sourceTree = "<group>";
 		};
+		289D72992BDD4BDC00051D07 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */,
+				289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */,
+				289D729D2BDD4C4300051D07 /* GenSenRounded-H.ttc */,
+				289D729C2BDD4C4200051D07 /* GenSenRounded-L.ttc */,
+				289D729E2BDD4C4300051D07 /* GenSenRounded-M.ttc */,
+				289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		28C69B822BD2638600725BE7 /* LobbyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,8 +413,10 @@
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
 				28D2530F2BD4BA3C00864187 /* FakeUserData.swift */,
 				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
+				289D72A62BDD4FCB00051D07 /* FontProperty.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
 				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
+				289D72992BDD4BDC00051D07 /* Fonts */,
 				2840D89F2BDB71F300A6B3DC /* Animations */,
 				284F32C12BC9831700A61E88 /* Extensions */,
 				284F32C42BC98DF500A61E88 /* Models */,
@@ -498,9 +527,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				289D72A52BDD4CD100051D07 /* GenSenRounded-R.ttc in Resources */,
 				28D24DD72BC6C24400B7E114 /* LaunchScreen.storyboard in Resources */,
+				289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */,
 				281240A92BC8059500777F91 /* GoogleService-Info.plist in Resources */,
+				289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */,
 				28D24DD42BC6C24400B7E114 /* Assets.xcassets in Resources */,
+				289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */,
+				289D72A42BDD4CCF00051D07 /* GenSenRounded-M.ttc in Resources */,
+				289D72A32BDD4CCD00051D07 /* GenSenRounded-L.ttc in Resources */,
 				28D24DD22BC6C24200B7E114 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,6 +584,7 @@
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
+				289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */,
 				28D253032BD36F2700864187 /* Friend.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,

@@ -37,7 +37,8 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "dleqwfkewmlkfmklfmwkflewmfklewmfklwemfklmfeklwmfkwlemfweklfmkwelewmkfmwleklfmlw"
+        label.text = "dleqw"
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
         
         return label
     }()

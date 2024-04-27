@@ -331,9 +331,9 @@ extension PostDetailViewController {
             
             
         } else if gesture.state == .ended {
-            xPosition = gesture.translation(in: self.view).x
-            yPosition = gesture.translation(in: self.view).y + 60
-            if abs(gesture.translation(in: self.view).x) >= 150 {
+            if abs(gesture.translation(in: self.view).x) >= 100 {
+                xPosition = gesture.translation(in: self.view).x
+                yPosition = gesture.translation(in: self.view).y + 60
                 dismiss(animated: true)
             } else {
                 UIView.animate(withDuration: 0.4) {

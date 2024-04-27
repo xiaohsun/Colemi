@@ -25,8 +25,9 @@ class LobbyViewController: UIViewController {
     lazy var buttonOne: UIButton = {
         let button = UIButton()
         button.setTitle("全部顏色", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
         button.isSelected = true
-        button.setTitleColor(.black, for: .selected)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -36,8 +37,9 @@ class LobbyViewController: UIViewController {
     lazy var buttonTwo: UIButton = {
         let button = UIButton()
         button.setTitle("今日顏色", for: .normal)
-        button.setTitleColor(.black, for: .selected)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
         button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -46,7 +48,8 @@ class LobbyViewController: UIViewController {
     lazy var buttonThree: UIButton = {
         let button = UIButton()
         button.setTitle("今日混色", for: .normal)
-        button.setTitleColor(.black, for: .selected)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +60,11 @@ class LobbyViewController: UIViewController {
         for button in buttons {
             button.isSelected = false
         }
+        
+//        for family in UIFont.familyNames.sorted() {
+//            let names = UIFont.fontNames(forFamilyName: family)
+//            print("Family: \(family) Font names: \(names)")
+//        }
         
         switch sender {
         case buttonOne:
@@ -114,7 +122,7 @@ class LobbyViewController: UIViewController {
             
             buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonOne.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -45),
+            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -35),
             buttonOne.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
             buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
@@ -124,7 +132,7 @@ class LobbyViewController: UIViewController {
             
             buttonThree.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonThree.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: 45),
+            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: 35),
             buttonThree.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
             scrollView.topAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: 30),

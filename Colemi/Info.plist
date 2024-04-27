@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GenSenRounded-B.ttc</string>
+		<string>GenSenRounded-EL.ttc</string>
+		<string>GenSenRounded-H.ttc</string>
+		<string>GenSenRounded-L.ttc</string>
+		<string>GenSenRounded-M.ttc</string>
+		<string>GenSenRounded-R.ttc</string>
+	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>We need your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
@@ -10,11 +19,11 @@
 	<string>We need your photos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need your photos</string>
-    <key>NSBonjourServices</key>
-    <array>
-        <string>_colemi._tcp</string>
-        <string>_colemi._udp</string>
-    </array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_colemi._tcp</string>
+		<string>_colemi._udp</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
