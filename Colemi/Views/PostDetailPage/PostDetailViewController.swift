@@ -122,6 +122,7 @@ class PostDetailViewController: UIViewController {
         view.addSubview(commentTextView)
         view.addSubview(starImageView)
         view.addSubview(sendButton)
+        view.layer.cornerRadius = 30
         setUpStarImageView()
         
         commentTextViewTrailing = commentTextView.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -10)
@@ -331,7 +332,7 @@ extension PostDetailViewController {
             
         } else if gesture.state == .ended {
             xPosition = gesture.translation(in: self.view).x
-            yPosition = gesture.translation(in: self.view).y
+            yPosition = gesture.translation(in: self.view).y + 60
             if abs(gesture.translation(in: self.view).x) >= 150 {
                 dismiss(animated: true)
             } else {

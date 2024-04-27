@@ -43,7 +43,7 @@ final class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         snapShotView.frame = frame
         
         // toVC.view.frame =
-        toVC.view.alpha = 0
+        // toVC.view.alpha = 0
         
         // containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
@@ -52,7 +52,7 @@ final class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         UIView.animate(withDuration: duration) {
             snapShotView.frame = toVC.postsCollectionView.convert(cell!.frame, to: nil)
-            toVC.view.alpha = 1
+            // toVC.view.alpha = 1
             
         } completion: { _ in
             
