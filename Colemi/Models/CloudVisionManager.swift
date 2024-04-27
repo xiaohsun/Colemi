@@ -29,7 +29,7 @@ class CloudVisionManager {
                     ],
                     "features": [
                         [
-                            "maxResults": 10,
+                            "maxResults": 5,
                             "type": "IMAGE_PROPERTIES"
                         ]
                     ]
