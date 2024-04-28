@@ -28,15 +28,15 @@ class PaletteViewController: UIViewController {
         return label
     }()
     
-    lazy var distanceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.text = "距離為"
-        label.textColor = .white
-        
-        return label
-    }()
+//    lazy var distanceLabel: UILabel = {
+//        let label = UILabel()
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        label.numberOfLines = 0
+//        label.text = "距離為"
+//        label.textColor = .white
+//        
+//        return label
+//    }()
     
     lazy var myColorView: UIView = {
         let view = UIView()
@@ -214,7 +214,7 @@ class PaletteViewController: UIViewController {
     private func setUpUI() {
         view.backgroundColor = UIColor(hex: "#3c3c3c")
         view.addSubview(findColorLabel)
-        view.addSubview(distanceLabel)
+        // view.addSubview(distanceLabel)
         view.addSubview(myColorView)
         view.addSubview(nearbyColorView)
         view.addSubview(nearbyDeviceNameLabel)
@@ -227,15 +227,15 @@ class PaletteViewController: UIViewController {
             findColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             findColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             
-            distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            distanceLabel.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 50),
+            // distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            // distanceLabel.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 50),
             
-            myColorView.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 50),
+            myColorView.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 50),
             myColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             myColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             myColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
-            nearbyColorView.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 50),
+            nearbyColorView.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 50),
             nearbyColorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             nearbyColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             nearbyColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),

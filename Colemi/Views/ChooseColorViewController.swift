@@ -49,6 +49,7 @@ class ChooseColorViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorTapped))
         view.addGestureRecognizer(tapGesture)
+        view.isUserInteractionEnabled = false
         view.tag = colorViews.count
         view.alpha = 0
         colorViews.append(view)
@@ -141,7 +142,7 @@ class ChooseColorViewController: UIViewController {
         colorView3YCons?.isActive = true
         
         raindropView1TopCons = raindropImageView1.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: -100)
-        raindropView2TopCons = raindropImageView2.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: -100)
+        raindropView2TopCons = raindropImageView2.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: -90)
         raindropView3TopCons = raindropImageView3.topAnchor.constraint(equalTo: colorView3.bottomAnchor, constant: -100)
         
         raindropView1TopCons?.isActive = true
@@ -151,7 +152,7 @@ class ChooseColorViewController: UIViewController {
     
     private func rainAnimation() {
         self.colorView1YCons?.constant = -250
-        UIView.animate(withDuration: 0.8, delay: 1) {
+        UIView.animate(withDuration: 0.6, delay: 1) {
             for colorView in self.colorViews {
                 colorView.alpha = 1
             }
@@ -165,7 +166,7 @@ class ChooseColorViewController: UIViewController {
             self.raindropImageView3.alpha = 1
             
             self.raindropView1TopCons?.constant = 20
-            self.raindropView2TopCons?.constant = 20
+            self.raindropView2TopCons?.constant = 30
             self.raindropView3TopCons?.constant = 20
             
             UIView.animate(withDuration: 0.8, delay: 0.4) {
@@ -174,11 +175,11 @@ class ChooseColorViewController: UIViewController {
                 
             } completion: { _ in
                 
-                self.raindropView1TopCons?.constant = -100
-                self.raindropView2TopCons?.constant = -100
-                self.raindropView3TopCons?.constant = -100
+                self.raindropView1TopCons?.constant = -80
+                self.raindropView2TopCons?.constant = -80
+                self.raindropView3TopCons?.constant = -80
                 
-                UIView.animate(withDuration: 0.4, delay: 0.4) {
+                UIView.animate(withDuration: 0.6, delay: 0.5) {
                     
                     self.view.layoutIfNeeded()
                     
@@ -215,7 +216,7 @@ class ChooseColorViewController: UIViewController {
                     self.colorView2WidthCons?.isActive = true
                     self.colorView2HeightCons?.isActive = true
                     
-                    UIView.animate(withDuration: 0.6, delay: 0.1) {
+                    UIView.animate(withDuration: 0.6, delay: 0.3) {
                         self.view.layoutIfNeeded()
                     } completion: { _ in
                         UIView.animate(withDuration: 0.6) {
@@ -228,6 +229,10 @@ class ChooseColorViewController: UIViewController {
                                 self.checkIconImageView.alpha = 1
                             }
                             self.checkIconImageView.isUserInteractionEnabled = true
+                            
+                            for colorView in self.colorViews {
+                                colorView.isUserInteractionEnabled = true
+                            }
                         }
                     }
                 }
@@ -294,7 +299,7 @@ class ChooseColorViewController: UIViewController {
             
             raindropImageView2.heightAnchor.constraint(equalToConstant: 40),
             raindropImageView2.widthAnchor.constraint(equalToConstant: 40),
-            raindropImageView2.centerXAnchor.constraint(equalTo: colorView2.centerXAnchor),
+            raindropImageView2.centerXAnchor.constraint(equalTo: colorView2.centerXAnchor, constant: -20),
             
             raindropImageView3.heightAnchor.constraint(equalToConstant: 40),
             raindropImageView3.widthAnchor.constraint(equalToConstant: 40),
