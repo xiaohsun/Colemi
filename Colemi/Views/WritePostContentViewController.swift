@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import PhotosUI
+import AVKit
 
 class WritePostContentViewController: UIViewController {
     
     let viewModel = WritePostContentViewModel()
     let colorSimilarityViewController = ColorSimilarityViewController()
     var selectedImage: UIImage?
+    var selectedImageSize: CGSize?
+    var imageData: Data?
     let userManager = UserManager.shared
     
     lazy var imageView: UIImageView = {
@@ -53,23 +57,12 @@ class WritePostContentViewController: UIViewController {
         return textField
     }()
     
-//    func makeSeparatorView() -> UIView {
-//        let view = UIView()
-//        view.backgroundColor = .black
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }
-    
-    lazy var photoOptionView: UIView = {
-        let view = UIView()
-        view.backgroundColor = ThemeColorProperty.darkColor.getColor()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 40
-        view.clipsToBounds = true
-        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
-        
-        return view
-    }()
+    //    func makeSeparatorView() -> UIView {
+    //        let view = UIView()
+    //        view.backgroundColor = .black
+    //        view.translatesAutoresizingMaskIntoConstraints = false
+    //        return view
+    //    }
     
     lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -97,13 +90,36 @@ class WritePostContentViewController: UIViewController {
         return textField
     }()
     
+    lazy var photoOptionView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 40
+        view.clipsToBounds = true
+        view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        
+        return view
+    }()
+    
     lazy var photoIconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage.photoIcon
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentPickPhotoView))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        
         return imageView
     }()
+    
+    @objc private func presentPickPhotoView() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
     
     lazy var cameraIconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -138,30 +154,30 @@ class WritePostContentViewController: UIViewController {
         }
     }
     
-//    lazy var postButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Post", for: .normal)
-//        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
-//        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-//        button.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
+    //    lazy var postButton: UIButton = {
+    //        let button = UIButton()
+    //        button.setTitle("Post", for: .normal)
+    //        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+    //        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+    //        button.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
+    //        button.translatesAutoresizingMaskIntoConstraints = false
+    //        return button
+    //    }()
     
-//    @objc private func postButtonTapped() {
-//        
-//        guard let image = selectedImage else {
-//            print("Failed to get selectedImage")
-//            return
-//        }
-//        
-//        if let imageData = image.jpegData(compressionQuality: 1) {
-//            colorSimilarityViewController.selectedImageData = imageData
-//            let imageWidth = image.size.width * image.scale
-//            let imageHeight = image.size.height * image.scale
-//            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
-//        }
-//    }
+    //    @objc private func postButtonTapped() {
+    //
+    //        guard let image = selectedImage else {
+    //            print("Failed to get selectedImage")
+    //            return
+    //        }
+    //
+    //        if let imageData = image.jpegData(compressionQuality: 1) {
+    //            colorSimilarityViewController.selectedImageData = imageData
+    //            let imageWidth = image.size.width * image.scale
+    //            let imageHeight = image.size.height * image.scale
+    //            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
+    //        }
+    //    }
     
     private func setUpUI() {
         
@@ -210,10 +226,10 @@ class WritePostContentViewController: UIViewController {
             cameraIconImageView.heightAnchor.constraint(equalToConstant: 50),
             cameraIconImageView.centerYAnchor.constraint(equalTo: photoOptionView.centerYAnchor),
             
-//            postButton.heightAnchor.constraint(equalToConstant: 50),
-//            postButton.widthAnchor.constraint(equalToConstant: 100),
-//            postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-//            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            //            postButton.heightAnchor.constraint(equalToConstant: 50),
+            //            postButton.widthAnchor.constraint(equalToConstant: 100),
+            //            postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            //            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             arrowIconImageView.widthAnchor.constraint(equalToConstant: 90),
             arrowIconImageView.heightAnchor.constraint(equalToConstant: 90),
@@ -258,5 +274,30 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         colorSimilarityViewController.selectedImageURL = imageUrl
         
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
+    }
+}
+
+extension WritePostContentViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        if !results.isEmpty {
+            let result = results.first!
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
+                    guard let image = image as? UIImage, let self = self else {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                        self.imageData = image.jpegData(compressionQuality: 1)
+                        self.selectedImageSize = image.size
+                        print(self.imageData)
+                        print(self.selectedImageSize)
+                    }
+                }
+            }
+        }
     }
 }
