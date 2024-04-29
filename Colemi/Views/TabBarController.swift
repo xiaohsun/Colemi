@@ -58,15 +58,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     private func setButton() {
         let button = UIButton()
         tabBar.addSubview(button)
-        // button.center = CGPoint(x: tabBar.bounds.midX, y: tabBar.bounds.midY)
-        button.frame.size = CGSize(width: 100, height: 100)
-        // button.imageView?.sizeThatFits(CGSize(width: 50, height: 50))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.centerYAnchor.constraint(equalTo: tabBar.centerYAnchor, constant: -13).isActive = true
-        button.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            button.centerYAnchor.constraint(equalTo: tabBar.centerYAnchor, constant: -13),
+            button.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor),
+            button.widthAnchor.constraint(equalToConstant: 70),
+            button.heightAnchor.constraint(equalToConstant: 50)
+        ])
         
         button.setImage(.postIcon, for: .normal)
-        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         
@@ -77,7 +77,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let writePostContentViewController = WritePostContentViewController()
         let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
         
-        // writePostContentNavController.modalPresentationStyle = .fullScreen
+        writePostContentNavController.modalPresentationStyle = .fullScreen
         
         present(writePostContentNavController, animated: true)
     }
@@ -87,9 +87,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         guard let selectedIndex = selectedIndex else { return true }
         
         if selectedIndex == 2 {
-            let writePostContentViewController = WritePostContentViewController()
-            let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
-            self.present(writePostContentNavController, animated: true, completion: nil)
             return false
         } else {
             return true

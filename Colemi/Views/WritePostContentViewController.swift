@@ -21,7 +21,8 @@ class WritePostContentViewController: UIViewController {
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .black
+        imageView.layer.borderColor = ThemeColorProperty.darkColor.getColor().cgColor
+        imageView.layer.borderWidth = 2
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
@@ -32,6 +33,7 @@ class WritePostContentViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 16)
         label.text = "任務顏色"
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
@@ -40,6 +42,7 @@ class WritePostContentViewController: UIViewController {
     
     lazy var colorView: UIView = {
         let view = UIView()
+        view.backgroundColor = userManager.selectedUIColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
@@ -72,7 +75,7 @@ class WritePostContentViewController: UIViewController {
         textView.addLineSpacing(lineSpacing: 5)
         textView.textColor = .white
         textView.textContainerInset = .init(top: 25, left: 20, bottom: 25, right: 20)
-        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
+        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
         textView.text = "多大埔的傍晚 5 點 23 分，在綠色曠野撒上一抹陽光，春天好像偷偷地來了呢。"
         
         return textView
@@ -159,6 +162,22 @@ class WritePostContentViewController: UIViewController {
         }
     }
     
+    lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        button.setImage(.closeIcon, for: .normal)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+
+    @objc private func closeButtonTapped() {
+        print("Hi")
+        dismiss(animated: true)
+    }
+    
+
+    
     //    lazy var postButton: UIButton = {
     //        let button = UIButton()
     //        button.setTitle("Post", for: .normal)
@@ -186,7 +205,12 @@ class WritePostContentViewController: UIViewController {
     
     private func setUpUI() {
         
+        navigationController?.navigationBar.isHidden = true
+        
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        view.addSubview(closeButton)
+        view.addSubview(missionColorLabel)
+        view.addSubview(colorView)
         view.addSubview(imageView)
         view.addSubview(titleTextField)
         view.addSubview(descriptionTextView)
@@ -198,7 +222,21 @@ class WritePostContentViewController: UIViewController {
         view.addSubview(arrowIconImageView)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
+            
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            closeButton.widthAnchor.constraint(equalToConstant: 20),
+            closeButton.heightAnchor.constraint(equalToConstant: 20),
+            
+            missionColorLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 40),
+            missionColorLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            
+            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 25),
+            colorView.centerXAnchor.constraint(equalTo: missionColorLabel.centerXAnchor),
+            colorView.heightAnchor.constraint(equalToConstant: 70),
+            colorView.widthAnchor.constraint(equalToConstant: 70),
+            
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/5),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 3/4),
