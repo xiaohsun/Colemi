@@ -19,6 +19,8 @@
 	<string>We need your photos</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need your photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your camera</string>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_colemi._tcp</string>

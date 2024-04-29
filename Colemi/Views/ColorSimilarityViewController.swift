@@ -50,14 +50,14 @@ class ColorSimilarityViewController: UIViewController {
         return imageView
     }()
     
-//    lazy var similarityLabel: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.numberOfLines = 0
-//        label.text = "顏色差異為"
-//        
-//        return label
-//    }()
+    //    lazy var similarityLabel: UILabel = {
+    //        let label = UILabel()
+    //        label.translatesAutoresizingMaskIntoConstraints = false
+    //        label.numberOfLines = 0
+    //        label.text = "顏色差異為"
+    //
+    //        return label
+    //    }()
     
     lazy var distanceLabel: UILabel = {
         let label = UILabel()
@@ -95,11 +95,11 @@ class ColorSimilarityViewController: UIViewController {
             let blue = CGFloat(color.color.blue) / 255
             colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         }
-//        
-//        for (index, colorView) in colorViews.enumerated() {
-//            let colorView = colorViews[index]
-//            colorView.backgroundColor = fakeUIColors[index]
-//        }
+        //
+        //        for (index, colorView) in colorViews.enumerated() {
+        //            let colorView = colorViews[index]
+        //            colorView.backgroundColor = fakeUIColors[index]
+        //        }
     }
     
     lazy var showSimilarityButton: UIButton = {
@@ -148,95 +148,95 @@ class ColorSimilarityViewController: UIViewController {
     }()
     
     @objc private func backToMainPageButtonTapped() {
-        print("Hi")
         navigationController?.popToRootViewController(animated: true)
     }
     
     @objc private func showSimilarityButtonTapped() {
-        setupColorViews()
-        
-        UIView.animate(withDuration: 0.4) {
-            self.imageView.alpha = 0
-            self.showSimilarityButton.alpha = 0
-            self.missionColorView.alpha = 1
-            self.distanceLabel.alpha = 1
-        }
-        
-        if let selectedUIColor = userManager.selectedUIColor {
-            colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
-            print(colorDistances)
-            for colorDistance in colorDistances {
-                
-                let roundedNumber = (colorDistance * 10).rounded() / 10
-                // let formattedSimilarity = String(format: "%.1f", colorDistance)
-                if roundedNumber < 100 {
-                    colorDistancesString.append(String(roundedNumber))
-                    totalBonusCount += (100 - roundedNumber)
-                } else {
-                    colorDistancesString.append(String(100))
-                    totalBonusCount += 0
-                }
-            }
-            totalBonusCount = (totalBonusCount / 10).rounded()
-            totalCountsLabel.text = "顏色里程 +\(String(format: "%.0f", totalBonusCount))"
+        if colors.count == 5 {
+            setupColorViews()
             
-
+            UIView.animate(withDuration: 0.4) {
+                self.imageView.alpha = 0
+                self.showSimilarityButton.alpha = 0
+                self.missionColorView.alpha = 1
+                self.distanceLabel.alpha = 1
+            }
+            
+            if let selectedUIColor = userManager.selectedUIColor {
+                colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
+                print(colorDistances)
+                for colorDistance in colorDistances {
+                    
+                    let roundedNumber = (colorDistance * 10).rounded() / 10
+                    // let formattedSimilarity = String(format: "%.1f", colorDistance)
+                    if roundedNumber < 100 {
+                        colorDistancesString.append(String(roundedNumber))
+                        totalBonusCount += (100 - roundedNumber)
+                    } else {
+                        colorDistancesString.append(String(100))
+                        totalBonusCount += 0
+                    }
+                }
+                totalBonusCount = (totalBonusCount / 10).rounded()
+                totalCountsLabel.text = "顏色里程 +\(String(format: "%.0f", totalBonusCount))"
+                
+                
                 let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.colorViewsMoveUp))
                 self.view.addGestureRecognizer(tapGesture)
                 self.view.isUserInteractionEnabled = true
-
+            }
         }
     }
     
-//    @objc private func colorViewsMoveUp() {
-//        self.firstColorViewTopConstraint?.constant -= self.colorViewHeight
-//        view.isUserInteractionEnabled = false
-//        UIView.animate(withDuration: 0.4) {
-//            self.view.layoutIfNeeded()
-//        } completion: { _ in
-//            self.view.isUserInteractionEnabled = true
-//        }
-//    }
+    //    @objc private func colorViewsMoveUp() {
+    //        self.firstColorViewTopConstraint?.constant -= self.colorViewHeight
+    //        view.isUserInteractionEnabled = false
+    //        UIView.animate(withDuration: 0.4) {
+    //            self.view.layoutIfNeeded()
+    //        } completion: { _ in
+    //            self.view.isUserInteractionEnabled = true
+    //        }
+    //    }
     
-        @objc private func colorViewsMoveUp() {
-             if colorDistancesString.count == 5 {
-                if animationCount == 0 {
-                    colorViewOneTrailingConstraint?.constant = -20
-                    distanceLabel.text = "距離為 \(colorDistancesString[0])"
-                } else if animationCount == 1 {
-                    colorViewTwoLeadingConstraint?.constant = 10
-                    distanceLabelBottomConstraint?.constant -= colorViewHeight
-                    distanceLabel.text = "距離為 \(colorDistancesString[1])"
-                } else if animationCount == 2 {
-                    colorViewThreeTrailingConstraint?.constant = -30
-                    distanceLabelBottomConstraint?.constant -= colorViewHeight
-                    distanceLabel.text = "距離為 \(colorDistancesString[2])"
-                } else if animationCount == 3 {
-                    colorViewFourLeadingConstraint?.constant = 20
-                    distanceLabelBottomConstraint?.constant -= colorViewHeight
-                    distanceLabel.text = "距離為 \(colorDistancesString[3])"
-                } else if animationCount == 4 {
-                    colorViewFiveTrailingConstraint?.constant = -10
-                    distanceLabelBottomConstraint?.constant -= colorViewHeight
-                    distanceLabel.text = "距離為 \(colorDistancesString[4])"
+    @objc private func colorViewsMoveUp() {
+        if colorDistancesString.count == 5 {
+            if animationCount == 0 {
+                colorViewOneTrailingConstraint?.constant = -20
+                distanceLabel.text = "距離為 \(colorDistancesString[0])"
+            } else if animationCount == 1 {
+                colorViewTwoLeadingConstraint?.constant = 10
+                distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[1])"
+            } else if animationCount == 2 {
+                colorViewThreeTrailingConstraint?.constant = -30
+                distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[2])"
+            } else if animationCount == 3 {
+                colorViewFourLeadingConstraint?.constant = 20
+                distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[3])"
+            } else if animationCount == 4 {
+                colorViewFiveTrailingConstraint?.constant = -10
+                distanceLabelBottomConstraint?.constant -= colorViewHeight
+                distanceLabel.text = "距離為 \(colorDistancesString[4])"
+            }
+            
+            view.isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.4) {
+                if self.animationCount == 5 {
+                    self.missionColorView.alpha = 0
+                    self.distanceLabel.alpha = 0
+                    self.congratsLabel.alpha = 1
+                    self.backToMainPageButton.alpha = 1
+                    self.totalCountsLabel.alpha = 1
                 }
-                
-                view.isUserInteractionEnabled = false
-                UIView.animate(withDuration: 0.4) {
-                    if self.animationCount == 5 {
-                        self.missionColorView.alpha = 0
-                        self.distanceLabel.alpha = 0
-                        self.congratsLabel.alpha = 1
-                        self.backToMainPageButton.alpha = 1
-                        self.totalCountsLabel.alpha = 1
-                    }
-                    self.view.layoutIfNeeded()
-                } completion: { _ in
-                    self.view.isUserInteractionEnabled = true
-                    self.animationCount += 1
-                }
-             }
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                self.view.isUserInteractionEnabled = true
+                self.animationCount += 1
+            }
         }
+    }
     
     private func setUpUI() {
         let colorViewOne = createColorView()
@@ -337,7 +337,7 @@ class ColorSimilarityViewController: UIViewController {
         setUpUI()
         cloudVisionManager.delegate = self
         if let selectedImageData = selectedImageData, let url = selectedImageURL {
-             cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)
+            cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)
         }
     }
     
@@ -345,10 +345,16 @@ class ColorSimilarityViewController: UIViewController {
         super.viewDidLayoutSubviews()
         missionColorView.layer.cornerRadius = missionColorView.frame.width / 2
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.post(name: NSNotification.Name("BackToMainPage"), object: nil)
+    }
 }
 
 extension ColorSimilarityViewController: CloudVisionManagerDelegate {
     func getColorsRGB(colors: [Color]) {
         self.colors = colors
+        
     }
 }

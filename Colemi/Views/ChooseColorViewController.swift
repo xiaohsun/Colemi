@@ -151,14 +151,13 @@ class ChooseColorViewController: UIViewController {
     }
     
     private func rainAnimation() {
-                    for colorView in self.colorViews {
-                        colorView.alpha = 1
-                    }
+        for colorView in self.colorViews {
+            colorView.alpha = 1
+        }
         
         self.colorView1YCons?.constant = -250
         
         UIView.animate(withDuration: 1.4, delay: 0.8, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9, options: .curveEaseIn) {
-
             
             self.view.layoutIfNeeded()
         } completion: { _ in
@@ -320,9 +319,6 @@ class ChooseColorViewController: UIViewController {
         chooseColorViewModel.delegate = self
         
         locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
         
         setUpUI()
     }
@@ -330,6 +326,9 @@ class ChooseColorViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = true
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     override func viewDidLayoutSubviews() {
@@ -346,6 +345,7 @@ extension ChooseColorViewController: CLLocationManagerDelegate {
         _ manager: CLLocationManager,
         didUpdateLocations locations: [CLLocation]
     ) {
+        locationManager.stopUpdatingLocation()
         if let location = locations.last {
             Task.init {
                 await chooseColorViewModel.currentWeather(for: location)
@@ -359,35 +359,35 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
         DispatchQueue.main.async {
             switch condition {
             case .partlyCloudy, .cloudy, .clear, .hot, .mostlyCloudy, .mostlyClear, .sunFlurries :
-                self.colorView1.backgroundColor = self.colorModel.sunnyColors[0]
-                self.colorView2.backgroundColor = self.colorModel.sunnyColors[1]
-                self.colorView3.backgroundColor = self.colorModel.sunnyColors[2]
-                self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[0]
-                self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[1]
-                self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[2]
+                self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
+                self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
+                self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
+                self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
+                self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
+                self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
                 self.goodWeather = true
                 // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
                 // self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
                 
                 // 暫時測試
-                self.raindropImageView1.tintColor = self.colorModel.sunnyColors[0]
-                self.raindropImageView2.tintColor = self.colorModel.sunnyColors[1]
-                self.raindropImageView3.tintColor = self.colorModel.sunnyColors[2]
+                self.raindropImageView1.tintColor = self.colorModel.sunnyColors[2]
+                self.raindropImageView2.tintColor = self.colorModel.sunnyColors[0]
+                self.raindropImageView3.tintColor = self.colorModel.sunnyColors[1]
                 
                 self.rainAnimation()
                 
             default:
-                self.colorView1.backgroundColor = self.colorModel.rainColors[0]
-                self.colorView2.backgroundColor = self.colorModel.rainColors[1]
-                self.colorView3.backgroundColor = self.colorModel.rainColors[2]
-                self.colorContainerView1.backgroundColor = self.colorModel.rainColors[0]
-                self.colorContainerView2.backgroundColor = self.colorModel.rainColors[1]
-                self.colorContainerView3.backgroundColor = self.colorModel.rainColors[2]
+                self.colorView1.backgroundColor = self.colorModel.rainColors[2]
+                self.colorView2.backgroundColor = self.colorModel.rainColors[0]
+                self.colorView3.backgroundColor = self.colorModel.rainColors[1]
+                self.colorContainerView1.backgroundColor = self.colorModel.rainColors[2]
+                self.colorContainerView2.backgroundColor = self.colorModel.rainColors[0]
+                self.colorContainerView3.backgroundColor = self.colorModel.rainColors[1]
                 self.goodWeather = false
                 // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
-                self.raindropImageView1.tintColor = self.colorModel.rainColors[0]
-                self.raindropImageView2.tintColor = self.colorModel.rainColors[1]
-                self.raindropImageView3.tintColor = self.colorModel.rainColors[2]
+                self.raindropImageView1.tintColor = self.colorModel.rainColors[2]
+                self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
+                self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
                 
                 self.rainAnimation()
             }

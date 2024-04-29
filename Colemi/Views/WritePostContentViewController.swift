@@ -129,8 +129,23 @@ class WritePostContentViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage.cameraIcon
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(presentCameraView))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        
         return imageView
     }()
+    
+    @objc private func presentCameraView() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = false
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
     
     lazy var arrowIconImageView: UIImageView = {
         let imageView = UIImageView()
@@ -144,17 +159,17 @@ class WritePostContentViewController: UIViewController {
     }()
     
     @objc private func arrowTapped(_ sender: UITapGestureRecognizer) {
-//        guard let image = selectedImage else {
-//            print("Failed to get selectedImage")
-//            return
-//        }
+        //        guard let image = selectedImage else {
+        //            print("Failed to get selectedImage")
+        //            return
+        //        }
         
-//        if let imageData = image.jpegData(compressionQuality: 1) {
-//            colorSimilarityViewController.selectedImageData = imageData
-//            let imageWidth = image.size.width * image.scale
-//            let imageHeight = image.size.height * image.scale
-//            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
-//        }
+        //        if let imageData = image.jpegData(compressionQuality: 1) {
+        //            colorSimilarityViewController.selectedImageData = imageData
+        //            let imageWidth = image.size.width * image.scale
+        //            let imageHeight = image.size.height * image.scale
+        //            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
+        //        }
         
         if let imageData = imageData, let selectedImageSize = selectedImageSize {
             colorSimilarityViewController.selectedImageData = imageData
@@ -170,38 +185,15 @@ class WritePostContentViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     @objc private func closeButtonTapped() {
-        print("Hi")
         dismiss(animated: true)
     }
     
-
-    
-    //    lazy var postButton: UIButton = {
-    //        let button = UIButton()
-    //        button.setTitle("Post", for: .normal)
-    //        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
-    //        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-    //        button.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        return button
-    //    }()
-    
-    //    @objc private func postButtonTapped() {
-    //
-    //        guard let image = selectedImage else {
-    //            print("Failed to get selectedImage")
-    //            return
-    //        }
-    //
-    //        if let imageData = image.jpegData(compressionQuality: 1) {
-    //            colorSimilarityViewController.selectedImageData = imageData
-    //            let imageWidth = image.size.width * image.scale
-    //            let imageHeight = image.size.height * image.scale
-    //            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
-    //        }
-    //    }
+    @objc private func backToMainPage() {
+        tabBarController?.selectedIndex = 0
+        dismiss(animated: true)
+    }
     
     private func setUpUI() {
         
@@ -216,7 +208,6 @@ class WritePostContentViewController: UIViewController {
         view.addSubview(descriptionTextView)
         view.addSubview(tagTextField)
         view.addSubview(photoOptionView)
-        // view.addSubview(postButton)
         photoOptionView.addSubview(photoIconImageView)
         photoOptionView.addSubview(cameraIconImageView)
         view.addSubview(arrowIconImageView)
@@ -269,11 +260,6 @@ class WritePostContentViewController: UIViewController {
             cameraIconImageView.heightAnchor.constraint(equalToConstant: 50),
             cameraIconImageView.centerYAnchor.constraint(equalTo: photoOptionView.centerYAnchor),
             
-            //            postButton.heightAnchor.constraint(equalToConstant: 50),
-            //            postButton.widthAnchor.constraint(equalToConstant: 100),
-            //            postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            //            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
             arrowIconImageView.widthAnchor.constraint(equalToConstant: 90),
             arrowIconImageView.heightAnchor.constraint(equalToConstant: 90),
             arrowIconImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60),
@@ -295,6 +281,11 @@ class WritePostContentViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         viewModel.delegate = self
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.backToMainPage),
+                                               name: NSNotification.Name("BackToMainPage"),
+                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -334,12 +325,25 @@ extension WritePostContentViewController: PHPickerViewControllerDelegate {
                     }
                     DispatchQueue.main.async {
                         self.imageView.image = image
-                        self.imageData = image.jpegData(compressionQuality: 0.8)
+                        self.imageData = image.jpegData(compressionQuality: 0.7)
                         self.selectedImageSize = image.size
                         self.selectedImage = image
                     }
                 }
             }
         }
+    }
+}
+
+extension WritePostContentViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageView.image = image
+            imageData = image.jpegData(compressionQuality: 0.7)
+            selectedImageSize = image.size
+            selectedImage = image
+        }
+        
+        dismiss(animated: true)
     }
 }
