@@ -14,6 +14,15 @@ class ChooseColorViewModel {
     
     func currentWeather(for location: CLLocation) async {
         
+//        if let forecastTest = try? await WeatherService().weather(for: location, including: .daily, .current, .hourly) {
+//            print(forecastTest.0.forecast[0].date)
+//            print("daily")
+//            print(forecastTest.1)
+//            print("current")
+//            print(forecastTest.2)
+//            print("hourly")
+//        }
+        
         if let forecast = try? await WeatherService().weather(for: location).dailyForecast.forecast {
              // print("//////forecast////////")
              // print(forecast[0])

@@ -19,8 +19,14 @@ class PaletteViewController: UIViewController {
     var mixColor: UIColor?
     var animationShouldStop: Bool = false
     
-    var nearbyColorViewWidthCons: NSLayoutConstraint?
+    var myColorViewXCons: NSLayoutConstraint?
+    var myColorViewYCons: NSLayoutConstraint?
+    var myColorViewHeightCons: NSLayoutConstraint?
+    var myColorViewWidthCons: NSLayoutConstraint?
     var nearbyColorViewHeightCons: NSLayoutConstraint?
+    var nearbyColorViewWidthCons: NSLayoutConstraint?
+    var mixColorViewHeightCons: NSLayoutConstraint?
+    var mixColorViewWidthCons: NSLayoutConstraint?
     
     private var appearAnimator: UIViewPropertyAnimator?
     private var disappearAnimator: UIViewPropertyAnimator?
@@ -29,8 +35,8 @@ class PaletteViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.text = "尋找附近的顏色中"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 24)
+        label.text = "尋找附近的顏色中..."
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 30)
         label.textColor = .white
         
         return label
@@ -93,22 +99,21 @@ class PaletteViewController: UIViewController {
     }()
     
     lazy var nearbyColorView: UIView = {
-            let view = UIView()
-            view.backgroundColor = .white
-            view.translatesAutoresizingMaskIntoConstraints = false
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
-            return view
-        }()
     
-    //
-    //    lazy var mixColorView: UIView = {
-    //        let view = UIView()
-    //        view.backgroundColor = .white
-    //        view.translatesAutoresizingMaskIntoConstraints = false
-    //        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-    //
-    //        return view
-    //    }()
+    lazy var mixColorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
     //    lazy var nearbyDeviceNameLabel: UILabel = {
     //        let label = UILabel()
@@ -132,119 +137,126 @@ class PaletteViewController: UIViewController {
     //    }()
     
     @objc func passDataButtonTapped() {
-        if let peer = peer {
-            mpc?.sendData(colorToSend: userDataReadyToSend, peers: [peer], mode: .reliable)
-        }
+        //        if let peer = peer {
+        //            mpc?.sendData(colorToSend: userDataReadyToSend, peers: [peer], mode: .reliable)
+        //        }
     }
     
-    //    lazy var mixColorButton: UIButton = {
-    //        let button = UIButton()
-    //        button.setTitle("Mix", for: .normal)
-    //        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
-    //        button.addTarget(self, action: #selector(mixColorButtonTapped), for: .touchUpInside)
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-    //        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-    //        return button
-    //    }()
+    lazy var mixColorButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Mix", for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(mixColorButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
+        button.alpha = 0
+        
+        return button
+    }()
     
     @objc func mixColorButtonTapped() {
         guard let peerUIColor = peerUIColor else {
-            print("Can get peerUIColor!")
+            print("Can't get peerUIColor!")
             return
         }
         
         if colorModel.sunnyColors.contains(peerUIColor) {
-            // sunnyDayChangeColorView()
+            sunnyDayChangeColorView()
         } else {
-            // rainyDayChangeColorView()
+            rainyDayChangeColorView()
         }
         
-        // mixColor = mixColorView.backgroundColor
+        mixColorAnimation()
+        
+        mixColor = mixColorView.backgroundColor
     }
     
-    //    func sunnyDayChangeColorView() {
-    //        if peerUIColor == colorModel.sunnyColors[0] {
-    //            switch userManager.selectedUIColor {
-    //            case colorModel.sunnyColors[1]:
-    //                mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
-    //            case colorModel.sunnyColors[2]:
-    //                mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
-    //            default:
-    //                mixColorView.backgroundColor = peerUIColor
-    //            }
-    //        }
-    //
-    //        if peerUIColor == colorModel.sunnyColors[1] {
-    //            switch userManager.selectedUIColor {
-    //            case colorModel.sunnyColors[0]:
-    //                mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
-    //            case colorModel.sunnyColors[2]:
-    //                mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
-    //            default:
-    //                mixColorView.backgroundColor = peerUIColor
-    //            }
-    //        }
-    //
-    //        if peerUIColor == colorModel.sunnyColors[2] {
-    //            switch userManager.selectedUIColor {
-    //            case colorModel.sunnyColors[0]:
-    //                mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
-    //            case colorModel.sunnyColors[1]:
-    //                mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
-    //            default:
-    //                mixColorView.backgroundColor = peerUIColor
-    //            }
-    //        }
-    //    }
-    //
-    //    func rainyDayChangeColorView() {
-    //        if peerUIColor == colorModel.rainColors[0] {
-    //            switch userManager.selectedUIColor {
-    //            case colorModel.rainColors[1]:
-    //                mixColorView.backgroundColor = colorModel.rainColorsMix[0]
-    //            case colorModel.rainColors[2]:
-    //                mixColorView.backgroundColor = colorModel.rainColorsMix[1]
-    //            default:
-    //                mixColorView.backgroundColor = peerUIColor
-    //            }
-    //        }
-    //
-    //        if peerUIColor == colorModel.rainColors[1] {
-    //            switch userManager.selectedUIColor {
-    //            case colorModel.rainColors[0]:
-    //                mixColorView.backgroundColor = colorModel.rainColorsMix[0]
-    //            case colorModel.rainColors[2]:
-    //                mixColorView.backgroundColor = colorModel.rainColorsMix[2]
-    //            default:
-    //                mixColorView.backgroundColor = peerUIColor
-    //            }
-    //        }
-    //
-    //        if peerUIColor == colorModel.rainColors[2] {
-    //            switch userManager.selectedUIColor {
-    //            case colorModel.rainColors[0]:
-    //                mixColorView.backgroundColor = colorModel.rainColorsMix[1]
-    //            case colorModel.rainColors[1]:
-    //                mixColorView.backgroundColor = colorModel.rainColorsMix[2]
-    //            default:
-    //                mixColorView.backgroundColor = peerUIColor
-    //            }
-    //        }
-    //    }
+    private func sunnyDayChangeColorView() {
+        if peerUIColor == colorModel.sunnyColors[0] {
+            switch userManager.selectedUIColor {
+            case colorModel.sunnyColors[1]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
+            case colorModel.sunnyColors[2]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+        
+        if peerUIColor == colorModel.sunnyColors[1] {
+            switch userManager.selectedUIColor {
+            case colorModel.sunnyColors[0]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
+            case colorModel.sunnyColors[2]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+        
+        if peerUIColor == colorModel.sunnyColors[2] {
+            switch userManager.selectedUIColor {
+            case colorModel.sunnyColors[0]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
+            case colorModel.sunnyColors[1]:
+                mixColorView.backgroundColor = colorModel.sunnyColorsMix[2]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+    }
     
-    //    lazy var saveMixColorButton: UIButton = {
-    //        let button = UIButton()
-    //        button.setTitle("Save", for: .normal)
-    //        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
-    //        button.addTarget(self, action: #selector(saveMixColorButtonTapped), for: .touchUpInside)
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-    //        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-    //        return button
-    //    }()
+    private func rainyDayChangeColorView() {
+        if peerUIColor == colorModel.rainColors[0] {
+            switch userManager.selectedUIColor {
+            case colorModel.rainColors[1]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[0]
+            case colorModel.rainColors[2]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[1]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+        
+        if peerUIColor == colorModel.rainColors[1] {
+            switch userManager.selectedUIColor {
+            case colorModel.rainColors[0]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[0]
+            case colorModel.rainColors[2]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[2]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+        
+        if peerUIColor == colorModel.rainColors[2] {
+            switch userManager.selectedUIColor {
+            case colorModel.rainColors[0]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[1]
+            case colorModel.rainColors[1]:
+                mixColorView.backgroundColor = colorModel.rainColorsMix[2]
+            default:
+                mixColorView.backgroundColor = peerUIColor
+            }
+        }
+    }
     
-    @objc func saveMixColorButtonTapped() {
+    lazy var saveMixColorButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Save", for: .normal)
+        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        button.addTarget(self, action: #selector(saveMixColorButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
+        button.alpha = 0
+        return button
+    }()
+    
+    @objc private func saveMixColorButtonTapped() {
         userManager.selectedUIColor = mixColor
         userManager.selectedHexColor = mixColor?.toHexString()
         navigationController?.popViewController(animated: true)
@@ -252,7 +264,7 @@ class PaletteViewController: UIViewController {
     
     private func setUpUI() {
         view.backgroundColor = UIColor(hex: "#3c3c3c")
-        view.addSubview(findColorLabel)
+        
         // view.addSubview(distanceLabel)
         view.addSubview(bigColorContainerView)
         view.addSubview(midColorContainerView)
@@ -260,18 +272,35 @@ class PaletteViewController: UIViewController {
         view.addSubview(nearbyColorView)
         //        view.addSubview(nearbyDeviceNameLabel)
         //        view.addSubview(passDataButton)
-        //        view.addSubview(mixColorButton)
-        //        view.addSubview(mixColorView)
-        //        view.addSubview(saveMixColorButton)
+        view.addSubview(mixColorButton)
+        view.addSubview(mixColorView)
+        view.addSubview(findColorLabel)
+        view.addSubview(saveMixColorButton)
         
-        nearbyColorViewWidthCons = nearbyColorView.widthAnchor.constraint(equalToConstant: 60)
-        nearbyColorViewHeightCons = nearbyColorView.heightAnchor.constraint(equalToConstant: 60)
+        myColorViewXCons = myColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        myColorViewYCons = myColorView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        myColorViewWidthCons = myColorView.widthAnchor.constraint(equalToConstant: 60)
+        myColorViewHeightCons = myColorView.heightAnchor.constraint(equalToConstant: 60)
+        
+        myColorViewXCons?.isActive = true
+        myColorViewYCons?.isActive = true
+        myColorViewWidthCons?.isActive = true
+        myColorViewHeightCons?.isActive = true
+        
+        nearbyColorViewWidthCons = nearbyColorView.widthAnchor.constraint(equalToConstant: 0)
+        nearbyColorViewHeightCons = nearbyColorView.heightAnchor.constraint(equalToConstant: 0)
         
         nearbyColorViewWidthCons?.isActive = true
         nearbyColorViewHeightCons?.isActive = true
         
+        mixColorViewHeightCons = mixColorView.widthAnchor.constraint(equalToConstant: 0)
+        mixColorViewWidthCons = mixColorView.heightAnchor.constraint(equalToConstant: 0)
+        
+        mixColorViewHeightCons?.isActive = true
+        mixColorViewWidthCons?.isActive = true
+        
         NSLayoutConstraint.activate([
-            findColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            findColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
             findColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             
             // distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -286,13 +315,8 @@ class PaletteViewController: UIViewController {
             midColorContainerView.widthAnchor.constraint(equalTo: myColorView.widthAnchor, multiplier: 2),
             midColorContainerView.heightAnchor.constraint(equalTo: midColorContainerView.widthAnchor),
             
-            myColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            myColorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            myColorView.widthAnchor.constraint(equalToConstant: 60),
-            myColorView.heightAnchor.constraint(equalToConstant: 60),
-            
-                        nearbyColorView.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 100),
-                        nearbyColorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            nearbyColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 70),
+            nearbyColorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -70),
             //
             //            nearbyDeviceNameLabel.topAnchor.constraint(equalTo: myColorView.bottomAnchor, constant: 20),
             //            nearbyDeviceNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -302,20 +326,20 @@ class PaletteViewController: UIViewController {
             //            passDataButton.topAnchor.constraint(equalTo: nearbyDeviceNameLabel.bottomAnchor, constant: 20),
             //            passDataButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             //
-            //            mixColorButton.heightAnchor.constraint(equalToConstant: 50),
-            //            mixColorButton.widthAnchor.constraint(equalToConstant: 100),
-            //            mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130),
-            //            mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            mixColorButton.heightAnchor.constraint(equalToConstant: 50),
+            mixColorButton.widthAnchor.constraint(equalToConstant: 100),
+            mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160),
+            mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             //
-            //            mixColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -230),
-            //            mixColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            mixColorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            mixColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             //            mixColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             //            mixColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             //
-            //            saveMixColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            //            saveMixColorButton.heightAnchor.constraint(equalToConstant: 50),
-            //            saveMixColorButton.widthAnchor.constraint(equalToConstant: 100),
-            //            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130)
+            saveMixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            saveMixColorButton.heightAnchor.constraint(equalToConstant: 50),
+            saveMixColorButton.widthAnchor.constraint(equalToConstant: 100),
+            saveMixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160)
         ])
     }
     
@@ -350,27 +374,114 @@ class PaletteViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        stopAnimation()
+        stopLoopAnimation()
         mpc?.invalidate()
     }
     
     func connectedToPeer(peer: MCPeerID) {
         self.peer = peer
         // nearbyDeviceNameLabel.text = peer.displayName
+        findColorLabel.text = "找到顏色了！"
+        mpc?.sendData(colorToSend: userDataReadyToSend, peers: [peer], mode: .reliable)
         
-        // doing
-        nearbyColorViewWidthCons?.constant = 100
-        nearbyColorViewHeightCons?.constant = 100
+        meetColorAnimation()
+    }
+    
+    private func meetColorAnimation() {
+        
+        myColorViewXCons?.constant = -70
+        myColorViewYCons?.constant = 70
         
         UIView.animate(withDuration: 0.4) {
             self.view.layoutIfNeeded()
+            self.stopLoopAnimation()
             self.nearbyColorView.layer.cornerRadius = self.nearbyColorView.frame.width / 2
-        } completion: { _ in
             
+        } completion: { _ in
+            self.nearbyColorViewWidthCons?.constant = 60
+            self.nearbyColorViewHeightCons?.constant = 60
+            
+            UIView.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8) {
+                self.view.layoutIfNeeded()
+                
+            } completion: { _ in
+                UIView.animate(withDuration: 0.4) {
+                    self.mixColorButton.alpha = 1
+                }
+            }
         }
     }
     
-    private func stopAnimation() {
+    private func mixColorAnimation() {
+        UIView.animate(withDuration: 0.4) {
+            self.saveMixColorButton.alpha = 0
+            self.mixColorButton.alpha = 0
+            self.findColorLabel.alpha = 0
+            
+        } completion: { _ in
+            self.myColorViewWidthCons?.constant = 100
+            self.myColorViewHeightCons?.constant = 100
+            
+            UIView.animate(withDuration: 0.4, delay: 0.6, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                self.view.layoutIfNeeded()
+                
+            } completion: { _ in
+                self.nearbyColorViewWidthCons?.constant = 100
+                self.nearbyColorViewHeightCons?.constant = 100
+                
+                UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                    self.view.layoutIfNeeded()
+                    
+                } completion: { _ in
+                    self.myColorViewWidthCons?.constant = 140
+                    self.myColorViewHeightCons?.constant = 140
+                    
+                    UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                        self.view.layoutIfNeeded()
+                        
+                    } completion: { _ in
+                        self.nearbyColorViewWidthCons?.constant = 140
+                        self.nearbyColorViewHeightCons?.constant = 140
+                        
+                        UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                            self.view.layoutIfNeeded()
+                            
+                        } completion: { _ in
+                            self.nearbyColorViewWidthCons?.constant = 0
+                            self.nearbyColorViewHeightCons?.constant = 0
+                            self.myColorViewWidthCons?.constant = 0
+                            self.myColorViewHeightCons?.constant = 0
+                            
+                            UIView.animate(withDuration: 0.4, delay: 0.5, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                                self.view.layoutIfNeeded()
+                            } completion: { _ in
+                                self.mixColorViewWidthCons?.constant = 1000
+                                self.mixColorViewHeightCons?.constant = 1000
+                                
+                                UIView.animate(withDuration: 0.4, delay: 0.5) {
+                                    self.view.layoutIfNeeded()
+                                    self.mixColorView.layer.cornerRadius = self.mixColorView.frame.width / 2
+                                    
+                                } completion: { _ in
+                                    self.findColorLabel.text = "完成混色！"
+                                    self.findColorLabel.textColor = ThemeColorProperty.lightColor.getColor()
+                                    
+                                    UIView.animate(withDuration: 0.4, delay: 0.5) {
+                                        self.findColorLabel.alpha = 1
+                                        self.saveMixColorButton.alpha = 1
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    private func stopLoopAnimation() {
         midColorContainerView.alpha = 0
         bigColorContainerView.alpha = 0
         animationShouldStop = true
@@ -411,11 +522,9 @@ class PaletteViewController: UIViewController {
     func dataReceivedHandler(data: Data, peer: MCPeerID) {
         guard let colorData = try? JSONDecoder().decode(UserDataReadyToSend.self, from: data) else { return }
         let peerUIColor = colorData.color
-        showGetDataAlert(color: peerUIColor)
-        // nearbyColorView.backgroundColor = UIColor(hex: peerUIColor)
+        // showGetDataAlert(color: peerUIColor)
+        nearbyColorView.backgroundColor = UIColor(hex: peerUIColor)
         self.peerUIColor = UIColor(hex: peerUIColor)
-        
-
     }
     
     func disconnectedFromPeer(peer: MCPeerID) {
