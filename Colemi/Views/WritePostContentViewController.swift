@@ -141,16 +141,21 @@ class WritePostContentViewController: UIViewController {
     }()
     
     @objc private func arrowTapped(_ sender: UITapGestureRecognizer) {
-        guard let image = selectedImage else {
-            print("Failed to get selectedImage")
-            return
-        }
+//        guard let image = selectedImage else {
+//            print("Failed to get selectedImage")
+//            return
+//        }
         
-        if let imageData = image.jpegData(compressionQuality: 1) {
+//        if let imageData = image.jpegData(compressionQuality: 1) {
+//            colorSimilarityViewController.selectedImageData = imageData
+//            let imageWidth = image.size.width * image.scale
+//            let imageHeight = image.size.height * image.scale
+//            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
+//        }
+        
+        if let imageData = imageData, let selectedImageSize = selectedImageSize {
             colorSimilarityViewController.selectedImageData = imageData
-            let imageWidth = image.size.width * image.scale
-            let imageHeight = image.size.height * image.scale
-            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
+            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: selectedImageSize)
         }
     }
     
@@ -291,10 +296,9 @@ extension WritePostContentViewController: PHPickerViewControllerDelegate {
                     }
                     DispatchQueue.main.async {
                         self.imageView.image = image
-                        self.imageData = image.jpegData(compressionQuality: 1)
+                        self.imageData = image.jpegData(compressionQuality: 0.8)
                         self.selectedImageSize = image.size
-                        print(self.imageData)
-                        print(self.selectedImageSize)
+                        self.selectedImage = image
                     }
                 }
             }

@@ -51,8 +51,8 @@ class ChooseColorViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         view.isUserInteractionEnabled = false
         view.tag = colorViews.count
-        view.alpha = 0
         colorViews.append(view)
+        view.alpha = 0
         
         return view
     }
@@ -120,7 +120,7 @@ class ChooseColorViewController: UIViewController {
     private func setUpRainInitPosition() {
         
         colorView1XCons = colorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -10)
-        colorView1YCons = colorView1.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -300)
+        colorView1YCons = colorView1.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -650)
         
         colorView1XCons?.isActive = true
         colorView1YCons?.isActive = true
@@ -151,14 +151,16 @@ class ChooseColorViewController: UIViewController {
     }
     
     private func rainAnimation() {
+                    for colorView in self.colorViews {
+                        colorView.alpha = 1
+                    }
+        
         self.colorView1YCons?.constant = -250
-        UIView.animate(withDuration: 0.6, delay: 1) {
-            for colorView in self.colorViews {
-                colorView.alpha = 1
-            }
+        
+        UIView.animate(withDuration: 1.4, delay: 0.8, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9, options: .curveEaseIn) {
+
             
             self.view.layoutIfNeeded()
-            
         } completion: { _ in
             
             self.raindropImageView1.alpha = 1
@@ -179,7 +181,7 @@ class ChooseColorViewController: UIViewController {
                 self.raindropView2TopCons?.constant = -80
                 self.raindropView3TopCons?.constant = -80
                 
-                UIView.animate(withDuration: 0.6, delay: 0.5) {
+                UIView.animate(withDuration: 0.6, delay: 0.6) {
                     
                     self.view.layoutIfNeeded()
                     
@@ -366,6 +368,13 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.goodWeather = true
                 // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
                 // self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
+                
+                // 暫時測試
+                self.raindropImageView1.tintColor = self.colorModel.sunnyColors[0]
+                self.raindropImageView2.tintColor = self.colorModel.sunnyColors[1]
+                self.raindropImageView3.tintColor = self.colorModel.sunnyColors[2]
+                
+                self.rainAnimation()
                 
             default:
                 self.colorView1.backgroundColor = self.colorModel.rainColors[0]

@@ -155,10 +155,6 @@ class ColorSimilarityViewController: UIViewController {
     @objc private func showSimilarityButtonTapped() {
         setupColorViews()
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorViewsMoveUp))
-        view.addGestureRecognizer(tapGesture)
-        view.isUserInteractionEnabled = true
-        
         UIView.animate(withDuration: 0.4) {
             self.imageView.alpha = 0
             self.showSimilarityButton.alpha = 0
@@ -168,7 +164,9 @@ class ColorSimilarityViewController: UIViewController {
         
         if let selectedUIColor = userManager.selectedUIColor {
             colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
+            print(colorDistances)
             for colorDistance in colorDistances {
+                
                 let roundedNumber = (colorDistance * 10).rounded() / 10
                 // let formattedSimilarity = String(format: "%.1f", colorDistance)
                 if roundedNumber < 100 {
@@ -180,8 +178,13 @@ class ColorSimilarityViewController: UIViewController {
                 }
             }
             totalBonusCount = (totalBonusCount / 10).rounded()
-            // similarityLabel.text = "顏色差異為\(formattedSimilarity)"
             totalCountsLabel.text = "顏色里程 +\(String(format: "%.0f", totalBonusCount))"
+            
+
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.colorViewsMoveUp))
+                self.view.addGestureRecognizer(tapGesture)
+                self.view.isUserInteractionEnabled = true
+
         }
     }
     
@@ -196,41 +199,43 @@ class ColorSimilarityViewController: UIViewController {
 //    }
     
         @objc private func colorViewsMoveUp() {
-            if animationCount == 0 {
-                colorViewOneTrailingConstraint?.constant = -20
-                distanceLabel.text = "距離為 \(colorDistancesString[0])"
-            } else if animationCount == 1 {
-                colorViewTwoLeadingConstraint?.constant = 10
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                distanceLabel.text = "距離為 \(colorDistancesString[1])"
-            } else if animationCount == 2 {
-                colorViewThreeTrailingConstraint?.constant = -30
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                distanceLabel.text = "距離為 \(colorDistancesString[2])"
-            } else if animationCount == 3 {
-                colorViewFourLeadingConstraint?.constant = 20
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                distanceLabel.text = "距離為 \(colorDistancesString[3])"
-            } else if animationCount == 4 {
-                colorViewFiveTrailingConstraint?.constant = -10
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                distanceLabel.text = "距離為 \(colorDistancesString[4])"
-            }
-            
-            view.isUserInteractionEnabled = false
-            UIView.animate(withDuration: 0.4) {
-                if self.animationCount == 5 {
-                    self.missionColorView.alpha = 0
-                    self.distanceLabel.alpha = 0
-                    self.congratsLabel.alpha = 1
-                    self.backToMainPageButton.alpha = 1
-                    self.totalCountsLabel.alpha = 1
+             if colorDistancesString.count == 5 {
+                if animationCount == 0 {
+                    colorViewOneTrailingConstraint?.constant = -20
+                    distanceLabel.text = "距離為 \(colorDistancesString[0])"
+                } else if animationCount == 1 {
+                    colorViewTwoLeadingConstraint?.constant = 10
+                    distanceLabelBottomConstraint?.constant -= colorViewHeight
+                    distanceLabel.text = "距離為 \(colorDistancesString[1])"
+                } else if animationCount == 2 {
+                    colorViewThreeTrailingConstraint?.constant = -30
+                    distanceLabelBottomConstraint?.constant -= colorViewHeight
+                    distanceLabel.text = "距離為 \(colorDistancesString[2])"
+                } else if animationCount == 3 {
+                    colorViewFourLeadingConstraint?.constant = 20
+                    distanceLabelBottomConstraint?.constant -= colorViewHeight
+                    distanceLabel.text = "距離為 \(colorDistancesString[3])"
+                } else if animationCount == 4 {
+                    colorViewFiveTrailingConstraint?.constant = -10
+                    distanceLabelBottomConstraint?.constant -= colorViewHeight
+                    distanceLabel.text = "距離為 \(colorDistancesString[4])"
                 }
-                self.view.layoutIfNeeded()
-            } completion: { _ in
-                self.view.isUserInteractionEnabled = true
-                self.animationCount += 1
-            }
+                
+                view.isUserInteractionEnabled = false
+                UIView.animate(withDuration: 0.4) {
+                    if self.animationCount == 5 {
+                        self.missionColorView.alpha = 0
+                        self.distanceLabel.alpha = 0
+                        self.congratsLabel.alpha = 1
+                        self.backToMainPageButton.alpha = 1
+                        self.totalCountsLabel.alpha = 1
+                    }
+                    self.view.layoutIfNeeded()
+                } completion: { _ in
+                    self.view.isUserInteractionEnabled = true
+                    self.animationCount += 1
+                }
+             }
         }
     
     private func setUpUI() {

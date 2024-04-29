@@ -253,7 +253,9 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         guard let post = viewModel.post, section == 0 else { return 0 }
-        return post.imageHeight
+        let portion = post.imageWidth / view.frame.width
+        
+        return post.imageHeight / portion
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
