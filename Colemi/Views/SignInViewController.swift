@@ -7,47 +7,105 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseCore
 import AuthenticationServices
 import CryptoKit
+import GoogleSignIn
 
 class SignInViewController: UIViewController {
     
-    var appleUserID: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-            self.view.backgroundColor = .white
-            self.setSignInWithAppleBtn()
+        view.backgroundColor = .white
+        setUpUI()
     }
     
-    // MARK: - 在畫面上產生 Sign in with Apple 按鈕
-    func setSignInWithAppleBtn() {
-        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
+    private func setUpUI() {
+        view.addSubview(signInWithGoogleBtn)
         view.addSubview(signInWithAppleBtn)
+        
+        NSLayoutConstraint.activate([
+            signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
+            signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
+            signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            
+            signInWithGoogleBtn.heightAnchor.constraint(equalToConstant: 50),
+            signInWithGoogleBtn.widthAnchor.constraint(equalToConstant: 280),
+            signInWithGoogleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signInWithGoogleBtn.bottomAnchor.constraint(equalTo: signInWithAppleBtn.topAnchor, constant: -100),
+        ])
+    }
+    
+    // MARK: - Sign in with Google
+    
+    lazy var signInWithGoogleBtn: GIDSignInButton = {
+        let button = GIDSignInButton()
+        button.layer.cornerRadius = 25
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(signInWithGoogleBtnTapped), for: .touchUpInside)
+       
+        return button
+    }()
+    
+    @objc private func signInWithGoogleBtnTapped() {
+        signInWithGoogle()
+    }
+    
+    private func signInWithGoogle() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
+            
+            guard error == nil else {
+                CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
+                return
+            }
+            guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                             accessToken: user.accessToken.tokenString)
+            
+            self.firebaseSignInWithGoogle(credential: credential)
+        }
+    }
+
+    private func firebaseSignInWithGoogle(credential: AuthCredential) {
+        Auth.auth().signIn(with: credential) { authResult, error in
+            guard error == nil else {
+                CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
+                return
+            }
+            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+        }
+    }
+    
+    
+    // MARK: - Sign in with Apple
+    
+    lazy var signInWithAppleBtn: ASAuthorizationAppleIDButton = {
+        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
         signInWithAppleBtn.cornerRadius = 25
         signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
         signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
-        signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280).isActive = true
-        signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
-    }
-
-    func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
-        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white // 淺色模式就顯示黑色的按鈕，深色模式就顯示白色的按鈕
+        return signInWithAppleBtn
+    }()
+    
+    private func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
+        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white
     }
     
     fileprivate var currentNonce: String?
-
-    @objc func signInWithApple() {
+    
+    @objc private func signInWithApple() {
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
         request.nonce = sha256(nonce)
-
+        
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
@@ -59,7 +117,7 @@ class SignInViewController: UIViewController {
         let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
-
+        
         while(remainingLength > 0) {
             let randoms: [UInt8] = (0 ..< 16).map { _ in
                 var random: UInt8 = 0
@@ -69,12 +127,12 @@ class SignInViewController: UIViewController {
                 }
                 return random
             }
-
+            
             randoms.forEach { random in
                 if (remainingLength == 0) {
                     return
                 }
-
+                
                 if (random < charset.count) {
                     result.append(charset[Int(random)])
                     remainingLength -= 1
@@ -83,7 +141,7 @@ class SignInViewController: UIViewController {
         }
         return result
     }
-
+    
     private func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)
@@ -191,17 +249,9 @@ extension SignInViewController {
             CustomFunc.customAlert(title: "使用者登入或登出", message: "", vc: self, actionHandler: nil)
         }
     }
-
 }
 
-
 class CustomFunc {
-    /// 提示框
-    /// - Parameters:
-    ///   - title: 提示框標題
-    ///   - message: 提示訊息
-    ///   - vc: 要在哪一個 UIViewController 上呈現
-    ///   - actionHandler: 按下按鈕後要執行的動作，沒有的話就填 nil
     class func customAlert(title: String, message: String, vc: UIViewController, actionHandler: (() -> Void)?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let closeAction = UIAlertAction(title: "關閉", style: .default) { _ in
@@ -211,7 +261,6 @@ class CustomFunc {
         vc.present(alertController, animated: true)
     }
     
-    // MARK: - 取得送出/更新留言的當下時間
     class func getSystemTime() -> String {
         let currectDate = Date()
         let dateFormatter: DateFormatter = DateFormatter()
