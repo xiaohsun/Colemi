@@ -33,7 +33,7 @@ class SignInViewController: UIViewController {
             signInWithGoogleBtn.heightAnchor.constraint(equalToConstant: 50),
             signInWithGoogleBtn.widthAnchor.constraint(equalToConstant: 280),
             signInWithGoogleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithGoogleBtn.bottomAnchor.constraint(equalTo: signInWithAppleBtn.topAnchor, constant: -100),
+            signInWithGoogleBtn.bottomAnchor.constraint(equalTo: signInWithAppleBtn.topAnchor, constant: -100)
         ])
     }
     
@@ -72,7 +72,7 @@ class SignInViewController: UIViewController {
     }
 
     private func firebaseSignInWithGoogle(credential: AuthCredential) {
-        Auth.auth().signIn(with: credential) { authResult, error in
+        Auth.auth().signIn(with: credential) { _, error in
             guard error == nil else {
                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
                 return

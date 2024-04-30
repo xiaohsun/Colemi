@@ -49,7 +49,7 @@ class CommentCell: UITableViewCell {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             authorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             // authorImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             authorImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/10),
@@ -57,9 +57,11 @@ class CommentCell: UITableViewCell {
             
             authorNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
+            authorNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18),
             
             commentLabel.topAnchor.constraint(equalTo: authorNameLabel.bottomAnchor, constant: 10),
             commentLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
+            commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18),
             commentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -50),
             commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
@@ -86,6 +88,7 @@ extension CommentCell {
     func update(comment: Comment) {
         commentLabel.text = comment.body
         authorNameLabel.text = comment.userName
+        commentLabel.addLineSpacing()
     }
 }
     

@@ -38,7 +38,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "dleqw"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
         
         return label
     }()
@@ -51,6 +51,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         contentView.addSubview(avatarImageView)
         contentView.addSubview(messageView)
         contentView.addSubview(messageLabel)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
             avatarImageView.widthAnchor.constraint(equalToConstant: 50),
@@ -70,9 +71,8 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         ])
     }
     
-    override func layoutSubviews() {
+    override func draw(_ rect: CGRect) {
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-        
     }
     
     required init?(coder: NSCoder) {

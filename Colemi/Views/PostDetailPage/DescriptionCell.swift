@@ -47,6 +47,6 @@ class DescriptionCell: UITableViewCell {
 extension DescriptionCell {
     func update(content: Content) {
         descriptionLabel.text = content.description
-        descriptionLabel.addCharacterSpacing()
+        descriptionLabel.addLineSpacing()
     }
 }

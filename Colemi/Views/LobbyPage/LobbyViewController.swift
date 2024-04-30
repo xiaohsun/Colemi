@@ -128,7 +128,7 @@ class LobbyViewController: UIViewController {
             buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonTwo.heightAnchor.constraint(equalToConstant: buttonHeight),
             buttonTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonTwo.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
+            buttonTwo.topAnchor.constraint(equalTo: view.topAnchor, constant: 62),
             
             buttonThree.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonThree.heightAnchor.constraint(equalToConstant: buttonHeight),

@@ -9,9 +9,9 @@ import UIKit
 
 extension UITextView {
     
-    func addLineSpacing(lineSpacing: CGFloat) {
+    func addLineSpacing() {
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = lineSpacing
+            paragraphStyle.lineSpacing = 5
             let attributes = [NSAttributedString.Key.paragraphStyle : paragraphStyle]
             typingAttributes = attributes
         }

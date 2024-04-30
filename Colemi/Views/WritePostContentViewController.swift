@@ -72,7 +72,7 @@ class WritePostContentViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         textView.layer.cornerRadius = RadiusProperty.radiusThirty.rawValue
-        textView.addLineSpacing(lineSpacing: 5)
+        textView.addLineSpacing()
         textView.textColor = .white
         textView.textContainerInset = .init(top: 25, left: 20, bottom: 25, right: 20)
         textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)

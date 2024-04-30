@@ -8,7 +8,7 @@
 import UIKit
 
 extension UILabel {
-    func addCharacterSpacing() {
+    func addLineSpacing() {
         if let labelText = text, !labelText.isEmpty {
             
             let attributedString = NSMutableAttributedString(string: labelText)

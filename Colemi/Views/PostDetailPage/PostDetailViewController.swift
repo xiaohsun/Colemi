@@ -20,11 +20,14 @@ class PostDetailViewController: UIViewController {
     var imageUrl = ""
     var post: Post?
     var comments: [Comment] = []
-    let textViewMaxHeight: CGFloat = 100
+    
     var headerView: DetailTableViewHeaderView?
     
     var commentTextViewTrailing: NSLayoutConstraint?
     var commentTextViewHeight: NSLayoutConstraint?
+    
+    let textViewMaxHeight: CGFloat = 100
+    let textViewInitHeight: CGFloat = 33
     
     var xPosition: CGFloat = 0
     var yPosition: CGFloat = 0
@@ -72,11 +75,16 @@ class PostDetailViewController: UIViewController {
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
         textView.delegate = self
         
         return textView
     }()
+    
+    private func commentTextViewInit() {
+        commentTextView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        commentTextView.textColor = ThemeColorProperty.darkColor.getColor()
+        commentTextView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+    }
     
     lazy var starImageView: UIImageView = {
         let imageView = UIImageView()
@@ -125,11 +133,12 @@ class PostDetailViewController: UIViewController {
         view.addSubview(sendButton)
         view.layer.cornerRadius = 30
         setUpStarImageView()
+        commentTextViewInit()
         
         commentTextViewTrailing = commentTextView.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -10)
         commentTextViewTrailing?.isActive = true
         
-        commentTextViewHeight = commentTextView.heightAnchor.constraint(equalToConstant: 33)
+        commentTextViewHeight = commentTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
         commentTextViewHeight?.isActive = true
         
         tableView.register(DetailTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderView.reuseIdentifier)
@@ -294,16 +303,26 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
 
 extension PostDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        let size = CGSize(width: commentTextView.frame.size.width, height: .infinity)
+        let size = CGSize(width: commentTextView.frame.size.width - 10, height: .infinity)
         let estimatedSize = commentTextView.sizeThatFits(size)
+        
+        commentTextViewInit()
         
         guard commentTextView.contentSize.height < 100 else {
             commentTextView.isScrollEnabled = true
             return
         }
         
+        guard let commentTextViewHeight = commentTextViewHeight else { return }
+        
         commentTextView.isScrollEnabled = false
-        commentTextViewHeight?.constant = estimatedSize.height
+        
+        if estimatedSize.height > textViewInitHeight {
+            commentTextViewHeight.constant = estimatedSize.height
+            commentTextView.addLineSpacing()
+        } else {
+            commentTextViewHeight.constant = textViewInitHeight
+        }
         
         if textView.text != "" {
             UIView.animate(withDuration: 0.3) {

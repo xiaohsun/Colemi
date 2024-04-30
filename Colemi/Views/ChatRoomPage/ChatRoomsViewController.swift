@@ -43,6 +43,9 @@ class ChatRoomsViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(createChatRoomButton)
         
+        navigationItem.title = "訊息"
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -54,7 +57,6 @@ class ChatRoomsViewController: UIViewController {
             createChatRoomButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             createChatRoomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
     }
     
     override func viewDidLoad() {
@@ -79,7 +81,10 @@ extension ChatRoomsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let userData = userData else { return }
         let chatRoomViewController = ChatRoomViewController()
-        chatRoomViewController.viewModel.chatRoomID = userData.chatRooms[indexPath.item].id
+        let simpleChatRoom = userData.chatRooms[indexPath.item]
+        chatRoomViewController.viewModel.chatRoomID = simpleChatRoom.id
+        chatRoomViewController.viewModel.otherUserName = simpleChatRoom.receiverName
+        
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
