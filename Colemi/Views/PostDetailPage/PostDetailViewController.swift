@@ -41,6 +41,7 @@ class PostDetailViewController: UIViewController {
     lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle("Send", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 14)
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
@@ -71,7 +72,7 @@ class PostDetailViewController: UIViewController {
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = .systemFont(ofSize: 14)
+        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
         textView.delegate = self
         
         return textView
@@ -219,12 +220,12 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CommentCell.reuseIdentifier, for: indexPath) as? CommentCell else { return UITableViewCell() }
-            
             let comment = viewModel.comments[indexPath.item]
             cell.update(comment: comment)
             
             return cell
         }
+        
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -243,7 +244,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
             headerView.addGestureRecognizer(tapGesture)
             headerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
-
+            
             
             return headerView
         } else {

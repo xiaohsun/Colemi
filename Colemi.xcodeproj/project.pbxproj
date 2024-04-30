@@ -88,6 +88,7 @@
 		2880644B2BD14A7000FC2EFA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644A2BD14A7000FC2EFA /* User.swift */; };
 		2880644D2BD153B500FC2EFA /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */; };
 		288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */; };
+		28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28966AC12BE099AD0088A526 /* UILabel+Extension.swift */; };
 		289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */; };
 		289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */; };
 		289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729D2BDD4C4300051D07 /* GenSenRounded-H.ttc */; };
@@ -172,6 +173,7 @@
 		2880644A2BD14A7000FC2EFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
+		28966AC12BE099AD0088A526 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-B.ttc"; sourceTree = "<group>"; };
 		289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-EL.ttc"; sourceTree = "<group>"; };
 		289D729C2BDD4C4200051D07 /* GenSenRounded-L.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-L.ttc"; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 			children = (
 				284F32C22BC9839400A61E88 /* UIColor+Extension.swift */,
 				289D72A82BDE0D2500051D07 /* UITextField+Extension.swift */,
+				28966AC12BE099AD0088A526 /* UILabel+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -602,6 +605,7 @@
 				281C65862BCFFE29003D2ECE /* TagCell.swift in Sources */,
 				282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */,
 				282343932BCEB5D20040C1CA /* Post.swift in Sources */,
+				28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */,
 				282343912BCD22020040C1CA /* ColorSimilarityViewModel.swift in Sources */,
 				282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,

@@ -410,7 +410,6 @@ class ChooseColorViewController: UIViewController {
         view.addSubview(raindropImageView3)
         view.addSubview(checkIconImageView)
         
-        setUpRainInitPosition()
         commonInitPostion()
         
         NSLayoutConstraint.activate([
@@ -505,14 +504,7 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
                 self.goodWeather = true
                 // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
-                // self.weatherDescriptionLabel.text = "天氣晴，適合什麼樣的顏色呢？"
                 
-                // 暫時測試
-                self.raindropImageView1.tintColor = self.colorModel.sunnyColors[2]
-                self.raindropImageView2.tintColor = self.colorModel.sunnyColors[0]
-                self.raindropImageView3.tintColor = self.colorModel.sunnyColors[1]
-                
-                // self.rainAnimation()
                 self.setUpSunnyInitPosition()
                 self.sunnyAnimation()
                 
@@ -529,9 +521,8 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
                 self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
                 
-                // self.rainAnimation()
-                self.setUpSunnyInitPosition()
-                self.sunnyAnimation()
+                self.setUpRainInitPosition()
+                self.rainAnimation()
             }
         }
     }

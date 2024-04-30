@@ -25,8 +25,8 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "臭芭樂"
         
         return label
@@ -36,8 +36,8 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -68,6 +68,7 @@ class CommentCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        
         setUpUI()
     }
     
@@ -75,8 +76,8 @@ class CommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         authorImageView.layer.cornerRadius = authorImageView.frame.width / 2
     }
 }
