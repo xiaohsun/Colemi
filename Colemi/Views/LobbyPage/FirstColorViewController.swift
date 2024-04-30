@@ -32,7 +32,7 @@ class FirstColorViewController: UIViewController {
             postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
             postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
         ])
     }
     

@@ -95,10 +95,6 @@ class ChatRoomViewController: UIViewController {
         setUpUI()
         viewModel.delegate = self
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
 }
 
 extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {

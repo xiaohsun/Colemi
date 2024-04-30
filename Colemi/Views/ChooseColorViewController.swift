@@ -77,7 +77,7 @@ class ChooseColorViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage.raindropIcon.withRenderingMode(.alwaysTemplate)
+        imageView.image = .rainDropIcon.withRenderingMode(.alwaysTemplate)
         imageView.alpha = 0
         
         return imageView

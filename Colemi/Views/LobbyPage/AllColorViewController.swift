@@ -156,6 +156,20 @@ class AllColorViewController: UIViewController {
         }
     }
     
+    lazy var signInButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("SignInPage", for: .normal)
+        button.backgroundColor = .black
+        button.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func signInButtonTapped() {
+        let signInViewController = SignInViewController()
+        navigationController?.pushViewController(signInViewController, animated: true)
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -171,6 +185,7 @@ class AllColorViewController: UIViewController {
         view.addSubview(createUserButton)
         view.addSubview(loginUser1Button)
         view.addSubview(loginUser2Button)
+        view.addSubview(signInButton)
         
         NSLayoutConstraint.activate([
             
@@ -188,6 +203,11 @@ class AllColorViewController: UIViewController {
             loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
             loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
             loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            signInButton.heightAnchor.constraint(equalToConstant: 50),
+            signInButton.widthAnchor.constraint(equalToConstant: 100),
+            signInButton.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
             chooseColorButton.widthAnchor.constraint(equalToConstant: 100),

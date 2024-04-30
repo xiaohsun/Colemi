@@ -116,6 +116,7 @@
 		28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530F2BD4BA3C00864187 /* FakeUserData.swift */; };
 		28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */; };
 		28D253162BD62D1600864187 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253152BD62D1600864187 /* TabBarController.swift */; };
+		28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -202,6 +203,7 @@
 		28D2530F2BD4BA3C00864187 /* FakeUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUserData.swift; sourceTree = "<group>"; };
 		28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewModel.swift; sourceTree = "<group>"; };
 		28D253152BD62D1600864187 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +260,7 @@
 				281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */,
 				282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */,
 				2880644E2BD1550C00FC2EFA /* ChatRoomPage */,
+				28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
+				28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */,
 				289D72A92BDE0D2500051D07 /* UITextField+Extension.swift in Sources */,
 				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
