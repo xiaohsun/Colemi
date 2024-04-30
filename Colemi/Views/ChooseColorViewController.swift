@@ -22,12 +22,17 @@ class ChooseColorViewController: UIViewController {
     
     var colorView1XCons: NSLayoutConstraint?
     var colorView1YCons: NSLayoutConstraint?
+    var colorView1WidthCons: NSLayoutConstraint?
+    var colorView1HeightCons: NSLayoutConstraint?
     var colorView2XCons: NSLayoutConstraint?
     var colorView2YCons: NSLayoutConstraint?
-    var colorView3XCons: NSLayoutConstraint?
-    var colorView3YCons: NSLayoutConstraint?
     var colorView2WidthCons: NSLayoutConstraint?
     var colorView2HeightCons: NSLayoutConstraint?
+    var colorView3XCons: NSLayoutConstraint?
+    var colorView3YCons: NSLayoutConstraint?
+    var colorView3WidthCons: NSLayoutConstraint?
+    var colorView3HeightCons: NSLayoutConstraint?
+    
     var raindropView1TopCons: NSLayoutConstraint?
     var raindropView2TopCons: NSLayoutConstraint?
     var raindropView3TopCons: NSLayoutConstraint?
@@ -44,7 +49,7 @@ class ChooseColorViewController: UIViewController {
         return label
     }()
     
-    func createColorView() -> UIView {
+    private func createColorView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(colorTapped))
@@ -56,6 +61,17 @@ class ChooseColorViewController: UIViewController {
         
         return view
     }
+    
+    lazy var auraImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage.auraIcon.withRenderingMode(.alwaysTemplate)
+        imageView.alpha = 0
+        imageView.tintColor = colorModel.sunnyColors[2]
+        
+        return imageView
+    }()
     
     func createRaindropImageView() -> UIView {
         let imageView = UIImageView()
@@ -116,31 +132,52 @@ class ChooseColorViewController: UIViewController {
         }
     }
     
-    // 下雨天最初的位置
-    private func setUpRainInitPosition() {
-        
-        colorView1XCons = colorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -10)
+    private func commonInitPostion() {
+        colorView1XCons = colorView1.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         colorView1YCons = colorView1.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -650)
+        colorView1WidthCons = colorView1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3)
+        colorView1HeightCons = colorView1.heightAnchor.constraint(equalTo: colorView1.widthAnchor)
         
         colorView1XCons?.isActive = true
         colorView1YCons?.isActive = true
+        colorView1WidthCons?.isActive = true
+        colorView1HeightCons?.isActive = true
         
-        colorView2XCons = colorView2.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor, constant: -30)
-        colorView2YCons = colorView2.centerYAnchor.constraint(equalTo: colorView1.centerYAnchor, constant: 60)
-        colorView2WidthCons = colorView2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.35)
-        colorView2HeightCons = colorView2.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.35)
+        colorView2XCons = colorView2.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor)
+        colorView2YCons = colorView2.centerYAnchor.constraint(equalTo: colorView1.centerYAnchor)
+        colorView2WidthCons = colorView2.widthAnchor.constraint(equalTo: colorView1.widthAnchor)
+        colorView2HeightCons = colorView2.heightAnchor.constraint(equalTo: colorView2.widthAnchor)
         
         colorView2XCons?.isActive = true
         colorView2YCons?.isActive = true
         colorView2WidthCons?.isActive = true
         colorView2HeightCons?.isActive = true
         
-        colorView3XCons = colorView3.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor, constant: 60)
-        colorView3YCons = colorView3.centerYAnchor.constraint(equalTo: colorView1.centerYAnchor, constant: 50)
+        colorView3XCons = colorView3.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor)
+        colorView3YCons = colorView3.centerYAnchor.constraint(equalTo: colorView1.centerYAnchor)
+        colorView3WidthCons = colorView3.widthAnchor.constraint(equalTo: colorView1.widthAnchor)
+        colorView3HeightCons = colorView3.heightAnchor.constraint(equalTo: colorView3.widthAnchor)
         
         colorView3XCons?.isActive = true
         colorView3YCons?.isActive = true
+        colorView3WidthCons?.isActive = true
+        colorView3HeightCons?.isActive = true
+    }
+    
+    // 晴天最初的位置
+    private func setUpSunnyInitPosition() {
+        view.addSubview(auraImageView)
         
+        NSLayoutConstraint.activate([
+            auraImageView.widthAnchor.constraint(equalTo: colorView3.widthAnchor, constant: 130),
+            auraImageView.heightAnchor.constraint(equalTo: colorView3.heightAnchor, constant: 130),
+            auraImageView.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor),
+            auraImageView.centerYAnchor.constraint(equalTo: colorView1.centerYAnchor)
+        ])
+    }
+    
+    // 下雨天最初的位置
+    private func setUpRainInitPosition() {
         raindropView1TopCons = raindropImageView1.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: -100)
         raindropView2TopCons = raindropImageView2.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: -90)
         raindropView3TopCons = raindropImageView3.topAnchor.constraint(equalTo: colorView3.bottomAnchor, constant: -100)
@@ -150,12 +187,118 @@ class ChooseColorViewController: UIViewController {
         raindropView3TopCons?.isActive = true
     }
     
+    private func sunnyAnimation() {
+        for colorView in self.colorViews {
+            colorView.alpha = 1
+        }
+        
+        self.colorView1WidthCons?.constant = -70
+        self.colorView1YCons?.constant = -230
+        
+        UIView.animate(withDuration: 1.4, delay: 0.8, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9, options: .curveEaseIn) {
+            self.view.layoutIfNeeded()
+            
+        } completion: { _ in
+            self.colorView3WidthCons?.constant = 30
+            
+            UIView.animate(withDuration: 0.4) {
+                self.view.layoutIfNeeded()
+                
+            } completion: { _ in
+                self.colorView2WidthCons?.constant = 60
+                
+                UIView.animate(withDuration: 0.4) {
+                    self.view.layoutIfNeeded()
+                    
+                } completion: { _ in
+                    UIView.animate(withDuration: 0.4, delay: 0.4) {
+                        self.auraImageView.alpha = 1
+                        
+                    } completion: { _ in
+                        UIView.animate(withDuration: 0.6, delay: 0.4) {
+                            self.auraImageView.transform = self.auraImageView.transform.rotated(by: .pi * 1.5)
+                            
+                        } completion: { _ in
+                            UIView.animate(withDuration: 0.6) {
+                                self.auraImageView.transform = self.auraImageView.transform.rotated(by: .pi * 1.5)
+                                
+                            } completion: { _ in
+                                UIView.animate(withDuration: 0.4, delay: 0.4) {
+                                    self.auraImageView.alpha = 0
+                                    
+                                } completion: { _ in
+                                        self.colorView1XCons?.isActive = false
+                                        self.colorView1YCons?.isActive = false
+                                        self.colorView2XCons?.isActive = false
+                                        self.colorView2YCons?.isActive = false
+                                        self.colorView3XCons?.isActive = false
+                                        self.colorView3YCons?.isActive = false
+                                        
+                                        self.colorView1XCons = self.colorView1.centerXAnchor.constraint(equalTo: self.colorContainerView1.centerXAnchor)
+                                        self.colorView1YCons = self.colorView1.centerYAnchor.constraint(equalTo: self.colorContainerView1.centerYAnchor)
+                                        
+                                        self.colorView1WidthCons?.constant = 0
+                                        
+                                        self.colorView2XCons = self.colorView2.centerXAnchor.constraint(equalTo: self.colorContainerView2.centerXAnchor)
+                                        self.colorView2YCons = self.colorView2.centerYAnchor.constraint(equalTo: self.colorContainerView2.centerYAnchor)
+                                        
+                                        self.colorView2WidthCons?.constant = 0
+                                        
+                                        self.colorView3XCons = self.colorView3.centerXAnchor.constraint(equalTo: self.colorContainerView3.centerXAnchor)
+                                        self.colorView3YCons = self.colorView3.centerYAnchor.constraint(equalTo: self.colorContainerView3.centerYAnchor)
+                                        
+                                        self.colorView3WidthCons?.constant = 0
+                                        
+                                        self.colorView1XCons?.isActive = true
+                                        self.colorView1YCons?.isActive = true
+                                        self.colorView2XCons?.isActive = true
+                                        self.colorView2YCons?.isActive = true
+                                        self.colorView3XCons?.isActive = true
+                                        self.colorView3YCons?.isActive = true
+                                        
+                                        UIView.animate(withDuration: 0.6, delay: 0.3) {
+                                            self.view.layoutIfNeeded()
+                                            
+                                        } completion: { _ in
+                                            UIView.animate(withDuration: 0.6) {
+                                                for colorContainerView in self.colorContainerViews {
+                                                    colorContainerView.alpha = 0.3
+                                                }
+                                                
+                                            } completion: { _ in
+                                                UIView.animate(withDuration: 0.6) {
+                                                    self.chooseColorLabel.alpha = 1
+                                                    self.checkIconImageView.alpha = 1
+                                                }
+                                                self.checkIconImageView.isUserInteractionEnabled = true
+                                                
+                                                for colorView in self.colorViews {
+                                                    colorView.isUserInteractionEnabled = true
+                                                }
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     private func rainAnimation() {
         for colorView in self.colorViews {
             colorView.alpha = 1
         }
         
+        self.colorView1XCons?.constant = -10
         self.colorView1YCons?.constant = -250
+        self.colorView2XCons?.constant = -30
+        self.colorView2YCons?.constant = 60
+        self.colorView2WidthCons?.constant = 40
+        self.colorView3XCons?.constant = 60
+        self.colorView3YCons?.constant = 50
         
         UIView.animate(withDuration: 1.4, delay: 0.8, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9, options: .curveEaseIn) {
             
@@ -268,6 +411,7 @@ class ChooseColorViewController: UIViewController {
         view.addSubview(checkIconImageView)
         
         setUpRainInitPosition()
+        commonInitPostion()
         
         NSLayoutConstraint.activate([
             chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -278,9 +422,6 @@ class ChooseColorViewController: UIViewController {
             colorContainerView1.widthAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
             colorContainerView1.heightAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
             
-            colorView1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            colorView1.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            
             colorContainerView2.topAnchor.constraint(equalTo: colorContainerView1.bottomAnchor, constant: 30),
             colorContainerView2.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
             colorContainerView2.widthAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
@@ -290,9 +431,6 @@ class ChooseColorViewController: UIViewController {
             colorContainerView3.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
             colorContainerView3.widthAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
             colorContainerView3.heightAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
-            
-            colorView3.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            colorView3.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             
             raindropImageView1.heightAnchor.constraint(equalToConstant: 40),
             raindropImageView1.widthAnchor.constraint(equalToConstant: 40),
@@ -374,7 +512,9 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.raindropImageView2.tintColor = self.colorModel.sunnyColors[0]
                 self.raindropImageView3.tintColor = self.colorModel.sunnyColors[1]
                 
-                self.rainAnimation()
+                // self.rainAnimation()
+                self.setUpSunnyInitPosition()
+                self.sunnyAnimation()
                 
             default:
                 self.colorView1.backgroundColor = self.colorModel.rainColors[2]
@@ -389,7 +529,9 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
                 self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
                 
-                self.rainAnimation()
+                // self.rainAnimation()
+                self.setUpSunnyInitPosition()
+                self.sunnyAnimation()
             }
         }
     }

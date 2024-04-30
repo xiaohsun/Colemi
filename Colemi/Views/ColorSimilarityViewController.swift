@@ -355,6 +355,5 @@ class ColorSimilarityViewController: UIViewController {
 extension ColorSimilarityViewController: CloudVisionManagerDelegate {
     func getColorsRGB(colors: [Color]) {
         self.colors = colors
-        
     }
 }

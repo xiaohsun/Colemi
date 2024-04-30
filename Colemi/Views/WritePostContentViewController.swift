@@ -25,7 +25,7 @@ class WritePostContentViewController: UIViewController {
         imageView.layer.borderWidth = 2
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        imageView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         return imageView
     }()
     
@@ -227,13 +227,13 @@ class WritePostContentViewController: UIViewController {
             colorView.heightAnchor.constraint(equalToConstant: 70),
             colorView.widthAnchor.constraint(equalToConstant: 70),
             
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120),
-            imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/5),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
+            imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.21),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 3/4),
             
             titleTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            titleTextField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 35),
+            titleTextField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30),
             titleTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             descriptionTextView.leadingAnchor.constraint(equalTo: titleTextField.leadingAnchor, constant: 50),
@@ -325,6 +325,7 @@ extension WritePostContentViewController: PHPickerViewControllerDelegate {
                     }
                     DispatchQueue.main.async {
                         self.imageView.image = image
+                        self.imageView.layer.borderWidth = 0
                         self.imageData = image.jpegData(compressionQuality: 0.7)
                         self.selectedImageSize = image.size
                         self.selectedImage = image

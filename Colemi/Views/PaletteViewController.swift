@@ -454,6 +454,7 @@ class PaletteViewController: UIViewController {
                             
                             UIView.animate(withDuration: 0.4, delay: 0.5, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                                 self.view.layoutIfNeeded()
+                                
                             } completion: { _ in
                                 self.mixColorViewWidthCons?.constant = 1000
                                 self.mixColorViewHeightCons?.constant = 1000
