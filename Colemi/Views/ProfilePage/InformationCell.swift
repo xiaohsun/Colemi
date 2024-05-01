@@ -18,8 +18,8 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "勳仔子"
         
         return label
@@ -29,8 +29,8 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "xiaohsun"
         
         return label
@@ -50,8 +50,8 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "粉絲"
         
         return label
@@ -61,8 +61,8 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "999"
         
         return label
@@ -72,8 +72,8 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "追蹤中"
         
         return label
@@ -83,8 +83,8 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "50"
         
         return label
@@ -104,8 +104,8 @@ class InformationCell: UITableViewCell {
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
     
     func setUpUI() {
-        contentView.backgroundColor = UIColor(hex: "#F9F4E8")
-        collectionView.backgroundColor = UIColor(hex: "#F9F4E8")
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(nameLabel)
         contentView.addSubview(idLabel)
         contentView.addSubview(avatarImageView)
@@ -123,12 +123,12 @@ class InformationCell: UITableViewCell {
             idLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             
             avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 50),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 50),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 60),
+            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             
             followersLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            followersLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
+            followersLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 40),
             
             followersNumberLabel.centerXAnchor.constraint(equalTo: followersLabel.centerXAnchor),
             followersNumberLabel.topAnchor.constraint(equalTo: followersLabel.bottomAnchor, constant: 10),

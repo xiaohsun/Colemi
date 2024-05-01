@@ -88,6 +88,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MissionCell.reuseIdentifier, for: indexPath) as? MissionCell else { return UITableViewCell() }
             
+            if let color = userData.selectedUIColor {
+                cell.update(color: color)
+            }
+            
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
@@ -189,7 +193,6 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
 extension ProfileViewController: SelectorHeaderViewDelegate {
     func changeShowingPostsOrSaved(isShowingMyPosts: Bool) {
         self.isShowingMyPosts = isShowingMyPosts
-        print("Hi delegate")
         tableView.reloadData()
     }
 }

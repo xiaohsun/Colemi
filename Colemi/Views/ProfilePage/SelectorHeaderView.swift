@@ -17,6 +17,8 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     lazy var postsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "貼文"
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(postsGetTapped))
         label.addGestureRecognizer(tapGesture)
@@ -28,6 +30,8 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     lazy var savesLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "收藏"
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(savedGetTapped))
         label.addGestureRecognizer(tapGesture)

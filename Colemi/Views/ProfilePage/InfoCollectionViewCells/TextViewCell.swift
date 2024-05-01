@@ -24,6 +24,9 @@ class TextViewCell: UICollectionViewCell {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
+        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        textView.textColor = ThemeColorProperty.darkColor.getColor()
+        textView.text = "人無完人，而我是例外。"
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
         return textView
