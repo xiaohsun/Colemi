@@ -97,6 +97,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
             cell.update(viewModel: viewModel)
             cell.delegate = self
+            
             if !isOthersPage {
                 if isShowingMyPosts {
                     Task {
