@@ -11,7 +11,7 @@ class TodayColorViewController: UIViewController {
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
-    var buttonWidth: CGFloat = 50
+    var buttonWidth: CGFloat = 25
     var buttonHeight: CGFloat = 25
     
     var indicatorLeading: NSLayoutConstraint?
@@ -22,35 +22,35 @@ class TodayColorViewController: UIViewController {
     
     private lazy var indicatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = ThemeColorProperty.darkColor.getColor()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     lazy var buttonOne: UIButton = {
         let button = UIButton()
-        button.setTitle("One", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = UIColor(hex: "#B5C0BA")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
         return button
     }()
     
     lazy var buttonTwo: UIButton = {
         let button = UIButton()
-        button.setTitle("Two", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = UIColor(hex: "#8BAEAA")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
         return button
     }()
     
     lazy var buttonThree: UIButton = {
         let button = UIButton()
-        button.setTitle("Three", for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = UIColor(hex: "#025A6A")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
         return button
     }()
     
@@ -108,7 +108,7 @@ class TodayColorViewController: UIViewController {
         NSLayoutConstraint.activate([
             buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonOne.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -buttonWidth),
+            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -buttonWidth * 2),
             buttonOne.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
             buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
@@ -118,11 +118,11 @@ class TodayColorViewController: UIViewController {
             
             buttonThree.widthAnchor.constraint(equalToConstant: buttonWidth),
             buttonThree.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: buttonWidth),
+            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: buttonWidth * 2),
             buttonThree.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
-            indicatorView.widthAnchor.constraint(equalToConstant: 10),
-            indicatorView.heightAnchor.constraint(equalToConstant: 10),
+            indicatorView.widthAnchor.constraint(equalToConstant: 5),
+            indicatorView.heightAnchor.constraint(equalToConstant: 5),
             indicatorView.topAnchor.constraint(equalTo: buttonOne.bottomAnchor, constant: 10),
             
             scrollView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 15),
@@ -160,6 +160,23 @@ extension TodayColorViewController: UIScrollViewDelegate {
             if currentIndex != currentPage {
                 currentIndex = currentPage
                 print("Switched to child view controller at index \(currentIndex)")
+                
+                switch currentIndex {
+                case 0:
+                    let vc = children[0] as? FirstColorViewController
+                    // vc?.loadData()
+                    // vc?.loadedBefore = true
+                case 1:
+                    let vc = children[1] as? SecondColorViewController
+                    vc?.loadData()
+                    vc?.loadedBefore = true
+                case 2:
+                    let vc = children[2] as? ThirdColorViewController
+                    vc?.loadData()
+                    vc?.loadedBefore = true
+                default:
+                    return
+                }
             }
         }
         

@@ -12,6 +12,7 @@ class MixColorViewController: UIViewController {
     var buttons: [UIButton] = []
     var buttonWidth: CGFloat = 50
     var buttonHeight: CGFloat = 25
+    var loadedBefore: Bool = false
     
     var indicatorLeading: NSLayoutConstraint?
     
@@ -138,6 +139,10 @@ class MixColorViewController: UIViewController {
         addChildVCs()
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("Hi this is mix")
     }
     
     override func viewDidLayoutSubviews() {

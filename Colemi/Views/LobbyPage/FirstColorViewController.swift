@@ -11,6 +11,7 @@ class FirstColorViewController: UIViewController {
     
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
+    var loadedBefore: Bool = false
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
@@ -49,12 +50,41 @@ class FirstColorViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        viewModel.readData {
-            DispatchQueue.main.async {
-                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-                self.postsCollectionView.reloadData()
+        print("hahaha, this is viewWillAppear")
+        
+        
+//        viewModel.readData {
+//            DispatchQueue.main.async {
+//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
+//                self.postsCollectionView.reloadData()
+//            }
+//        }
+        
+        Task.detached {
+            await self.viewModel.getSpecificPosts(colorCode: "#B5C0BA") {
+                DispatchQueue.main.async {
+                    self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                    self.postsCollectionView.reloadData()
+                }
             }
         }
+    }
+    
+//    func loadData() {
+//        if !loadedBefore {
+//            Task.detached {
+//                await self.viewModel.getSpecificPosts(colorCode: "#B5C0BA") {
+//                    DispatchQueue.main.async {
+//                        self.postsCollectionView.collectionViewLayout.invalidateLayout()
+//                        self.postsCollectionView.reloadData()
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
+    override func viewIsAppearing(_ animated: Bool) {
+        print("hahaha, this is viewIsAppearing")
     }
 }
 

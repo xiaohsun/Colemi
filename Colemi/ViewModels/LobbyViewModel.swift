@@ -93,6 +93,31 @@ class LobbyViewModel {
         }
     }
     
+    func getSpecificPosts(colorCode: String, completion: @escaping() -> Void) async {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.posts.ref
+        
+        self.posts = []
+        self.contentJSONString = []
+        self.sizes = []
+        
+        let posts: [Post] = await firestoreManager.getMultipleEqualToDocuments(collection: ref, field: "color", value: colorCode)
+        
+        self.posts = posts
+        
+        for post in posts {
+            
+            let cgWidth = CGFloat(post.imageWidth)
+            let cgHeight = CGFloat(post.imageHeight)
+            
+            self.sizes.append(CGSize(width: cgWidth, height: cgHeight))
+            self.contentJSONString.append(post.content)
+        }
+        completion()
+    }
+    
+    
+    
     
 //    func readData(completion: @escaping () -> Void) {
 //        Firestore.firestore().collection("posts").order(by: "createdTime", descending: true).getDocuments { querySnapshot, error in

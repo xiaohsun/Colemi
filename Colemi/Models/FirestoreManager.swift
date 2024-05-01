@@ -88,7 +88,6 @@ class FirestoreManager {
                 completion(nil)
             }
         }
-        
     }
     
     // Limitted 30
@@ -105,6 +104,34 @@ class FirestoreManager {
             } else {
                 query = collection.whereField(FieldPath.documentID(), in: docIDs)
             }
+            
+            do {
+                guard let query = query else { return [] }
+                let querySnapshots = try await query.getDocuments()
+                for doc in querySnapshots.documents {
+                    let data = doc.data()
+                    if let decodedData = try? Firestore.Decoder().decode(T.self, from: data) {
+                        documents.append(decodedData)
+                    }
+                }
+            } catch {
+                print("Error fetching documents: \(error)")
+            }
+            return documents
+        }
+        
+        return documents
+    }
+    
+    func getMultipleEqualToDocuments<T: Codable>(collection: CollectionReference, field: String, value: String) async -> [T] {
+        
+        var documents: [T] = []
+        
+        if value != "" {
+            
+            var query: Query?
+            
+            query = collection.whereField(field, isEqualTo: value).order(by: "createdTime", descending: true)
             
             do {
                 guard let query = query else { return [] }
