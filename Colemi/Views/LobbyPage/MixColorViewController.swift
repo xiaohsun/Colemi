@@ -8,170 +8,145 @@
 import UIKit
 
 class MixColorViewController: UIViewController {
-    var currentIndex: Int = 0
-    var buttons: [UIButton] = []
-    var buttonWidth: CGFloat = 50
-    var buttonHeight: CGFloat = 25
-    var loadedBefore: Bool = false
+    let viewModel = LobbyViewModel()
+    let userManager = UserManager.shared
     
-    var indicatorLeading: NSLayoutConstraint?
+    var selectedImageView: UIImageView?
+    var selectedCell: LobbyPostCell?
     
-    private lazy var firstChild = FirstColorViewController()
-    private lazy var secondChild = SecondColorViewController()
-    private lazy var thirdChild = ThirdColorViewController()
+    var colorViewWidth: CGFloat = 25
     
-    private lazy var indicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    lazy var colorImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = UIColor(hex: "#54518B")
+        imageView.layer.cornerRadius = 5
+        return imageView
     }()
     
-    lazy var buttonOne: UIButton = {
-        let button = UIButton()
-        button.setTitle("One", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var buttonTwo: UIButton = {
-        let button = UIButton()
-        button.setTitle("Two", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var buttonThree: UIButton = {
-        let button = UIButton()
-        button.setTitle("Three", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    @objc private func buttonTapped(_ sender: UIButton) {
-        switch sender {
-        case buttonOne:
-            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        case buttonTwo:
-            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
-        case buttonThree:
-            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width * 2, y: 0), animated: true)
-        default:
-            break
-        }
-    }
-    
-    lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView(frame: view.bounds)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.isPagingEnabled = true
-        scrollView.delegate = self
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.isDirectionalLockEnabled = true
-        return scrollView
-    }()
-    
-    private func addChildVCs() {
-        addChild(firstChild)
-        addChild(secondChild)
-        addChild(thirdChild)
+    lazy var postsCollectionView: UICollectionView = {
+        let layout = LobbyLayout()
+        layout.delegate = self
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        collectionView.showsVerticalScrollIndicator = false
         
-        for (index, childVC) in children.enumerated() {
-            childVC.view.frame = CGRect(x: CGFloat(index) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
-            scrollView.addSubview(childVC.view)
-            childVC.didMove(toParent: self)
-        }
-    }
+        return collectionView
+    }()
     
     private func setUpUI() {
         
-        view.addSubview(scrollView)
-        view.addSubview(buttonOne)
-        view.addSubview(buttonTwo)
-        view.addSubview(buttonThree)
-        view.addSubview(indicatorView)
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
-        buttons.append(buttonOne)
-        buttons.append(buttonTwo)
-        buttons.append(buttonThree)
-        
-        indicatorLeading = indicatorView.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor)
-        indicatorLeading?.isActive = true
+        view.addSubview(colorImageView)
+        view.addSubview(postsCollectionView)
         
         NSLayoutConstraint.activate([
-            buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
-            buttonOne.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -buttonWidth),
-            buttonOne.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
+            colorImageView.widthAnchor.constraint(equalToConstant: colorViewWidth),
+            colorImageView.heightAnchor.constraint(equalToConstant: colorViewWidth),
+            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorImageView.topAnchor.constraint(equalTo: view.topAnchor),
             
-            buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
-            buttonTwo.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttonTwo.topAnchor.constraint(equalTo: view.topAnchor),
-            
-            buttonThree.widthAnchor.constraint(equalToConstant: buttonWidth),
-            buttonThree.heightAnchor.constraint(equalToConstant: buttonHeight),
-            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: buttonWidth),
-            buttonThree.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
-            
-            indicatorView.widthAnchor.constraint(equalToConstant: 10),
-            indicatorView.heightAnchor.constraint(equalToConstant: 10),
-            indicatorView.topAnchor.constraint(equalTo: buttonOne.bottomAnchor, constant: 10),
-            
-            scrollView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: 15),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
+            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
+            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
         ])
     }
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        postsCollectionView.dataSource = self
+        postsCollectionView.delegate = self
+        postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
-        addChildVCs()
-        
-        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("Hi this is mix")
-    }
-    
-    override func viewDidLayoutSubviews() {
-        indicatorView.layer.cornerRadius = indicatorView.frame.width / 2
+        super.viewWillAppear(animated)
+        
+//        viewModel.readData {
+//            DispatchQueue.main.async {
+//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
+//                self.postsCollectionView.reloadData()
+//            }
+//        }
+        
+        Task.detached {
+            await self.viewModel.getSpecificPosts(colorCode: "#54518B") {
+                DispatchQueue.main.async {
+                    self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                    self.postsCollectionView.reloadData()
+                }
+            }
+        }
     }
 }
 
-// MARK: UIScrollViewDelegate
+// MARK: - UICollectionViewDataSource
 
-extension MixColorViewController: UIScrollViewDelegate {
+extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.posts.count
+    }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y != 0 {
-                scrollView.contentOffset.y = 0
-        } else {
-            let pageWidth = scrollView.bounds.width
-            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
-            
-            if currentIndex != currentPage {
-                currentIndex = currentPage
-                print("Switched to child view controller at index \(currentIndex)")
-            }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LobbyPostCell.reuseIdentifier, for: indexPath) as? LobbyPostCell else {
+            print("Having trouble creating cell")
+            return UICollectionViewCell()
         }
         
-        let offset = scrollView.contentOffset.x
-        let scrollViewWidth = scrollView.bounds.width
-
-        let indicatorOffset = offset / scrollViewWidth * (buttonTwo.center.x - buttonOne.center.x)
-
-        indicatorLeading?.constant = indicatorOffset
+        let post = viewModel.posts[indexPath.item]
+        let url = URL(string: post.imageUrl)
+        cell.imageView.kf.setImage(with: url)
+        
+        return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(viewModel.posts[indexPath.item].imageUrl)
+        
+        if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
+            selectedImageView = cell.imageView
+            selectedCell = cell
+        }
+        
+        let postDetailViewController = PostDetailViewController()
+        postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
+        
+        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
+        postDetailViewController.postID = viewModel.posts[indexPath.item].id
+        postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+        postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
+        postDetailViewController.comments = viewModel.posts[indexPath.item].comments
+        postDetailViewController.post = viewModel.posts[indexPath.item]
+        // navigationController?.pushViewController(postDetailViewController, animated: true)
+        // postDetailViewController.modalPresentationStyle = .custom
+        // postDetailViewController.transitioningDelegate = self
+        present(postDetailViewController, animated: true)
+    }
+}
+
+// MARK: - LobbyLayoutDelegate
+
+extension MixColorViewController: LobbyLayoutDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
+            
+            if indexPath.item < viewModel.posts.count {
+                return viewModel.sizes[indexPath.item]
+            } else {
+                return CGSize(width: 300, height: 400)
+            }
+        }
 }
