@@ -135,6 +135,7 @@ class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         viewModel.delegate = self
+        viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
     }
 }
 

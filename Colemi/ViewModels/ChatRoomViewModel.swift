@@ -15,27 +15,45 @@ class ChatRoomViewModel {
     var otherUserName = ""
     var otherUserImage: UIImage?
     var timestamp: Timestamp?
+    let userData = UserManager.shared
     
     var chatRoomID: String = "" {
         didSet {
-            getDetailedChatRoomData(chatRoomID: chatRoomID)
+            // getDetailedChatRoomData(chatRoomID: chatRoomID)
         }
     }
     
     var chatRoomData: DetailedChatRoom?
     var messages: [Message] = []
     
-    func getDetailedChatRoomData(chatRoomID: String) {
+//    func getDetailedChatRoomData(chatRoomID: String) {
+//        Task {
+//            let firestoreManager = FirestoreManager.shared
+//            let ref = FirestoreEndpoint.chatRooms.ref
+//            
+//            let chatRoomData: DetailedChatRoom? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomID)
+//            
+//            if let chatRoomData = chatRoomData {
+//                self.messages = chatRoomData.messages
+//                self.chatRoomData = chatRoomData
+//                delegate?.updateTableView()
+//            }
+//        }
+//    }
+    
+    func getDetailedChatRoomDataRealTime(chatRoomID: String) {
         Task {
-            let firestoreManager = FirestoreManager.shared
-            let ref = FirestoreEndpoint.chatRooms.ref
-            
-            let chatRoomData: DetailedChatRoom? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomID)
-            
-            if let chatRoomData = chatRoomData {
-                self.messages = chatRoomData.messages
-                self.chatRoomData = chatRoomData
-                delegate?.updateTableView()
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.chatRooms.ref
+        
+            await firestoreManager.getSpecificDocumentRealtime(collection: ref, docID: chatRoomID) { (chatRoomData: DetailedChatRoom?) in
+                DispatchQueue.main.async {
+                    if let chatRoomData = chatRoomData {
+                        self.messages = chatRoomData.messages
+                        self.chatRoomData = chatRoomData
+                        self.delegate?.updateTableView()
+                    }
+                }
             }
         }
     }
@@ -69,7 +87,7 @@ class ChatRoomViewModel {
             
             if let myUserData = myUserData {
                 firestoreManager.updateDocument(data: [UserProperty.chatRooms.rawValue: simpleChatRoomArray], collection: ref, docID: myUserData.id)
-                UserManager.shared.chatRooms = simpleChatRoomArray
+                userData.chatRooms = simpleChatRoomArray
             }
         }
         
@@ -95,7 +113,7 @@ class ChatRoomViewModel {
         
         guard let timestamp = timestamp else { return }
         
-        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: UserManager.shared.id, body: latestMessage, time: timestamp))
+        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: userData.id, body: latestMessage, time: timestamp))
         
         firestoreManager.updateDocument(data: [DetailedChatRoomProperty.messages.rawValue: messages], collection: ref, docID: chatRoomID)
         
