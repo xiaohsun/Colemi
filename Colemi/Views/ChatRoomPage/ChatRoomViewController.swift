@@ -10,8 +10,9 @@ import UIKit
 class ChatRoomViewController: UIViewController {
     
     let userData = UserManager.shared
-    // 傳過來的資料要放哪
     let viewModel = ChatRoomViewModel()
+    let textViewInitHeight: CGFloat = 33
+    var chatTextViewHeightCons: NSLayoutConstraint?
     // var chatRoomID: String = ""
     
     lazy var tableView: UITableView = {
@@ -35,41 +36,78 @@ class ChatRoomViewController: UIViewController {
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.delegate = self
+        
         return textView
+    }()
+    
+    func chatTextViewInit() {
+        chatTextView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
+        chatTextView.textColor = ThemeColorProperty.darkColor.getColor()
+        chatTextView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+    }
+    
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var sendMessageButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(sendMessageButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Send", for: .normal)
-        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
-        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        button.setImage(.sendIcon, for: .normal)
         return button
     }()
     
     @objc private func sendMessageButtonTapped() {
-        if var messageBody = chatTextView.text {
-            
+        
+        if chatTextView.text != "" {
             Task {
                 await viewModel.updateUsersSimpleChatRoom(latestMessage: chatTextView.text)
                 DispatchQueue.main.async {
                     self.chatTextView.text = ""
                 }
             }
-            
+        }
             // 更新 user chatroom 的時間
             // 更新 Chatroom 內的 messages
-        }
+    }
+    
+    lazy var backButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
+        button.addTarget(self, action: #selector(popNav), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(.backIcon, for: .normal)
+        return button
+    }()
+    
+    private func setUpNavigationBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
+        navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
+        navigationItem.title = viewModel.otherUserName
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+    }
+    
+    @objc private func popNav() {
+        navigationController?.popViewController(animated: true)
     }
     
     private func setUpUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
-        view.addSubview(chatTextView)
-        view.addSubview(sendMessageButton)
+        view.addSubview(containerView)
+        containerView.addSubview(chatTextView)
+        containerView.addSubview(sendMessageButton)
         
         tabBarController?.tabBar.isHidden = true
+        setUpNavigationBar()
+        chatTextViewInit()
+        
+        chatTextViewHeightCons = chatTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
+        chatTextViewHeightCons?.isActive = true
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -77,15 +115,19 @@ class ChatRoomViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            chatTextView.heightAnchor.constraint(equalToConstant: 40),
-            chatTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: chatTextView.topAnchor, constant: -25),
             
-            sendMessageButton.leadingAnchor.constraint(equalTo: chatTextView.trailingAnchor, constant: 12),
+            chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
+            chatTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -25),
+            chatTextView.trailingAnchor.constraint(equalTo: sendMessageButton.leadingAnchor, constant: -20),
+            
             sendMessageButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
-            sendMessageButton.heightAnchor.constraint(equalToConstant: 30),
-            sendMessageButton.widthAnchor.constraint(equalToConstant: 50),
-            sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12)
+            sendMessageButton.heightAnchor.constraint(equalToConstant: 20),
+            sendMessageButton.widthAnchor.constraint(equalToConstant: 20),
+            sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25)
         ])
     }
     
@@ -93,16 +135,12 @@ class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         viewModel.delegate = self
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
     }
 }
 
 extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // 5
         viewModel.messages.count
     }
     
@@ -120,16 +158,6 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
-        
-//        if indexPath.item == 1 || indexPath.item == 4 {
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatBubbleTableViewCell else { return UITableViewCell() }
-//            
-//            return cell
-//        } else {
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatBubbleTableViewCell else { return UITableViewCell() }
-//            
-//            return cell
-//        }
     }
 }
 
@@ -137,6 +165,31 @@ extension ChatRoomViewController: ChatRoomViewModelDelegate {
     func updateTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
+        }
+    }
+}
+
+extension ChatRoomViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let size = CGSize(width: chatTextView.frame.size.width - 10, height: .infinity)
+        let estimatedSize = chatTextView.sizeThatFits(size)
+        
+        chatTextViewInit()
+        
+        guard chatTextView.contentSize.height < 100 else {
+            chatTextView.isScrollEnabled = true
+            return
+        }
+        
+        guard let chatTextViewHeightCons = chatTextViewHeightCons else { return }
+        
+        chatTextView.isScrollEnabled = false
+        
+        if estimatedSize.height > textViewInitHeight {
+            chatTextViewHeightCons.constant = estimatedSize.height
+            chatTextView.addLineSpacing()
+        } else {
+            chatTextViewHeightCons.constant = textViewInitHeight
         }
     }
 }

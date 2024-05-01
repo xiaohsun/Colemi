@@ -24,4 +24,5 @@ enum ThemeColorProperty {
 enum RadiusProperty: CGFloat {
     case radiusTen = 10
     case radiusTwenty = 20
+    case radiusThirty = 30
 }

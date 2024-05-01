@@ -15,8 +15,8 @@ class DescriptionCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -26,8 +26,8 @@ class DescriptionCell: UITableViewCell {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            descriptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             descriptionLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
@@ -47,5 +47,6 @@ class DescriptionCell: UITableViewCell {
 extension DescriptionCell {
     func update(content: Content) {
         descriptionLabel.text = content.description
+        descriptionLabel.addLineSpacing()
     }
 }

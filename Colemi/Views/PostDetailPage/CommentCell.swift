@@ -25,8 +25,8 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "臭芭樂"
         
         return label
@@ -36,8 +36,8 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -49,7 +49,7 @@ class CommentCell: UITableViewCell {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             authorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             // authorImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             authorImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/10),
@@ -57,9 +57,11 @@ class CommentCell: UITableViewCell {
             
             authorNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
+            authorNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18),
             
             commentLabel.topAnchor.constraint(equalTo: authorNameLabel.bottomAnchor, constant: 10),
             commentLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
+            commentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18),
             commentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -50),
             commentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
@@ -68,6 +70,7 @@ class CommentCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        
         setUpUI()
     }
     
@@ -75,8 +78,8 @@ class CommentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         authorImageView.layer.cornerRadius = authorImageView.frame.width / 2
     }
 }
@@ -85,6 +88,7 @@ extension CommentCell {
     func update(comment: Comment) {
         commentLabel.text = comment.body
         authorNameLabel.text = comment.userName
+        commentLabel.addLineSpacing()
     }
 }
     

@@ -15,8 +15,8 @@ class TagCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "#cute"
         
         return label
@@ -28,7 +28,7 @@ class TagCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             tagLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            tagLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            tagLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             tagLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
     }

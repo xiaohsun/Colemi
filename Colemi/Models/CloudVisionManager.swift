@@ -29,7 +29,7 @@ class CloudVisionManager {
                     ],
                     "features": [
                         [
-                            "maxResults": 10,
+                            "maxResults": 5,
                             "type": "IMAGE_PROPERTIES"
                         ]
                     ]
@@ -54,6 +54,7 @@ class CloudVisionManager {
                 do {
                     let decodedData = try decoder.decode(CloudVisionResponse.self, from: safeData)
                     let colors = decodedData.responses[0].imagePropertiesAnnotation.dominantColors.colors
+                    
                     self.delegate?.getColorsRGB(colors: colors)
                     
                 } catch {

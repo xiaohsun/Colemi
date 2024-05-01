@@ -13,322 +13,179 @@ class LobbyViewController: UIViewController {
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     
-    //    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
+    var currentIndex: Int = 0
+    var buttons: [UIButton] = []
+    var buttonWidth: CGFloat = 80
+    var buttonHeight: CGFloat = 25
     
-//    lazy var postButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Post", for: .normal)
-//        button.backgroundColor = .black
-//        button.addTarget(self, action: #selector(postBtnTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-//    
-//    @objc func postBtnTapped() {
-//        let pickPhotoViewController = PickPhotoViewController()
-//        navigationController?.pushViewController(pickPhotoViewController, animated: true)
-//    }
+    private lazy var allColorChild = AllColorViewController()
+    private lazy var todayColorChild = TodayColorViewController()
+    private lazy var mixColorChild = MixColorViewController()
     
-//    lazy var paletteButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("調色", for: .normal)
-//        button.backgroundColor = .black
-//        button.addTarget(self, action: #selector(paletteBtnTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-//    
-//    @objc func paletteBtnTapped() {
-//        let paletteViewController = PaletteViewController()
-//        navigationController?.pushViewController(paletteViewController, animated: true)
-//    }
-    
-    lazy var chooseColorButton: UIButton = {
+    lazy var buttonOne: UIButton = {
         let button = UIButton()
-        button.setTitle("Color", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(chooseColorBtnTapped), for: .touchUpInside)
+        button.setTitle("全部顏色", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.isSelected = true
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    @objc func chooseColorBtnTapped() {
-        let chooseColorViewController = ChooseColorViewController()
-        navigationController?.pushViewController(chooseColorViewController, animated: true)
-    }
-    
-//    lazy var profileButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Profile", for: .normal)
-//        button.backgroundColor = .black
-//        button.addTarget(self, action: #selector(profileButtonTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-    
-    lazy var createUserButton: UIButton = {
+    lazy var buttonTwo: UIButton = {
         let button = UIButton()
-        button.setTitle("CreateUser", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(createUserButtonTapped), for: .touchUpInside)
+        button.setTitle("今日顏色", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    @objc func createUserButtonTapped() {
-        viewModel.createUser()
-    }
-    
-    lazy var loginUser1Button: UIButton = {
+    lazy var buttonThree: UIButton = {
         let button = UIButton()
-        button.setTitle("LoginUser1", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(loginUser1ButtonTapped), for: .touchUpInside)
+        button.setTitle("今日混色", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    @objc func loginUser1ButtonTapped() {
-        Task {
-            await viewModel.loginUserOne { [weak self] user in
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    if let user = user {
-                        self.userManager.avatarPhoto = user.avatarPhoto
-                        self.userManager.chatRooms = user.chatRooms
-                        self.userManager.description = user.description
-                        self.userManager.followers = user.followers
-                        self.userManager.following = user.following
-                        self.userManager.id = user.id
-                        self.userManager.lastestLoginTime = user.lastestLoginTime
-                        self.userManager.likes = user.likes
-                        self.userManager.name = user.name
-                        self.userManager.colorToday = user.colorToday
-                        self.userManager.savedPosts = user.savedPosts
-                        self.userManager.signUpTime = user.signUpTime
-                        self.userManager.posts = user.posts
-                        print(self.userManager.name)
-                    }
-                }
-            }
+    @objc private func buttonTapped(_ sender: UIButton) {
+        for button in buttons {
+            button.isSelected = false
         }
-    }
-    
-    lazy var loginUser2Button: UIButton = {
-        let button = UIButton()
-        button.setTitle("LoginUser2", for: .normal)
-        button.backgroundColor = .black
-        button.addTarget(self, action: #selector(loginUser2ButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    @objc func loginUser2ButtonTapped() {
-        Task {
-            await viewModel.loginUserTwo { [weak self] user in
-                guard let self = self else { return }
-                DispatchQueue.main.async {
-                    if let user = user {
-                        self.userManager.avatarPhoto = user.avatarPhoto
-                        self.userManager.chatRooms = user.chatRooms
-                        self.userManager.description = user.description
-                        self.userManager.followers = user.followers
-                        self.userManager.following = user.following
-                        self.userManager.id = user.id
-                        self.userManager.lastestLoginTime = user.lastestLoginTime
-                        self.userManager.likes = user.likes
-                        self.userManager.name = user.name
-                        self.userManager.colorToday = user.colorToday
-                        self.userManager.savedPosts = user.savedPosts
-                        self.userManager.signUpTime = user.signUpTime
-                        self.userManager.posts = user.posts
-                        print(self.userManager.name)
-                    }
-                }
-            }
-        }
-    }
-    
-//    lazy var chatRoomButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("ChatRoom", for: .normal)
-//        button.backgroundColor = .black
-//        button.addTarget(self, action: #selector(chatRoomButtonTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-//    
-//    @objc func chatRoomButtonTapped() {
-//        let chatRoomsViewController = ChatRoomsViewController()
-//        navigationController?.pushViewController(chatRoomsViewController, animated: true)
-//    }
-//    
-//    @objc func profileButtonTapped() {
-//        let profileViewController = ProfileViewController()
-//        navigationController?.pushViewController(profileViewController, animated: true)
-//    }
-    
-    lazy var postsCollectionView: UICollectionView = {
-        let layout = LobbyLayout()
-        layout.delegate = self
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        collectionView.showsVerticalScrollIndicator = false
         
-        return collectionView
+//        for family in UIFont.familyNames.sorted() {
+//            let names = UIFont.fontNames(forFamilyName: family)
+//            print("Family: \(family) Font names: \(names)")
+//        }
+        
+        switch sender {
+        case buttonOne:
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            buttonOne.isSelected = true
+        case buttonTwo:
+            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
+            buttonTwo.isSelected = true
+        case buttonThree:
+            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width * 2, y: 0), animated: true)
+            buttonThree.isSelected = true
+        default:
+            break
+        }
+    }
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: view.bounds)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isPagingEnabled = true
+        scrollView.delegate = self
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isDirectionalLockEnabled = true
+        return scrollView
     }()
+    
+    private func addChildVCs() {
+        addChild(allColorChild)
+        addChild(todayColorChild)
+        addChild(mixColorChild)
+        
+        for (index, childVC) in children.enumerated() {
+            childVC.view.frame = CGRect(x: CGFloat(index) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            scrollView.addSubview(childVC.view)
+            childVC.didMove(toParent: self)
+        }
+    }
     
     private func setUpUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
-        view.addSubview(postsCollectionView)
-        // view.addSubview(postButton)
-        view.addSubview(chooseColorButton)
-        // view.addSubview(paletteButton)
-        // view.addSubview(profileButton)
-        view.addSubview(createUserButton)
-        // view.addSubview(chatRoomButton)
-        view.addSubview(loginUser1Button)
-        view.addSubview(loginUser2Button)
+        navigationController?.navigationBar.isHidden = true
+        
+        view.addSubview(buttonOne)
+        view.addSubview(buttonTwo)
+        view.addSubview(buttonThree)
+        view.addSubview(scrollView)
+        
+        buttons.append(buttonOne)
+        buttons.append(buttonTwo)
+        buttons.append(buttonThree)
         
         NSLayoutConstraint.activate([
-            postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             
-            createUserButton.heightAnchor.constraint(equalToConstant: 50),
-            createUserButton.widthAnchor.constraint(equalToConstant: 100),
-            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
+            buttonOne.heightAnchor.constraint(equalToConstant: buttonHeight),
+            buttonOne.trailingAnchor.constraint(equalTo: buttonTwo.leadingAnchor, constant: -35),
+            buttonOne.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
-            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
-            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
+            buttonTwo.heightAnchor.constraint(equalToConstant: buttonHeight),
+            buttonTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonTwo.topAnchor.constraint(equalTo: view.topAnchor, constant: 62),
             
-            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
-            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttonThree.widthAnchor.constraint(equalToConstant: buttonWidth),
+            buttonThree.heightAnchor.constraint(equalToConstant: buttonHeight),
+            buttonThree.leadingAnchor.constraint(equalTo: buttonTwo.trailingAnchor, constant: 35),
+            buttonThree.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
-//            paletteButton.heightAnchor.constraint(equalToConstant: 50),
-//            paletteButton.widthAnchor.constraint(equalToConstant: 100),
-//            paletteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-//            paletteButton.trailingAnchor.constraint(equalTo: postButton.leadingAnchor, constant: -50),
-            
-//            postButton.heightAnchor.constraint(equalToConstant: 50),
-//            postButton.widthAnchor.constraint(equalToConstant: 100),
-//            postButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-//            postButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
-            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
-            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            
-//            profileButton.heightAnchor.constraint(equalToConstant: 50),
-//            profileButton.widthAnchor.constraint(equalToConstant: 100),
-//            profileButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
-//            profileButton.leadingAnchor.constraint(equalTo: postButton.trailingAnchor, constant: 50),
-//            
-//            chatRoomButton.heightAnchor.constraint(equalToConstant: 50),
-//            chatRoomButton.widthAnchor.constraint(equalToConstant: 100),
-//            chatRoomButton.bottomAnchor.constraint(equalTo: chooseColorButton.topAnchor, constant: -50),
-//            chatRoomButton.leadingAnchor.constraint(equalTo: postButton.leadingAnchor)
+            scrollView.topAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: 30),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        postsCollectionView.dataSource = self
-        postsCollectionView.delegate = self
-        postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
-        
         setUpUI()
+        addChildVCs()
+        
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        viewModel.readData {
-//            DispatchQueue.main.async {
-//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                self.postsCollectionView.reloadData()
-//            }
-//        }
-        
-        viewModel.readData {
-            DispatchQueue.main.async {
-                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-                self.postsCollectionView.reloadData()
-            }
-        }
+        tabBarController?.tabBar.isHidden = false
     }
 }
 
-// MARK: - UICollectionViewDataSource
-
-extension LobbyViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.posts.count
-        // 這裡是 3 次
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LobbyPostCell.reuseIdentifier, for: indexPath) as? LobbyPostCell else {
-            print("Having trouble creating cell")
-            return UICollectionViewCell()
-        }
-        
-        let post = viewModel.posts[indexPath.item]
-        let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
-        //cell.imageView.image = viewModel.images[indexPath.item]
-        // 但是這裡只執行 2 次
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(viewModel.posts[indexPath.item].imageUrl)
-        let postDetailViewController = PostDetailViewController()
-        postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
-        
-        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-        // postDetailViewController.photoImage = viewModel.images[indexPath.item]
-        postDetailViewController.postID = viewModel.posts[indexPath.item].id
-        postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
-        postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-        postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-        postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        // 這裡的 images 的 count 少 contentJSONString 一個
-        // print(indexPath.item)
-        
-        present(postDetailViewController, animated: true)
-    }
-}
 
 // MARK: - LobbyLayoutDelegate
 
-extension LobbyViewController: LobbyLayoutDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
+extension LobbyViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if scrollView.contentOffset.y != 0 {
+                scrollView.contentOffset.y = 0
+        } else {
+            let pageWidth = scrollView.bounds.width
+            let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
             
-            if indexPath.item < viewModel.posts.count {
-                // return viewModel.images[indexPath.item].size
-                return viewModel.sizes[indexPath.item]
-            } else {
-                return CGSize(width: 300, height: 400)
+            if currentIndex != currentPage {
+                currentIndex = currentPage
+                print("Switched to child view controller at index \(currentIndex)")
             }
         }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.bounds.width
+        let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+        
+        for button in buttons {
+            button.isSelected = false
+        }
+        
+        buttons[currentPage].isSelected = true
+    }
 }

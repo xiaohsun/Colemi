@@ -14,29 +14,50 @@ class PostsAndSavesCell: UITableViewCell {
     static let reuseIdentifier = "\(PostsAndSavesCell.self)"
     weak var delegate: PostsAndSavesCellDelegate?
     
-    var images: [UIImage] = [UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_9669")! , UIImage(named: "IMG_6462")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_6462")!, UIImage(named: "IMG_5333")!, UIImage(named: "IMG_0752")!, UIImage(named: "IMG_0752")!]
+    var currentIndex: Int = 0
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: contentView.bounds)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isPagingEnabled = true
+        scrollView.delegate = self
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isDirectionalLockEnabled = true
+        return scrollView
+    }()
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
         layout.delegate = self
         let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = UIColor(hex: "#F9F4E8")
+        collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        collectionView.showsVerticalScrollIndicator = false
+        
+        return collectionView
+    }()
+    
+    lazy var savesCollectionView: UICollectionView = {
+        let layout = LobbyLayout()
+        layout.delegate = self
+        let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
+        collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
         
         return collectionView
     }()
     
     private func setUpUI() {
-        contentView.addSubview(postsCollectionView)
-        contentView.backgroundColor = UIColor(hex: "#F9F4E8")
+        contentView.addSubview(scrollView)
+        scrollView.addSubview(postsCollectionView)
+        scrollView.addSubview(savesCollectionView)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            postsCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            postsCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            postsCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200),
-            postsCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            postsCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            scrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
@@ -49,20 +70,24 @@ class PostsAndSavesCell: UITableViewCell {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
+        savesCollectionView.dataSource = self
+        savesCollectionView.delegate = self
+        savesCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
+        
         setUpUI()
+    }
+    
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        postsCollectionView.frame = CGRect(x: CGFloat(0) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
+        savesCollectionView.frame = CGRect(x: CGFloat(1) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
         
-        
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(2), height: scrollView.bounds.height)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-//        self.contentView.frame = self.bounds
-//        self.contentView.layoutIfNeeded()
-//        return postsCollectionView.contentSize
-//    }
 }
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -89,9 +114,7 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let viewModel = viewModel {
             delegate?.presentDetailPage(index: indexPath.row)
-        }
     }
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
@@ -110,8 +133,8 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
             if let viewModel = viewModel {
-                if indexPath.item < viewModel.sizes.count {
-                    return viewModel.sizes[indexPath.item]
+                if indexPath.item < viewModel.myPostsSizes.count {
+                    return viewModel.myPostsSizes[indexPath.item]
                 } else {
                     return CGSize(width: 300, height: 400)
                 }
@@ -150,6 +173,21 @@ extension PostsAndSavesCell {
 
 protocol PostsAndSavesCellDelegate: AnyObject {
     func presentDetailPage(index: Int)
+}
+
+extension PostsAndSavesCell: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.bounds.width
+        let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+        
+        if currentIndex != currentPage {
+            currentIndex = currentPage
+            print("Switched to child view controller at index \(currentIndex)")
+        }
+    }
     
-    // func reloadTableView()
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.bounds.width
+        let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
+    }
 }

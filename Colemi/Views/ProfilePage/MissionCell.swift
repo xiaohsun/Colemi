@@ -24,8 +24,8 @@ class MissionCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "今日任務"
         
         return label
@@ -61,12 +61,18 @@ class MissionCell: UITableViewCell {
             
             colorView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             colorView.heightAnchor.constraint(equalToConstant: 20),
-            colorView.leadingAnchor.constraint(equalTo: missionLabel.trailingAnchor, constant: 10),
+            colorView.leadingAnchor.constraint(equalTo: missionLabel.trailingAnchor, constant: 15),
             colorView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20)
         ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension MissionCell {
+    func update(color: UIColor) {
+        colorView.backgroundColor = color
     }
 }

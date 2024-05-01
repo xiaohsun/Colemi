@@ -24,7 +24,7 @@ class BestColorCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
         label.textColor = .white
         label.text = "最準顏色"
         

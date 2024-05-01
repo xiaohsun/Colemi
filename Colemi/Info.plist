@@ -2,19 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need your photos</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need your photos</string>
-    <key>NSBonjourServices</key>
-    <array>
-        <string>_colemi._tcp</string>
-        <string>_colemi._udp</string>
-    </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>GoogleSignIn</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.240827542631-3l49qt4q9iqdsp38csgfo7660g90lc51</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_colemi._tcp</string>
+		<string>_colemi._udp</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>GenSenRounded-B.ttc</string>
+		<string>GenSenRounded-EL.ttc</string>
+		<string>GenSenRounded-H.ttc</string>
+		<string>GenSenRounded-L.ttc</string>
+		<string>GenSenRounded-M.ttc</string>
+		<string>GenSenRounded-R.ttc</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

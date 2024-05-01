@@ -30,8 +30,8 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
         label.addGestureRecognizer(tapGesture)
@@ -40,7 +40,6 @@ class AuthorInfoAndTitleCell: UITableViewCell {
     }()
     
     @objc private func authorTapped(_ sender: UITapGestureRecognizer) {
-        print("Hi")
         delegate?.pushToAuthorProfilePage()
     }
     
@@ -48,8 +47,8 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -86,8 +85,8 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         authorImageView.layer.cornerRadius = authorImageView.frame.width / 2
     }
 }

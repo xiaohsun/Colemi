@@ -68,6 +68,28 @@ class FirestoreManager {
         }
     }
     
+    func getSpecificDocumentRealtime<T: Codable>(collection: CollectionReference, docID: String, completion: @escaping (T?) -> Void) async {
+        let docRef = collection.document(docID)
+        
+        docRef.addSnapshotListener { documentSnapshot, error in
+            do {
+                guard let document = documentSnapshot else {
+                    return
+                }
+                guard let data = document.data() else {
+                    return
+                }
+                print("Current data: \(data)")
+                
+                let decodedData = try Firestore.Decoder().decode(T.self, from: data)
+                completion(decodedData)
+            } catch {
+                print("Error decoding data: \(error)")
+                completion(nil)
+            }
+        }
+    }
+    
     // Limitted 30
     func getMultipleDocument<T: Codable>(collection: CollectionReference, docIDs: [String]) async -> [T] {
         
@@ -101,10 +123,38 @@ class FirestoreManager {
         return documents
     }
     
+    func getMultipleEqualToDocuments<T: Codable>(collection: CollectionReference, field: String, value: String) async -> [T] {
+        
+        var documents: [T] = []
+        
+        if value != "" {
+            
+            var query: Query?
+            
+            query = collection.whereField(field, isEqualTo: value).order(by: "createdTime", descending: true)
+            
+            do {
+                guard let query = query else { return [] }
+                let querySnapshots = try await query.getDocuments()
+                for doc in querySnapshots.documents {
+                    let data = doc.data()
+                    if let decodedData = try? Firestore.Decoder().decode(T.self, from: data) {
+                        documents.append(decodedData)
+                    }
+                }
+            } catch {
+                print("Error fetching documents: \(error)")
+            }
+            return documents
+        }
+        
+        return documents
+    }
+    
     // 不確定
-//    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
-//        collection.document(docID).updateData(data)
-//    }
+    //    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
+    //        collection.document(docID).updateData(data)
+    //    }
     
     func updateDocument<T: Encodable>(data: [String: T], collection: CollectionReference, docID: String) {
         do {
@@ -130,6 +180,7 @@ class FirestoreManager {
     func newDocument(of collection: CollectionReference) -> DocumentReference {
         collection.document()
     }
+    
     
     private func parseDocuments<T: Decodable>(snapshot: QuerySnapshot?, error: Error?) -> [T] {
         guard let snapshot = snapshot else {

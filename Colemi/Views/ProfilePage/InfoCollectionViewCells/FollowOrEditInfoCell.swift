@@ -34,8 +34,8 @@ class FollowOrEditInfoCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .black
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "追蹤"
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followBtnTapped))
