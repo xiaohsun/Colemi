@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class AllColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let duration: TimeInterval = 0.25
     

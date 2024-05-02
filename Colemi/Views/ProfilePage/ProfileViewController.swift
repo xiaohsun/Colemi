@@ -77,6 +77,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
             if !isOthersPage {
                 cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage)
+                
             } else {
                 guard let otherUserData = otherUserData else {
                     print("Error get otherUserData.")

@@ -10,6 +10,7 @@ import UIKit
 class TextViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "\(TextViewCell.self)"
+    weak var delegate: TextViewCellDelegate?
     
     lazy var containerView: UIView = {
         let view = UIView()
@@ -28,6 +29,7 @@ class TextViewCell: UICollectionViewCell {
         textView.textColor = ThemeColorProperty.darkColor.getColor()
         textView.text = "人無完人，而我是例外。"
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        textView.delegate = self
         
         return textView
     }()
@@ -54,4 +56,20 @@ class TextViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
+
+extension TextViewCell {
+    func update(description: String) {
+        textView.text = description
+    }
+}
+
+extension TextViewCell: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        delegate?.userDescriptionChange(text: textView.text)
+    }
+}
+
+protocol TextViewCellDelegate: AnyObject {
+    func userDescriptionChange(text: String)
 }

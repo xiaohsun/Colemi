@@ -13,6 +13,7 @@ class InformationCell: UITableViewCell {
     var isOthersPage: Bool = false
     var othersID: String?
     var otherUserData: User?
+    let viewModel = ProfileViewModel()
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -155,9 +156,7 @@ class InformationCell: UITableViewCell {
         collectionView.register(ColorFootprintCell.self, forCellWithReuseIdentifier: ColorFootprintCell.reuseIdentifier)
         collectionView.register(BestColorCell.self, forCellWithReuseIdentifier: BestColorCell.reuseIdentifier)
         collectionView.register(AchievementCell.self, forCellWithReuseIdentifier: AchievementCell.reuseIdentifier)
-        configureDataSource()
-        
-        
+        // configureDataSource()
     }
     
     override func layoutSubviews() {
@@ -176,6 +175,7 @@ extension InformationCell {
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
         self.isOthersPage = isOthersPage
+        configureDataSource()
     }
 }
 
@@ -233,6 +233,9 @@ extension InformationCell {
                 case 0:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
                     
+                    cell.delegate = self
+                    cell.update(description: UserManager.shared.description)
+                    
                     return cell
                 default:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
@@ -279,5 +282,11 @@ extension InformationCell: FollowOrEditInfoCellDelegate {
         guard let otherUserData = otherUserData else { return }
         let viewModel = ProfileViewModel()
        //  viewModel.updateFollower(otherUserData: otherUserData)
+    }
+}
+
+extension InformationCell: TextViewCellDelegate {
+    func userDescriptionChange(text: String) {
+        viewModel.updateUserDescription(text: text)
     }
 }

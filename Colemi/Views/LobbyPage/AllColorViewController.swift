@@ -12,8 +12,8 @@ class AllColorViewController: UIViewController {
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     
-    private let popAnimator = PopAnimator()
-    private let dismissAnimator = DismissAnimator()
+    private let popAnimator = AllColorsVCPopAnimator()
+    private let dismissAnimator = AllColorDismissAnimator()
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
     

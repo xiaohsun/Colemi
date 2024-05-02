@@ -103,4 +103,13 @@ class ProfileViewModel {
         }
         completion()
     }
+    
+    func updateUserDescription(text: String) {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        
+        userData.description = text
+        
+        firestoreManager.updateDocument(data: [ UserProperty.description.rawValue: text], collection: ref, docID: userData.id)
+    }
 }
