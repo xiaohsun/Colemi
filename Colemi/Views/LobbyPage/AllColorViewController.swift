@@ -13,7 +13,7 @@ class AllColorViewController: UIViewController {
     let userManager = UserManager.shared
     
     private let popAnimator = AllColorsVCPopAnimator()
-    private let dismissAnimator = AllColorDismissAnimator()
+    private let dismissAnimator = AllColorVCDismissAnimator()
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
     

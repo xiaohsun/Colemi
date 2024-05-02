@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AllColorDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class AllColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let duration: TimeInterval = 0.25
     
