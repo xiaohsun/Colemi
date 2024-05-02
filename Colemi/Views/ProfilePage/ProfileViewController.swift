@@ -99,17 +99,27 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             
             if !isOthersPage {
-                if isShowingMyPosts {
-                    Task {
-                        await viewModel.getMyPosts(postIDs: userData.posts) {
-                            cell.updateLayout()
-                        }
+                //                if isShowingMyPosts {
+                //                    Task {
+                //                        await viewModel.getMyPosts(postIDs: userData.posts) {
+                //                            cell.updatePostsCollectionViewLayout()
+                //                        }
+                //                    }
+                //                } else {
+                //                    Task {
+                //                        await viewModel.getMyPosts(postIDs: userData.savedPosts) {
+                //                            cell.updateLayout()
+                //                        }
+                //                    }
+                //                }
+                
+                Task {
+                    await viewModel.getMyPosts(postIDs: userData.posts) {
+                        cell.updatePostsCollectionViewLayout()
                     }
-                } else {
-                    Task {
-                        await viewModel.getMyPosts(postIDs: userData.savedPosts) {
-                            cell.updateLayout()
-                        }
+                    
+                    await viewModel.getMySaves(savesIDs: userData.savedPosts) {
+                        cell.updateSavesCollectionViewLayout()
                     }
                 }
                 
@@ -121,7 +131,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 Task {
                     await viewModel.getMyPosts(postIDs: otherUserData.posts) {
-                        cell.updateLayout()
+                        cell.updatePostsCollectionViewLayout()
+                    }
+                    
+                    await viewModel.getMySaves(savesIDs: otherUserData.savedPosts) {
+                        cell.updateSavesCollectionViewLayout()
                     }
                 }
             }
@@ -171,23 +185,38 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
+    
     func reloadTableView() {
         tableView.layoutIfNeeded()
     }
     
-    func presentDetailPage(index: Int) {
+    func presentDetailPage(index: Int, isMyPosts: Bool) {
         let postDetailViewController = PostDetailViewController()
-        postDetailViewController.viewModel.post = viewModel.posts[index]
-        postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
-        // postDetailViewController.photoImage = viewModel.images[index]
-        postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        postDetailViewController.postID = viewModel.posts[index].id
-        postDetailViewController.authorID = viewModel.posts[index].authorId
-        postDetailViewController.comments = viewModel.posts[index].comments
-        postDetailViewController.post = viewModel.posts[index]
         
-        present(postDetailViewController, animated: true)
+        if isMyPosts {
+            postDetailViewController.viewModel.post = viewModel.posts[index]
+            postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
+            // postDetailViewController.photoImage = viewModel.images[index]
+            postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
+            // navigationController?.pushViewController(postDetailViewController, animated: true)
+            postDetailViewController.postID = viewModel.posts[index].id
+            postDetailViewController.authorID = viewModel.posts[index].authorId
+            postDetailViewController.comments = viewModel.posts[index].comments
+            postDetailViewController.post = viewModel.posts[index]
+            
+            present(postDetailViewController, animated: true)
+            
+        } else {
+            postDetailViewController.viewModel.post = viewModel.saves[index]
+            postDetailViewController.contentJSONString = viewModel.savesContentJSONString[index]
+            postDetailViewController.imageUrl = viewModel.saves[index].imageUrl
+            postDetailViewController.postID = viewModel.saves[index].id
+            postDetailViewController.authorID = viewModel.saves[index].authorId
+            postDetailViewController.comments = viewModel.saves[index].comments
+            postDetailViewController.post = viewModel.saves[index]
+            
+            present(postDetailViewController, animated: true)
+        }
     }
 }
 

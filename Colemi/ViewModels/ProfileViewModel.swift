@@ -11,10 +11,15 @@ import FirebaseFirestore
 
 class ProfileViewModel {
     
+    
+    
     var posts: [Post] = []
+    var saves: [Post] = []
     var images: [UIImage] = []
     var myPostsSizes: [CGSize] = []
+    var mySavesSizes: [CGSize] = []
     var contentJSONString: [String] = []
+    var savesContentJSONString: [String] = []
     let userData = UserManager.shared
     
     // doing
@@ -61,7 +66,28 @@ class ProfileViewModel {
         completion()
     }
     
-    func getSaves() {
+    func getMySaves(savesIDs: [String], completion: @escaping() -> Void) async {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.posts.ref
         
+        self.saves = []
+        // self.images = []
+        self.savesContentJSONString = []
+        self.mySavesSizes = []
+        
+        let saves: [Post] = await firestoreManager.getMultipleDocument(collection: ref, docIDs: savesIDs)
+        self.saves = saves
+        
+        for save in saves {
+            let url = save.imageUrl
+            
+            self.savesContentJSONString.append(save.content)
+            
+            let cgWidth = CGFloat(save.imageWidth)
+            let cgHeight = CGFloat(save.imageHeight)
+            
+            self.mySavesSizes.append(CGSize(width: cgWidth, height: cgHeight))
+        }
+        completion()
     }
 }

@@ -92,7 +92,15 @@ class PostsAndSavesCell: UITableViewCell {
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel?.posts.count ?? 0
+        
+        guard let viewModel = viewModel else { return 0 }
+        
+        if collectionView == postsCollectionView {
+            return viewModel.posts.count
+        } else {
+            return viewModel.saves.count
+        }
+        // viewModel?.posts.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -103,10 +111,20 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
         }
         
         if let viewModel = viewModel {
-            if indexPath.item < viewModel.posts.count {
-                let post = viewModel.posts[indexPath.item]
-                let url = URL(string: post.imageUrl)
-                cell.imageView.kf.setImage(with: url)
+            
+            if collectionView == postsCollectionView {
+                if indexPath.item < viewModel.posts.count {
+                    let post = viewModel.posts[indexPath.item]
+                    let url = URL(string: post.imageUrl)
+                    cell.imageView.kf.setImage(with: url)
+                }
+                
+            } else {
+                if indexPath.item < viewModel.saves.count {
+                    let post = viewModel.saves[indexPath.item]
+                    let url = URL(string: post.imageUrl)
+                    cell.imageView.kf.setImage(with: url)
+                }
             }
         }
         
@@ -114,7 +132,11 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            delegate?.presentDetailPage(index: indexPath.row)
+        if collectionView == postsCollectionView {
+            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: true)
+        } else {
+            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: false)
+        }
     }
     
     override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
@@ -133,16 +155,21 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
             if let viewModel = viewModel {
+                
                 if indexPath.item < viewModel.myPostsSizes.count {
-                    return viewModel.myPostsSizes[indexPath.item]
+                    if collectionView == postsCollectionView {
+                        return viewModel.myPostsSizes[indexPath.item]
+                    } else {
+                        return viewModel.mySavesSizes[indexPath.item]
+                    }
                 } else {
                     return CGSize(width: 300, height: 400)
                 }
+                
+                // return images[indexPath.item].size
             } else {
                 return CGSize(width: 300, height: 400)
             }
-            
-            // return images[indexPath.item].size
         }
 }
 
@@ -157,7 +184,7 @@ extension PostsAndSavesCell {
         
     }
     
-    func updateLayout() {
+    func updatePostsCollectionViewLayout() {
         // setUpUI()
         DispatchQueue.main.async {
             self.postsCollectionView.collectionViewLayout.invalidateLayout()
@@ -169,10 +196,17 @@ extension PostsAndSavesCell {
         // self.layoutIfNeeded()
         
     }
+    
+    func updateSavesCollectionViewLayout() {
+        DispatchQueue.main.async {
+            self.savesCollectionView.collectionViewLayout.invalidateLayout()
+            self.savesCollectionView.reloadData()
+        }
+    }
 }
 
 protocol PostsAndSavesCellDelegate: AnyObject {
-    func presentDetailPage(index: Int)
+    func presentDetailPage(index: Int, isMyPosts: Bool)
 }
 
 extension PostsAndSavesCell: UIScrollViewDelegate {
