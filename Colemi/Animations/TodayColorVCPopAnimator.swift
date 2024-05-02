@@ -7,7 +7,14 @@
 
 import UIKit
 
-final class FirstColorVCAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    var childVCIndex: Int
+    
+    init(childVCIndex: Int) {
+        self.childVCIndex = childVCIndex
+        super.init()
+    }
     
     private let duration: TimeInterval = 0.25
     
@@ -20,10 +27,27 @@ final class FirstColorVCAnimator: NSObject, UIViewControllerAnimatedTransitionin
         let containerView = transitionContext.containerView
         guard let toVC = transitionContext.viewController(forKey: .to) as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
-              let todayColorVC = tabBarController.lobbyViewController?.children[1],
-              let fromVC = todayColorVC.children[0] as? FirstColorViewController,
-              let cell = fromVC.selectedCell
+              let todayColorVC = tabBarController.lobbyViewController?.children[1]
         else { return }
+        
+        //guard let fromVC = todayColorVC.children[0] as? FirstColorViewController,
+              //let cell = fromVC.selectedCell else { return }
+        
+        var fromVC: ColorPostsViewController?
+        
+        switch childVCIndex {
+        case 0:
+            fromVC = todayColorVC.children[0] as? FirstColorViewController
+        case 1:
+            fromVC = todayColorVC.children[1] as? SecondColorViewController
+        case 2:
+            fromVC = todayColorVC.children[2] as? ThirdColorViewController
+        default:
+            break
+        }
+        
+        guard let fromVC = fromVC,
+              let cell = fromVC.selectedCell else { return }
         
         cell.isHidden = true
         

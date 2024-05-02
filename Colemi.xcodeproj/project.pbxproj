@@ -81,10 +81,9 @@
 		284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C72BC98F8B00A61E88 /* UserManager.swift */; };
 		284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */; };
 		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
-		287A62CC2BE3D1F900E09788 /* FirstColorVCAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* FirstColorVCAnimator.swift */; };
-		287A62CE2BE3D3A100E09788 /* FirstColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CD2BE3D3A100E09788 /* FirstColorVCDismissAnimator.swift */; };
-		287A62D02BE3DD5C00E09788 /* SecondColorVCAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CF2BE3DD5C00E09788 /* SecondColorVCAnimator.swift */; };
-		287A62D22BE3DD8600E09788 /* SecondColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D12BE3DD8600E09788 /* SecondColorVCDismissAnimator.swift */; };
+		287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */; };
+		287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */; };
+		287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -173,10 +172,9 @@
 		284F32C72BC98F8B00A61E88 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewController.swift; sourceTree = "<group>"; };
 		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
-		287A62CB2BE3D1F900E09788 /* FirstColorVCAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstColorVCAnimator.swift; sourceTree = "<group>"; };
-		287A62CD2BE3D3A100E09788 /* FirstColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstColorVCDismissAnimator.swift; sourceTree = "<group>"; };
-		287A62CF2BE3DD5C00E09788 /* SecondColorVCAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondColorVCAnimator.swift; sourceTree = "<group>"; };
-		287A62D12BE3DD8600E09788 /* SecondColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondColorVCDismissAnimator.swift; sourceTree = "<group>"; };
+		287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCPopAnimator.swift; sourceTree = "<group>"; };
+		287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCDismissAnimator.swift; sourceTree = "<group>"; };
+		287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPostsViewController.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -336,10 +334,8 @@
 			children = (
 				2840D8A02BDB720700A6B3DC /* AllColorsVCPopAnimator.swift */,
 				2840D8A22BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift */,
-				287A62CB2BE3D1F900E09788 /* FirstColorVCAnimator.swift */,
-				287A62CD2BE3D3A100E09788 /* FirstColorVCDismissAnimator.swift */,
-				287A62CF2BE3DD5C00E09788 /* SecondColorVCAnimator.swift */,
-				287A62D12BE3DD8600E09788 /* SecondColorVCDismissAnimator.swift */,
+				287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */,
+				287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -405,6 +401,7 @@
 				2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */,
 				2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */,
 				2818B7432BDA3C5200434EBF /* MixColorViewController.swift */,
+				287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */,
 				2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */,
 				2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */,
 				2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */,
@@ -583,16 +580,16 @@
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
 				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
 				28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */,
+				287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */,
 				281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */,
 				28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */,
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
 				281C65822BCFED73003D2ECE /* AuthorInfoAndTitleCell.swift in Sources */,
 				284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */,
-				287A62D02BE3DD5C00E09788 /* SecondColorVCAnimator.swift in Sources */,
 				288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */,
 				281C65AE2BD0C33F003D2ECE /* ProfileViewController.swift in Sources */,
 				28D253162BD62D1600864187 /* TabBarController.swift in Sources */,
-				287A62CC2BE3D1F900E09788 /* FirstColorVCAnimator.swift in Sources */,
+				287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */,
 				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */,
 				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,
@@ -635,12 +632,11 @@
 				282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,
 				281C658A2BD00233003D2ECE /* CommentCell.swift in Sources */,
-				287A62D22BE3DD8600E09788 /* SecondColorVCDismissAnimator.swift in Sources */,
 				281C65882BD000F7003D2ECE /* SeperatorCell.swift in Sources */,
 				281C65B12BD0C4E5003D2ECE /* InformationCell.swift in Sources */,
 				28C69B8B2BD2A4C000725BE7 /* ProfileViewModel.swift in Sources */,
 				28C69B892BD270BA00725BE7 /* Content.swift in Sources */,
-				287A62CE2BE3D3A100E09788 /* FirstColorVCDismissAnimator.swift in Sources */,
+				287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */,
 				2840D8A12BDB720700A6B3DC /* AllColorsVCPopAnimator.swift in Sources */,
 				2840D8A32BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift in Sources */,
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,

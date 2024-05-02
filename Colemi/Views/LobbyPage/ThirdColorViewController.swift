@@ -7,10 +7,17 @@
 
 import UIKit
 
-class ThirdColorViewController: UIViewController {
+class ThirdColorViewController: UIViewController, ColorPostsViewController {
+    
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     var loadedBefore: Bool = false
+    
+    var selectedImageView: UIImageView?
+    var selectedCell: LobbyPostCell?
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCPopAnimator(childVCIndex: 2)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCDismissAnimator(childVCIndex: 2)
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
@@ -22,19 +29,6 @@ class ThirdColorViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private func setUpUI() {
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +92,12 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
+        
+        if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
+            selectedImageView = cell.imageView
+            selectedCell = cell
+        }
+        
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
         
@@ -107,7 +107,9 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
+        
+        postDetailViewController.modalPresentationStyle = .custom
+        postDetailViewController.transitioningDelegate = self
         
         present(postDetailViewController, animated: true)
     }
@@ -126,4 +128,15 @@ extension ThirdColorViewController: LobbyLayoutDelegate {
                 return CGSize(width: 300, height: 400)
             }
         }
+}
+
+extension ThirdColorViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
+    }
 }

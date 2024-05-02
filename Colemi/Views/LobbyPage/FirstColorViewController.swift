@@ -7,16 +7,17 @@
 
 import UIKit
 
-class FirstColorViewController: UIViewController {
-    
+class FirstColorViewController: UIViewController, ColorPostsViewController {
+     
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     var loadedBefore: Bool = false
     
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
-    private let popAnimator = FirstColorVCAnimator()
-    private let dismissAnimator = FirstColorVCDismissAnimator()
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCPopAnimator(childVCIndex: 0)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCDismissAnimator(childVCIndex: 0)
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
@@ -28,19 +29,6 @@ class FirstColorViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private func setUpUI() {
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,6 +149,7 @@ extension FirstColorViewController: LobbyLayoutDelegate {
 extension FirstColorViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
         return popAnimator
     }
     
