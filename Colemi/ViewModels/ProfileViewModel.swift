@@ -8,10 +8,12 @@
 import UIKit
 import Kingfisher
 import FirebaseFirestore
+// import Combine
 
 class ProfileViewModel {
     
-    
+//    @Published var isShowingMyPosts: Bool = false
+//    private var cancellables = Set<AnyCancellable>()
     
     var posts: [Post] = []
     var saves: [Post] = []
@@ -22,23 +24,34 @@ class ProfileViewModel {
     var savesContentJSONString: [String] = []
     let userData = UserManager.shared
     
-    // doing
-//    func updateFollower(otherUserData: User) {
-//        let firestoreManager = FirestoreManager.shared
-//        let ref = FirestoreEndpoint.users.ref
-//        
-//        var otherUserFollowing = otherUserData.following
-//        
-//        if otherUserFollowing.contains(userData.id) {
-//            otherUserFollowing.append(userData.id)
-//        } else {
-//            if let index = otherUserFollowing.firstIndex(of: userData.id) {
-//                userData.savePosts.remove(at: index)
-//            }
-//        }
-//        
-//        firestoreManager.updateDocument(data: [UserProperty.followers.rawValue: otherUserFollowers], collection: ref, docID: docID)
+//    init() {
+//        $isShowingMyPosts.sink(receiveValue: { _ in
+//            print("Status Change")
+//        }).store(in: &cancellables)
 //    }
+//    
+//    deinit {
+//        cancellables.forEach { $0.cancel() }
+//    }
+    
+    
+    // doing
+    //    func updateFollower(otherUserData: User) {
+    //        let firestoreManager = FirestoreManager.shared
+    //        let ref = FirestoreEndpoint.users.ref
+    //
+    //        var otherUserFollowing = otherUserData.following
+    //
+    //        if otherUserFollowing.contains(userData.id) {
+    //            otherUserFollowing.append(userData.id)
+    //        } else {
+    //            if let index = otherUserFollowing.firstIndex(of: userData.id) {
+    //                userData.savePosts.remove(at: index)
+    //            }
+    //        }
+    //
+    //        firestoreManager.updateDocument(data: [UserProperty.followers.rawValue: otherUserFollowers], collection: ref, docID: docID)
+    //    }
     
     func getMyPosts(postIDs: [String], completion: @escaping() -> Void) async {
         let firestoreManager = FirestoreManager.shared

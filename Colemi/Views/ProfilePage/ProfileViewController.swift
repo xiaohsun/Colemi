@@ -6,6 +6,7 @@
 //
 
 import UIKit
+// import Combine
 
 class ProfileViewController: UIViewController {
     
@@ -165,6 +166,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SelectorHeaderView.reuseIdentifier) as? SelectorHeaderView else { return nil }
             headerView.delegate = self
             
+            
             return headerView
         } else {
             return nil
@@ -185,6 +187,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
+    func postsSavesChange(isMyPosts: Bool) {
+        if let headerView = tableView.headerView(forSection: 2) as? SelectorHeaderView {
+            headerView.postsButton.isSelected = isMyPosts ? true : false
+            headerView.savesButton.isSelected = isMyPosts ? false : true
+        }
+    }
+    
     
     func reloadTableView() {
         tableView.layoutIfNeeded()
@@ -223,6 +232,14 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
 extension ProfileViewController: SelectorHeaderViewDelegate {
     func changeShowingPostsOrSaved(isShowingMyPosts: Bool) {
         self.isShowingMyPosts = isShowingMyPosts
-        tableView.reloadData()
+        let indexPath = IndexPath(row: 0, section: 2)
+        if let cell = tableView.cellForRow(at: indexPath) as? PostsAndSavesCell {
+            switch isShowingMyPosts {
+            case true:
+                cell.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            case false:
+                cell.scrollView.setContentOffset(CGPoint(x: cell.scrollView.bounds.width, y: 0), animated: true)
+            }
+        }
     }
 }

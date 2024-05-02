@@ -207,6 +207,8 @@ extension PostsAndSavesCell {
 
 protocol PostsAndSavesCellDelegate: AnyObject {
     func presentDetailPage(index: Int, isMyPosts: Bool)
+    
+    func postsSavesChange(isMyPosts: Bool)
 }
 
 extension PostsAndSavesCell: UIScrollViewDelegate {
@@ -217,6 +219,12 @@ extension PostsAndSavesCell: UIScrollViewDelegate {
         if currentIndex != currentPage {
             currentIndex = currentPage
             print("Switched to child view controller at index \(currentIndex)")
+            
+            if currentIndex == 0 {
+                delegate?.postsSavesChange(isMyPosts: true)
+            } else {
+                delegate?.postsSavesChange(isMyPosts: false)
+            }
         }
     }
     
