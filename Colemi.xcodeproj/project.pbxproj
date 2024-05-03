@@ -84,6 +84,8 @@
 		287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */; };
 		287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */; };
 		287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */; };
+		287A62D62BE483EC00E09788 /* MixColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */; };
+		287A62D82BE483FA00E09788 /* MixColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -175,6 +177,8 @@
 		287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCDismissAnimator.swift; sourceTree = "<group>"; };
 		287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPostsViewController.swift; sourceTree = "<group>"; };
+		287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCPopAnimator.swift; sourceTree = "<group>"; };
+		287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCDismissAnimator.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -336,6 +340,8 @@
 				2840D8A22BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift */,
 				287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */,
 				287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */,
+				287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */,
+				287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */,
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
 				288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */,
+				287A62D82BE483FA00E09788 /* MixColorVCDismissAnimator.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
@@ -617,6 +624,7 @@
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
 				28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */,
+				287A62D62BE483EC00E09788 /* MixColorVCPopAnimator.swift in Sources */,
 				289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */,
 				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,

@@ -14,6 +14,7 @@ class AllColorViewController: UIViewController {
     
     private let popAnimator = AllColorsVCPopAnimator()
     private let dismissAnimator = AllColorVCDismissAnimator()
+    
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
     

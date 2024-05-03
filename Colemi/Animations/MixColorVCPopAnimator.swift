@@ -1,20 +1,13 @@
 //
-//  TodayColorViewController.swift
+//  MixColorVCPopAnimator.swift
 //  Colemi
 //
-//  Created by 徐柏勳 on 5/2/24.
+//  Created by 徐柏勳 on 5/3/24.
 //
 
 import UIKit
 
-final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-    
-    var childVCIndex: Int
-    
-    init(childVCIndex: Int) {
-        self.childVCIndex = childVCIndex
-        super.init()
-    }
+final class MixColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     private let duration: TimeInterval = 0.25
     
@@ -27,24 +20,9 @@ final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitio
         let containerView = transitionContext.containerView
         guard let toVC = transitionContext.viewController(forKey: .to) as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
-              let todayColorVC = tabBarController.lobbyViewController?.children[1]
+              let fromVC = tabBarController.lobbyViewController?.children[2] as? MixColorViewController,
+              let cell = fromVC.selectedCell
         else { return }
-        
-        var fromVC: ColorPostsViewController?
-        
-        switch childVCIndex {
-        case 0:
-            fromVC = todayColorVC.children[0] as? FirstColorViewController
-        case 1:
-            fromVC = todayColorVC.children[1] as? SecondColorViewController
-        case 2:
-            fromVC = todayColorVC.children[2] as? ThirdColorViewController
-        default:
-            break
-        }
-        
-        guard let fromVC = fromVC,
-              let cell = fromVC.selectedCell else { return }
         
         cell.isHidden = true
         

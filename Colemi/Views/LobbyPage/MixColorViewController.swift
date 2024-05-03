@@ -8,8 +8,12 @@
 import UIKit
 
 class MixColorViewController: UIViewController {
+    
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
+    
+    private let popAnimator = MixColorVCPopAnimator()
+    private let dismissAnimator = MixColorVCDismissAnimator()
     
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
@@ -129,9 +133,9 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        // postDetailViewController.modalPresentationStyle = .custom
-        // postDetailViewController.transitioningDelegate = self
+        
+        postDetailViewController.modalPresentationStyle = .custom
+        postDetailViewController.transitioningDelegate = self
         present(postDetailViewController, animated: true)
     }
 }
@@ -150,3 +154,16 @@ extension MixColorViewController: LobbyLayoutDelegate {
             }
         }
 }
+
+
+extension MixColorViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
+    }
+}
+
