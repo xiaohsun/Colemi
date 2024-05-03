@@ -17,6 +17,13 @@ class ProfileViewController: UIViewController {
     var otherUserData: User?
     var isShowingMyPosts: Bool = true
     
+    var selectedCell: LobbyPostCell?
+    var selectedImageView: UIImageView?
+    var collectionViewInPostsAndSavesCell: UICollectionView?
+    
+    private let popAnimator = ProfileVCPopAnimator()
+    private let dismissAnimator = ProfileVCDismissAnimator()
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -188,6 +195,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
+    
     func postsSavesChange(isMyPosts: Bool) {
         if let headerView = tableView.headerView(forSection: 2) as? SelectorHeaderView {
             headerView.postsButton.isSelected = isMyPosts ? true : false
@@ -200,20 +208,24 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         tableView.layoutIfNeeded()
     }
     
-    func presentDetailPage(index: Int, isMyPosts: Bool) {
+    func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView) {
         let postDetailViewController = PostDetailViewController()
+        self.selectedCell = selectedCell
+        self.collectionViewInPostsAndSavesCell = collectionView
+        self.selectedImageView = selectedImageView
         
         if isMyPosts {
             postDetailViewController.viewModel.post = viewModel.posts[index]
             postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
             // postDetailViewController.photoImage = viewModel.images[index]
             postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
-            // navigationController?.pushViewController(postDetailViewController, animated: true)
             postDetailViewController.postID = viewModel.posts[index].id
             postDetailViewController.authorID = viewModel.posts[index].authorId
             postDetailViewController.comments = viewModel.posts[index].comments
             postDetailViewController.post = viewModel.posts[index]
-            
+                
+            postDetailViewController.modalPresentationStyle = .custom
+            postDetailViewController.transitioningDelegate = self
             present(postDetailViewController, animated: true)
             
         } else {
@@ -225,6 +237,8 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
             postDetailViewController.comments = viewModel.saves[index].comments
             postDetailViewController.post = viewModel.saves[index]
             
+            postDetailViewController.modalPresentationStyle = .custom
+            postDetailViewController.transitioningDelegate = self
             present(postDetailViewController, animated: true)
         }
     }
@@ -242,5 +256,16 @@ extension ProfileViewController: SelectorHeaderViewDelegate {
                 cell.scrollView.setContentOffset(CGPoint(x: cell.scrollView.bounds.width, y: 0), animated: true)
             }
         }
+    }
+}
+
+extension ProfileViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
     }
 }

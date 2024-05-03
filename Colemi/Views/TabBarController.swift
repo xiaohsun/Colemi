@@ -10,6 +10,7 @@ import UIKit
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     var lobbyViewController: LobbyViewController?
+    var profileViewController: ProfileViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         chatRoomsNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
         let profileViewController = ProfileViewController()
+        self.profileViewController = profileViewController
         let profileNavController = UINavigationController(rootViewController: profileViewController)
         profileNavController.tabBarItem.image = UIImage.profileIcon
         profileNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)

@@ -86,6 +86,8 @@
 		287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */; };
 		287A62D62BE483EC00E09788 /* MixColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */; };
 		287A62D82BE483FA00E09788 /* MixColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */; };
+		287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */; };
+		287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -179,6 +181,8 @@
 		287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPostsViewController.swift; sourceTree = "<group>"; };
 		287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCDismissAnimator.swift; sourceTree = "<group>"; };
+		287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCPopAnimator.swift; sourceTree = "<group>"; };
+		287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCDismissAnimator.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -342,6 +346,8 @@
 				287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */,
 				287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */,
 				287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */,
+				287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */,
+				287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -586,6 +592,7 @@
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
 				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
+				287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */,
 				28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */,
 				287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */,
 				281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */,
@@ -609,6 +616,7 @@
 				288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */,
 				281C657B2BCFCA91003D2ECE /* PostDetailViewModel.swift in Sources */,
 				281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */,
+				287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */,
 				28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */,
 				281C65B52BD0E373003D2ECE /* FollowOrEditInfoCell.swift in Sources */,
 				281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */,

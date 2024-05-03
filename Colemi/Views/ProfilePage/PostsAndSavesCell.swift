@@ -132,10 +132,12 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) as? LobbyPostCell else { return }
+        
         if collectionView == postsCollectionView {
-            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: true)
+            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: true, selectedCell: selectedCell, collectionView: postsCollectionView, selectedImageView: selectedCell.imageView)
         } else {
-            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: false)
+            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: false, selectedCell: selectedCell, collectionView: savesCollectionView, selectedImageView: selectedCell.imageView)
         }
     }
     
@@ -206,7 +208,7 @@ extension PostsAndSavesCell {
 }
 
 protocol PostsAndSavesCellDelegate: AnyObject {
-    func presentDetailPage(index: Int, isMyPosts: Bool)
+    func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView)
     
     func postsSavesChange(isMyPosts: Bool)
 }
