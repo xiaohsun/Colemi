@@ -9,6 +9,13 @@ import UIKit
 
 final class ProfileVCDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
+    var toVC: ProfileViewController
+    
+    init(toVC: ProfileViewController) {
+        self.toVC = toVC
+        super.init()
+    }
+    
     private let duration: TimeInterval = 0.25
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -18,9 +25,8 @@ final class ProfileVCDismissAnimator: NSObject, UIViewControllerAnimatedTransiti
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let fromVC = transitionContext.viewController(forKey: .from) as? PostDetailViewController,
-              let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
-              let toVC = tabBarController.profileViewController,
+        guard let fromNav = transitionContext.viewController(forKey: .from) as? UINavigationController,
+              let fromVC = fromNav.topViewController as? PostDetailViewController,
               let cell = toVC.selectedCell,
               let collectionView = toVC.collectionViewInPostsAndSavesCell
         else { return }

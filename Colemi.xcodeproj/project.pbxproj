@@ -87,6 +87,10 @@
 		287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */; };
 		287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */; };
 		287A62DE2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DD2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift */; };
+		287A62E02BE4E56B00E09788 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DF2BE4E56B00E09788 /* ChatCell.swift */; };
+		287A62E22BE52DEA00E09788 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62E12BE52DEA00E09788 /* SettingViewController.swift */; };
+		287A62E52BE52F7700E09788 /* AvatarEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62E42BE52F7700E09788 /* AvatarEditCell.swift */; };
+		287A62E72BE5314700E09788 /* NormalSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62E62BE5314700E09788 /* NormalSettingCell.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -181,6 +185,10 @@
 		287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCDismissAnimator.swift; sourceTree = "<group>"; };
 		287A62DD2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAndMixVCProtocol.swift; sourceTree = "<group>"; };
+		287A62DF2BE4E56B00E09788 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
+		287A62E12BE52DEA00E09788 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		287A62E42BE52F7700E09788 /* AvatarEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarEditCell.swift; sourceTree = "<group>"; };
+		287A62E62BE5314700E09788 /* NormalSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalSettingCell.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -316,6 +324,7 @@
 				281C65AD2BD0C33F003D2ECE /* ProfileViewController.swift */,
 				281C65B02BD0C4E5003D2ECE /* InformationCell.swift */,
 				281C65BC2BD0ED96003D2ECE /* InfoCollectionViewCells */,
+				287A62E32BE52E6C00E09788 /* SettingPage */,
 				281C65BD2BD0EDD9003D2ECE /* MissionCell.swift */,
 				288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */,
 				288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */,
@@ -328,6 +337,7 @@
 			children = (
 				281C65B22BD0DC08003D2ECE /* TextViewCell.swift */,
 				281C65B42BD0E373003D2ECE /* FollowOrEditInfoCell.swift */,
+				287A62DF2BE4E56B00E09788 /* ChatCell.swift */,
 				281C65B62BD0E50B003D2ECE /* ColorFootprintCell.swift */,
 				281C65B82BD0E663003D2ECE /* BestColorCell.swift */,
 				281C65BA2BD0E7EB003D2ECE /* AchievementCell.swift */,
@@ -375,6 +385,16 @@
 				288064462BD143A300FC2EFA /* FirestoreManager.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		287A62E32BE52E6C00E09788 /* SettingPage */ = {
+			isa = PBXGroup;
+			children = (
+				287A62E12BE52DEA00E09788 /* SettingViewController.swift */,
+				287A62E42BE52F7700E09788 /* AvatarEditCell.swift */,
+				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
+			);
+			path = SettingPage;
 			sourceTree = "<group>";
 		};
 		2880644E2BD1550C00FC2EFA /* ChatRoomPage */ = {
@@ -599,11 +619,14 @@
 				288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */,
 				281C65AE2BD0C33F003D2ECE /* ProfileViewController.swift in Sources */,
 				28D253162BD62D1600864187 /* TabBarController.swift in Sources */,
+				287A62E22BE52DEA00E09788 /* SettingViewController.swift in Sources */,
 				287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */,
 				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */,
 				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,
 				283EF6582BD757420007C8D8 /* Comment.swift in Sources */,
+				287A62E02BE4E56B00E09788 /* ChatCell.swift in Sources */,
+				287A62E72BE5314700E09788 /* NormalSettingCell.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
@@ -631,6 +654,7 @@
 				28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */,
 				289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */,
 				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
+				287A62E52BE52F7700E09788 /* AvatarEditCell.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
 				281C65802BCFEB66003D2ECE /* DetailTableViewHeaderView.swift in Sources */,
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,

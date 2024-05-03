@@ -13,51 +13,35 @@ class FollowOrEditInfoCell: UICollectionViewCell {
     
     static let reuseIdentifier = "\(FollowOrEditInfoCell.self)"
     
-    lazy var containerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        view.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
-        view.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followBtnTapped))
-        view.addGestureRecognizer(tapGesture)
-        
-        return view
-    }()
-    
-    @objc private func followBtnTapped(_ sender: UITapGestureRecognizer) {
-        print("followed!")
+    @objc private func followBtnTapped(_ sender: UIButton) {
+        print("Following!")
         delegate?.updateFollower()
     }
     
-    lazy var label: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
-        label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "追蹤"
-        label.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(followBtnTapped))
-        label.addGestureRecognizer(tapGesture)
-        
-        return label
+    @objc private func settingBtnTapped(_ sender: UIButton) {
+        print("Setting!")
+        delegate?.pushToSettingVC()
+    }
+    
+    lazy var button: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        button.backgroundColor = .white
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.addSubview(containerView)
-        containerView.addSubview(label)
+        contentView.addSubview(button)
         
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
-            label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            button.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            button.topAnchor.constraint(equalTo: contentView.topAnchor),
+            button.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -67,12 +51,20 @@ class FollowOrEditInfoCell: UICollectionViewCell {
 }
 
 extension FollowOrEditInfoCell {
-    func update() {
-        containerView.isUserInteractionEnabled = false
-        label.isUserInteractionEnabled = false
+    func changeToSetting() {
+        button.setTitle("設定", for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
+        button.addTarget(self, action: #selector(settingBtnTapped), for: .touchUpInside)
+    }
+    
+    func changeToFollow() {
+        button.setTitle("追蹤", for: .normal)
+        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        button.addTarget(self, action: #selector(followBtnTapped), for: .touchUpInside)
     }
 }
 
 protocol FollowOrEditInfoCellDelegate: AnyObject {
     func updateFollower()
+    func pushToSettingVC()
 }

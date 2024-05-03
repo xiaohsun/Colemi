@@ -21,8 +21,8 @@ class ProfileViewController: UIViewController {
     var selectedImageView: UIImageView?
     var collectionViewInPostsAndSavesCell: UICollectionView?
     
-    private let popAnimator = ProfileVCPopAnimator()
-    private let dismissAnimator = ProfileVCDismissAnimator()
+    var popAnimator: UIViewControllerAnimatedTransitioning?
+    var dismissAnimator: UIViewControllerAnimatedTransitioning?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -61,6 +61,9 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
+        popAnimator = ProfileVCPopAnimator(fromVC: self)
+        dismissAnimator = ProfileVCDismissAnimator(toVC: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +93,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
             if !isOthersPage {
                 cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage)
+                cell.delegate = self
                 
             } else {
                 guard let otherUserData = otherUserData else {
@@ -100,6 +104,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             return cell
+            
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MissionCell.reuseIdentifier, for: indexPath) as? MissionCell else { return UITableViewCell() }
             
@@ -108,25 +113,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             return cell
+            
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
             cell.update(viewModel: viewModel)
             cell.delegate = self
             
             if !isOthersPage {
-                //                if isShowingPosts {
-                //                    Task {
-                //                        await viewModel.getMyPosts(postIDs: userData.posts) {
-                //                            cell.updatePostsCollectionViewLayout()
-                //                        }
-                //                    }
-                //                } else {
-                //                    Task {
-                //                        await viewModel.getMyPosts(postIDs: userData.savedPosts) {
-                //                            cell.updateLayout()
-                //                        }
-                //                    }
-                //                }
                 
                 Task {
                     await viewModel.getMyPosts(postIDs: userData.posts) {
@@ -230,9 +223,9 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
             postDetailViewController.comments = viewModel.posts[index].comments
             postDetailViewController.post = viewModel.posts[index]
                 
-            postDetailViewController.modalPresentationStyle = .custom
-            postDetailViewController.transitioningDelegate = self
-            present(postDetailViewController, animated: true)
+//            postDetailViewController.modalPresentationStyle = .custom
+//            postDetailViewController.transitioningDelegate = self
+//            present(postDetailViewController, animated: true)
             
         } else {
             postDetailViewController.viewModel.post = viewModel.saves[index]
@@ -243,10 +236,16 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
             postDetailViewController.comments = viewModel.saves[index].comments
             postDetailViewController.post = viewModel.saves[index]
             
-            postDetailViewController.modalPresentationStyle = .custom
-            postDetailViewController.transitioningDelegate = self
-            present(postDetailViewController, animated: true)
+//            postDetailViewController.modalPresentationStyle = .custom
+//            postDetailViewController.transitioningDelegate = self
+//            present(postDetailViewController, animated: true)
         }
+        
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
@@ -273,5 +272,12 @@ extension ProfileViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return dismissAnimator
+    }
+}
+
+extension ProfileViewController: InformationCellDelegate {
+    func pushToSettingVC() {
+        let settingViewController = SettingViewController()
+        navigationController?.pushViewController(settingViewController, animated: true)
     }
 }

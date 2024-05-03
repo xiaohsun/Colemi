@@ -15,6 +15,8 @@ class InformationCell: UITableViewCell {
     var otherUserData: User?
     let viewModel = ProfileViewModel()
     
+    weak var delegate: InformationCellDelegate?
+    
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -153,6 +155,7 @@ class InformationCell: UITableViewCell {
         setUpUI()
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: TextViewCell.reuseIdentifier)
         collectionView.register(FollowOrEditInfoCell.self, forCellWithReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier)
+        collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.reuseIdentifier)
         collectionView.register(ColorFootprintCell.self, forCellWithReuseIdentifier: ColorFootprintCell.reuseIdentifier)
         collectionView.register(BestColorCell.self, forCellWithReuseIdentifier: BestColorCell.reuseIdentifier)
         collectionView.register(AchievementCell.self, forCellWithReuseIdentifier: AchievementCell.reuseIdentifier)
@@ -184,7 +187,7 @@ extension InformationCell {
         
         let sectionProvider = { (sectionIndex: Int, _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
-            if sectionIndex == 0 {
+            if sectionIndex == 0 && !self.isOthersPage {
                 let leftItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2/3), heightDimension: .fractionalHeight(1.0))
                 let rightItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1.0))
                 
@@ -198,6 +201,33 @@ extension InformationCell {
                 //group.interItemSpacing = .fixed(20)
                 
                 let section = NSCollectionLayoutSection(group: group)
+                
+                section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 20, trailing: 10)
+                
+                return section
+                
+            } else if sectionIndex == 0 && self.isOthersPage {
+                
+                let leftItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2/3), heightDimension: .fractionalHeight(1.0))
+                let leftItem = NSCollectionLayoutItem(layoutSize: leftItemSize)
+                
+                let rightItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
+                
+                
+                let rightTopItem = NSCollectionLayoutItem(layoutSize: rightItemSize)
+                let rightBottomItem = NSCollectionLayoutItem(layoutSize: rightItemSize)
+                
+                let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1))
+                
+                let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitems: [rightTopItem, rightBottomItem])
+                
+                verticalGroup.interItemSpacing = .fixed(10)
+                
+                let containerGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
+                
+                let containerGroup = NSCollectionLayoutGroup.horizontal(layoutSize: containerGroupSize, subitems: [leftItem, verticalGroup])
+                
+                let section = NSCollectionLayoutSection(group: containerGroup)
                 
                 section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 20, trailing: 10)
                 
@@ -228,23 +258,54 @@ extension InformationCell {
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: self.collectionView) { (collectionView, indexPath, _) -> UICollectionViewCell? in
             
-            if indexPath.section == 0 {
+            if indexPath.section == 0 && !self.isOthersPage {
+                
+                switch indexPath.row {
+                    
+                case 0:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
+                    
+                    cell.delegate = self
+                    
+                    cell.update(description: UserManager.shared.description)
+                    
+                    return cell
+                    
+                default:
+                    
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
+                    
+                    cell.changeToSetting()
+                    
+                    cell.delegate = self
+                    
+                    return cell
+                }
+            } else if indexPath.section == 0 && self.isOthersPage {
                 switch indexPath.row {
                 case 0:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
                     
                     cell.delegate = self
+                    
                     cell.update(description: UserManager.shared.description)
                     
                     return cell
-                default:
+                    
+                case 1:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
                     
-                    if !self.isOthersPage {
-                        cell.update()
-                    }
+                        cell.changeToFollow()
                     
                     cell.delegate = self
+                    
+                    return cell
+                    
+                default:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else { fatalError("Can't create new cell") }
+                        // cell.changeToFollow()
+                    
+                    // cell.delegate = self
                     
                     return cell
                 }
@@ -270,8 +331,17 @@ extension InformationCell {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         initialSnapshot.appendSections([.top, .bottom])
-        initialSnapshot.appendItems(Array(1...2), toSection: .top)
-        initialSnapshot.appendItems(Array(3...5), toSection: .bottom)
+        
+        if !self.isOthersPage {
+            initialSnapshot.appendItems(Array(1...2), toSection: .top)
+            initialSnapshot.appendItems(Array(3...5), toSection: .bottom)
+        } else {
+            initialSnapshot.appendItems(Array(1...1), toSection: .top)
+            initialSnapshot.appendItems(Array(2...3), toSection: .top)
+            initialSnapshot.appendItems(Array(4...6), toSection: .bottom)
+        }
+        
+        
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
@@ -283,10 +353,18 @@ extension InformationCell: FollowOrEditInfoCellDelegate {
         let viewModel = ProfileViewModel()
        //  viewModel.updateFollower(otherUserData: otherUserData)
     }
+    
+    func pushToSettingVC() {
+        delegate?.pushToSettingVC()
+    }
 }
 
 extension InformationCell: TextViewCellDelegate {
     func userDescriptionChange(text: String) {
         viewModel.updateUserDescription(text: text)
     }
+}
+
+protocol InformationCellDelegate: AnyObject {
+    func pushToSettingVC()
 }

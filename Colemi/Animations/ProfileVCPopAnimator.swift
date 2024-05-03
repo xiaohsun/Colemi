@@ -9,6 +9,13 @@ import UIKit
 
 final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
+    var fromVC: ProfileViewController
+    
+    init(fromVC: ProfileViewController) {
+        self.fromVC = fromVC
+        super.init()
+    }
+    
     private let duration: TimeInterval = 0.25
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -18,9 +25,8 @@ final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitionin
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let toVC = transitionContext.viewController(forKey: .to) as? PostDetailViewController,
-              let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
-              let fromVC = tabBarController.profileViewController,
+        guard let toNav = transitionContext.viewController(forKey: .to) as? UINavigationController,
+              let toVC = toNav.topViewController as? PostDetailViewController,
               let cell = fromVC.selectedCell,
               let collectionView = fromVC.collectionViewInPostsAndSavesCell
         else { return }
@@ -35,7 +41,7 @@ final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitionin
         
         toVC.view.alpha = 0
         
-        containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
+        containerView.insertSubview(toNav.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
         
         toVC.view.layoutIfNeeded()
@@ -44,12 +50,12 @@ final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitionin
         UIView.animate(withDuration: duration) {
             guard let headerView = toVC.headerView else { return }
             snapShotView.frame = headerView.photoImageView.frame
-            snapShotView.frame.origin.y += toVC.view.safeAreaLayoutGuide.layoutFrame.origin.y
+            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
             //fromVC.view.alpha = 0
             // tabBarController.tabBar.alpha = 0
             
         } completion: { _ in
-            guard let selectedImageView = fromVC.selectedImageView else { return }
+            guard let selectedImageView = self.fromVC.selectedImageView else { return }
             cell.isHidden = false
             
             toVC.view.alpha = 1
