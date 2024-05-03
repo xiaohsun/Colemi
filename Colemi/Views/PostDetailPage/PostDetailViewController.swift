@@ -279,7 +279,7 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
         let profileViewController = ProfileViewController()
         
         if authorID == userData.id {
-            present(profileViewController, animated: true)
+            navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             
             let firestoreManager = FirestoreManager.shared
@@ -293,8 +293,7 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
                     
                     profileViewController.isOthersPage = true
                     profileViewController.otherUserData = userData
-                    // navigationController.pushViewController(profileViewController, animated: true)
-                    present(profileViewController, animated: true)
+                    navigationController?.pushViewController(profileViewController, animated: true)
                 }
             }
         }

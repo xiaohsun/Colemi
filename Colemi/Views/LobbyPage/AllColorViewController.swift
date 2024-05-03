@@ -272,10 +272,16 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        postDetailViewController.modalPresentationStyle = .custom
-        postDetailViewController.transitioningDelegate = self
-        present(postDetailViewController, animated: true)
+        
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        
+//        postDetailViewController.modalPresentationStyle = .custom
+//        postDetailViewController.transitioningDelegate = self
+//        present(postDetailViewController, animated: true)
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 

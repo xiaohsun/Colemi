@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController {
     var isOthersPage: Bool = false
     var othersID: String?
     var otherUserData: User?
-    var isShowingMyPosts: Bool = true
+    var isShowingPosts: Bool = true
     
     var selectedCell: LobbyPostCell?
     var selectedImageView: UIImageView?
@@ -67,6 +67,12 @@ class ProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         userData = UserManager.shared
         tableView.reloadData()
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = true
     }
 }
 
@@ -108,7 +114,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             
             if !isOthersPage {
-                //                if isShowingMyPosts {
+                //                if isShowingPosts {
                 //                    Task {
                 //                        await viewModel.getMyPosts(postIDs: userData.posts) {
                 //                            cell.updatePostsCollectionViewLayout()
@@ -246,7 +252,7 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
 
 extension ProfileViewController: SelectorHeaderViewDelegate {
     func changeShowingPostsOrSaved(isShowingMyPosts: Bool) {
-        self.isShowingMyPosts = isShowingMyPosts
+        self.isShowingPosts = isShowingMyPosts
         let indexPath = IndexPath(row: 0, section: 2)
         if let cell = tableView.cellForRow(at: indexPath) as? PostsAndSavesCell {
             switch isShowingMyPosts {

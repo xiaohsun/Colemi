@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 class ProfileViewModel {
     
-//    @Published var isShowingMyPosts: Bool = false
+//    @Published var isShowingPosts: Bool = false
 //    private var cancellables = Set<AnyCancellable>()
     
     var posts: [Post] = []
@@ -25,7 +25,7 @@ class ProfileViewModel {
     let userData = UserManager.shared
     
 //    init() {
-//        $isShowingMyPosts.sink(receiveValue: { _ in
+//        $isShowingPosts.sink(receiveValue: { _ in
 //            print("Status Change")
 //        }).store(in: &cancellables)
 //    }

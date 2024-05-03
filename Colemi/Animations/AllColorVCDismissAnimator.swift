@@ -18,20 +18,20 @@ final class AllColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let fromVC = transitionContext.viewController(forKey: .from) as? PostDetailViewController,
-              let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController
+        guard let fromNav = transitionContext.viewController(forKey: .from) as? UINavigationController,
+              let fromVC = fromNav.topViewController as? PostDetailViewController,
+              let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
+              let toVC = tabBarController.lobbyViewController?.children[0] as? AllColorViewController,
+              let cell = toVC.selectedCell
         else { return }
         
-        let toVC = tabBarController.lobbyViewController?.children[0] as! AllColorViewController
         
-        
-        let cell = toVC.selectedCell
         // cell?.isHidden = true
         fromVC.view.isHidden = true
         
         // let snapShotView = fromVC.headerView?.photoImageView.snapshotView(afterScreenUpdates: false)
         // let snapShotView = UIImageView(image: fromVC.headerView?.photoImageView.image)
-        let snapShotView = cell!.snapshotView(afterScreenUpdates: false)
+        let snapShotView = cell.snapshotView(afterScreenUpdates: false)
         guard let snapShotView = snapShotView else { return }
         
         // snapShotView.frame = (fromVC.headerView?.photoImageView.frame)!
@@ -51,17 +51,17 @@ final class AllColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         toVC.view.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
-            snapShotView.frame = toVC.postsCollectionView.convert(cell!.frame, to: nil)
+            snapShotView.frame = toVC.postsCollectionView.convert(cell.frame, to: nil)
             // toVC.view.alpha = 1
             
         } completion: { _ in
             
-            cell?.isHidden = false
+            cell.isHidden = false
            
             // fromVC.selectedImageView!.isHidden = false
             // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
-            tabBarController.lobbyViewController!.scrollView.addSubview(toVC.view)
+            tabBarController.lobbyViewController?.scrollView.addSubview(toVC.view)
             transitionContext.completeTransition(true)
         }
     }

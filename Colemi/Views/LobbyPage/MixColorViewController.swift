@@ -166,4 +166,3 @@ extension MixColorViewController: UIViewControllerTransitioningDelegate {
         return dismissAnimator
     }
 }
-
