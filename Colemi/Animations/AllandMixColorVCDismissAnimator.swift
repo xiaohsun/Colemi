@@ -7,7 +7,14 @@
 
 import UIKit
 
-final class AllColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class AllandMixColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    var childVCIndex: Int
+    
+    init(childVCIndex: Int) {
+        self.childVCIndex = childVCIndex
+        super.init()
+    }
     
     private let duration: TimeInterval = 0.25
     
@@ -21,7 +28,23 @@ final class AllColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         guard let fromNav = transitionContext.viewController(forKey: .from) as? UINavigationController,
               let fromVC = fromNav.topViewController as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
-              let toVC = tabBarController.lobbyViewController?.children[0] as? AllColorViewController,
+              let lobbyViewController = tabBarController.lobbyViewController
+//              let toVC = tabBarController.lobbyViewController?.children[0] as? AllColorViewController,
+//              let cell = toVC.selectedCell
+        else { return }
+        
+        var toVC: AllAndMixViewController?
+        
+        switch childVCIndex {
+        case 0:
+            toVC = lobbyViewController.children[0] as? AllColorViewController
+        case 2:
+            toVC = lobbyViewController.children[2] as? MixColorViewController
+        default:
+            break
+        }
+        
+        guard let toVC = toVC,
               let cell = toVC.selectedCell
         else { return }
         

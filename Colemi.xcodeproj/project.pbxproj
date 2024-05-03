@@ -72,8 +72,8 @@
 		282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */; };
 		282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */; };
 		283EF6582BD757420007C8D8 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283EF6572BD757420007C8D8 /* Comment.swift */; };
-		2840D8A12BDB720700A6B3DC /* AllColorsVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840D8A02BDB720700A6B3DC /* AllColorsVCPopAnimator.swift */; };
-		2840D8A32BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840D8A22BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift */; };
+		2840D8A12BDB720700A6B3DC /* AllandMixColorsVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840D8A02BDB720700A6B3DC /* AllandMixColorsVCPopAnimator.swift */; };
+		2840D8A32BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2840D8A22BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift */; };
 		2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */; };
 		284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */; };
 		284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C22BC9839400A61E88 /* UIColor+Extension.swift */; };
@@ -88,6 +88,7 @@
 		287A62D82BE483FA00E09788 /* MixColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */; };
 		287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */; };
 		287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */; };
+		287A62DE2BE4C5EF00E09788 /* AllAndMixViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DD2BE4C5EF00E09788 /* AllAndMixViewController.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -167,8 +168,8 @@
 		282F57EA2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSimilarityViewController.swift; sourceTree = "<group>"; };
 		282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVisionManager.swift; sourceTree = "<group>"; };
 		283EF6572BD757420007C8D8 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		2840D8A02BDB720700A6B3DC /* AllColorsVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllColorsVCPopAnimator.swift; sourceTree = "<group>"; };
-		2840D8A22BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllColorVCDismissAnimator.swift; sourceTree = "<group>"; };
+		2840D8A02BDB720700A6B3DC /* AllandMixColorsVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllandMixColorsVCPopAnimator.swift; sourceTree = "<group>"; };
+		2840D8A22BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllandMixColorVCDismissAnimator.swift; sourceTree = "<group>"; };
 		2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColorProperty.swift; sourceTree = "<group>"; };
 		284F32BF2BC950AE00A61E88 /* ChooseColorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewModel.swift; sourceTree = "<group>"; };
 		284F32C22BC9839400A61E88 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -183,6 +184,7 @@
 		287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCDismissAnimator.swift; sourceTree = "<group>"; };
 		287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCDismissAnimator.swift; sourceTree = "<group>"; };
+		287A62DD2BE4C5EF00E09788 /* AllAndMixViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAndMixViewController.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -340,8 +342,8 @@
 		2840D89F2BDB71F300A6B3DC /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				2840D8A02BDB720700A6B3DC /* AllColorsVCPopAnimator.swift */,
-				2840D8A22BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift */,
+				2840D8A02BDB720700A6B3DC /* AllandMixColorsVCPopAnimator.swift */,
+				2840D8A22BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift */,
 				287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */,
 				287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */,
 				287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */,
@@ -410,6 +412,7 @@
 			isa = PBXGroup;
 			children = (
 				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
+				287A62DD2BE4C5EF00E09788 /* AllAndMixViewController.swift */,
 				2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */,
 				2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */,
 				2818B7432BDA3C5200434EBF /* MixColorViewController.swift */,
@@ -611,6 +614,7 @@
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
+				287A62DE2BE4C5EF00E09788 /* AllAndMixViewController.swift in Sources */,
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,
 				281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */,
 				288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */,
@@ -653,8 +657,8 @@
 				28C69B8B2BD2A4C000725BE7 /* ProfileViewModel.swift in Sources */,
 				28C69B892BD270BA00725BE7 /* Content.swift in Sources */,
 				287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */,
-				2840D8A12BDB720700A6B3DC /* AllColorsVCPopAnimator.swift in Sources */,
-				2840D8A32BDBCAE800A6B3DC /* AllColorVCDismissAnimator.swift in Sources */,
+				2840D8A12BDB720700A6B3DC /* AllandMixColorsVCPopAnimator.swift in Sources */,
+				2840D8A32BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift in Sources */,
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,
 				2823431B2BCCF2210040C1CA /* CloudVisionResponseModel.swift in Sources */,
 				28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */,

@@ -7,13 +7,13 @@
 
 import UIKit
 
-class AllColorViewController: UIViewController {
+class AllColorViewController: UIViewController, AllAndMixViewController {
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorsVCPopAnimator(childVCIndex: 0)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorVCDismissAnimator(childVCIndex: 0)
     
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
-    
-    private let popAnimator = AllColorsVCPopAnimator()
-    private let dismissAnimator = AllColorVCDismissAnimator()
     
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
@@ -37,26 +37,6 @@ class AllColorViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private func setUpUI() {
-        
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(colorImageView)
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            colorImageView.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.heightAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            
-            postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
-    }
     
     // MARK: - For Tests
     

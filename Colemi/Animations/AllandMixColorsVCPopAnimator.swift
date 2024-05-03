@@ -7,7 +7,14 @@
 
 import UIKit
 
-final class AllColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class AllandMixColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    
+    var childVCIndex: Int
+    
+    init(childVCIndex: Int) {
+        self.childVCIndex = childVCIndex
+        super.init()
+    }
     
     private let duration: TimeInterval = 0.25
     
@@ -21,10 +28,24 @@ final class AllColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTransition
         guard let toNav = transitionContext.viewController(forKey: .to) as? UINavigationController,
               let toVC = toNav.topViewController as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
-              let fromVC = tabBarController.lobbyViewController?.children[0] as? AllColorViewController,
+              let lobbyViewController = tabBarController.lobbyViewController
+                
+        else { return }
+        
+        var fromVC: AllAndMixViewController?
+        
+        switch childVCIndex {
+        case 0:
+            fromVC = lobbyViewController.children[0] as? AllColorViewController
+        case 2:
+            fromVC = lobbyViewController.children[2] as? MixColorViewController
+        default:
+            break
+        }
+        
+        guard let fromVC = fromVC,
               let cell = fromVC.selectedCell,
               let selectedImageView = fromVC.selectedImageView
-                
         else { return }
         
         

@@ -7,13 +7,13 @@
 
 import UIKit
 
-class MixColorViewController: UIViewController {
+class MixColorViewController: UIViewController, AllAndMixViewController {
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorsVCPopAnimator(childVCIndex: 2)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorVCDismissAnimator(childVCIndex: 2)
     
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
-    
-    private let popAnimator = MixColorVCPopAnimator()
-    private let dismissAnimator = MixColorVCDismissAnimator()
     
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
@@ -38,26 +38,6 @@ class MixColorViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private func setUpUI() {
-        
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(colorImageView)
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            colorImageView.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.heightAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            
-            postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
-    }
     
     // MARK: - Life Cycle
     
@@ -134,9 +114,12 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
         
-        postDetailViewController.modalPresentationStyle = .custom
-        postDetailViewController.transitioningDelegate = self
-        present(postDetailViewController, animated: true)
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
