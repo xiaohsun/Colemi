@@ -83,12 +83,10 @@
 		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
 		287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */; };
 		287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */; };
-		287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */; };
-		287A62D62BE483EC00E09788 /* MixColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */; };
-		287A62D82BE483FA00E09788 /* MixColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */; };
+		287A62D42BE3E21800E09788 /* TodayColorVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */; };
 		287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */; };
 		287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */; };
-		287A62DE2BE4C5EF00E09788 /* AllAndMixViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DD2BE4C5EF00E09788 /* AllAndMixViewController.swift */; };
+		287A62DE2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62DD2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -179,12 +177,10 @@
 		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
 		287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCDismissAnimator.swift; sourceTree = "<group>"; };
-		287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPostsViewController.swift; sourceTree = "<group>"; };
-		287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCPopAnimator.swift; sourceTree = "<group>"; };
-		287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorVCDismissAnimator.swift; sourceTree = "<group>"; };
+		287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCProtocol.swift; sourceTree = "<group>"; };
 		287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVCDismissAnimator.swift; sourceTree = "<group>"; };
-		287A62DD2BE4C5EF00E09788 /* AllAndMixViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAndMixViewController.swift; sourceTree = "<group>"; };
+		287A62DD2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllAndMixVCProtocol.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -346,8 +342,6 @@
 				2840D8A22BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift */,
 				287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */,
 				287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */,
-				287A62D52BE483EC00E09788 /* MixColorVCPopAnimator.swift */,
-				287A62D72BE483FA00E09788 /* MixColorVCDismissAnimator.swift */,
 				287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */,
 				287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */,
 			);
@@ -412,11 +406,11 @@
 			isa = PBXGroup;
 			children = (
 				28D24DCE2BC6C24200B7E114 /* LobbyViewController.swift */,
-				287A62DD2BE4C5EF00E09788 /* AllAndMixViewController.swift */,
+				287A62DD2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift */,
 				2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */,
 				2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */,
 				2818B7432BDA3C5200434EBF /* MixColorViewController.swift */,
-				287A62D32BE3E21800E09788 /* ColorPostsViewController.swift */,
+				287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */,
 				2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */,
 				2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */,
 				2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */,
@@ -590,14 +584,13 @@
 				2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */,
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
 				288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */,
-				287A62D82BE483FA00E09788 /* MixColorVCDismissAnimator.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
 				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
 				287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */,
 				28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */,
-				287A62D42BE3E21800E09788 /* ColorPostsViewController.swift in Sources */,
+				287A62D42BE3E21800E09788 /* TodayColorVCProtocol.swift in Sources */,
 				281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */,
 				28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */,
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
@@ -614,7 +607,7 @@
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
-				287A62DE2BE4C5EF00E09788 /* AllAndMixViewController.swift in Sources */,
+				287A62DE2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift in Sources */,
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,
 				281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */,
 				288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */,
@@ -636,7 +629,6 @@
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
 				28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */,
-				287A62D62BE483EC00E09788 /* MixColorVCPopAnimator.swift in Sources */,
 				289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */,
 				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,

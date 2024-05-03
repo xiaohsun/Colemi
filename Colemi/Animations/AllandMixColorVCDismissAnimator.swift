@@ -29,11 +29,9 @@ final class AllandMixColorVCDismissAnimator: NSObject, UIViewControllerAnimatedT
               let fromVC = fromNav.topViewController as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
               let lobbyViewController = tabBarController.lobbyViewController
-//              let toVC = tabBarController.lobbyViewController?.children[0] as? AllColorViewController,
-//              let cell = toVC.selectedCell
         else { return }
         
-        var toVC: AllAndMixViewController?
+        var toVC: AllAndMixVCProtocol?
         
         switch childVCIndex {
         case 0:
@@ -45,7 +43,8 @@ final class AllandMixColorVCDismissAnimator: NSObject, UIViewControllerAnimatedT
         }
         
         guard let toVC = toVC,
-              let cell = toVC.selectedCell
+              let cell = toVC.selectedCell,
+              let fromVCHeader = fromVC.headerView
         else { return }
         
         
@@ -60,7 +59,7 @@ final class AllandMixColorVCDismissAnimator: NSObject, UIViewControllerAnimatedT
         // snapShotView.frame = (fromVC.headerView?.photoImageView.frame)!
         // snapShotView.frame.origin.y += fromVC.view.safeAreaLayoutGuide.layoutFrame.origin.y
         
-        var frame = (fromVC.headerView?.photoImageView.frame)!
+        var frame = fromVCHeader.photoImageView.frame
         frame.origin.x += fromVC.xPosition
         frame.origin.y += fromVC.view.safeAreaLayoutGuide.layoutFrame.origin.y + fromVC.yPosition
         snapShotView.frame = frame

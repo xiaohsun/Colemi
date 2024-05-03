@@ -25,12 +25,13 @@ final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitio
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let toVC = transitionContext.viewController(forKey: .to) as? PostDetailViewController,
+        guard let toNav = transitionContext.viewController(forKey: .to) as? UINavigationController,
+              let toVC = toNav.topViewController as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
               let todayColorVC = tabBarController.lobbyViewController?.children[1]
         else { return }
         
-        var fromVC: ColorPostsViewController?
+        var fromVC: TodayColorVCProtocol?
         
         switch childVCIndex {
         case 0:
@@ -56,7 +57,7 @@ final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitio
         
         toVC.view.alpha = 0
         
-        containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
+        containerView.insertSubview(toNav.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
         
         toVC.view.layoutIfNeeded()
@@ -65,7 +66,7 @@ final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitio
         UIView.animate(withDuration: duration) {
             guard let headerView = toVC.headerView else { return }
             snapShotView.frame = headerView.photoImageView.frame
-            snapShotView.frame.origin.y += toVC.view.safeAreaLayoutGuide.layoutFrame.origin.y
+            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
             fromVC.view.alpha = 0
             tabBarController.tabBar.alpha = 0
             

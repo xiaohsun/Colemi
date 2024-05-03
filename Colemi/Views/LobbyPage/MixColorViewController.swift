@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MixColorViewController: UIViewController, AllAndMixViewController {
+class MixColorViewController: UIViewController, AllAndMixVCProtocol {
     
     var popAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorsVCPopAnimator(childVCIndex: 2)
     var dismissAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorVCDismissAnimator(childVCIndex: 2)

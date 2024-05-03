@@ -25,12 +25,13 @@ final class TodayColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTrans
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let fromVC = transitionContext.viewController(forKey: .from) as? PostDetailViewController,
+        guard let fromNav = transitionContext.viewController(forKey: .from) as? UINavigationController,
+              let fromVC = fromNav.topViewController as? PostDetailViewController,
               let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
               let todayColorVC = tabBarController.lobbyViewController?.children[1]
         else { return }
         
-        var toVC: ColorPostsViewController?
+        var toVC: TodayColorVCProtocol?
         
         switch childVCIndex {
         case 0:

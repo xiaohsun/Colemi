@@ -32,7 +32,7 @@ final class AllandMixColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTran
                 
         else { return }
         
-        var fromVC: AllAndMixViewController?
+        var fromVC: AllAndMixVCProtocol?
         
         switch childVCIndex {
         case 0:

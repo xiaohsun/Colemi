@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SecondColorViewController: UIViewController, ColorPostsViewController {
+class SecondColorViewController: UIViewController, TodayColorVCProtocol {
     
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
@@ -108,10 +108,12 @@ extension SecondColorViewController: UICollectionViewDataSource, UICollectionVie
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
         
-        postDetailViewController.modalPresentationStyle = .custom
-        postDetailViewController.transitioningDelegate = self
+        let navController = UINavigationController(rootViewController: postDetailViewController)
         
-        present(postDetailViewController, animated: true)
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
@@ -143,7 +145,7 @@ extension SecondColorViewController: UIViewControllerTransitioningDelegate {
 
 
 
-// MARK: - 留下來備份不繼承 ColorPostsViewController 的
+// MARK: - 留下來備份不繼承 TodayColorVCProtocol 的
 
 //class SecondColorViewController: UIViewController {
 //    let viewModel = LobbyViewModel()

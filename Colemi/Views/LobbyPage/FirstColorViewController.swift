@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FirstColorViewController: UIViewController, ColorPostsViewController {
+class FirstColorViewController: UIViewController, TodayColorVCProtocol {
      
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
@@ -124,10 +124,12 @@ extension FirstColorViewController: UICollectionViewDataSource, UICollectionView
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
         
-        postDetailViewController.modalPresentationStyle = .custom
-        postDetailViewController.transitioningDelegate = self
+        let navController = UINavigationController(rootViewController: postDetailViewController)
         
-        present(postDetailViewController, animated: true)
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
