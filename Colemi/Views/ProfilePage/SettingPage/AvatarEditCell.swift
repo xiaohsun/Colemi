@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import Kingfisher
 
 class AvatarEditCell: UITableViewCell {
     
@@ -59,7 +60,7 @@ class AvatarEditCell: UITableViewCell {
         NSLayoutConstraint.activate([
             avatarImageView.widthAnchor.constraint(equalToConstant: 120),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 50),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             avatarImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
             avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
@@ -83,6 +84,13 @@ class AvatarEditCell: UITableViewCell {
         super.draw(rect)
         
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
+    }
+}
+
+extension AvatarEditCell {
+    func update(avatarUrl: String) {
+        let url = URL(string: avatarUrl)
+        avatarImageView.kf.setImage(with: url)
     }
 }
 
@@ -116,3 +124,5 @@ extension AvatarEditCell: PHPickerViewControllerDelegate {
 protocol AvatarEditCellDelegate: AnyObject {
     func presentPHPicker(_ pickerVC: PHPickerViewController)
 }
+
+

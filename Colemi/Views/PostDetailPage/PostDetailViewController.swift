@@ -292,7 +292,8 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
                 if let userData = userData {
                     
                     profileViewController.isOthersPage = true
-                    profileViewController.otherUserData = userData
+                    // profileViewController.otherUserData = userData
+                    profileViewController.viewModel.otherUserData = userData
                     navigationController?.pushViewController(profileViewController, animated: true)
                 }
             }

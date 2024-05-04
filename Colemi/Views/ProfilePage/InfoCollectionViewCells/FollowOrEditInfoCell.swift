@@ -14,7 +14,7 @@ class FollowOrEditInfoCell: UICollectionViewCell {
     static let reuseIdentifier = "\(FollowOrEditInfoCell.self)"
     
     @objc private func followBtnTapped(_ sender: UIButton) {
-        print("Following!")
+        print("Follow!")
         delegate?.updateFollower()
     }
     
@@ -57,8 +57,8 @@ extension FollowOrEditInfoCell {
         button.addTarget(self, action: #selector(settingBtnTapped), for: .touchUpInside)
     }
     
-    func changeToFollow() {
-        button.setTitle("追蹤", for: .normal)
+    func changeToFollow(isFollowing: Bool) {
+        button.setTitle(isFollowing ? "取消追蹤" : "追蹤", for: .normal)
         button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         button.addTarget(self, action: #selector(followBtnTapped), for: .touchUpInside)
     }

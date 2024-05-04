@@ -13,8 +13,9 @@ class ProfileViewController: UIViewController {
     let viewModel = ProfileViewModel()
     var userData: UserManager?
     var isOthersPage: Bool = false
+    
     var othersID: String?
-    var otherUserData: User?
+    // var otherUserData: User?
     var isShowingPosts: Bool = true
     
     var selectedCell: LobbyPostCell?
@@ -96,10 +97,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.delegate = self
                 
             } else {
-                guard let otherUserData = otherUserData else {
+                guard let otherUserData = viewModel.otherUserData else {
                     print("Error get otherUserData.")
                     return cell
                 }
+                cell.viewModel.otherUserData = otherUserData
                 cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage, avatarUrl: otherUserData.avatarPhoto)
             }
             
@@ -132,7 +134,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
             } else {
-                guard let otherUserData = otherUserData else {
+                guard let otherUserData = viewModel.otherUserData else {
                     print("Error get otherUserData.")
                     return cell
                 }
@@ -159,8 +161,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             return 120
         } else {
-            // return UITableView.automaticDimension
-            return 2000
+            return UITableView.automaticDimension
+            // return 2000
         }
     }
     
@@ -202,9 +204,9 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         }
     }
     
-    
     func reloadTableView() {
-        tableView.layoutIfNeeded()
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView) {
@@ -222,10 +224,6 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
             postDetailViewController.authorID = viewModel.posts[index].authorId
             postDetailViewController.comments = viewModel.posts[index].comments
             postDetailViewController.post = viewModel.posts[index]
-                
-//            postDetailViewController.modalPresentationStyle = .custom
-//            postDetailViewController.transitioningDelegate = self
-//            present(postDetailViewController, animated: true)
             
         } else {
             postDetailViewController.viewModel.post = viewModel.saves[index]
@@ -235,10 +233,6 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
             postDetailViewController.authorID = viewModel.saves[index].authorId
             postDetailViewController.comments = viewModel.saves[index].comments
             postDetailViewController.post = viewModel.saves[index]
-            
-//            postDetailViewController.modalPresentationStyle = .custom
-//            postDetailViewController.transitioningDelegate = self
-//            present(postDetailViewController, animated: true)
         }
         
         let navController = UINavigationController(rootViewController: postDetailViewController)

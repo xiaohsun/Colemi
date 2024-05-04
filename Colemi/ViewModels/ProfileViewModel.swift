@@ -12,8 +12,8 @@ import FirebaseFirestore
 
 class ProfileViewModel {
     
-//    @Published var isShowingPosts: Bool = false
-//    private var cancellables = Set<AnyCancellable>()
+    //    @Published var isShowingPosts: Bool = false
+    //    private var cancellables = Set<AnyCancellable>()
     
     var posts: [Post] = []
     var saves: [Post] = []
@@ -24,34 +24,52 @@ class ProfileViewModel {
     var savesContentJSONString: [String] = []
     let userData = UserManager.shared
     
-//    init() {
-//        $isShowingPosts.sink(receiveValue: { _ in
-//            print("Status Change")
-//        }).store(in: &cancellables)
-//    }
-//    
-//    deinit {
-//        cancellables.forEach { $0.cancel() }
-//    }
+    var otherUserData: User? {
+        didSet {
+            otherUserFollowers = otherUserData?.followers
+        }
+    }
+    var otherUserFollowers: [String]?
     
-    
-    // doing
-    //    func updateFollower(otherUserData: User) {
-    //        let firestoreManager = FirestoreManager.shared
-    //        let ref = FirestoreEndpoint.users.ref
-    //
-    //        var otherUserFollowing = otherUserData.following
-    //
-    //        if otherUserFollowing.contains(userData.id) {
-    //            otherUserFollowing.append(userData.id)
-    //        } else {
-    //            if let index = otherUserFollowing.firstIndex(of: userData.id) {
-    //                userData.savePosts.remove(at: index)
-    //            }
-    //        }
-    //
-    //        firestoreManager.updateDocument(data: [UserProperty.followers.rawValue: otherUserFollowers], collection: ref, docID: docID)
+    //    init() {
+    //        $isShowingPosts.sink(receiveValue: { _ in
+    //            print("Status Change")
+    //        }).store(in: &cancellables)
     //    }
+    //
+    //    deinit {
+    //        cancellables.forEach { $0.cancel() }
+    //    }
+    
+    
+//    func updateFollower(otherUserData: User, completion: @escaping ([String]) -> Void ) {
+//        let firestoreManager = FirestoreManager.shared
+//        let ref = FirestoreEndpoint.users.ref
+//        
+//        var otherUserFollowers = otherUserData.followers
+//        var myUserFollowing = userData.following
+//        
+//        if !otherUserFollowers.contains(userData.id) {
+//            otherUserFollowers.append(userData.id)
+//            myUserFollowing.append(otherUserData.id)
+//            
+//        } else {
+//            if let index = otherUserFollowers.firstIndex(of: userData.id) {
+//                otherUserFollowers.remove(at: index)
+//            }
+//            
+//            if let index = myUserFollowing.firstIndex(of: otherUserData.id) {
+//                myUserFollowing.remove(at: index)
+//            }
+//        }
+//        
+//        userData.following = myUserFollowing
+//        
+//        firestoreManager.updateDocument(data: [UserProperty.followers.rawValue: otherUserFollowers], collection: ref, docID: otherUserData.id)
+//        firestoreManager.updateDocument(data: [UserProperty.following.rawValue: myUserFollowing], collection: ref, docID: userData.id)
+//        
+//        completion(otherUserFollowers)
+//    }
     
     func getMyPosts(postIDs: [String], completion: @escaping() -> Void) async {
         let firestoreManager = FirestoreManager.shared
@@ -104,12 +122,12 @@ class ProfileViewModel {
         completion()
     }
     
-    func updateUserDescription(text: String) {
-        let firestoreManager = FirestoreManager.shared
-        let ref = FirestoreEndpoint.users.ref
-        
-        userData.description = text
-        
-        firestoreManager.updateDocument(data: [ UserProperty.description.rawValue: text], collection: ref, docID: userData.id)
-    }
+//    func updateUserDescription(text: String) {
+//        let firestoreManager = FirestoreManager.shared
+//        let ref = FirestoreEndpoint.users.ref
+//        
+//        userData.description = text
+//        
+//        firestoreManager.updateDocument(data: [ UserProperty.description.rawValue: text], collection: ref, docID: userData.id)
+//    }
 }

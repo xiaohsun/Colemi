@@ -12,9 +12,8 @@ class InformationCell: UITableViewCell {
     
     static let reuseIdentifier = "\(InformationCell.self)"
     var isOthersPage: Bool = false
-    var othersID: String?
-    var otherUserData: User?
-    let viewModel = ProfileViewModel()
+    
+    let viewModel = InformationCellViewModel()
     
     weak var delegate: InformationCellDelegate?
     
@@ -181,6 +180,7 @@ extension InformationCell {
         let url = URL(string: avatarUrl)
         avatarImageView.kf.setImage(with: url)
         self.isOthersPage = isOthersPage
+        
         configureDataSource()
     }
 }
@@ -269,8 +269,7 @@ extension InformationCell {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
                     
                     cell.delegate = self
-                    
-                    cell.update(description: UserManager.shared.description)
+                    cell.update(description: UserManager.shared.description, isOthersPage: self.isOthersPage)
                     
                     return cell
                     
@@ -290,15 +289,16 @@ extension InformationCell {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
                     
                     cell.delegate = self
-                    
-                    cell.update(description: UserManager.shared.description)
+                    cell.update(description: self.viewModel.otherUserData?.description ?? "", isOthersPage: self.isOthersPage)
                     
                     return cell
                     
                 case 1:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
                     
-                        cell.changeToFollow()
+                    let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
+                    
+                    cell.changeToFollow(isFollowing: isFollowing)
                     
                     cell.delegate = self
                     
@@ -352,9 +352,15 @@ extension InformationCell {
 
 extension InformationCell: FollowOrEditInfoCellDelegate {
     func updateFollower() {
-        guard let otherUserData = otherUserData else { return }
-        let viewModel = ProfileViewModel()
-       //  viewModel.updateFollower(otherUserData: otherUserData)
+        guard let otherUserFollowers = viewModel.otherUserFollowers else { return }
+        viewModel.updateFollower { otherUserFollowers, isFollowing in
+            DispatchQueue.main.async {
+                self.followersNumberLabel.text = "\(otherUserFollowers.count)"
+                let indexPath = IndexPath(row: 1, section: 0)
+                let cell = self.collectionView.cellForItem(at: indexPath) as? FollowOrEditInfoCell
+                cell?.button.setTitle(isFollowing ? "取消追蹤": "追蹤", for: .normal)
+            }
+        }
     }
     
     func pushToSettingVC() {

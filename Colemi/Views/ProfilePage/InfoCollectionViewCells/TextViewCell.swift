@@ -59,8 +59,9 @@ class TextViewCell: UICollectionViewCell {
 }
 
 extension TextViewCell {
-    func update(description: String) {
+    func update(description: String, isOthersPage: Bool) {
         textView.text = description
+        textView.isEditable = !isOthersPage
     }
 }
 

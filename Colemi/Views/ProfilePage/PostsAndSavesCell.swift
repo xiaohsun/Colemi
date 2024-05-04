@@ -14,6 +14,9 @@ class PostsAndSavesCell: UITableViewCell {
     static let reuseIdentifier = "\(PostsAndSavesCell.self)"
     weak var delegate: PostsAndSavesCellDelegate?
     
+    // var totalHeight: CGFloat = 0
+    var scrollViewHeight: NSLayoutConstraint?
+    
     var currentIndex: Int = 0
     
     lazy var scrollView: UIScrollView = {
@@ -33,7 +36,7 @@ class PostsAndSavesCell: UITableViewCell {
         let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
-        
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -43,6 +46,7 @@ class PostsAndSavesCell: UITableViewCell {
         let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
         
         return collectionView
     }()
@@ -52,6 +56,9 @@ class PostsAndSavesCell: UITableViewCell {
         scrollView.addSubview(postsCollectionView)
         scrollView.addSubview(savesCollectionView)
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        
+        scrollViewHeight = scrollView.heightAnchor.constraint(equalToConstant: 2000)
+        scrollViewHeight?.isActive = true
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -141,12 +148,12 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
         }
     }
     
-    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        self.contentView.frame = self.bounds
-        self.contentView.layoutIfNeeded()
-        // delegate?.reloadTableView()
-        return postsCollectionView.contentSize
-    }
+//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
+//        self.contentView.frame = self.bounds
+//        self.contentView.layoutIfNeeded()
+//        delegate?.reloadTableView()
+//        return postsCollectionView.contentSize
+//    }
 }
 
 // MARK: - LobbyLayoutDelegate
@@ -159,16 +166,36 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
             if let viewModel = viewModel {
                 
                 if indexPath.item < viewModel.myPostsSizes.count {
-                    if collectionView == postsCollectionView {
-                        return viewModel.myPostsSizes[indexPath.item]
+                    if indexPath.item != viewModel.myPostsSizes.count - 1 {
+                        if collectionView == postsCollectionView {
+                            // totalHeight += viewModel.myPostsSizes[indexPath.item].height
+                            return viewModel.myPostsSizes[indexPath.item]
+                        } else {
+                            // totalHeight += viewModel.mySavesSizes[indexPath.item].height
+                            return viewModel.mySavesSizes[indexPath.item]
+                        }
                     } else {
-                        return viewModel.mySavesSizes[indexPath.item]
+                        if collectionView == postsCollectionView {
+                            // totalHeight += viewModel.myPostsSizes[indexPath.item].height
+                            // totalHeight += scrollView.contentSize.height
+                            // scrollViewHeight?.constant = totalHeight / 2
+                            
+                            // layoutIfNeeded()
+                            // delegate?.reloadTableView()
+                            return viewModel.myPostsSizes[indexPath.item]
+                        } else {
+                            // totalHeight += viewModel.mySavesSizes[indexPath.item].height
+                            // scrollViewHeight?.constant = totalHeight
+                            // layoutIfNeeded()
+                            // delegate?.reloadTableView()
+                            return viewModel.mySavesSizes[indexPath.item]
+                        }
                     }
+                    
                 } else {
                     return CGSize(width: 300, height: 400)
                 }
                 
-                // return images[indexPath.item].size
             } else {
                 return CGSize(width: 300, height: 400)
             }
@@ -211,6 +238,8 @@ protocol PostsAndSavesCellDelegate: AnyObject {
     func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView)
     
     func postsSavesChange(isMyPosts: Bool)
+    
+    func reloadTableView()
 }
 
 extension PostsAndSavesCell: UIScrollViewDelegate {
