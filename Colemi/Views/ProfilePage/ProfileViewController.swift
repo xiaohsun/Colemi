@@ -72,11 +72,7 @@ class ProfileViewController: UIViewController {
         userData = UserManager.shared
         tableView.reloadData()
         navigationController?.navigationBar.isHidden = false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.barTintColor = ThemeColorProperty.darkColor.getColor()
     }
 }
 
@@ -94,7 +90,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
             if !isOthersPage {
                 cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage, avatarUrl: userData.avatarPhoto)
-                cell.delegate = self
                 
             } else {
                 guard let otherUserData = viewModel.otherUserData else {
@@ -104,6 +99,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.viewModel.otherUserData = otherUserData
                 cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage, avatarUrl: otherUserData.avatarPhoto)
             }
+            
+            cell.delegate = self
             
             return cell
             
@@ -273,5 +270,17 @@ extension ProfileViewController: InformationCellDelegate {
     func pushToSettingVC() {
         let settingViewController = SettingViewController()
         navigationController?.pushViewController(settingViewController, animated: true)
+    }
+    
+    func pushToChatRoom(chatRoomID: String, avatarImage: UIImage) {
+        guard let otherUserData = viewModel.otherUserData else { return }
+        
+        let chatRoomViewController = ChatRoomViewController()
+        chatRoomViewController.viewModel.chatRoomID = chatRoomID
+        chatRoomViewController.viewModel.otherUserName = otherUserData.name
+        // chatRoomViewController.viewModel.otherUserAvatarUrl = otherUserData.avatarPhoto
+        chatRoomViewController.viewModel.otherUserAvatarImage = avatarImage
+        
+        navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
 }

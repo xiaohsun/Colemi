@@ -10,6 +10,8 @@ import UIKit
 class ChatCell: UICollectionViewCell {
     
     static let reuseIdentifier = "\(ChatCell.self)"
+    let viewModel = ChatCellViewModel()
+    weak var delegate: ChatCellDelegate?
     
     lazy var button: UIButton = {
         let button = UIButton()
@@ -25,6 +27,22 @@ class ChatCell: UICollectionViewCell {
     }()
     
     @objc private func chatBtnTapped(_ sender: UIButton) {
+        var isChattedBefore = false
+        var chatRoomID = ""
+        
+        for chatRoom in viewModel.userData.chatRooms where chatRoom.receiverID == viewModel.otherUserData?.id {
+            isChattedBefore = true
+            chatRoomID = chatRoom.id
+            break
+        }
+        
+        if !isChattedBefore {
+            viewModel.createDetailedChatRoom()
+            delegate?.pushToChatRoom(chatRoomID: viewModel.chatRoomID)
+        } else {
+            delegate?.pushToChatRoom(chatRoomID: chatRoomID)
+        }
+        
         print("私訊！")
     }
     
@@ -49,4 +67,8 @@ class ChatCell: UICollectionViewCell {
 extension ChatCell {
     func update() {
     }
+}
+
+protocol ChatCellDelegate: AnyObject {
+    func pushToChatRoom(chatRoomID: String)
 }

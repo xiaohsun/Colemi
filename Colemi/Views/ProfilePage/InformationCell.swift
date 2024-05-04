@@ -308,7 +308,8 @@ extension InformationCell {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else { fatalError("Can't create new cell") }
                         // cell.changeToFollow()
                     
-                    // cell.delegate = self
+                    cell.delegate = self
+                    cell.viewModel.otherUserData = self.viewModel.otherUserData
                     
                     return cell
                 }
@@ -374,6 +375,13 @@ extension InformationCell: TextViewCellDelegate {
     }
 }
 
+extension InformationCell: ChatCellDelegate {
+    func pushToChatRoom(chatRoomID: String) {
+        delegate?.pushToChatRoom(chatRoomID: chatRoomID, avatarImage: avatarImageView.image ?? UIImage())
+    }
+}
+
 protocol InformationCellDelegate: AnyObject {
     func pushToSettingVC()
+    func pushToChatRoom(chatRoomID: String, avatarImage: UIImage)
 }

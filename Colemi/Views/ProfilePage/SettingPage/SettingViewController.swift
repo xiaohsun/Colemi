@@ -12,18 +12,30 @@ class SettingViewController: UIViewController {
     
     let userData = UserManager.shared
     
-    lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.addTarget(self, action: #selector(popVC), for: .touchUpInside)
-        button.setImage(.backIcon.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.imageView?.tintColor = .white
-        button.imageView?.contentMode = .scaleAspectFit
-        
-        return button
-    }()
+//    lazy var backButton: UIButton = {
+//        let button = UIButton()
+//        button.addTarget(self, action: #selector(popVC), for: .touchUpInside)
+//        button.setImage(.backIcon.withRenderingMode(.alwaysTemplate), for: .normal)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.imageView?.tintColor = .white
+//        button.imageView?.contentMode = .scaleAspectFit
+//        
+//        return button
+//    }()
+//    
+//    @objc private func popVC() {
+//        navigationController?.popViewController(animated: true)
+//    }
     
-    @objc private func popVC() {
+    private func setUpNavigationBar() {
+        navigationController?.navigationBar.isHidden = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
+        navigationItem.leftBarButtonItem?.tintColor = .white
+        navigationItem.title = "設定"
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: UIColor.white]
+    }
+    
+    @objc private func popNav() {
         navigationController?.popViewController(animated: true)
     }
     
@@ -44,16 +56,18 @@ class SettingViewController: UIViewController {
     private func setUpUI() {
         view.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
+        setUpNavigationBar()
+        
         view.addSubview(tableView)
-        view.addSubview(backButton)
+        // view.addSubview(backButton)
         
         NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            backButton.widthAnchor.constraint(equalToConstant: 15),
-            backButton.heightAnchor.constraint(equalTo: backButton.widthAnchor),
+//            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+//            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+//            backButton.widthAnchor.constraint(equalToConstant: 15),
+//            backButton.heightAnchor.constraint(equalTo: backButton.widthAnchor),
             
-            tableView.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

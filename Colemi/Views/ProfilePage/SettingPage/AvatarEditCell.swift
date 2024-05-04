@@ -60,7 +60,7 @@ class AvatarEditCell: UITableViewCell {
         NSLayoutConstraint.activate([
             avatarImageView.widthAnchor.constraint(equalToConstant: 120),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             avatarImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -50),
             avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             

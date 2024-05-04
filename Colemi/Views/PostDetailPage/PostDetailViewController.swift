@@ -180,6 +180,10 @@ class PostDetailViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
 }
 
 extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {

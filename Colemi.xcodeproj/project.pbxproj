@@ -93,6 +93,7 @@
 		287A62E72BE5314700E09788 /* NormalSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62E62BE5314700E09788 /* NormalSettingCell.swift */; };
 		287A62E92BE5E0C700E09788 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62E82BE5E0C700E09788 /* SettingViewModel.swift */; };
 		287A62ED2BE6255300E09788 /* InformationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */; };
+		287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -193,6 +194,7 @@
 		287A62E62BE5314700E09788 /* NormalSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalSettingCell.swift; sourceTree = "<group>"; };
 		287A62E82BE5E0C700E09788 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCellViewModel.swift; sourceTree = "<group>"; };
+		287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */,
 				28C69B8A2BD2A4C000725BE7 /* ProfileViewModel.swift */,
 				287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */,
+				287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */,
 				287A62E82BE5E0C700E09788 /* SettingViewModel.swift */,
 			);
 			path = ViewModels;
@@ -653,6 +656,7 @@
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
+				287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */,
 				289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */,
 				28D253032BD36F2700864187 /* Friend.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,

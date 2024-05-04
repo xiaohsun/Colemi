@@ -12,6 +12,6 @@ class FakeUserData {
     
     static let shared = FakeUserData()
     
-    var userOneID = "JYg1vieovr5zVkmLKyVw"
-    var userTwoID = "UXhSUJtIuoHt7jrdGGNJ"
+    var userOneID = "4BL3BMH85R9K4mfggph5"
+    var userTwoID = "JttI15H1QBMZF7jmtSKR"
 }

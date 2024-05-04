@@ -85,6 +85,8 @@ class ChatRoomViewController: UIViewController {
     }()
     
     private func setUpNavigationBar() {
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         navigationItem.title = viewModel.otherUserName
@@ -136,6 +138,8 @@ class ChatRoomViewController: UIViewController {
         setUpUI()
         viewModel.delegate = self
         viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
+        
+        
     }
 }
 
@@ -152,9 +156,10 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         } else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatBubbleTableViewCell else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatBubbleTableViewCell
+            else { return UITableViewCell() }
             
-            cell.update(messageData: viewModel.messages[indexPath.item])
+            cell.update(messageData: viewModel.messages[indexPath.item], avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
             
             return cell
         }
