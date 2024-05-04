@@ -92,7 +92,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
             
             if !isOthersPage {
-                cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage)
+                cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage, avatarUrl: userData.avatarPhoto)
                 cell.delegate = self
                 
             } else {
@@ -100,7 +100,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                     print("Error get otherUserData.")
                     return cell
                 }
-                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage)
+                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage, avatarUrl: otherUserData.avatarPhoto)
             }
             
             return cell

@@ -326,7 +326,7 @@ extension WritePostContentViewController: PHPickerViewControllerDelegate {
                     DispatchQueue.main.async {
                         self.imageView.image = image
                         self.imageView.layer.borderWidth = 0
-                        self.imageData = image.jpegData(compressionQuality: 0.7)
+                        self.imageData = image.jpegData(compressionQuality: 0.6)
                         self.selectedImageSize = image.size
                         self.selectedImage = image
                     }
@@ -340,7 +340,7 @@ extension WritePostContentViewController: UIImagePickerControllerDelegate, UINav
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.image = image
-            imageData = image.jpegData(compressionQuality: 0.7)
+            imageData = image.jpegData(compressionQuality: 0.6)
             selectedImageSize = image.size
             selectedImage = image
         }

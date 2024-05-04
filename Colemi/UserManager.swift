@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseFirestore
 
-// 會不會是這裡沒被更新！！！！！？
 class UserManager {
     
     static let shared = UserManager()

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class InformationCell: UITableViewCell {
     
@@ -173,10 +174,12 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
-    func update(name: String, followers: [String], following: [String], isOthersPage: Bool) {
+    func update(name: String, followers: [String], following: [String], isOthersPage: Bool, avatarUrl: String) {
         nameLabel.text = name
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
+        let url = URL(string: avatarUrl)
+        avatarImageView.kf.setImage(with: url)
         self.isOthersPage = isOthersPage
         configureDataSource()
     }

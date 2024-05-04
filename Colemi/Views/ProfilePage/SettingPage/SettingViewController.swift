@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PhotosUI
 
 class SettingViewController: UIViewController {
     
@@ -54,6 +55,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AvatarEditCell.reuseIdentifier, for: indexPath) as? AvatarEditCell else { return UITableViewCell() }
+            cell.delegate = self
             
             return cell
             
@@ -63,12 +65,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if indexPath.row == 0 {
-//            return UITableView.automaticDimension
-//        } else {
-//            return 50
-//        }
-//    }
+}
+
+extension SettingViewController: AvatarEditCellDelegate {
+    func presentPHPicker(_ pickerVC: PHPickerViewController) {
+        present(pickerVC, animated: true)
+    }
 }
