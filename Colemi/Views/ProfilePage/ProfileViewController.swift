@@ -49,14 +49,31 @@ class ProfileViewController: UIViewController {
     private func setUpUI() {
         view.addSubview(tableView)
         
-        navigationController?.navigationBar.barTintColor = ThemeColorProperty.darkColor.getColor()
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
+    }
+    
+    func setUpNavBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
+        navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
+        
+        if isOthersPage {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(openPopUp))
+            navigationItem.rightBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
+        }
+    }
+    
+    @objc private func popNav() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func openPopUp() {
+        let overLayPopUp = OverLayPopUp()
+        overLayPopUp.appear(sender: self)
     }
     
     override func viewDidLoad() {
@@ -72,7 +89,7 @@ class ProfileViewController: UIViewController {
         userData = UserManager.shared
         tableView.reloadData()
         navigationController?.navigationBar.isHidden = false
-        navigationController?.navigationBar.barTintColor = ThemeColorProperty.darkColor.getColor()
+        navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
     }
 }
 

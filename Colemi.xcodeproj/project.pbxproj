@@ -94,6 +94,7 @@
 		287A62E92BE5E0C700E09788 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62E82BE5E0C700E09788 /* SettingViewModel.swift */; };
 		287A62ED2BE6255300E09788 /* InformationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */; };
 		287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */; };
+		287A62F12BE67D8200E09788 /* OverLayPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F02BE67D8200E09788 /* OverLayPopUp.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -195,6 +196,7 @@
 		287A62E82BE5E0C700E09788 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCellViewModel.swift; sourceTree = "<group>"; };
 		287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
+		287A62F02BE67D8200E09788 /* OverLayPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUp.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				281C65BD2BD0EDD9003D2ECE /* MissionCell.swift */,
 				288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */,
 				288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */,
+				287A62F02BE67D8200E09788 /* OverLayPopUp.swift */,
 			);
 			path = ProfilePage;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
 				28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */,
+				287A62F12BE67D8200E09788 /* OverLayPopUp.swift in Sources */,
 				289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */,
 				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
 				287A62E52BE52F7700E09788 /* AvatarEditCell.swift in Sources */,

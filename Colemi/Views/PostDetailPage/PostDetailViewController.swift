@@ -279,10 +279,10 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func pushToAuthorProfilePage() {
-        // let navigationController = UINavigationController(rootViewController: self)
         let profileViewController = ProfileViewController()
         
         if authorID == userData.id {
+            profileViewController.setUpNavBar()
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             
@@ -296,8 +296,8 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
                 if let userData = userData {
                     
                     profileViewController.isOthersPage = true
-                    // profileViewController.otherUserData = userData
                     profileViewController.viewModel.otherUserData = userData
+                    profileViewController.setUpNavBar()
                     navigationController?.pushViewController(profileViewController, animated: true)
                 }
             }
