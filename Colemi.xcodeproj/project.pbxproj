@@ -95,6 +95,7 @@
 		287A62ED2BE6255300E09788 /* InformationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */; };
 		287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */; };
 		287A62F12BE67D8200E09788 /* OverLayPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F02BE67D8200E09788 /* OverLayPopUp.swift */; };
+		287A62F42BE690E200E09788 /* OverLayPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F32BE690E200E09788 /* OverLayPopUpCell.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -197,6 +198,7 @@
 		287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCellViewModel.swift; sourceTree = "<group>"; };
 		287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		287A62F02BE67D8200E09788 /* OverLayPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUp.swift; sourceTree = "<group>"; };
+		287A62F32BE690E200E09788 /* OverLayPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUpCell.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -339,7 +341,7 @@
 				281C65BD2BD0EDD9003D2ECE /* MissionCell.swift */,
 				288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */,
 				288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */,
-				287A62F02BE67D8200E09788 /* OverLayPopUp.swift */,
+				287A62F22BE690C000E09788 /* PopUp */,
 			);
 			path = ProfilePage;
 			sourceTree = "<group>";
@@ -407,6 +409,15 @@
 				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
 			);
 			path = SettingPage;
+			sourceTree = "<group>";
+		};
+		287A62F22BE690C000E09788 /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				287A62F02BE67D8200E09788 /* OverLayPopUp.swift */,
+				287A62F32BE690E200E09788 /* OverLayPopUpCell.swift */,
+			);
+			path = PopUp;
 			sourceTree = "<group>";
 		};
 		2880644E2BD1550C00FC2EFA /* ChatRoomPage */ = {
@@ -620,6 +631,7 @@
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
 				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
+				287A62F42BE690E200E09788 /* OverLayPopUpCell.swift in Sources */,
 				287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */,
 				28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */,
 				287A62D42BE3E21800E09788 /* TodayColorVCProtocol.swift in Sources */,

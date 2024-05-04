@@ -10,7 +10,7 @@ import UIKit
 class OverLayPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
-    var containerViewHeight: CGFloat = 300
+    var containerViewHeight: CGFloat = 180
     
     lazy var backgroundView: UIView = {
         let view = UIView()
@@ -34,6 +34,8 @@ class OverLayPopUp: UIViewController {
         tableView.backgroundColor = .white
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.register(OverLayPopUpCell.self, forCellReuseIdentifier: OverLayPopUpCell.reuseIdentifier)
         return tableView
     }()
     
@@ -86,7 +88,7 @@ class OverLayPopUp: UIViewController {
         super.viewDidLoad()
         setUpUI()
         self.modalPresentationStyle = .overCurrentContext
-        viewAddGesture()
+        // viewAddGesture()
     }
     
     private func viewAddGesture() {
@@ -115,6 +117,32 @@ class OverLayPopUp: UIViewController {
             self.removeFromParent()
         }
     }
+    
+    private func showBlockAlert() {
+        let alert = UIAlertController(title: "將他封鎖", message: "對方將看不到你的貼文，也無法私訊你。", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { (action: UIAlertAction!) in
+              print("Handle Ok logic here")
+        }))
+
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action: UIAlertAction!) in
+              print("Handle Cancel Logic here")
+        }))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showReportAlert() {
+        let alert = UIAlertController(title: "檢舉他", message: "我要告死你。", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "檢舉", style: .default, handler: { (action: UIAlertAction!) in
+              print("Handle Ok logic here")
+        }))
+
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action: UIAlertAction!) in
+              print("Handle Cancel Logic here")
+        }))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
@@ -123,6 +151,20 @@ extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: OverLayPopUpCell.reuseIdentifier, for: indexPath) as? OverLayPopUpCell else { return UITableViewCell() }
+        
+        if indexPath.row == 1 {
+            cell.update()
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            showBlockAlert()
+        } else {
+            showReportAlert()
+        }
     }
 }
