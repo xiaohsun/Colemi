@@ -119,29 +119,34 @@ class OverLayPopUp: UIViewController {
     }
     
     private func showBlockAlert() {
-        let alert = UIAlertController(title: "將他封鎖", message: "對方將看不到你的貼文，也無法私訊你。", preferredStyle: .alert)
+        let alert1 = UIAlertController(title: "將他封鎖", message: "對方將看不到你的貼文，也無法私訊你。", preferredStyle: .alert)
+        let alert2 = UIAlertController(title: "已封鎖", message: "對方不會收到封鎖通知。", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { (action: UIAlertAction!) in
-              print("Handle Ok logic here")
+        alert1.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { (_: UIAlertAction!) in
+            alert2.addAction(UIAlertAction(title: "好的", style: .default))
+            self.present(alert2, animated: true)
         }))
 
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action: UIAlertAction!) in
+        alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_: UIAlertAction!) in
               print("Handle Cancel Logic here")
         }))
-        present(alert, animated: true, completion: nil)
+        present(alert1, animated: true, completion: nil)
     }
     
     private func showReportAlert() {
-        let alert = UIAlertController(title: "檢舉他", message: "我要告死你。", preferredStyle: .alert)
+        let alert1 = UIAlertController(title: "檢舉他", message: "若對方違反社群守則，我們將會進行處置。", preferredStyle: .alert)
+        let alert2 = UIAlertController(title: "已收到檢舉", message: "謝謝你，我們將會進行查證！", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "檢舉", style: .default, handler: { (action: UIAlertAction!) in
-              print("Handle Ok logic here")
+        alert1.addAction(UIAlertAction(title: "檢舉", style: .default, handler: { (_: UIAlertAction!) in
+            alert2.addAction(UIAlertAction(title: "好的", style: .default))
+            self.present(alert2, animated: true)
         }))
 
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (action: UIAlertAction!) in
+        alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_: UIAlertAction!) in
               print("Handle Cancel Logic here")
         }))
-        present(alert, animated: true, completion: nil)
+        
+        present(alert1, animated: true, completion: nil)
     }
 }
 
@@ -162,9 +167,9 @@ extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            showBlockAlert()
-        } else {
             showReportAlert()
+        } else {
+            showBlockAlert()
         }
     }
 }
