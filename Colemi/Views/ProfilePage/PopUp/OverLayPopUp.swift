@@ -11,10 +11,13 @@ class OverLayPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
     var containerViewHeight: CGFloat = 180
+    var fromDetailPage: Bool = false
+    var reportTextDetailPage = ["檢舉貼文", "封鎖作者"]
+    var reportTextProfilePage = ["檢舉", "封鎖"]
     
     lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black.withAlphaComponent(0.6)
+        view.backgroundColor = .black.withAlphaComponent(0.4)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.alpha = 0
         return view
@@ -26,6 +29,15 @@ class OverLayPopUp: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         return view
+    }()
+    
+    lazy var iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
+        
+        return imageView
     }()
     
     lazy var tableView: UITableView = {
@@ -54,7 +66,7 @@ class OverLayPopUp: UIViewController {
     
     private func setUpUI() {
         view.backgroundColor = .clear
-        // view.addSubview(backgroundView)
+        view.addSubview(backgroundView)
         view.addSubview(containerView)
         containerView.addSubview(tableView)
         containerView.addSubview(closeButton)
@@ -63,10 +75,10 @@ class OverLayPopUp: UIViewController {
         containerViewTopCons?.isActive = true
         
         NSLayoutConstraint.activate([
-//            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-//            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -87,30 +99,31 @@ class OverLayPopUp: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        self.modalPresentationStyle = .overCurrentContext
-        // viewAddGesture()
+        backgroundAddGesture()
     }
     
-    private func viewAddGesture() {
+    private func backgroundAddGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopUp))
-        view.addGestureRecognizer(tapGesture)
-        view.isUserInteractionEnabled = true
+        backgroundView.addGestureRecognizer(tapGesture)
+        backgroundView.isUserInteractionEnabled = true
     }
     
     func appear(sender: UIViewController) {
+        self.modalPresentationStyle = .overFullScreen
         sender.present(self, animated: false) {
             self.containerViewTopCons?.constant = -self.containerViewHeight
             UIView.animate(withDuration: 0.2) {
+                self.backgroundView.alpha = 1
                 self.view.layoutIfNeeded()
             }
         }
     }
     
     private func hide() {
-        // self.backgroundView.alpha = 0
         self.containerViewTopCons?.constant = 0
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
+            self.backgroundView.alpha = 0
         } completion: { _ in
             self.tableView.alpha = 1
             self.dismiss(animated: false)
@@ -122,28 +135,33 @@ class OverLayPopUp: UIViewController {
         let alert1 = UIAlertController(title: "將他封鎖", message: "對方將看不到你的貼文，也無法私訊你。", preferredStyle: .alert)
         let alert2 = UIAlertController(title: "已封鎖", message: "對方不會收到封鎖通知。", preferredStyle: .alert)
         
-        alert1.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { (_: UIAlertAction!) in
-            alert2.addAction(UIAlertAction(title: "好的", style: .default))
+        alert1.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { _ in
+            alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
+                self.hide()
+            }))
             self.present(alert2, animated: true)
         }))
 
-        alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_: UIAlertAction!) in
-              print("Handle Cancel Logic here")
+        alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+            self.hide()
         }))
+        
         present(alert1, animated: true, completion: nil)
     }
     
     private func showReportAlert() {
-        let alert1 = UIAlertController(title: "檢舉他", message: "若對方違反社群守則，我們將會進行處置。", preferredStyle: .alert)
+        let alert1 = UIAlertController(title: fromDetailPage ? "檢舉貼文" : "檢舉他", message: fromDetailPage ? "若貼文違反社群守則，我們將會進行處置。" : "若對方違反社群守則，我們將會進行處置。", preferredStyle: .alert)
         let alert2 = UIAlertController(title: "已收到檢舉", message: "謝謝你，我們將會進行查證！", preferredStyle: .alert)
         
-        alert1.addAction(UIAlertAction(title: "檢舉", style: .default, handler: { (_: UIAlertAction!) in
-            alert2.addAction(UIAlertAction(title: "好的", style: .default))
+        alert1.addAction(UIAlertAction(title: "檢舉", style: .default, handler: { _ in
+            alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
+                self.hide()
+            }))
             self.present(alert2, animated: true)
         }))
 
-        alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { (_: UIAlertAction!) in
-              print("Handle Cancel Logic here")
+        alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+            self.hide()
         }))
         
         present(alert1, animated: true, completion: nil)
@@ -158,9 +176,13 @@ extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: OverLayPopUpCell.reuseIdentifier, for: indexPath) as? OverLayPopUpCell else { return UITableViewCell() }
         
-        if indexPath.row == 1 {
-            cell.update()
-        }
+//        if fromDetailPage {
+//            cell.label.text = reportTextDetailPage[indexPath.row]
+//        } else {
+            if indexPath.row == 1 {
+                cell.update()
+            }
+        // }
         
         return cell
     }

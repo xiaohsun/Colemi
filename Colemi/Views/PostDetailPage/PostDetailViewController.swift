@@ -303,6 +303,12 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
             }
         }
     }
+    
+    func showReportPopUp() {
+        let overLayPopUp = OverLayPopUp()
+        overLayPopUp.fromDetailPage = true
+        overLayPopUp.appear(sender: self)
+    }
 }
 
 extension PostDetailViewController: UITextViewDelegate {

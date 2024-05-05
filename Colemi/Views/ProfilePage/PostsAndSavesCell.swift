@@ -86,10 +86,16 @@ class PostsAndSavesCell: UITableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
         postsCollectionView.frame = CGRect(x: CGFloat(0) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
         savesCollectionView.frame = CGRect(x: CGFloat(1) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(2), height: scrollView.bounds.height)
+        
+        // scrollViewHeight?.constant = scrollView.contentSize.height
+        layoutIfNeeded()
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -147,6 +153,21 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
             delegate?.presentDetailPage(index: indexPath.row, isMyPosts: false, selectedCell: selectedCell, collectionView: savesCollectionView, selectedImageView: selectedCell.imageView)
         }
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        
+//        if collectionView == postsCollectionView {
+//            let contentSize = collectionView.contentSize
+//            print("postsCollectionView contentSize: \(contentSize)")
+//        } else {
+//            if collectionView == savesCollectionView {
+//                let contentSize = collectionView.contentSize
+//                print("savesCollectionView contentSize: \(contentSize)")
+//            }
+//        
+//            
+//        }
+//    }
     
 //    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
 //        self.contentView.frame = self.bounds

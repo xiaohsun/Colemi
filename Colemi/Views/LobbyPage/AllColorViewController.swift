@@ -34,9 +34,30 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
+        setLongPressGes(collectionView: collectionView)
         
         return collectionView
     }()
+    
+    private func setLongPressGes(collectionView: UICollectionView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        collectionView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            let position = gestureRecognizer.location(in: postsCollectionView)
+            if let index = postsCollectionView.indexPathForItem(at: position) {
+                print(index)
+                print(position)
+                let mainPageOverLayPopUp = MainPageOverLayPopUp()
+                // fromVC.postsCollectionView.convert(postsCollectionView, to: nil)
+                mainPageOverLayPopUp.gestureYPosision = position.y
+                mainPageOverLayPopUp.gestureXPosision = position.x
+                mainPageOverLayPopUp.appear(sender: self)
+            }
+        }
+    }
     
     // MARK: - For Tests
     
