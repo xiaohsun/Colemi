@@ -7,9 +7,9 @@
 
 import UIKit
 
-class FollowingsViewController: UIViewController {
+class FollowingsViewController: UIViewController, FollowChildVCProtocol {
     
-    var viewModel: FollowersFollowingsViewModel?
+    var viewModel: FollowViewModel?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -17,21 +17,9 @@ class FollowingsViewController: UIViewController {
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        tableView.register(FollowersFollowingsTableViewCell.self, forCellReuseIdentifier: FollowersFollowingsTableViewCell.reuseIdentifier)
+        tableView.register(FollowTableViewCell.self, forCellReuseIdentifier: FollowTableViewCell.reuseIdentifier)
         return tableView
     }()
-    
-    private func setUpUI() {
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        view.addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +30,7 @@ class FollowingsViewController: UIViewController {
     private func getFollowingsData() {
         guard let followings = viewModel?.followings else { return }
         Task {
-            await self.viewModel?.getFollowersData(userIDs: followings, getFollowers: false, completion: { [weak self] in
+            await self.viewModel?.getFollowData(userIDs: followings, getFollowers: false, completion: { [weak self] in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -59,7 +47,7 @@ extension FollowingsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FollowersFollowingsTableViewCell.reuseIdentifier, for: indexPath) as? FollowersFollowingsTableViewCell,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: FollowTableViewCell.reuseIdentifier, for: indexPath) as? FollowTableViewCell,
               let followingsAvatarUrls = viewModel?.followingsAvatarUrls,
               let followingsNames = viewModel?.followingsNames
         else { return UITableViewCell() }

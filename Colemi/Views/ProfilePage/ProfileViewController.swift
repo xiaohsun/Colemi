@@ -301,17 +301,18 @@ extension ProfileViewController: InformationCellDelegate {
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
     
-    func pushToFollowersVC() {
-        let followersViewController = FollowersFollowingsViewController()
+    func pushToFollowVC(isFollowersTapped: Bool) {
+        let followViewController = FollowViewController()
         if isOthersPage {
             guard let otherUserData = viewModel.otherUserData else { return }
-            followersViewController.viewModel.followers = otherUserData.followers
-            followersViewController.viewModel.followings = otherUserData.following
+            followViewController.viewModel.followers = otherUserData.followers
+            followViewController.viewModel.followings = otherUserData.following
         } else {
-            followersViewController.viewModel.followers = viewModel.userData.followers
-            followersViewController.viewModel.followings = viewModel.userData.following
+            followViewController.viewModel.followers = viewModel.userData.followers
+            followViewController.viewModel.followings = viewModel.userData.following
         }
         
-        navigationController?.pushViewController(followersViewController, animated: true)
+        followViewController.isFollowersTapped = isFollowersTapped
+        navigationController?.pushViewController(followViewController, animated: true)
     }
 }

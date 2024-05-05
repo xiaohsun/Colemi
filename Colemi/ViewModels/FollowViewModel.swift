@@ -1,5 +1,5 @@
 //
-//  FollowersFollowingsViewModel.swift
+//  FollowViewModel.swift
 //  Colemi
 //
 //  Created by 徐柏勳 on 5/5/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FollowersFollowingsViewModel {
+class FollowViewModel {
     
     let userData = UserManager.shared
     
@@ -20,7 +20,7 @@ class FollowersFollowingsViewModel {
     var followingsAvatarUrls: [String] = []
     var followingsNames: [String] = []
     
-    func getFollowersData(userIDs: [String], getFollowers: Bool, completion: @escaping() -> Void) async {
+    func getFollowData(userIDs: [String], getFollowers: Bool, completion: @escaping() -> Void) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         

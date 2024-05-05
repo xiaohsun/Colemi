@@ -106,13 +106,13 @@ class InformationCell: UITableViewCell {
     @objc private func followersTapped() {
         print("Followers get tapped")
         // isOthersPage ? print(viewModel.otherUserData?.followers) : print(viewModel.userData.followers)
-        delegate?.pushToFollowersVC()
+        delegate?.pushToFollowVC(isFollowersTapped: true)
     }
     
     @objc private func followingTapped() {
         print("Following get tapped")
         // isOthersPage ? print(viewModel.otherUserData?.following) : print(viewModel.userData.following)
-        delegate?.pushToFollowersVC()
+        delegate?.pushToFollowVC(isFollowersTapped: false)
     }
     
     lazy var collectionView: UICollectionView = {
@@ -406,5 +406,5 @@ extension InformationCell: ChatCellDelegate {
 protocol InformationCellDelegate: AnyObject {
     func pushToSettingVC()
     func pushToChatRoom(chatRoomID: String, avatarImage: UIImage)
-    func pushToFollowersVC()
+    func pushToFollowVC(isFollowersTapped: Bool)
 }

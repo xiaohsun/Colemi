@@ -1,5 +1,5 @@
 //
-//  FollowersFollowingsViewController.swift
+//  FollowViewController.swift
 //  Colemi
 //
 //  Created by 徐柏勳 on 5/5/24.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-class FollowersFollowingsViewController: UIViewController {
+class FollowViewController: UIViewController {
     
-    let viewModel = FollowersFollowingsViewModel()
+    let viewModel = FollowViewModel()
+    var isFollowersTapped = false
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
     var buttonWidth: CGFloat = 60
-    // var buttonHeight: CGFloat = 60
     
     var indicatorLeading: NSLayoutConstraint?
     
@@ -97,12 +97,10 @@ class FollowersFollowingsViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
-            //buttonOne.heightAnchor.constraint(equalToConstant: buttonHeight),
             buttonOne.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
             buttonOne.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
             buttonTwo.widthAnchor.constraint(equalToConstant: buttonWidth),
-            // buttonTwo.heightAnchor.constraint(equalToConstant: buttonHeight),
             buttonTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
             buttonTwo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
@@ -138,6 +136,10 @@ class FollowersFollowingsViewController: UIViewController {
         addChildVCs()
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
+        
+        if !isFollowersTapped {
+            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -145,7 +147,7 @@ class FollowersFollowingsViewController: UIViewController {
     }
 }
 
-extension FollowersFollowingsViewController: UIScrollViewDelegate {
+extension FollowViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y != 0 {
                 scrollView.contentOffset.y = 0
@@ -157,18 +159,18 @@ extension FollowersFollowingsViewController: UIScrollViewDelegate {
                 currentIndex = currentPage
                 print("Switched to child view controller at index \(currentIndex)")
                 
-                switch currentIndex {
-                case 0:
-                    let vc = children[0] as? FollowersViewController
-                    // vc?.loadData()
-                    // vc?.loadedBefore = true
-                case 1:
-                    let vc = children[1] as? FollowingsViewController
-                    // vc?.loadData()
-                    // vc?.loadedBefore = true
-                default:
-                    return
-                }
+//                switch currentIndex {
+//                case 0:
+//                    let vc = children[0] as? FollowersViewController
+//                    // vc?.loadData()
+//                    // vc?.loadedBefore = true
+//                case 1:
+//                    let vc = children[1] as? FollowingsViewController
+//                    // vc?.loadData()
+//                    // vc?.loadedBefore = true
+//                default:
+//                    return
+//                }
             }
         }
         

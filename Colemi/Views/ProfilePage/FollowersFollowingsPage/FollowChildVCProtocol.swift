@@ -7,15 +7,14 @@
 
 import UIKit
 
-protocol FollowersFollowingsVCProtocol: UIViewController {
-    // var viewModel: LobbyViewModel { get }
-    var loadedBefore: Bool { get set }
+protocol FollowChildVCProtocol: UIViewController {
+    var viewModel: FollowViewModel? { get set }
     var tableView: UITableView { get }
     
     func setUpUI()
 }
 
-extension FollowersFollowingsVCProtocol {
+extension FollowChildVCProtocol {
     func setUpUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)

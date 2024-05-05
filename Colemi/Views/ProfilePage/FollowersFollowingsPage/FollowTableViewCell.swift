@@ -1,5 +1,5 @@
 //
-//  FollowersFollowingsTableViewCell.swift
+//  FollowTableViewCell.swift
 //  Colemi
 //
 //  Created by 徐柏勳 on 5/5/24.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class FollowersFollowingsTableViewCell: UITableViewCell {
+class FollowTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = "\(FollowersFollowingsTableViewCell.self)"
+    static let reuseIdentifier = "\(FollowTableViewCell.self)"
     
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -61,7 +61,7 @@ class FollowersFollowingsTableViewCell: UITableViewCell {
     }
 }
 
-extension FollowersFollowingsTableViewCell {
+extension FollowTableViewCell {
     func update(avatarUrl: String, userName: String) {
         let url = URL(string: avatarUrl)
         avatarImageView.kf.setImage(with: url)
