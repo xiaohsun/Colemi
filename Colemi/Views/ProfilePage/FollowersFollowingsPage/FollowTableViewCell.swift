@@ -15,6 +15,8 @@ class FollowTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
