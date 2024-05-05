@@ -34,7 +34,9 @@ class LobbyViewModel {
                         colorToday: "",
                         chatRooms: [],
                         followers: [],
-                        following: [])
+                        following: [],
+                        blocking: []
+        )
         
         firestoreManager.setData(user, at: docRef)
     }

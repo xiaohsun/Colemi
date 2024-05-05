@@ -300,4 +300,18 @@ extension ProfileViewController: InformationCellDelegate {
         
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }
+    
+    func pushToFollowersVC() {
+        let followersViewController = FollowersFollowingsViewController()
+        if isOthersPage {
+            guard let otherUserData = viewModel.otherUserData else { return }
+            followersViewController.viewModel.followers = otherUserData.followers
+            followersViewController.viewModel.followings = otherUserData.following
+        } else {
+            followersViewController.viewModel.followers = viewModel.userData.followers
+            followersViewController.viewModel.followings = viewModel.userData.following
+        }
+        
+        navigationController?.pushViewController(followersViewController, animated: true)
+    }
 }

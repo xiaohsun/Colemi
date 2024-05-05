@@ -29,4 +29,5 @@ class UserManager {
     var chatRooms: [SimpleChatRoom] = []
     var followers: [String] = []
     var following: [String] = []
+    var blocking: [String] = []
 }

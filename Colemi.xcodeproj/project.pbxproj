@@ -96,6 +96,12 @@
 		287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */; };
 		287A62F12BE67D8200E09788 /* OverLayPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F02BE67D8200E09788 /* OverLayPopUp.swift */; };
 		287A62F42BE690E200E09788 /* OverLayPopUpCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F32BE690E200E09788 /* OverLayPopUpCell.swift */; };
+		287A62F62BE751BB00E09788 /* FollowersFollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F52BE751BB00E09788 /* FollowersFollowingsViewController.swift */; };
+		287A62F82BE7530C00E09788 /* FollowersFollowingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F72BE7530C00E09788 /* FollowersFollowingsTableViewCell.swift */; };
+		287A62FA2BE7551F00E09788 /* FollowersFollowingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62F92BE7551F00E09788 /* FollowersFollowingsViewModel.swift */; };
+		287A62FD2BE7567300E09788 /* FollowersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62FC2BE7567300E09788 /* FollowersViewController.swift */; };
+		287A62FF2BE756A200E09788 /* FollowingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62FE2BE756A200E09788 /* FollowingsViewController.swift */; };
+		287A63012BE75A3800E09788 /* FollowersFollowingsVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A63002BE75A3800E09788 /* FollowersFollowingsVCProtocol.swift */; };
 		288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */; };
 		288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */; };
 		288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288064462BD143A300FC2EFA /* FirestoreManager.swift */; };
@@ -199,6 +205,12 @@
 		287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		287A62F02BE67D8200E09788 /* OverLayPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUp.swift; sourceTree = "<group>"; };
 		287A62F32BE690E200E09788 /* OverLayPopUpCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUpCell.swift; sourceTree = "<group>"; };
+		287A62F52BE751BB00E09788 /* FollowersFollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersFollowingsViewController.swift; sourceTree = "<group>"; };
+		287A62F72BE7530C00E09788 /* FollowersFollowingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersFollowingsTableViewCell.swift; sourceTree = "<group>"; };
+		287A62F92BE7551F00E09788 /* FollowersFollowingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersFollowingsViewModel.swift; sourceTree = "<group>"; };
+		287A62FC2BE7567300E09788 /* FollowersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersViewController.swift; sourceTree = "<group>"; };
+		287A62FE2BE756A200E09788 /* FollowingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsViewController.swift; sourceTree = "<group>"; };
+		287A63002BE75A3800E09788 /* FollowersFollowingsVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersFollowingsVCProtocol.swift; sourceTree = "<group>"; };
 		288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectorHeaderView.swift; sourceTree = "<group>"; };
 		288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAndSavesCell.swift; sourceTree = "<group>"; };
 		288064462BD143A300FC2EFA /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
@@ -313,6 +325,7 @@
 				287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */,
 				287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */,
 				287A62E82BE5E0C700E09788 /* SettingViewModel.swift */,
+				287A62F92BE7551F00E09788 /* FollowersFollowingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -341,6 +354,7 @@
 				281C65BD2BD0EDD9003D2ECE /* MissionCell.swift */,
 				288064422BD1045A00FC2EFA /* SelectorHeaderView.swift */,
 				288064442BD1092300FC2EFA /* PostsAndSavesCell.swift */,
+				287A62FB2BE7564B00E09788 /* FollowersFollowingsPage */,
 				287A62F22BE690C000E09788 /* PopUp */,
 			);
 			path = ProfilePage;
@@ -418,6 +432,18 @@
 				287A62F32BE690E200E09788 /* OverLayPopUpCell.swift */,
 			);
 			path = PopUp;
+			sourceTree = "<group>";
+		};
+		287A62FB2BE7564B00E09788 /* FollowersFollowingsPage */ = {
+			isa = PBXGroup;
+			children = (
+				287A62F52BE751BB00E09788 /* FollowersFollowingsViewController.swift */,
+				287A62FC2BE7567300E09788 /* FollowersViewController.swift */,
+				287A62FE2BE756A200E09788 /* FollowingsViewController.swift */,
+				287A62F72BE7530C00E09788 /* FollowersFollowingsTableViewCell.swift */,
+				287A63002BE75A3800E09788 /* FollowersFollowingsVCProtocol.swift */,
+			);
+			path = FollowersFollowingsPage;
 			sourceTree = "<group>";
 		};
 		2880644E2BD1550C00FC2EFA /* ChatRoomPage */ = {
@@ -638,6 +664,7 @@
 				281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */,
 				28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */,
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
+				287A62FA2BE7551F00E09788 /* FollowersFollowingsViewModel.swift in Sources */,
 				281C65822BCFED73003D2ECE /* AuthorInfoAndTitleCell.swift in Sources */,
 				284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */,
 				287A62E92BE5E0C700E09788 /* SettingViewModel.swift in Sources */,
@@ -659,7 +686,9 @@
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,
 				281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */,
 				288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */,
+				287A62F82BE7530C00E09788 /* FollowersFollowingsTableViewCell.swift in Sources */,
 				281C657B2BCFCA91003D2ECE /* PostDetailViewModel.swift in Sources */,
+				287A63012BE75A3800E09788 /* FollowersFollowingsVCProtocol.swift in Sources */,
 				281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */,
 				287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */,
 				28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */,
@@ -667,6 +696,7 @@
 				281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */,
 				281C65B32BD0DC08003D2ECE /* TextViewCell.swift in Sources */,
 				28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */,
+				287A62FF2BE756A200E09788 /* FollowingsViewController.swift in Sources */,
 				281C65BE2BD0EDDA003D2ECE /* MissionCell.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
@@ -687,12 +717,14 @@
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
 				2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */,
+				287A62F62BE751BB00E09788 /* FollowersFollowingsViewController.swift in Sources */,
 				281C65862BCFFE29003D2ECE /* TagCell.swift in Sources */,
 				282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */,
 				282343932BCEB5D20040C1CA /* Post.swift in Sources */,
 				28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */,
 				282343912BCD22020040C1CA /* ColorSimilarityViewModel.swift in Sources */,
 				282F57E92BCA848800E3DBE6 /* UserDataReadyToSend.swift in Sources */,
+				287A62FD2BE7567300E09788 /* FollowersViewController.swift in Sources */,
 				28D24DCD2BC6C24200B7E114 /* SceneDelegate.swift in Sources */,
 				281C658A2BD00233003D2ECE /* CommentCell.swift in Sources */,
 				281C65882BD000F7003D2ECE /* SeperatorCell.swift in Sources */,

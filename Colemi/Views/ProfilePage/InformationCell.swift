@@ -56,6 +56,7 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "粉絲"
+        addFollowerTappedGes(label: label, action: #selector(followersTapped))
         
         return label
     }()
@@ -67,6 +68,7 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "999"
+        addFollowerTappedGes(label: label, action: #selector(followersTapped))
         
         return label
     }()
@@ -78,6 +80,7 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "追蹤中"
+        addFollowerTappedGes(label: label, action: #selector(followingTapped))
         
         return label
     }()
@@ -89,9 +92,28 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "50"
+        addFollowerTappedGes(label: label, action: #selector(followingTapped))
         
         return label
     }()
+    
+    private func addFollowerTappedGes(label: UILabel, action: Selector) {
+        let tapGesture = UITapGestureRecognizer(target: self, action: action)
+        label.addGestureRecognizer(tapGesture)
+        label.isUserInteractionEnabled = true
+    }
+    
+    @objc private func followersTapped() {
+        print("Followers get tapped")
+        // isOthersPage ? print(viewModel.otherUserData?.followers) : print(viewModel.userData.followers)
+        delegate?.pushToFollowersVC()
+    }
+    
+    @objc private func followingTapped() {
+        print("Following get tapped")
+        // isOthersPage ? print(viewModel.otherUserData?.following) : print(viewModel.userData.following)
+        delegate?.pushToFollowersVC()
+    }
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout())
@@ -384,4 +406,5 @@ extension InformationCell: ChatCellDelegate {
 protocol InformationCellDelegate: AnyObject {
     func pushToSettingVC()
     func pushToChatRoom(chatRoomID: String, avatarImage: UIImage)
+    func pushToFollowersVC()
 }
