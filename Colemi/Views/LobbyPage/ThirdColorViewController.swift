@@ -10,7 +10,7 @@ import UIKit
 class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
     
     let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+    var userData: UserManager?
     var loadedBefore: Bool = false
     
     var selectedImageView: UIImageView?

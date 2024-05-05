@@ -305,9 +305,11 @@ extension ProfileViewController: InformationCellDelegate {
         let followViewController = FollowViewController()
         if isOthersPage {
             guard let otherUserData = viewModel.otherUserData else { return }
+            followViewController.viewModel.userName = otherUserData.name
             followViewController.viewModel.followers = otherUserData.followers
             followViewController.viewModel.followings = otherUserData.following
         } else {
+            followViewController.viewModel.userName = viewModel.userData.name
             followViewController.viewModel.followers = viewModel.userData.followers
             followViewController.viewModel.followings = viewModel.userData.following
         }

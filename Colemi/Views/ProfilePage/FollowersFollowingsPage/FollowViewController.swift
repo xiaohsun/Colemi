@@ -76,6 +76,9 @@ class FollowViewController: UIViewController {
     func setUpNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
+        
+        navigationItem.title = viewModel.userName
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
     @objc private func popNav() {

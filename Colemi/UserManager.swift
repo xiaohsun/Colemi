@@ -26,6 +26,7 @@ class UserManager {
     var signUpTime = Timestamp()
     var lastestLoginTime = Timestamp()
     var colorToday = ""
+    var colorSetToday: [String] = []
     var chatRooms: [SimpleChatRoom] = []
     var followers: [String] = []
     var following: [String] = []

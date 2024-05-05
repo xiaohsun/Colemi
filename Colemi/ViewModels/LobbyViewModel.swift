@@ -32,6 +32,7 @@ class LobbyViewModel {
                         signUpTime: Timestamp(),
                         lastestLoginTime: Timestamp(),
                         colorToday: "",
+                        colorSetToday: [],
                         chatRooms: [],
                         followers: [],
                         following: [],

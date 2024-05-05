@@ -9,7 +9,9 @@ import Foundation
 
 class FollowViewModel {
     
-    let userData = UserManager.shared
+    // let userData = UserManager.shared
+    
+    var userName = ""
     
     var followings: [String] = []
     var followers: [String] = []

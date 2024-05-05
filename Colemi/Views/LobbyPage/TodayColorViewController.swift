@@ -14,6 +14,8 @@ class TodayColorViewController: UIViewController {
     var buttonWidth: CGFloat = 25
     var buttonHeight: CGFloat = 25
     
+    var userData: UserManager?
+    
     var indicatorLeading: NSLayoutConstraint?
     
     private lazy var firstChild = FirstColorViewController()
@@ -29,7 +31,7 @@ class TodayColorViewController: UIViewController {
     
     lazy var buttonOne: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#B5C0BA")
+        // button.backgroundColor = UIColor(hex: "#B5C0BA")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
@@ -38,7 +40,7 @@ class TodayColorViewController: UIViewController {
     
     lazy var buttonTwo: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#8BAEAA")
+        // button.backgroundColor = UIColor(hex: "#8BAEAA")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
@@ -47,7 +49,7 @@ class TodayColorViewController: UIViewController {
     
     lazy var buttonThree: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(hex: "#025A6A")
+        // button.backgroundColor = UIColor(hex: "#025A6A")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
@@ -143,6 +145,19 @@ class TodayColorViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         indicatorView.layer.cornerRadius = indicatorView.frame.width / 2
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userData = UserManager.shared
+        
+        if let userData = userData {
+            if userData.colorSetToday.count == 3 {
+                for index in 0..<buttons.count {
+                    buttons[index].backgroundColor = UIColor(hex: userData.colorSetToday[index])
+                }
+            }
+        }
     }
 }
 

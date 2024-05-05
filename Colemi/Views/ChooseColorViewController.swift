@@ -11,9 +11,9 @@ import CoreLocation
 
 class ChooseColorViewController: UIViewController {
     
-    let chooseColorViewModel = ChooseColorViewModel()
+    let viewModel = ChooseColorViewModel()
     let colorModel = ColorModel()
-    let userManager = UserManager.shared
+    let userData = UserManager.shared
     let locationManager = CLLocationManager()
     var colorViews: [UIView] = []
     var colorContainerViews: [UIView] = []
@@ -125,9 +125,14 @@ class ChooseColorViewController: UIViewController {
     
     @objc private func checkTapped(_ sender: UITapGestureRecognizer) {
         if let selectedColor = selectedUIColor {
-            // userManager.selectedColor = selectedColor.rgba
-            userManager.selectedUIColor = selectedColor
-            userManager.selectedHexColor = selectedColor.toHexString()
+            // userData.selectedColor = selectedColor.rgba
+            userData.selectedUIColor = selectedColor
+            userData.selectedHexColor = selectedColor.toHexString()
+            // doing
+            Task {
+                await viewModel.updateUserData(colorToday: userData.selectedHexColor ?? "", colorSetToday: userData.colorSetToday, docID: userData.id)
+            }
+            
             navigationController?.popViewController(animated: true)
         }
     }
@@ -453,7 +458,7 @@ class ChooseColorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        chooseColorViewModel.delegate = self
+        viewModel.delegate = self
         
         locationManager.delegate = self
         
@@ -485,7 +490,7 @@ extension ChooseColorViewController: CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
         if let location = locations.last {
             Task.init {
-                await chooseColorViewModel.currentWeather(for: location)
+                await viewModel.currentWeather(for: location)
             }
         }
     }
@@ -507,6 +512,7 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 
                 self.setUpSunnyInitPosition()
                 self.sunnyAnimation()
+                self.userData.colorSetToday = self.colorModel.sunnyColorsHex
                 
             default:
                 self.colorView1.backgroundColor = self.colorModel.rainColors[2]
@@ -523,6 +529,7 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 
                 self.setUpRainInitPosition()
                 self.rainAnimation()
+                self.userData.colorSetToday = self.colorModel.rainColorsHex
             }
         }
     }

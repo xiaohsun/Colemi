@@ -10,7 +10,7 @@ import UIKit
 class FirstColorViewController: UIViewController, TodayColorVCProtocol {
      
     let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+    var userData: UserManager?
     var loadedBefore: Bool = false
     
     var selectedImageView: UIImageView?
@@ -42,8 +42,6 @@ class FirstColorViewController: UIViewController, TodayColorVCProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        print("hahaha, this is viewWillAppear")
         
         
 //        viewModel.readData {

@@ -92,6 +92,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.likes = user.likes
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
+                        self.userManager.colorSetToday = user.colorSetToday
                         self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
@@ -128,6 +129,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.likes = user.likes
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
+                        self.userManager.colorSetToday = user.colorSetToday
                         self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts

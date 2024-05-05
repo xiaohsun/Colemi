@@ -9,7 +9,7 @@ import UIKit
 
 protocol TodayColorVCProtocol: UIViewController {
     var viewModel: LobbyViewModel { get }
-    var userManager: UserManager { get }
+    var userData: UserManager? { get }
     var loadedBefore: Bool { get set }
     var selectedImageView: UIImageView? { get set }
     var selectedCell: LobbyPostCell? { get set }

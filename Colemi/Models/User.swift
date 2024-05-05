@@ -20,6 +20,7 @@ struct User: Codable {
     let signUpTime: Timestamp
     let lastestLoginTime: Timestamp
     let colorToday: String
+    let colorSetToday: [String]
     let chatRooms: [SimpleChatRoom]
     let followers: [String]
     let following: [String]
@@ -38,6 +39,7 @@ enum UserProperty: String {
     case signUpTime
     case lastestLoginTime
     case colorToday
+    case colorSetToday
     case chatRooms
     case followers
     case following
