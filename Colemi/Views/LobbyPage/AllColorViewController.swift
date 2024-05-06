@@ -118,6 +118,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
                         self.userManager.blocking = user.blocking
+                        self.userManager.beBlocked = user.beBlocked
                         print(self.userManager.name)
                     }
                 }
@@ -155,6 +156,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
                         self.userManager.blocking = user.blocking
+                        self.userManager.beBlocked = user.beBlocked
                         print(self.userManager.name)
                     }
                 }

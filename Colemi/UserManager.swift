@@ -31,4 +31,5 @@ class UserManager {
     var followers: [String] = []
     var following: [String] = []
     var blocking: [String] = []
+    var beBlocked: [String] = []
 }

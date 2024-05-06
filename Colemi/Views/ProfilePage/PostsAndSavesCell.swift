@@ -14,7 +14,7 @@ class PostsAndSavesCell: UITableViewCell {
     static let reuseIdentifier = "\(PostsAndSavesCell.self)"
     weak var delegate: PostsAndSavesCellDelegate?
     
-    // var totalHeight: CGFloat = 0
+    var postsCollectionViewContentSizeHeight: CGFloat = 0
     var scrollViewHeight: NSLayoutConstraint?
     
     var currentIndex: Int = 0
@@ -94,8 +94,6 @@ class PostsAndSavesCell: UITableViewCell {
         
         // scrollViewHeight?.constant = scrollView.contentSize.height
         layoutIfNeeded()
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -189,26 +187,14 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
                 if indexPath.item < viewModel.myPostsSizes.count {
                     if indexPath.item != viewModel.myPostsSizes.count - 1 {
                         if collectionView == postsCollectionView {
-                            // totalHeight += viewModel.myPostsSizes[indexPath.item].height
                             return viewModel.myPostsSizes[indexPath.item]
                         } else {
-                            // totalHeight += viewModel.mySavesSizes[indexPath.item].height
                             return viewModel.mySavesSizes[indexPath.item]
                         }
                     } else {
                         if collectionView == postsCollectionView {
-                            // totalHeight += viewModel.myPostsSizes[indexPath.item].height
-                            // totalHeight += scrollView.contentSize.height
-                            // scrollViewHeight?.constant = totalHeight / 2
-                            
-                            // layoutIfNeeded()
-                            // delegate?.reloadTableView()
                             return viewModel.myPostsSizes[indexPath.item]
                         } else {
-                            // totalHeight += viewModel.mySavesSizes[indexPath.item].height
-                            // scrollViewHeight?.constant = totalHeight
-                            // layoutIfNeeded()
-                            // delegate?.reloadTableView()
                             return viewModel.mySavesSizes[indexPath.item]
                         }
                     }
@@ -239,6 +225,8 @@ extension PostsAndSavesCell {
         DispatchQueue.main.async {
             self.postsCollectionView.collectionViewLayout.invalidateLayout()
             self.postsCollectionView.reloadData()
+            self.postsCollectionView.layoutIfNeeded()
+            self.postsCollectionViewContentSizeHeight = self.postsCollectionView.contentSize.height
         }
         
         // postsCollectionView.reloadData()
@@ -251,8 +239,28 @@ extension PostsAndSavesCell {
         DispatchQueue.main.async {
             self.savesCollectionView.collectionViewLayout.invalidateLayout()
             self.savesCollectionView.reloadData()
+            self.savesCollectionView.layoutIfNeeded()
+            
+            if self.savesCollectionView.contentSize.height > self.postsCollectionViewContentSizeHeight {
+                self.scrollViewHeight?.constant = self.savesCollectionView.contentSize.height + 20
+            } else {
+                self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
+            }
+            
+            self.layoutIfNeeded()
+            self.scrollView.layoutIfNeeded()
+            self.delegate?.reloadTableView()
         }
     }
+    
+//    func countContentSize(viewWidth: CGFloat) {
+//        guard let viewModel = viewModel else { return }
+//        for size in viewModel.myPostsSizes {
+//            let portion = size.width / viewWidth
+//            postsCollectionViewContentSizeHeight += size.height / portion
+//        }
+//        print(postsCollectionViewContentSizeHeight)
+//    }
 }
 
 protocol PostsAndSavesCellDelegate: AnyObject {

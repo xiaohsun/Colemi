@@ -12,6 +12,9 @@ class OverLayPopUp: UIViewController {
     var containerViewTopCons: NSLayoutConstraint?
     var containerViewHeight: CGFloat = 180
     var fromDetailPage: Bool = false
+    
+    let viewModel = OverLayPopUpViewModel()
+    
     var reportTextDetailPage = ["檢舉貼文", "封鎖作者"]
     var reportTextProfilePage = ["檢舉", "封鎖"]
     
@@ -137,6 +140,7 @@ class OverLayPopUp: UIViewController {
         
         alert1.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { _ in
             alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
+                
                 self.hide()
             }))
             self.present(alert2, animated: true)
@@ -154,6 +158,7 @@ class OverLayPopUp: UIViewController {
         let alert2 = UIAlertController(title: "已收到檢舉", message: "謝謝你，我們將會進行查證！", preferredStyle: .alert)
         
         alert1.addAction(UIAlertAction(title: "檢舉", style: .default, handler: { _ in
+            print("Block!!! \(self.viewModel.otherUserID)")
             alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
                 self.hide()
             }))

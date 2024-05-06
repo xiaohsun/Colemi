@@ -25,6 +25,7 @@ struct User: Codable {
     let followers: [String]
     let following: [String]
     let blocking: [String]
+    let beBlocked: [String]
 }
 
 enum UserProperty: String {
@@ -44,6 +45,7 @@ enum UserProperty: String {
     case followers
     case following
     case blocking
+    case beBlocked
 }
 
 struct ChatRoom: Codable {

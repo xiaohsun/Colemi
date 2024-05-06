@@ -36,7 +36,8 @@ class LobbyViewModel {
                         chatRooms: [],
                         followers: [],
                         following: [],
-                        blocking: []
+                        blocking: [],
+                        beBlocked: []
         )
         
         firestoreManager.setData(user, at: docRef)

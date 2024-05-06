@@ -25,16 +25,16 @@ class ProfileViewController: UIViewController {
     var popAnimator: UIViewControllerAnimatedTransitioning?
     var dismissAnimator: UIViewControllerAnimatedTransitioning?
     
+    let informationCell = InformationCell()
+    let missionCell = MissionCell()
+    let postsAndSavesCell = PostsAndSavesCell()
+    let selectorHeaderView = SelectorHeaderView()
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        
-        tableView.register(InformationCell.self, forCellReuseIdentifier: InformationCell.reuseIdentifier)
-        tableView.register(MissionCell.self, forCellReuseIdentifier: MissionCell.reuseIdentifier)
-        tableView.register(SelectorHeaderView.self, forHeaderFooterViewReuseIdentifier: SelectorHeaderView.reuseIdentifier)
-        tableView.register(PostsAndSavesCell.self, forCellReuseIdentifier: PostsAndSavesCell.reuseIdentifier)
         
         tableView.estimatedRowHeight = 300
         tableView.rowHeight = UITableView.automaticDimension
@@ -73,6 +73,10 @@ class ProfileViewController: UIViewController {
     
     @objc private func openPopUp() {
         let overLayPopUp = OverLayPopUp()
+        if let otherUserID = viewModel.otherUserData?.id,
+           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
+            overLayPopUp.viewModel.otherUserID = otherUserID
+        }
         overLayPopUp.appear(sender: self)
     }
     
@@ -103,68 +107,67 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
             
             if !isOthersPage {
-                cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage, avatarUrl: userData.avatarPhoto)
+                informationCell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage, avatarUrl: userData.avatarPhoto)
                 
             } else {
                 guard let otherUserData = viewModel.otherUserData else {
                     print("Error get otherUserData.")
-                    return cell
+                    return informationCell
                 }
-                cell.viewModel.otherUserData = otherUserData
-                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage, avatarUrl: otherUserData.avatarPhoto)
+                informationCell.viewModel.otherUserData = otherUserData
+                informationCell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage, avatarUrl: otherUserData.avatarPhoto)
             }
             
-            cell.delegate = self
+            informationCell.delegate = self
             
-            return cell
+            return informationCell
             
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MissionCell.reuseIdentifier, for: indexPath) as? MissionCell else { return UITableViewCell() }
             
             if let color = userData.selectedUIColor {
-                cell.update(color: color)
+                missionCell.update(color: color)
             }
             
-            return cell
+            return missionCell
             
         default:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
-            cell.update(viewModel: viewModel)
-            cell.delegate = self
+
+            postsAndSavesCell.update(viewModel: viewModel)
+            // postsAndSavesCell.countContentSize(viewWidth: view.frame.width)
+            postsAndSavesCell.delegate = self
             
             if !isOthersPage {
                 
                 Task {
                     await viewModel.getMyPosts(postIDs: userData.posts) {
-                        cell.updatePostsCollectionViewLayout()
+                        self.postsAndSavesCell.updatePostsCollectionViewLayout()
                     }
                     
                     await viewModel.getMySaves(savesIDs: userData.savedPosts) {
-                        cell.updateSavesCollectionViewLayout()
+                        self.postsAndSavesCell.updateSavesCollectionViewLayout()
                     }
                 }
                 
             } else {
                 guard let otherUserData = viewModel.otherUserData else {
                     print("Error get otherUserData.")
-                    return cell
+                    return postsAndSavesCell
                 }
                 
                 Task {
                     await viewModel.getMyPosts(postIDs: otherUserData.posts) {
-                        cell.updatePostsCollectionViewLayout()
+                        self.postsAndSavesCell.updatePostsCollectionViewLayout()
                     }
                     
                     await viewModel.getMySaves(savesIDs: otherUserData.savedPosts) {
-                        cell.updateSavesCollectionViewLayout()
+                        self.postsAndSavesCell.updateSavesCollectionViewLayout()
                     }
                 }
             }
             
-            return cell
+            return postsAndSavesCell
         }
         
     }
@@ -185,12 +188,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         if section == 2 {
-            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SelectorHeaderView.reuseIdentifier) as? SelectorHeaderView else { return nil }
-            headerView.delegate = self
             
+            selectorHeaderView.delegate = self
             
-            return headerView
+            return selectorHeaderView
         } else {
             return nil
         }
@@ -207,6 +210,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        
+//        print(postsAndSavesCell.postsCollectionView.contentSize.height)
+//        print(postsAndSavesCell.savesCollectionView.contentSize.height)
+//    }
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
@@ -220,6 +229,7 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
     
     func reloadTableView() {
         tableView.beginUpdates()
+        tableView.layoutIfNeeded()
         tableView.endUpdates()
     }
     
