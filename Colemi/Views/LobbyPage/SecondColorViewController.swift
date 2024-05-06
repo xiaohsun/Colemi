@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SecondColorViewController: UIViewController, TodayColorVCProtocol {
     
@@ -55,7 +56,7 @@ class SecondColorViewController: UIViewController, TodayColorVCProtocol {
     func loadData() {
         if !loadedBefore {
             Task.detached {
-                await self.viewModel.getSpecificPosts(colorCode: "#8BAEAA") {
+                await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#8BAEAA" : UserManager.shared.colorSetToday[1]) {
                     DispatchQueue.main.async {
                         self.postsCollectionView.collectionViewLayout.invalidateLayout()
                         self.postsCollectionView.reloadData()
@@ -86,7 +87,11 @@ extension SecondColorViewController: UICollectionViewDataSource, UICollectionVie
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }

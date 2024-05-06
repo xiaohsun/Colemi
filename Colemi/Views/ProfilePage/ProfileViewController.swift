@@ -76,6 +76,7 @@ class ProfileViewController: UIViewController {
         if let otherUserID = viewModel.otherUserData?.id,
            let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
             overLayPopUp.viewModel.otherUserID = otherUserID
+            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
         }
         overLayPopUp.appear(sender: self)
     }

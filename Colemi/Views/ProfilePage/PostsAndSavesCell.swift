@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PostsAndSavesCell: UITableViewCell {
     
@@ -126,14 +127,22 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
                 if indexPath.item < viewModel.posts.count {
                     let post = viewModel.posts[indexPath.item]
                     let url = URL(string: post.imageUrl)
-                    cell.imageView.kf.setImage(with: url)
+                    cell.imageView.kf.setImage(with: url, options: [
+                        .transition(ImageTransition.fade(0.3)),
+                        .forceTransition,
+                        .keepCurrentImageWhileLoading
+                  ])
                 }
                 
             } else {
                 if indexPath.item < viewModel.saves.count {
                     let post = viewModel.saves[indexPath.item]
                     let url = URL(string: post.imageUrl)
-                    cell.imageView.kf.setImage(with: url)
+                    cell.imageView.kf.setImage(with: url, options: [
+                        .transition(ImageTransition.fade(0.3)),
+                        .forceTransition,
+                        .keepCurrentImageWhileLoading
+                  ])
                 }
             }
         }

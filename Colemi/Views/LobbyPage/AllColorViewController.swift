@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class AllColorViewController: UIViewController, AllAndMixVCProtocol {
     
@@ -269,7 +270,11 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }

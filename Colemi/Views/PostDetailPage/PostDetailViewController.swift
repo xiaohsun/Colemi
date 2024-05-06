@@ -307,6 +307,11 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func showReportPopUp() {
         let overLayPopUp = OverLayPopUp()
         overLayPopUp.fromDetailPage = true
+//        if let otherUserID = authorID,
+//           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
+//            overLayPopUp.viewModel.otherUserID = otherUserID
+//            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
+//        }
         overLayPopUp.appear(sender: self)
     }
 }

@@ -14,7 +14,7 @@ enum ThemeColorProperty {
     func getColor() -> UIColor {
         switch self {
         case .lightColor:
-            return UIColor(hex: "#F9F4E8") ?? UIColor.black
+            return UIColor(hex: "#F9F4E8") ?? UIColor.white
         case .darkColor:
             return UIColor(hex: "#4D4D4D") ?? UIColor.black
         }

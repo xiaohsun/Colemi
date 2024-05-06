@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
     
@@ -54,7 +55,7 @@ class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
     func loadData() {
         if !loadedBefore {
             Task.detached {
-                await self.viewModel.getSpecificPosts(colorCode: "#025A6A") {
+                await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#025A6A" : UserManager.shared.colorSetToday[2]) {
                     DispatchQueue.main.async {
                         self.postsCollectionView.collectionViewLayout.invalidateLayout()
                         self.postsCollectionView.reloadData()
@@ -85,7 +86,11 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }
