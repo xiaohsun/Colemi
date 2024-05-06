@@ -139,13 +139,17 @@ class OverLayPopUp: UIViewController {
         let alert2 = UIAlertController(title: "已封鎖", message: "對方不會收到封鎖通知。", preferredStyle: .alert)
         
         alert1.addAction(UIAlertAction(title: "封鎖", style: .default, handler: { _ in
-            alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
-                
-                self.hide()
-            }))
+            Task {
+                await self.viewModel.updateBlockingData()
+            }
+            DispatchQueue.main.async {
+                alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
+                    self.hide()
+                }))
+            }
             self.present(alert2, animated: true)
         }))
-
+        
         alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
             self.hide()
         }))
@@ -164,7 +168,7 @@ class OverLayPopUp: UIViewController {
             }))
             self.present(alert2, animated: true)
         }))
-
+        
         alert1.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
             self.hide()
         }))
@@ -181,12 +185,12 @@ extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: OverLayPopUpCell.reuseIdentifier, for: indexPath) as? OverLayPopUpCell else { return UITableViewCell() }
         
-//        if fromDetailPage {
-//            cell.label.text = reportTextDetailPage[indexPath.row]
-//        } else {
-            if indexPath.row == 1 {
-                cell.update()
-            }
+        //        if fromDetailPage {
+        //            cell.label.text = reportTextDetailPage[indexPath.row]
+        //        } else {
+        if indexPath.row == 1 {
+            cell.update()
+        }
         // }
         
         return cell

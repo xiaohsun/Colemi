@@ -10,12 +10,18 @@ import Foundation
 class OverLayPopUpViewModel {
     let userData = UserManager.shared
     var otherUserID: String = ""
-    var beBlocked: [String] = []
+    var otherUserbeBlocked: [String] = []
     
-    func updateBlockingData(savedPostsArray: [String], postID: String, docID: String) async {
+    func updateBlockingData() async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        firestoreManager.updateDocument(data: [UserProperty.savedPosts.rawValue: savedPostsArray], collection: ref, docID: docID)
+        var myBlocking = userData.blocking
+        myBlocking.append(otherUserID)
+        firestoreManager.updateDocument(data: [UserProperty.blocking.rawValue: myBlocking], collection: ref, docID: userData.id)
+        userData.blocking = myBlocking
+        
+        otherUserbeBlocked.append(userData.id)
+        firestoreManager.updateDocument(data: [UserProperty.beBlocked.rawValue: otherUserbeBlocked], collection: ref, docID: otherUserID)
     }
 }

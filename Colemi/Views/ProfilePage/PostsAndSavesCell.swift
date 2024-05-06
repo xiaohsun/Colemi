@@ -203,12 +203,6 @@ extension PostsAndSavesCell {
             self.postsCollectionView.reloadData()
             self.postsCollectionView.layoutIfNeeded()
             self.postsCollectionViewContentSizeHeight = self.postsCollectionView.contentSize.height
-            
-            self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
-            
-            self.layoutIfNeeded()
-            self.scrollView.layoutIfNeeded()
-            self.delegate?.reloadTableView()
         }
         
         // postsCollectionView.reloadData()
@@ -223,6 +217,15 @@ extension PostsAndSavesCell {
             self.savesCollectionView.reloadData()
             self.savesCollectionView.layoutIfNeeded()
             self.savesCollectionViewContentSizeHeight = self.savesCollectionView.contentSize.height
+            
+            if self.savesCollectionViewContentSizeHeight > self.postsCollectionViewContentSizeHeight {
+                self.scrollViewHeight?.constant = self.savesCollectionViewContentSizeHeight + 20
+            } else {
+                self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
+            }
+            
+            self.layoutIfNeeded()
+            self.delegate?.reloadTableView()
         }
     }
 }
@@ -245,17 +248,9 @@ extension PostsAndSavesCell: UIScrollViewDelegate {
             print("Switched to child view controller at index \(currentIndex)")
             
             if currentIndex == 0 {
-                self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
-                self.layoutIfNeeded()
-                self.scrollView.layoutIfNeeded()
-                self.delegate?.reloadTableView()
                 
                 delegate?.postsSavesChange(isMyPosts: true)
             } else {
-                self.scrollViewHeight?.constant = self.savesCollectionViewContentSizeHeight + 20
-                self.layoutIfNeeded()
-                self.scrollView.layoutIfNeeded()
-                self.delegate?.reloadTableView()
                 
                 delegate?.postsSavesChange(isMyPosts: false)
             }

@@ -10,8 +10,8 @@ import Kingfisher
 
 class LobbyViewController: UIViewController {
     
-    let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+    // let viewModel = LobbyViewModel()
+    // let userManager = UserManager.shared
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []

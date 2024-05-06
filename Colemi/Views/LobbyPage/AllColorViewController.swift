@@ -227,11 +227,23 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.userManager = UserManager.shared
         
-        viewModel.readData {
-            DispatchQueue.main.async {
-                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-                self.postsCollectionView.reloadData()
+        if viewModel.userManager.blocking.isEmpty {
+            viewModel.readData {
+                DispatchQueue.main.async {
+                    self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                    self.postsCollectionView.reloadData()
+                }
+            }
+        } else {
+            Task {
+                await viewModel.getNotInPosts {
+                    DispatchQueue.main.async {
+                        self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                        self.postsCollectionView.reloadData()
+                    }
+                }
             }
         }
     }
