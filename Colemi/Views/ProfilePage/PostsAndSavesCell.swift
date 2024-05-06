@@ -15,6 +15,7 @@ class PostsAndSavesCell: UITableViewCell {
     weak var delegate: PostsAndSavesCellDelegate?
     
     var postsCollectionViewContentSizeHeight: CGFloat = 0
+    var savesCollectionViewContentSizeHeight: CGFloat = 0
     var scrollViewHeight: NSLayoutConstraint?
     
     var currentIndex: Int = 0
@@ -92,7 +93,6 @@ class PostsAndSavesCell: UITableViewCell {
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(2), height: scrollView.bounds.height)
         
-        // scrollViewHeight?.constant = scrollView.contentSize.height
         layoutIfNeeded()
     }
     
@@ -111,7 +111,6 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
         } else {
             return viewModel.saves.count
         }
-        // viewModel?.posts.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -151,28 +150,6 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
             delegate?.presentDetailPage(index: indexPath.row, isMyPosts: false, selectedCell: selectedCell, collectionView: savesCollectionView, selectedImageView: selectedCell.imageView)
         }
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        
-//        if collectionView == postsCollectionView {
-//            let contentSize = collectionView.contentSize
-//            print("postsCollectionView contentSize: \(contentSize)")
-//        } else {
-//            if collectionView == savesCollectionView {
-//                let contentSize = collectionView.contentSize
-//                print("savesCollectionView contentSize: \(contentSize)")
-//            }
-//        
-//            
-//        }
-//    }
-    
-//    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-//        self.contentView.frame = self.bounds
-//        self.contentView.layoutIfNeeded()
-//        delegate?.reloadTableView()
-//        return postsCollectionView.contentSize
-//    }
 }
 
 // MARK: - LobbyLayoutDelegate
@@ -217,7 +194,6 @@ extension PostsAndSavesCell {
 //            self.layoutIfNeeded()
 //        }
         self.viewModel = viewModel
-        
     }
     
     func updatePostsCollectionViewLayout() {
@@ -227,6 +203,12 @@ extension PostsAndSavesCell {
             self.postsCollectionView.reloadData()
             self.postsCollectionView.layoutIfNeeded()
             self.postsCollectionViewContentSizeHeight = self.postsCollectionView.contentSize.height
+            
+            self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
+            
+            self.layoutIfNeeded()
+            self.scrollView.layoutIfNeeded()
+            self.delegate?.reloadTableView()
         }
         
         // postsCollectionView.reloadData()
@@ -240,27 +222,9 @@ extension PostsAndSavesCell {
             self.savesCollectionView.collectionViewLayout.invalidateLayout()
             self.savesCollectionView.reloadData()
             self.savesCollectionView.layoutIfNeeded()
-            
-            if self.savesCollectionView.contentSize.height > self.postsCollectionViewContentSizeHeight {
-                self.scrollViewHeight?.constant = self.savesCollectionView.contentSize.height + 20
-            } else {
-                self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
-            }
-            
-            self.layoutIfNeeded()
-            self.scrollView.layoutIfNeeded()
-            self.delegate?.reloadTableView()
+            self.savesCollectionViewContentSizeHeight = self.savesCollectionView.contentSize.height
         }
     }
-    
-//    func countContentSize(viewWidth: CGFloat) {
-//        guard let viewModel = viewModel else { return }
-//        for size in viewModel.myPostsSizes {
-//            let portion = size.width / viewWidth
-//            postsCollectionViewContentSizeHeight += size.height / portion
-//        }
-//        print(postsCollectionViewContentSizeHeight)
-//    }
 }
 
 protocol PostsAndSavesCellDelegate: AnyObject {
@@ -281,8 +245,18 @@ extension PostsAndSavesCell: UIScrollViewDelegate {
             print("Switched to child view controller at index \(currentIndex)")
             
             if currentIndex == 0 {
+                self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
+                self.layoutIfNeeded()
+                self.scrollView.layoutIfNeeded()
+                self.delegate?.reloadTableView()
+                
                 delegate?.postsSavesChange(isMyPosts: true)
             } else {
+                self.scrollViewHeight?.constant = self.savesCollectionViewContentSizeHeight + 20
+                self.layoutIfNeeded()
+                self.scrollView.layoutIfNeeded()
+                self.delegate?.reloadTableView()
+                
                 delegate?.postsSavesChange(isMyPosts: false)
             }
         }

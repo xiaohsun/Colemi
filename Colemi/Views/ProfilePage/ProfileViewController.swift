@@ -210,12 +210,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        
-//        print(postsAndSavesCell.postsCollectionView.contentSize.height)
-//        print(postsAndSavesCell.savesCollectionView.contentSize.height)
-//    }
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
