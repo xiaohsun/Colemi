@@ -11,6 +11,9 @@ import PhotosUI
 class SettingViewController: UIViewController {
     
     let userData = UserManager.shared
+    let avatarEditCell = AvatarEditCell()
+    let signOutCell = SignOutCell()
+    let deleteAccountCell = DeleteAccountCell()
     
     private func setUpNavigationBar() {
         navigationController?.navigationBar.isHidden = false
@@ -29,7 +32,6 @@ class SettingViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(AvatarEditCell.self, forCellReuseIdentifier: AvatarEditCell.reuseIdentifier)
         tableView.register(NormalSettingCell.self, forCellReuseIdentifier: NormalSettingCell.reuseIdentifier)
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
@@ -71,12 +73,16 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: AvatarEditCell.reuseIdentifier, for: indexPath) as? AvatarEditCell else { return UITableViewCell() }
-            cell.delegate = self
-            cell.update(avatarUrl: userData.avatarPhoto)
+            avatarEditCell.delegate = self
+            avatarEditCell.update(avatarUrl: userData.avatarPhoto)
             
-            return cell
+            return avatarEditCell
             
+        } else if indexPath.row == 2 {
+            return signOutCell
+            
+        } else if indexPath.row == 3 {
+            return deleteAccountCell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NormalSettingCell.reuseIdentifier, for: indexPath) as? NormalSettingCell else { return UITableViewCell() }
             

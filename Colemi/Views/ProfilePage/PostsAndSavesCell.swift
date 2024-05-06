@@ -168,30 +168,46 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
         _ collectionView: UICollectionView,
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
-            if let viewModel = viewModel {
-                
+            guard let viewModel = viewModel else { return CGSize(width: 300, height: 400) }
+            
+            if collectionView == postsCollectionView {
                 if indexPath.item < viewModel.myPostsSizes.count {
-                    if indexPath.item != viewModel.myPostsSizes.count - 1 {
-                        if collectionView == postsCollectionView {
-                            return viewModel.myPostsSizes[indexPath.item]
-                        } else {
-                            return viewModel.mySavesSizes[indexPath.item]
-                        }
-                    } else {
-                        if collectionView == postsCollectionView {
-                            return viewModel.myPostsSizes[indexPath.item]
-                        } else {
-                            return viewModel.mySavesSizes[indexPath.item]
-                        }
-                    }
-                    
+                    return viewModel.myPostsSizes[indexPath.item]
                 } else {
                     return CGSize(width: 300, height: 400)
                 }
-                
             } else {
-                return CGSize(width: 300, height: 400)
+                if indexPath.item < viewModel.mySavesSizes.count {
+                    return viewModel.mySavesSizes[indexPath.item]
+                } else {
+                    return CGSize(width: 300, height: 400)
+                }
             }
+            
+            
+            
+            //                if indexPath.item < viewModel.myPostsSizes.count {
+            //                    if indexPath.item != viewModel.myPostsSizes.count - 1 {
+            //                        if collectionView == postsCollectionView {
+            //                            return viewModel.myPostsSizes[indexPath.item]
+            //                        } else {
+            //                            return viewModel.mySavesSizes[indexPath.item]
+            //                        }
+            //                    } else {
+            //                        if collectionView == postsCollectionView {
+            //                            return viewModel.myPostsSizes[indexPath.item]
+            //                        } else {
+            //                            return viewModel.mySavesSizes[indexPath.item]
+            //                        }
+            //                    }
+            //
+            //                } else {
+            //                    return CGSize(width: 300, height: 400)
+            //                }
+            //
+            //            } else {
+            //                return CGSize(width: 300, height: 400)
+            //            }
         }
 }
 

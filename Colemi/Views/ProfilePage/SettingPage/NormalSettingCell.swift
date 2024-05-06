@@ -17,7 +17,7 @@ class NormalSettingCell: UITableViewCell {
         label.numberOfLines = 1
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
         label.textColor = .white
-        label.text = "123"
+        label.text = "封鎖帳號"
         
         return label
     }()

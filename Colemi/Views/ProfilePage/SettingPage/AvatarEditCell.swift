@@ -11,7 +11,6 @@ import Kingfisher
 
 class AvatarEditCell: UITableViewCell {
     
-    static let reuseIdentifier = "\(AvatarEditCell.self)"
     weak var delegate: AvatarEditCellDelegate?
 //    var imageData: Data?
 //    var selectedImage: UIImage?

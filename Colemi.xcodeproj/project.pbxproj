@@ -83,6 +83,8 @@
 		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
 		28564D782BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D772BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift */; };
 		28564D7A2BE87CB8003B3FBA /* OverLayPopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */; };
+		28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */; };
+		28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */; };
 		287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */; };
 		287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */; };
 		287A62D42BE3E21800E09788 /* TodayColorVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */; };
@@ -194,6 +196,8 @@
 		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
 		28564D772BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageOverLayPopUp.swift; sourceTree = "<group>"; };
 		28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUpViewModel.swift; sourceTree = "<group>"; };
+		28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutCell.swift; sourceTree = "<group>"; };
+		28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
 		287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCDismissAnimator.swift; sourceTree = "<group>"; };
 		287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCProtocol.swift; sourceTree = "<group>"; };
@@ -425,6 +429,8 @@
 			children = (
 				287A62E12BE52DEA00E09788 /* SettingViewController.swift */,
 				287A62E42BE52F7700E09788 /* AvatarEditCell.swift */,
+				28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */,
+				28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */,
 				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
 			);
 			path = SettingPage;
@@ -706,6 +712,7 @@
 				28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */,
 				287A62FF2BE756A200E09788 /* FollowingsViewController.swift in Sources */,
 				281C65BE2BD0EDDA003D2ECE /* MissionCell.swift in Sources */,
+				28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
@@ -737,6 +744,7 @@
 				281C658A2BD00233003D2ECE /* CommentCell.swift in Sources */,
 				281C65882BD000F7003D2ECE /* SeperatorCell.swift in Sources */,
 				281C65B12BD0C4E5003D2ECE /* InformationCell.swift in Sources */,
+				28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */,
 				28C69B8B2BD2A4C000725BE7 /* ProfileViewModel.swift in Sources */,
 				28C69B892BD270BA00725BE7 /* Content.swift in Sources */,
 				287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */,
