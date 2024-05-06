@@ -9,6 +9,8 @@ import UIKit
 
 class DeleteAccountCell: UITableViewCell {
     
+    let authenticationViewModel = AuthenticationViewModel()
+    
     lazy var button: UIButton = {
         let button = UIButton()
         button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
@@ -24,6 +26,9 @@ class DeleteAccountCell: UITableViewCell {
     
     @objc private func deleteAccountButtonTapped() {
         print("Delete Account")
+        Task {
+            await authenticationViewModel.deleteAccount()
+        }
     }
     
     private func setUpUI() {
