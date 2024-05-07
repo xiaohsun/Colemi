@@ -59,6 +59,7 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        deleteAccountCell.delegate = self
     }
 }
 
@@ -94,5 +95,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
 extension SettingViewController: AvatarEditCellDelegate {
     func presentPHPicker(_ pickerVC: PHPickerViewController) {
         present(pickerVC, animated: true)
+    }
+}
+
+extension SettingViewController: DeleteAccountCellDelegate {
+    func presentAlert(alert: UIAlertController) {
+        self.present(alert, animated: true)
     }
 }

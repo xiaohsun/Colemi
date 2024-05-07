@@ -9,6 +9,8 @@ import UIKit
 
 class DeleteAccountCell: UITableViewCell {
     
+    weak var delegate: DeleteAccountCellDelegate?
+    
     let authenticationViewModel = AuthenticationViewModel()
     
     lazy var button: UIButton = {
@@ -25,10 +27,22 @@ class DeleteAccountCell: UITableViewCell {
     }()
     
     @objc private func deleteAccountButtonTapped() {
-        print("Delete Account")
-        Task {
-            await authenticationViewModel.deleteAccount()
-        }
+        
+        let alert1 = UIAlertController(title: "刪除帳號", message: "你確定要刪除帳號嗎？所有的資料將會消失唷！", preferredStyle: .alert)
+        
+        alert1.addAction(UIAlertAction(title: "確定", style: .default, handler: { _ in
+            Task {
+                await self.authenticationViewModel.deleteAccount { title, content in
+                    let alert2 = UIAlertController(title: title, message: content, preferredStyle: .alert)
+                    alert2.addAction(UIAlertAction(title: "好的", style: .default))
+                    self.delegate?.presentAlert(alert: alert2)
+                }
+            }
+        }))
+
+        alert1.addAction(UIAlertAction(title: "取消", style: .cancel))
+        
+        delegate?.presentAlert(alert: alert1)
     }
     
     private func setUpUI() {
@@ -51,4 +65,8 @@ class DeleteAccountCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
+
+protocol DeleteAccountCellDelegate: AnyObject {
+    func presentAlert(alert: UIAlertController)
 }

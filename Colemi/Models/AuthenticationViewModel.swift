@@ -127,7 +127,7 @@ extension AuthenticationViewModel {
         }
     }
     
-    func deleteAccount() async -> Bool {
+    func deleteAccount(completion: (((String, String) -> Void)?) = nil ) async -> Bool {
         guard let user = user else { return false }
         guard let lastSignInDate = user.metadata.lastSignInDate else { return false }
         let needsReauth = !lastSignInDate.isWithinPast(minutes: 5)
@@ -168,10 +168,12 @@ extension AuthenticationViewModel {
             
             try await user.delete()
             errorMessage = ""
+            completion?("刪除成功", "有緣再相見，要再回來唷！")
             return true
         } catch {
             print(error)
             errorMessage = error.localizedDescription
+            completion?("刪除失敗", "出了一點問題，請稍後再試。")
             return false
         }
     }
