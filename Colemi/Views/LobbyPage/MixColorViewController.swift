@@ -42,6 +42,26 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         return collectionView
     }()
     
+    lazy var ctaLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 24)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        label.text = "混色後再來看看吧"
+        
+        return label
+    }()
+    
+    private func setCtaLabel() {
+        view.addSubview(ctaLabel)
+        
+        NSLayoutConstraint.activate([
+            ctaLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            ctaLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -75)
+        ])
+    }
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -51,6 +71,10 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
+        
+        if viewModel.userManager.mixColorToday == "" {
+            setCtaLabel()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
