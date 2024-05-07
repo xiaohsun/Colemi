@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
-class MixColorViewController: UIViewController {
+class MixColorViewController: UIViewController, AllAndMixVCProtocol {
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorsVCPopAnimator(childVCIndex: 2)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorVCDismissAnimator(childVCIndex: 2)
+    
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     
@@ -19,8 +24,10 @@ class MixColorViewController: UIViewController {
     lazy var colorImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor(hex: "#54518B")
         imageView.layer.cornerRadius = 5
+        imageView.image = UIImage(systemName: "questionmark")?.withRenderingMode(.alwaysTemplate)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
         return imageView
     }()
     
@@ -35,23 +42,23 @@ class MixColorViewController: UIViewController {
         return collectionView
     }()
     
-    private func setUpUI() {
+    lazy var ctaLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 24)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        label.text = "混色後再來看看吧"
         
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(colorImageView)
-        view.addSubview(postsCollectionView)
+        return label
+    }()
+    
+    private func setCtaLabel() {
+        view.addSubview(ctaLabel)
         
         NSLayoutConstraint.activate([
-            colorImageView.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.heightAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            
-            postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
+            ctaLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            ctaLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -75)
         ])
     }
     
@@ -64,6 +71,8 @@ class MixColorViewController: UIViewController {
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
+        setCtaLabel()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,12 +84,20 @@ class MixColorViewController: UIViewController {
 //                self.postsCollectionView.reloadData()
 //            }
 //        }
+        if viewModel.userManager.mixColorToday != "" {
+            ctaLabel.isHidden = true
+        }
         
-        Task.detached {
-            await self.viewModel.getSpecificPosts(colorCode: "#54518B") {
-                DispatchQueue.main.async {
-                    self.postsCollectionView.collectionViewLayout.invalidateLayout()
-                    self.postsCollectionView.reloadData()
+        
+        if userManager.mixColorToday != "" {
+            colorImageView.backgroundColor = UIColor(hex: userManager.mixColorToday)
+            colorImageView.image = nil
+            Task.detached {
+                await self.viewModel.getSpecificPosts(colorCode: self.userManager.mixColorToday) {
+                    DispatchQueue.main.async {
+                        self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                        self.postsCollectionView.reloadData()
+                    }
                 }
             }
         }
@@ -107,7 +124,11 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }
@@ -129,10 +150,13 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        // postDetailViewController.modalPresentationStyle = .custom
-        // postDetailViewController.transitioningDelegate = self
-        present(postDetailViewController, animated: true)
+        
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
@@ -149,4 +173,16 @@ extension MixColorViewController: LobbyLayoutDelegate {
                 return CGSize(width: 300, height: 400)
             }
         }
+}
+
+
+extension MixColorViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
+    }
 }

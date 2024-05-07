@@ -13,9 +13,11 @@ class ChatRoomViewModel {
     weak var delegate: ChatRoomViewModelDelegate?
     let firestoreManager = FirestoreManager.shared
     var otherUserName = ""
-    var otherUserImage: UIImage?
+    // var otherUserAvatarUrl: String?
+    var otherUserAvatarImage: UIImage?
     var timestamp: Timestamp?
     let userData = UserManager.shared
+    // var otherUserAvatarImage: UIImage?
     
     var chatRoomID: String = "" {
         didSet {

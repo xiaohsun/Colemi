@@ -6,26 +6,35 @@
 //
 
 import UIKit
+// import Combine
 
 class ProfileViewController: UIViewController {
     
     let viewModel = ProfileViewModel()
     var userData: UserManager?
     var isOthersPage: Bool = false
+    
     var othersID: String?
-    var otherUserData: User?
-    var isShowingMyPosts: Bool = true
+    // var otherUserData: User?
+    var isShowingPosts: Bool = true
+    
+    var selectedCell: LobbyPostCell?
+    var selectedImageView: UIImageView?
+    var collectionViewInPostsAndSavesCell: UICollectionView?
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning?
+    var dismissAnimator: UIViewControllerAnimatedTransitioning?
+    
+    let informationCell = InformationCell()
+    let missionCell = MissionCell()
+    let postsAndSavesCell = PostsAndSavesCell()
+    let selectorHeaderView = SelectorHeaderView()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        
-        tableView.register(InformationCell.self, forCellReuseIdentifier: InformationCell.reuseIdentifier)
-        tableView.register(MissionCell.self, forCellReuseIdentifier: MissionCell.reuseIdentifier)
-        tableView.register(SelectorHeaderView.self, forHeaderFooterViewReuseIdentifier: SelectorHeaderView.reuseIdentifier)
-        tableView.register(PostsAndSavesCell.self, forCellReuseIdentifier: PostsAndSavesCell.reuseIdentifier)
         
         tableView.estimatedRowHeight = 300
         tableView.rowHeight = UITableView.automaticDimension
@@ -40,8 +49,6 @@ class ProfileViewController: UIViewController {
     private func setUpUI() {
         view.addSubview(tableView)
         
-        navigationController?.navigationBar.barTintColor = ThemeColorProperty.darkColor.getColor()
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -50,15 +57,44 @@ class ProfileViewController: UIViewController {
         ])
     }
     
+    func setUpNavBar() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
+        navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
+        
+        if isOthersPage {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(openPopUp))
+            navigationItem.rightBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
+        }
+    }
+    
+    @objc private func popNav() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func openPopUp() {
+        let overLayPopUp = OverLayPopUp()
+        if let otherUserID = viewModel.otherUserData?.id,
+           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
+            overLayPopUp.viewModel.otherUserID = otherUserID
+            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
+        }
+        overLayPopUp.appear(sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
+        popAnimator = ProfileVCPopAnimator(fromVC: self)
+        dismissAnimator = ProfileVCDismissAnimator(toVC: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         userData = UserManager.shared
         tableView.reloadData()
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
     }
 }
 
@@ -72,61 +108,66 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: InformationCell.reuseIdentifier, for: indexPath) as? InformationCell else { return UITableViewCell() }
             
             if !isOthersPage {
-                cell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage)
+                informationCell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage, avatarUrl: userData.avatarPhoto)
+                
             } else {
-                guard let otherUserData = otherUserData else {
+                guard let otherUserData = viewModel.otherUserData else {
                     print("Error get otherUserData.")
-                    return cell
+                    return informationCell
                 }
-                cell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage)
+                informationCell.viewModel.otherUserData = otherUserData
+                informationCell.update(name: otherUserData.name, followers: otherUserData.followers, following: otherUserData.following, isOthersPage: isOthersPage, avatarUrl: otherUserData.avatarPhoto)
             }
             
-            return cell
+            informationCell.delegate = self
+            
+            return informationCell
+            
         case 1:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MissionCell.reuseIdentifier, for: indexPath) as? MissionCell else { return UITableViewCell() }
             
-            if let color = userData.selectedUIColor {
-                cell.update(color: color)
-            }
+            let colorTodayHex = userData.colorToday
+            missionCell.update(color: colorTodayHex)
             
-            return cell
+            return missionCell
+            
         default:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: PostsAndSavesCell.reuseIdentifier, for: indexPath) as? PostsAndSavesCell else { return UITableViewCell() }
-            cell.update(viewModel: viewModel)
-            cell.delegate = self
+
+            postsAndSavesCell.update(viewModel: viewModel)
+            // postsAndSavesCell.countContentSize(viewWidth: view.frame.width)
+            postsAndSavesCell.delegate = self
             
             if !isOthersPage {
-                if isShowingMyPosts {
-                    Task {
-                        await viewModel.getMyPosts(postIDs: userData.posts) {
-                            cell.updateLayout()
-                        }
+                
+                Task {
+                    await viewModel.getMyPosts(postIDs: userData.posts) {
+                        self.postsAndSavesCell.updatePostsCollectionViewLayout()
                     }
-                } else {
-                    Task {
-                        await viewModel.getMyPosts(postIDs: userData.savedPosts) {
-                            cell.updateLayout()
-                        }
+                    
+                    await viewModel.getMySaves(savesIDs: userData.savedPosts) {
+                        self.postsAndSavesCell.updateSavesCollectionViewLayout()
                     }
                 }
                 
             } else {
-                guard let otherUserData = otherUserData else {
+                guard let otherUserData = viewModel.otherUserData else {
                     print("Error get otherUserData.")
-                    return cell
+                    return postsAndSavesCell
                 }
                 
                 Task {
                     await viewModel.getMyPosts(postIDs: otherUserData.posts) {
-                        cell.updateLayout()
+                        self.postsAndSavesCell.updatePostsCollectionViewLayout()
+                    }
+                    
+                    await viewModel.getMySaves(savesIDs: otherUserData.savedPosts) {
+                        self.postsAndSavesCell.updateSavesCollectionViewLayout()
                     }
                 }
             }
             
-            return cell
+            return postsAndSavesCell
         }
         
     }
@@ -137,8 +178,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.section == 1 {
             return 120
         } else {
-            // return UITableView.automaticDimension
-            return 2000
+            return UITableView.automaticDimension
+            // return 2000
         }
     }
     
@@ -147,11 +188,12 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
         if section == 2 {
-            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: SelectorHeaderView.reuseIdentifier) as? SelectorHeaderView else { return nil }
-            headerView.delegate = self
             
-            return headerView
+            selectorHeaderView.delegate = self
+            
+            return selectorHeaderView
         } else {
             return nil
         }
@@ -171,29 +213,112 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension ProfileViewController: PostsAndSavesCellDelegate {
-    func reloadTableView() {
-        tableView.layoutIfNeeded()
+    
+    func postsSavesChange(isMyPosts: Bool) {
+        if let headerView = tableView.headerView(forSection: 2) as? SelectorHeaderView {
+            headerView.postsButton.isSelected = isMyPosts ? true : false
+            headerView.savesButton.isSelected = isMyPosts ? false : true
+        }
     }
     
-    func presentDetailPage(index: Int) {
+    func reloadTableView() {
+        tableView.beginUpdates()
+        tableView.layoutIfNeeded()
+        tableView.endUpdates()
+    }
+    
+    func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView) {
         let postDetailViewController = PostDetailViewController()
-        postDetailViewController.viewModel.post = viewModel.posts[index]
-        postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
-        // postDetailViewController.photoImage = viewModel.images[index]
-        postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        postDetailViewController.postID = viewModel.posts[index].id
-        postDetailViewController.authorID = viewModel.posts[index].authorId
-        postDetailViewController.comments = viewModel.posts[index].comments
-        postDetailViewController.post = viewModel.posts[index]
+        self.selectedCell = selectedCell
+        self.collectionViewInPostsAndSavesCell = collectionView
+        self.selectedImageView = selectedImageView
         
-        present(postDetailViewController, animated: true)
+        if isMyPosts {
+            postDetailViewController.viewModel.post = viewModel.posts[index]
+            postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
+            // postDetailViewController.photoImage = viewModel.images[index]
+            postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
+            postDetailViewController.postID = viewModel.posts[index].id
+            postDetailViewController.authorID = viewModel.posts[index].authorId
+            postDetailViewController.comments = viewModel.posts[index].comments
+            postDetailViewController.post = viewModel.posts[index]
+            
+        } else {
+            postDetailViewController.viewModel.post = viewModel.saves[index]
+            postDetailViewController.contentJSONString = viewModel.savesContentJSONString[index]
+            postDetailViewController.imageUrl = viewModel.saves[index].imageUrl
+            postDetailViewController.postID = viewModel.saves[index].id
+            postDetailViewController.authorID = viewModel.saves[index].authorId
+            postDetailViewController.comments = viewModel.saves[index].comments
+            postDetailViewController.post = viewModel.saves[index]
+        }
+        
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
 extension ProfileViewController: SelectorHeaderViewDelegate {
     func changeShowingPostsOrSaved(isShowingMyPosts: Bool) {
-        self.isShowingMyPosts = isShowingMyPosts
-        tableView.reloadData()
+        self.isShowingPosts = isShowingMyPosts
+        let indexPath = IndexPath(row: 0, section: 2)
+        if let cell = tableView.cellForRow(at: indexPath) as? PostsAndSavesCell {
+            switch isShowingMyPosts {
+            case true:
+                cell.scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            case false:
+                cell.scrollView.setContentOffset(CGPoint(x: cell.scrollView.bounds.width, y: 0), animated: true)
+            }
+        }
+    }
+}
+
+extension ProfileViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
+    }
+}
+
+extension ProfileViewController: InformationCellDelegate {
+    func pushToSettingVC() {
+        let settingViewController = SettingViewController()
+        navigationController?.pushViewController(settingViewController, animated: true)
+    }
+    
+    func pushToChatRoom(chatRoomID: String, avatarImage: UIImage) {
+        guard let otherUserData = viewModel.otherUserData else { return }
+        
+        let chatRoomViewController = ChatRoomViewController()
+        chatRoomViewController.viewModel.chatRoomID = chatRoomID
+        chatRoomViewController.viewModel.otherUserName = otherUserData.name
+        // chatRoomViewController.viewModel.otherUserAvatarUrl = otherUserData.avatarPhoto
+        chatRoomViewController.viewModel.otherUserAvatarImage = avatarImage
+        
+        navigationController?.pushViewController(chatRoomViewController, animated: true)
+    }
+    
+    func pushToFollowVC(isFollowersTapped: Bool) {
+        let followViewController = FollowViewController()
+        if isOthersPage {
+            guard let otherUserData = viewModel.otherUserData else { return }
+            followViewController.viewModel.userName = otherUserData.name
+            followViewController.viewModel.followers = otherUserData.followers
+            followViewController.viewModel.followings = otherUserData.following
+        } else {
+            followViewController.viewModel.userName = viewModel.userData.name
+            followViewController.viewModel.followers = viewModel.userData.followers
+            followViewController.viewModel.followings = viewModel.userData.following
+        }
+        
+        followViewController.isFollowersTapped = isFollowersTapped
+        navigationController?.pushViewController(followViewController, animated: true)
     }
 }

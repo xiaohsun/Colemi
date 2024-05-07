@@ -14,57 +14,61 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     // let viewModel = ProfileViewModel()
     var isShowingMyPosts = true
     
-    lazy var postsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
-        label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "貼文"
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(postsGetTapped))
-        label.addGestureRecognizer(tapGesture)
-        label.isUserInteractionEnabled = true
-        
-        return label
+    lazy var postsButton: UIButton = {
+        let button = UIButton()
+        button.isSelected = true
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("貼文", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.addTarget(self, action: #selector(buttonGetTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
-    lazy var savesLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
-        label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "收藏"
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(savedGetTapped))
-        label.addGestureRecognizer(tapGesture)
-        label.isUserInteractionEnabled = true
-        
-        return label
+    lazy var savesButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
+        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitle("收藏", for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.addTarget(self, action: #selector(buttonGetTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
-    @objc private func postsGetTapped(_ sender: UITapGestureRecognizer ) {
-        isShowingMyPosts = true
-        delegate?.changeShowingPostsOrSaved(isShowingMyPosts: isShowingMyPosts)
-    }
-    
-    @objc private func savedGetTapped(_ sender: UITapGestureRecognizer ) {
-        isShowingMyPosts = false
+    @objc private func buttonGetTapped(_ sender: UIButton) {
+        switch sender {
+        case postsButton:
+            postsButton.isSelected = true
+            savesButton.isSelected = false
+            isShowingMyPosts = true
+        case savesButton:
+            postsButton.isSelected = false
+            savesButton.isSelected = true
+            isShowingMyPosts = false
+        default:
+            break
+        }
+        
         delegate?.changeShowingPostsOrSaved(isShowingMyPosts: isShowingMyPosts)
     }
     
     func setUpUI() {
-        contentView.addSubview(postsLabel)
-        contentView.addSubview(savesLabel)
+        contentView.addSubview(postsButton)
+        contentView.addSubview(savesButton)
         contentView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         contentView.backgroundColor = UIColor(hex: "#F9F4E8")
         
         NSLayoutConstraint.activate([
-            postsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            postsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 100),
-            postsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            postsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            postsButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 100),
+            postsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
             
-            savesLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            savesLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -100),
-            savesLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            savesButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            savesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -100),
+            savesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
     

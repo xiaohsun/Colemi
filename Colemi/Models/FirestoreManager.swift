@@ -151,6 +151,38 @@ class FirestoreManager {
         return documents
     }
     
+    func getMultipleNotInDocument<T: Codable>(field: String, collection: CollectionReference, docIDs: [String]) async -> [T] {
+        
+        var documents: [T] = []
+        
+        if docIDs != [] {
+            
+            var query: Query?
+            
+            if collection == FirestoreEndpoint.posts.ref {
+                query = collection.whereField(field, notIn: docIDs).order(by: "createdTime", descending: true)
+            } else {
+                query = collection.whereField(field, in: docIDs)
+            }
+            
+            do {
+                guard let query = query else { return [] }
+                let querySnapshots = try await query.getDocuments()
+                for doc in querySnapshots.documents {
+                    let data = doc.data()
+                    if let decodedData = try? Firestore.Decoder().decode(T.self, from: data) {
+                        documents.append(decodedData)
+                    }
+                }
+            } catch {
+                print("Error fetching documents: \(error)")
+            }
+            return documents
+        }
+        
+        return documents
+    }
+    
     // 不確定
     //    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
     //        collection.document(docID).updateData(data)
@@ -169,9 +201,10 @@ class FirestoreManager {
         }
     }
     
-    func setData<T: Encodable>(_ data: T, at docRef: DocumentReference) {
+    func setData<T: Encodable>(_ data: T, at docRef: DocumentReference, completion: ((() -> Void)?) = nil) {
         do {
             try docRef.setData(from: data)
+            completion?()
         } catch {
             print("DEBUG: Error encoding \(data.self) data -", error.localizedDescription)
         }

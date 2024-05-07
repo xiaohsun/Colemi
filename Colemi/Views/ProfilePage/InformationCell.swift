@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import Kingfisher
 
 class InformationCell: UITableViewCell {
     
     static let reuseIdentifier = "\(InformationCell.self)"
     var isOthersPage: Bool = false
-    var othersID: String?
-    var otherUserData: User?
+    
+    let viewModel = InformationCellViewModel()
+    
+    weak var delegate: InformationCellDelegate?
     
     lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -53,6 +56,7 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "粉絲"
+        addFollowerTappedGes(label: label, action: #selector(followersTapped))
         
         return label
     }()
@@ -64,6 +68,7 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "999"
+        addFollowerTappedGes(label: label, action: #selector(followersTapped))
         
         return label
     }()
@@ -75,6 +80,7 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "追蹤中"
+        addFollowerTappedGes(label: label, action: #selector(followingTapped))
         
         return label
     }()
@@ -86,9 +92,28 @@ class InformationCell: UITableViewCell {
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "50"
+        addFollowerTappedGes(label: label, action: #selector(followingTapped))
         
         return label
     }()
+    
+    private func addFollowerTappedGes(label: UILabel, action: Selector) {
+        let tapGesture = UITapGestureRecognizer(target: self, action: action)
+        label.addGestureRecognizer(tapGesture)
+        label.isUserInteractionEnabled = true
+    }
+    
+    @objc private func followersTapped() {
+        print("Followers get tapped")
+        // isOthersPage ? print(viewModel.otherUserData?.followers) : print(viewModel.userData.followers)
+        delegate?.pushToFollowVC(isFollowersTapped: true)
+    }
+    
+    @objc private func followingTapped() {
+        print("Following get tapped")
+        // isOthersPage ? print(viewModel.otherUserData?.following) : print(viewModel.userData.following)
+        delegate?.pushToFollowVC(isFollowersTapped: false)
+    }
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureLayout())
@@ -152,12 +177,11 @@ class InformationCell: UITableViewCell {
         setUpUI()
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: TextViewCell.reuseIdentifier)
         collectionView.register(FollowOrEditInfoCell.self, forCellWithReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier)
+        collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.reuseIdentifier)
         collectionView.register(ColorFootprintCell.self, forCellWithReuseIdentifier: ColorFootprintCell.reuseIdentifier)
         collectionView.register(BestColorCell.self, forCellWithReuseIdentifier: BestColorCell.reuseIdentifier)
         collectionView.register(AchievementCell.self, forCellWithReuseIdentifier: AchievementCell.reuseIdentifier)
-        configureDataSource()
-        
-        
+        // configureDataSource()
     }
     
     override func layoutSubviews() {
@@ -171,11 +195,15 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
-    func update(name: String, followers: [String], following: [String], isOthersPage: Bool) {
+    func update(name: String, followers: [String], following: [String], isOthersPage: Bool, avatarUrl: String) {
         nameLabel.text = name
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
+        let url = URL(string: avatarUrl)
+        avatarImageView.kf.setImage(with: url)
         self.isOthersPage = isOthersPage
+        
+        configureDataSource()
     }
 }
 
@@ -184,7 +212,7 @@ extension InformationCell {
         
         let sectionProvider = { (sectionIndex: Int, _: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
-            if sectionIndex == 0 {
+            if sectionIndex == 0 && !self.isOthersPage {
                 let leftItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2/3), heightDimension: .fractionalHeight(1.0))
                 let rightItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1.0))
                 
@@ -198,6 +226,33 @@ extension InformationCell {
                 //group.interItemSpacing = .fixed(20)
                 
                 let section = NSCollectionLayoutSection(group: group)
+                
+                section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 20, trailing: 10)
+                
+                return section
+                
+            } else if sectionIndex == 0 && self.isOthersPage {
+                
+                let leftItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(2/3), heightDimension: .fractionalHeight(1.0))
+                let leftItem = NSCollectionLayoutItem(layoutSize: leftItemSize)
+                
+                let rightItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.5))
+                
+                
+                let rightTopItem = NSCollectionLayoutItem(layoutSize: rightItemSize)
+                let rightBottomItem = NSCollectionLayoutItem(layoutSize: rightItemSize)
+                
+                let verticalGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1))
+                
+                let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: verticalGroupSize, subitems: [rightTopItem, rightBottomItem])
+                
+                verticalGroup.interItemSpacing = .fixed(10)
+                
+                let containerGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
+                
+                let containerGroup = NSCollectionLayoutGroup.horizontal(layoutSize: containerGroupSize, subitems: [leftItem, verticalGroup])
+                
+                let section = NSCollectionLayoutSection(group: containerGroup)
                 
                 section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 20, trailing: 10)
                 
@@ -228,20 +283,55 @@ extension InformationCell {
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: self.collectionView) { (collectionView, indexPath, _) -> UICollectionViewCell? in
             
-            if indexPath.section == 0 {
+            if indexPath.section == 0 && !self.isOthersPage {
+                
+                switch indexPath.row {
+                    
+                case 0:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
+                    
+                    cell.delegate = self
+                    cell.update(description: UserManager.shared.description, isOthersPage: self.isOthersPage)
+                    
+                    return cell
+                    
+                default:
+                    
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
+                    
+                    cell.changeToSetting()
+                    
+                    cell.delegate = self
+                    
+                    return cell
+                }
+            } else if indexPath.section == 0 && self.isOthersPage {
                 switch indexPath.row {
                 case 0:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
                     
+                    cell.delegate = self
+                    cell.update(description: self.viewModel.otherUserData?.description ?? "", isOthersPage: self.isOthersPage)
+                    
                     return cell
-                default:
+                    
+                case 1:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
                     
-                    if !self.isOthersPage {
-                        cell.update()
-                    }
+                    let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
+                    
+                    cell.changeToFollow(isFollowing: isFollowing)
                     
                     cell.delegate = self
+                    
+                    return cell
+                    
+                default:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else { fatalError("Can't create new cell") }
+                        // cell.changeToFollow()
+                    
+                    cell.delegate = self
+                    cell.viewModel.otherUserData = self.viewModel.otherUserData
                     
                     return cell
                 }
@@ -267,8 +357,17 @@ extension InformationCell {
         
         var initialSnapshot = NSDiffableDataSourceSnapshot<Section, Int>()
         initialSnapshot.appendSections([.top, .bottom])
-        initialSnapshot.appendItems(Array(1...2), toSection: .top)
-        initialSnapshot.appendItems(Array(3...5), toSection: .bottom)
+        
+        if !self.isOthersPage {
+            initialSnapshot.appendItems(Array(1...2), toSection: .top)
+            initialSnapshot.appendItems(Array(3...5), toSection: .bottom)
+        } else {
+            initialSnapshot.appendItems(Array(1...1), toSection: .top)
+            initialSnapshot.appendItems(Array(2...3), toSection: .top)
+            initialSnapshot.appendItems(Array(4...6), toSection: .bottom)
+        }
+        
+        
         
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
     }
@@ -276,8 +375,36 @@ extension InformationCell {
 
 extension InformationCell: FollowOrEditInfoCellDelegate {
     func updateFollower() {
-        guard let otherUserData = otherUserData else { return }
-        let viewModel = ProfileViewModel()
-       //  viewModel.updateFollower(otherUserData: otherUserData)
+        guard let otherUserFollowers = viewModel.otherUserFollowers else { return }
+        viewModel.updateFollower { otherUserFollowers, isFollowing in
+            DispatchQueue.main.async {
+                self.followersNumberLabel.text = "\(otherUserFollowers.count)"
+                let indexPath = IndexPath(row: 1, section: 0)
+                let cell = self.collectionView.cellForItem(at: indexPath) as? FollowOrEditInfoCell
+                cell?.button.setTitle(isFollowing ? "取消追蹤": "追蹤", for: .normal)
+            }
+        }
     }
+    
+    func pushToSettingVC() {
+        delegate?.pushToSettingVC()
+    }
+}
+
+extension InformationCell: TextViewCellDelegate {
+    func userDescriptionChange(text: String) {
+        viewModel.updateUserDescription(text: text)
+    }
+}
+
+extension InformationCell: ChatCellDelegate {
+    func pushToChatRoom(chatRoomID: String) {
+        delegate?.pushToChatRoom(chatRoomID: chatRoomID, avatarImage: avatarImageView.image ?? UIImage())
+    }
+}
+
+protocol InformationCellDelegate: AnyObject {
+    func pushToSettingVC()
+    func pushToChatRoom(chatRoomID: String, avatarImage: UIImage)
+    func pushToFollowVC(isFollowersTapped: Bool)
 }

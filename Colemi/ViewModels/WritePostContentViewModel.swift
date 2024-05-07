@@ -35,12 +35,11 @@ class WritePostContentViewModel {
         ]
         document.setData(data)
         
-        // doing
         Task {
             await self.updateData(postID: document.documentID, docID: UserManager.shared.id)
         }
     }
-    // doing
+
     func updateData(postID: String, docID: String) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
@@ -77,11 +76,6 @@ class WritePostContentViewModel {
     }
     
     func uploadImgToFirebase(imageData: Data, imageSize: CGSize) {
-        
-//        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
-//            print("Failed to convert image to data.")
-//            return
-//        }
        
         let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")
         

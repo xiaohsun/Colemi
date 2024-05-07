@@ -10,8 +10,8 @@ import Kingfisher
 
 class LobbyViewController: UIViewController {
     
-    let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+    // let viewModel = LobbyViewModel()
+    // let userManager = UserManager.shared
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
@@ -147,6 +147,7 @@ class LobbyViewController: UIViewController {
         
         setUpUI()
         addChildVCs()
+        
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
     }

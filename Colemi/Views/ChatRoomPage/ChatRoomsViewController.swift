@@ -12,18 +12,18 @@ class ChatRoomsViewController: UIViewController {
     var userData: UserManager?
     let viewModel = ChatRoomsViewModel()
     
-    lazy var createChatRoomButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Create user 1,2 ChatRoom", for: .normal)
-        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
-        button.addTarget(self, action: #selector(createChatRoomButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+//    lazy var createChatRoomButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Create user 1,2 ChatRoom", for: .normal)
+//        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
+//        button.addTarget(self, action: #selector(createChatRoomButtonTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
     
-    @objc private func createChatRoomButtonTapped() {
-        // viewModel.createDetailedChatRoom()
-    }
+//    @objc private func createChatRoomButtonTapped() {
+//        // viewModel.createDetailedChatRoom()
+//    }
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -41,7 +41,7 @@ class ChatRoomsViewController: UIViewController {
     private func setUpUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
-        view.addSubview(createChatRoomButton)
+        // view.addSubview(createChatRoomButton)
         
         navigationItem.title = "訊息"
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
@@ -52,10 +52,10 @@ class ChatRoomsViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            createChatRoomButton.heightAnchor.constraint(equalToConstant: 50),
-            createChatRoomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            createChatRoomButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            createChatRoomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+//            createChatRoomButton.heightAnchor.constraint(equalToConstant: 50),
+//            createChatRoomButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+//            createChatRoomButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            createChatRoomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
@@ -80,10 +80,13 @@ extension ChatRoomsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let userData = userData else { return }
+        let cell = tableView.cellForRow(at: indexPath) as? ChatRoomTableViewCell
         let chatRoomViewController = ChatRoomViewController()
         let simpleChatRoom = userData.chatRooms[indexPath.item]
         chatRoomViewController.viewModel.chatRoomID = simpleChatRoom.id
         chatRoomViewController.viewModel.otherUserName = simpleChatRoom.receiverName
+        // chatRoomViewController.viewModel.otherUserAvatarUrl = simpleChatRoom.receiverAvatarURL
+        chatRoomViewController.viewModel.otherUserAvatarImage = cell?.avatarImageView.image
         
         navigationController?.pushViewController(chatRoomViewController, animated: true)
     }

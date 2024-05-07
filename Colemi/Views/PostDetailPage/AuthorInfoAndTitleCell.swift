@@ -53,10 +53,26 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         return label
     }()
     
+    lazy var reportButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "ellipsis")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.imageView?.tintColor = ThemeColorProperty.darkColor.getColor()
+        button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(reportBtnTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc private func reportBtnTapped() {
+        print("Tapped")
+        delegate?.showReportPopUp()
+    }
+    
     func setUpUI() {
         contentView.addSubview(authorImageView)
         contentView.addSubview(authorNameLabel)
         contentView.addSubview(titleLabel)
+        contentView.addSubview(reportButton)
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
@@ -71,7 +87,10 @@ class AuthorInfoAndTitleCell: UITableViewCell {
             authorNameLabel.leadingAnchor.constraint(equalTo: authorImageView.trailingAnchor, constant: 12),
             
             titleLabel.centerYAnchor.constraint(equalTo: authorNameLabel.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: authorNameLabel.trailingAnchor, constant: 12)
+            titleLabel.leadingAnchor.constraint(equalTo: authorNameLabel.trailingAnchor, constant: 12),
+            
+            reportButton.centerYAnchor.constraint(equalTo: authorImageView.centerYAnchor),
+            reportButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
@@ -101,5 +120,6 @@ extension AuthorInfoAndTitleCell {
 
 protocol AuthorInfoAndTitleCellDelegate: AnyObject {
     func pushToAuthorProfilePage()
+    func showReportPopUp()
 }
     

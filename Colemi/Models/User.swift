@@ -14,15 +14,19 @@ struct User: Codable {
     let posts: [String]
     let likes: [String]
     let avatarPhoto: String
-    let friends: [String]
     let description: String
     let savedPosts: [String]
     let signUpTime: Timestamp
     let lastestLoginTime: Timestamp
     let colorToday: String
+    let colorSetToday: [String]
+    let mixColorToday: String
     let chatRooms: [SimpleChatRoom]
     let followers: [String]
     let following: [String]
+    let blocking: [String]
+    let beBlocked: [String]
+    let didUserPostToday: Bool
 }
 
 enum UserProperty: String {
@@ -31,15 +35,19 @@ enum UserProperty: String {
     case posts
     case likes
     case avatarPhoto
-    case friends
     case description
     case savedPosts
     case signUpTime
     case lastestLoginTime
     case colorToday
+    case colorSetToday
+    case mixColorToday
     case chatRooms
     case followers
     case following
+    case blocking
+    case beBlocked
+    case didUserPostToday
 }
 
 struct ChatRoom: Codable {

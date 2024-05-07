@@ -180,6 +180,10 @@ class PostDetailViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
 }
 
 extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
@@ -275,11 +279,11 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func pushToAuthorProfilePage() {
-        // let navigationController = UINavigationController(rootViewController: self)
         let profileViewController = ProfileViewController()
         
         if authorID == userData.id {
-            present(profileViewController, animated: true)
+            profileViewController.setUpNavBar()
+            navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             
             let firestoreManager = FirestoreManager.shared
@@ -292,12 +296,23 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
                 if let userData = userData {
                     
                     profileViewController.isOthersPage = true
-                    profileViewController.otherUserData = userData
-                    // navigationController.pushViewController(profileViewController, animated: true)
-                    present(profileViewController, animated: true)
+                    profileViewController.viewModel.otherUserData = userData
+                    profileViewController.setUpNavBar()
+                    navigationController?.pushViewController(profileViewController, animated: true)
                 }
             }
         }
+    }
+    
+    func showReportPopUp() {
+        let overLayPopUp = OverLayPopUp()
+        overLayPopUp.fromDetailPage = true
+//        if let otherUserID = authorID,
+//           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
+//            overLayPopUp.viewModel.otherUserID = otherUserID
+//            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
+//        }
+        overLayPopUp.appear(sender: self)
     }
 }
 

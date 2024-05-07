@@ -42,7 +42,7 @@ class WritePostContentViewController: UIViewController {
     
     lazy var colorView: UIView = {
         let view = UIView()
-        view.backgroundColor = userManager.selectedUIColor
+        view.backgroundColor = UIColor(hex: userManager.colorToday)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
@@ -300,9 +300,7 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         let imageHeight = Double(imageSize.height)
         let imageWidth = Double(imageSize.width)
         
-        if let colorString = userManager.selectedHexColor {
-            viewModel.addData(authorId: userManager.id, content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
-        }
+        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
@@ -326,7 +324,7 @@ extension WritePostContentViewController: PHPickerViewControllerDelegate {
                     DispatchQueue.main.async {
                         self.imageView.image = image
                         self.imageView.layer.borderWidth = 0
-                        self.imageData = image.jpegData(compressionQuality: 0.7)
+                        self.imageData = image.jpegData(compressionQuality: 0.6)
                         self.selectedImageSize = image.size
                         self.selectedImage = image
                     }
@@ -340,7 +338,7 @@ extension WritePostContentViewController: UIImagePickerControllerDelegate, UINav
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.image = image
-            imageData = image.jpegData(compressionQuality: 0.7)
+            imageData = image.jpegData(compressionQuality: 0.6)
             selectedImageSize = image.size
             selectedImage = image
         }

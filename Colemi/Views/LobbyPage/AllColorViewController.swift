@@ -6,14 +6,16 @@
 //
 
 import UIKit
+import Kingfisher
 
-class AllColorViewController: UIViewController {
+class AllColorViewController: UIViewController, AllAndMixVCProtocol {
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorsVCPopAnimator(childVCIndex: 0)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = AllandMixColorVCDismissAnimator(childVCIndex: 0)
     
     let viewModel = LobbyViewModel()
     let userManager = UserManager.shared
     
-    private let popAnimator = PopAnimator()
-    private let dismissAnimator = DismissAnimator()
     var selectedImageView: UIImageView?
     var selectedCell: LobbyPostCell?
     
@@ -33,28 +35,29 @@ class AllColorViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
+        setLongPressGes(collectionView: collectionView)
         
         return collectionView
     }()
     
-    private func setUpUI() {
-        
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(colorImageView)
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            colorImageView.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.heightAnchor.constraint(equalToConstant: colorViewWidth),
-            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorImageView.topAnchor.constraint(equalTo: view.topAnchor),
-            
-            postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
+    private func setLongPressGes(collectionView: UICollectionView) {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        collectionView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            let position = gestureRecognizer.location(in: postsCollectionView)
+            if let index = postsCollectionView.indexPathForItem(at: position) {
+                print(index)
+                print(position)
+                let mainPageOverLayPopUp = MainPageOverLayPopUp()
+                // fromVC.postsCollectionView.convert(postsCollectionView, to: nil)
+                mainPageOverLayPopUp.gestureYPosision = position.y
+                mainPageOverLayPopUp.gestureXPosision = position.x
+                mainPageOverLayPopUp.appear(sender: self)
+            }
+        }
     }
     
     // MARK: - For Tests
@@ -111,9 +114,14 @@ class AllColorViewController: UIViewController {
                         self.userManager.likes = user.likes
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
+                        self.userManager.colorSetToday = user.colorSetToday
+                        self.userManager.mixColorToday = user.mixColorToday
                         self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
+                        self.userManager.blocking = user.blocking
+                        self.userManager.beBlocked = user.beBlocked
+                        self.userManager.didUserPostToday = user.didUserPostToday
                         print(self.userManager.name)
                     }
                 }
@@ -146,9 +154,14 @@ class AllColorViewController: UIViewController {
                         self.userManager.likes = user.likes
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
+                        self.userManager.colorSetToday = user.colorSetToday
+                        self.userManager.mixColorToday = user.mixColorToday
                         self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
+                        self.userManager.blocking = user.blocking
+                        self.userManager.beBlocked = user.beBlocked
+                        self.userManager.didUserPostToday = user.didUserPostToday
                         print(self.userManager.name)
                     }
                 }
@@ -181,49 +194,60 @@ class AllColorViewController: UIViewController {
         setUpUI()
         
         // MARK: For Tests
-        view.addSubview(chooseColorButton)
-        view.addSubview(createUserButton)
-        view.addSubview(loginUser1Button)
-        view.addSubview(loginUser2Button)
-        view.addSubview(signInButton)
-        
-        NSLayoutConstraint.activate([
-            
-            createUserButton.heightAnchor.constraint(equalToConstant: 50),
-            createUserButton.widthAnchor.constraint(equalToConstant: 100),
-            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            
-            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
-            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            
-            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
-            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            signInButton.heightAnchor.constraint(equalToConstant: 50),
-            signInButton.widthAnchor.constraint(equalToConstant: 100),
-            signInButton.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
-            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
-            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ]
-        )
+//        view.addSubview(chooseColorButton)
+//        view.addSubview(createUserButton)
+//        view.addSubview(loginUser1Button)
+//        view.addSubview(loginUser2Button)
+//        view.addSubview(signInButton)
+//        
+//        NSLayoutConstraint.activate([
+//            
+//            createUserButton.heightAnchor.constraint(equalToConstant: 50),
+//            createUserButton.widthAnchor.constraint(equalToConstant: 100),
+//            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+//            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            
+//            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
+//            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
+//            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+//            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            
+//            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
+//            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
+//            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+//            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            
+//            signInButton.heightAnchor.constraint(equalToConstant: 50),
+//            signInButton.widthAnchor.constraint(equalToConstant: 100),
+//            signInButton.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+//            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            
+//            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
+//            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
+//            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+//            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+//            ])
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.userManager = UserManager.shared
         
-        viewModel.readData {
-            DispatchQueue.main.async {
-                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-                self.postsCollectionView.reloadData()
+        if viewModel.userManager.blocking.isEmpty {
+            viewModel.readData {
+                DispatchQueue.main.async {
+                    self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                    self.postsCollectionView.reloadData()
+                }
+            }
+        } else {
+            Task {
+                await viewModel.getNotInPosts {
+                    DispatchQueue.main.async {
+                        self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                        self.postsCollectionView.reloadData()
+                    }
+                }
             }
         }
     }
@@ -249,7 +273,11 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }
@@ -271,10 +299,16 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
-        postDetailViewController.modalPresentationStyle = .custom
-        postDetailViewController.transitioningDelegate = self
-        present(postDetailViewController, animated: true)
+        
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        
+//        postDetailViewController.modalPresentationStyle = .custom
+//        postDetailViewController.transitioningDelegate = self
+//        present(postDetailViewController, animated: true)
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 

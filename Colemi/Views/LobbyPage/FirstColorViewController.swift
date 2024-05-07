@@ -6,12 +6,19 @@
 //
 
 import UIKit
+import Kingfisher
 
-class FirstColorViewController: UIViewController {
-    
+class FirstColorViewController: UIViewController, TodayColorVCProtocol {
+     
     let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+    var userData: UserManager?
     var loadedBefore: Bool = false
+    
+    var selectedImageView: UIImageView?
+    var selectedCell: LobbyPostCell?
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCPopAnimator(childVCIndex: 0)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCDismissAnimator(childVCIndex: 0)
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
@@ -23,19 +30,6 @@ class FirstColorViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private func setUpUI() {
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,8 +44,6 @@ class FirstColorViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        print("hahaha, this is viewWillAppear")
-        
         
 //        viewModel.readData {
 //            DispatchQueue.main.async {
@@ -61,7 +53,7 @@ class FirstColorViewController: UIViewController {
 //        }
         
         Task.detached {
-            await self.viewModel.getSpecificPosts(colorCode: "#B5C0BA") {
+            await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#B5C0BA" : UserManager.shared.colorSetToday[0]) {
                 DispatchQueue.main.async {
                     self.postsCollectionView.collectionViewLayout.invalidateLayout()
                     self.postsCollectionView.reloadData()
@@ -108,13 +100,23 @@ extension FirstColorViewController: UICollectionViewDataSource, UICollectionView
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
+        
+        if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
+            selectedImageView = cell.imageView
+            selectedCell = cell
+        }
+        
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
         
@@ -124,9 +126,13 @@ extension FirstColorViewController: UICollectionViewDataSource, UICollectionView
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
         
-        present(postDetailViewController, animated: true)
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
@@ -143,4 +149,16 @@ extension FirstColorViewController: LobbyLayoutDelegate {
                 return CGSize(width: 300, height: 400)
             }
         }
+}
+
+extension FirstColorViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
+    }
 }

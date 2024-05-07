@@ -6,11 +6,19 @@
 //
 
 import UIKit
+import Kingfisher
 
-class ThirdColorViewController: UIViewController {
+class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
+    
     let viewModel = LobbyViewModel()
-    let userManager = UserManager.shared
+    var userData: UserManager?
     var loadedBefore: Bool = false
+    
+    var selectedImageView: UIImageView?
+    var selectedCell: LobbyPostCell?
+    
+    var popAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCPopAnimator(childVCIndex: 2)
+    var dismissAnimator: UIViewControllerAnimatedTransitioning = TodayColorVCDismissAnimator(childVCIndex: 2)
     
     lazy var postsCollectionView: UICollectionView = {
         let layout = LobbyLayout()
@@ -22,19 +30,6 @@ class ThirdColorViewController: UIViewController {
         
         return collectionView
     }()
-    
-    private func setUpUI() {
-        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
-        view.addSubview(postsCollectionView)
-        
-        NSLayoutConstraint.activate([
-            postsCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
-        ])
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +55,7 @@ class ThirdColorViewController: UIViewController {
     func loadData() {
         if !loadedBefore {
             Task.detached {
-                await self.viewModel.getSpecificPosts(colorCode: "#025A6A") {
+                await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#025A6A" : UserManager.shared.colorSetToday[2]) {
                     DispatchQueue.main.async {
                         self.postsCollectionView.collectionViewLayout.invalidateLayout()
                         self.postsCollectionView.reloadData()
@@ -91,13 +86,23 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
         
         let post = viewModel.posts[indexPath.item]
         let url = URL(string: post.imageUrl)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.kf.setImage(with: url, options: [
+            .transition(ImageTransition.fade(0.3)),
+            .forceTransition,
+            .keepCurrentImageWhileLoading
+      ])
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
+        
+        if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
+            selectedImageView = cell.imageView
+            selectedCell = cell
+        }
+        
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
         
@@ -107,9 +112,13 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
         postDetailViewController.comments = viewModel.posts[indexPath.item].comments
         postDetailViewController.post = viewModel.posts[indexPath.item]
-        // navigationController?.pushViewController(postDetailViewController, animated: true)
         
-        present(postDetailViewController, animated: true)
+        let navController = UINavigationController(rootViewController: postDetailViewController)
+        
+        navController.modalPresentationStyle = .custom
+        navController.transitioningDelegate = self
+        navController.navigationBar.isHidden = true
+        present(navController, animated: true)
     }
 }
 
@@ -126,4 +135,15 @@ extension ThirdColorViewController: LobbyLayoutDelegate {
                 return CGSize(width: 300, height: 400)
             }
         }
+}
+
+extension ThirdColorViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return dismissAnimator
+    }
 }

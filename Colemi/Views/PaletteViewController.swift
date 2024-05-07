@@ -10,6 +10,8 @@ import MultipeerConnectivity
 
 class PaletteViewController: UIViewController {
     
+    let viewModel = PaletteViewModel()
+    
     let userManager = UserManager.shared
     let userDataReadyToSend = UserDataReadyToSend(color: "")
     var mpc: MPCSession?
@@ -55,10 +57,12 @@ class PaletteViewController: UIViewController {
     lazy var myColorView: UIView = {
         let view = UIView()
         
-        if let selectedColor = userManager.selectedUIColor {
-            view.backgroundColor = selectedColor
-        } else {
+        let colorToday = userManager.colorToday
+        
+        if colorToday == "" {
             view.backgroundColor = .white
+        } else {
+            view.backgroundColor = UIColor(hex: colorToday)
         }
         
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +73,7 @@ class PaletteViewController: UIViewController {
     lazy var midColorContainerView: UIView = {
         let view = UIView()
         
-        if let selectedColor = userManager.selectedUIColor {
+        if let selectedColor = UIColor(hex: userManager.colorToday) {
             view.backgroundColor = selectedColor
             
         } else {
@@ -85,7 +89,7 @@ class PaletteViewController: UIViewController {
     lazy var bigColorContainerView: UIView = {
         let view = UIView()
         
-        if let selectedColor = userManager.selectedUIColor {
+        if let selectedColor = UIColor(hex: userManager.colorToday) {
             view.backgroundColor = selectedColor
             
         } else {
@@ -105,7 +109,6 @@ class PaletteViewController: UIViewController {
         
         return view
     }()
-    
     
     lazy var mixColorView: UIView = {
         let view = UIView()
@@ -174,8 +177,10 @@ class PaletteViewController: UIViewController {
     }
     
     private func sunnyDayChangeColorView() {
+        let colorToday = UIColor(hex: userManager.colorToday)
+        
         if peerUIColor == colorModel.sunnyColors[0] {
-            switch userManager.selectedUIColor {
+            switch colorToday {
             case colorModel.sunnyColors[1]:
                 mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
             case colorModel.sunnyColors[2]:
@@ -186,7 +191,7 @@ class PaletteViewController: UIViewController {
         }
         
         if peerUIColor == colorModel.sunnyColors[1] {
-            switch userManager.selectedUIColor {
+            switch colorToday {
             case colorModel.sunnyColors[0]:
                 mixColorView.backgroundColor = colorModel.sunnyColorsMix[0]
             case colorModel.sunnyColors[2]:
@@ -197,7 +202,7 @@ class PaletteViewController: UIViewController {
         }
         
         if peerUIColor == colorModel.sunnyColors[2] {
-            switch userManager.selectedUIColor {
+            switch colorToday {
             case colorModel.sunnyColors[0]:
                 mixColorView.backgroundColor = colorModel.sunnyColorsMix[1]
             case colorModel.sunnyColors[1]:
@@ -209,8 +214,10 @@ class PaletteViewController: UIViewController {
     }
     
     private func rainyDayChangeColorView() {
+        let colorToday = UIColor(hex: userManager.colorToday)
+        
         if peerUIColor == colorModel.rainColors[0] {
-            switch userManager.selectedUIColor {
+            switch colorToday {
             case colorModel.rainColors[1]:
                 mixColorView.backgroundColor = colorModel.rainColorsMix[0]
             case colorModel.rainColors[2]:
@@ -221,7 +228,7 @@ class PaletteViewController: UIViewController {
         }
         
         if peerUIColor == colorModel.rainColors[1] {
-            switch userManager.selectedUIColor {
+            switch colorToday {
             case colorModel.rainColors[0]:
                 mixColorView.backgroundColor = colorModel.rainColorsMix[0]
             case colorModel.rainColors[2]:
@@ -232,7 +239,7 @@ class PaletteViewController: UIViewController {
         }
         
         if peerUIColor == colorModel.rainColors[2] {
-            switch userManager.selectedUIColor {
+            switch colorToday {
             case colorModel.rainColors[0]:
                 mixColorView.backgroundColor = colorModel.rainColorsMix[1]
             case colorModel.rainColors[1]:
@@ -257,8 +264,16 @@ class PaletteViewController: UIViewController {
     }()
     
     @objc private func saveMixColorButtonTapped() {
-        userManager.selectedUIColor = mixColor
-        userManager.selectedHexColor = mixColor?.toHexString()
+        if let hexColor = mixColor?.toHexString() {
+            userManager.selectedUIColor = mixColor
+            userManager.selectedHexColor = mixColor?.toHexString()
+            userManager.colorToday = hexColor
+            userManager.mixColorToday = hexColor
+            
+            viewModel.updateColorToday(colorHex: hexColor)
+            viewModel.updateMixColor(colorHex: hexColor)
+        }
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -347,7 +362,7 @@ class PaletteViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         
-        userDataReadyToSend.color = userManager.selectedHexColor ?? ""
+        userDataReadyToSend.color = userManager.colorToday
         
         mpc = MPCSession(service: "colemi", identity: "")
         

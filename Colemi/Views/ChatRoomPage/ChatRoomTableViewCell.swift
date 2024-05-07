@@ -5,6 +5,7 @@
 //  Created by 徐柏勳 on 4/20/24.
 //
 import UIKit
+import Kingfisher
 
 class ChatRoomTableViewCell: UITableViewCell {
     
@@ -80,5 +81,7 @@ extension ChatRoomTableViewCell {
     func update(simpleChatRoomData: SimpleChatRoom) {
         messageLabel.text = simpleChatRoomData.latestMessage
         nameLabel.text = simpleChatRoomData.receiverName
+        let avatarUrl = URL(string: simpleChatRoomData.receiverAvatarURL)
+        avatarImageView.kf.setImage(with: avatarUrl)
     }
 }

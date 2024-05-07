@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PostsAndSavesCell: UITableViewCell {
     
@@ -13,6 +14,10 @@ class PostsAndSavesCell: UITableViewCell {
     var viewModel: ProfileViewModel?
     static let reuseIdentifier = "\(PostsAndSavesCell.self)"
     weak var delegate: PostsAndSavesCellDelegate?
+    
+    var postsCollectionViewContentSizeHeight: CGFloat = 0
+    var savesCollectionViewContentSizeHeight: CGFloat = 0
+    var scrollViewHeight: NSLayoutConstraint?
     
     var currentIndex: Int = 0
     
@@ -33,7 +38,7 @@ class PostsAndSavesCell: UITableViewCell {
         let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
-        
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -43,6 +48,7 @@ class PostsAndSavesCell: UITableViewCell {
         let collectionView = UICollectionView(frame: contentView.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
         
         return collectionView
     }()
@@ -52,6 +58,9 @@ class PostsAndSavesCell: UITableViewCell {
         scrollView.addSubview(postsCollectionView)
         scrollView.addSubview(savesCollectionView)
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        
+        scrollViewHeight = scrollView.heightAnchor.constraint(equalToConstant: 2000)
+        scrollViewHeight?.isActive = true
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -79,10 +88,13 @@ class PostsAndSavesCell: UITableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
         postsCollectionView.frame = CGRect(x: CGFloat(0) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
         savesCollectionView.frame = CGRect(x: CGFloat(1) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(2), height: scrollView.bounds.height)
+        
+        layoutIfNeeded()
     }
     
     required init?(coder: NSCoder) {
@@ -92,7 +104,14 @@ class PostsAndSavesCell: UITableViewCell {
 
 extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel?.posts.count ?? 0
+        
+        guard let viewModel = viewModel else { return 0 }
+        
+        if collectionView == postsCollectionView {
+            return viewModel.posts.count
+        } else {
+            return viewModel.saves.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -103,10 +122,28 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
         }
         
         if let viewModel = viewModel {
-            if indexPath.item < viewModel.posts.count {
-                let post = viewModel.posts[indexPath.item]
-                let url = URL(string: post.imageUrl)
-                cell.imageView.kf.setImage(with: url)
+            
+            if collectionView == postsCollectionView {
+                if indexPath.item < viewModel.posts.count {
+                    let post = viewModel.posts[indexPath.item]
+                    let url = URL(string: post.imageUrl)
+                    cell.imageView.kf.setImage(with: url, options: [
+                        .transition(ImageTransition.fade(0.3)),
+                        .forceTransition,
+                        .keepCurrentImageWhileLoading
+                  ])
+                }
+                
+            } else {
+                if indexPath.item < viewModel.saves.count {
+                    let post = viewModel.saves[indexPath.item]
+                    let url = URL(string: post.imageUrl)
+                    cell.imageView.kf.setImage(with: url, options: [
+                        .transition(ImageTransition.fade(0.3)),
+                        .forceTransition,
+                        .keepCurrentImageWhileLoading
+                  ])
+                }
             }
         }
         
@@ -114,14 +151,13 @@ extension PostsAndSavesCell: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            delegate?.presentDetailPage(index: indexPath.row)
-    }
-    
-    override func systemLayoutSizeFitting(_ targetSize: CGSize, withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority, verticalFittingPriority: UILayoutPriority) -> CGSize {
-        self.contentView.frame = self.bounds
-        self.contentView.layoutIfNeeded()
-        // delegate?.reloadTableView()
-        return postsCollectionView.contentSize
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) as? LobbyPostCell else { return }
+        
+        if collectionView == postsCollectionView {
+            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: true, selectedCell: selectedCell, collectionView: postsCollectionView, selectedImageView: selectedCell.imageView)
+        } else {
+            delegate?.presentDetailPage(index: indexPath.row, isMyPosts: false, selectedCell: selectedCell, collectionView: savesCollectionView, selectedImageView: selectedCell.imageView)
+        }
     }
 }
 
@@ -132,17 +168,46 @@ extension PostsAndSavesCell: LobbyLayoutDelegate {
         _ collectionView: UICollectionView,
         sizeForPhotoAtIndexPath indexPath:IndexPath) -> CGSize {
             
-            if let viewModel = viewModel {
+            guard let viewModel = viewModel else { return CGSize(width: 300, height: 400) }
+            
+            if collectionView == postsCollectionView {
                 if indexPath.item < viewModel.myPostsSizes.count {
                     return viewModel.myPostsSizes[indexPath.item]
                 } else {
                     return CGSize(width: 300, height: 400)
                 }
             } else {
-                return CGSize(width: 300, height: 400)
+                if indexPath.item < viewModel.mySavesSizes.count {
+                    return viewModel.mySavesSizes[indexPath.item]
+                } else {
+                    return CGSize(width: 300, height: 400)
+                }
             }
             
-            // return images[indexPath.item].size
+            
+            
+            //                if indexPath.item < viewModel.myPostsSizes.count {
+            //                    if indexPath.item != viewModel.myPostsSizes.count - 1 {
+            //                        if collectionView == postsCollectionView {
+            //                            return viewModel.myPostsSizes[indexPath.item]
+            //                        } else {
+            //                            return viewModel.mySavesSizes[indexPath.item]
+            //                        }
+            //                    } else {
+            //                        if collectionView == postsCollectionView {
+            //                            return viewModel.myPostsSizes[indexPath.item]
+            //                        } else {
+            //                            return viewModel.mySavesSizes[indexPath.item]
+            //                        }
+            //                    }
+            //
+            //                } else {
+            //                    return CGSize(width: 300, height: 400)
+            //                }
+            //
+            //            } else {
+            //                return CGSize(width: 300, height: 400)
+            //            }
         }
 }
 
@@ -154,14 +219,15 @@ extension PostsAndSavesCell {
 //            self.layoutIfNeeded()
 //        }
         self.viewModel = viewModel
-        
     }
     
-    func updateLayout() {
+    func updatePostsCollectionViewLayout() {
         // setUpUI()
         DispatchQueue.main.async {
             self.postsCollectionView.collectionViewLayout.invalidateLayout()
             self.postsCollectionView.reloadData()
+            self.postsCollectionView.layoutIfNeeded()
+            self.postsCollectionViewContentSizeHeight = self.postsCollectionView.contentSize.height
         }
         
         // postsCollectionView.reloadData()
@@ -169,10 +235,32 @@ extension PostsAndSavesCell {
         // self.layoutIfNeeded()
         
     }
+    
+    func updateSavesCollectionViewLayout() {
+        DispatchQueue.main.async {
+            self.savesCollectionView.collectionViewLayout.invalidateLayout()
+            self.savesCollectionView.reloadData()
+            self.savesCollectionView.layoutIfNeeded()
+            self.savesCollectionViewContentSizeHeight = self.savesCollectionView.contentSize.height
+            
+            if self.savesCollectionViewContentSizeHeight > self.postsCollectionViewContentSizeHeight {
+                self.scrollViewHeight?.constant = self.savesCollectionViewContentSizeHeight + 20
+            } else {
+                self.scrollViewHeight?.constant = self.postsCollectionViewContentSizeHeight + 20
+            }
+            
+            self.layoutIfNeeded()
+            self.delegate?.reloadTableView()
+        }
+    }
 }
 
 protocol PostsAndSavesCellDelegate: AnyObject {
-    func presentDetailPage(index: Int)
+    func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView)
+    
+    func postsSavesChange(isMyPosts: Bool)
+    
+    func reloadTableView()
 }
 
 extension PostsAndSavesCell: UIScrollViewDelegate {
@@ -183,6 +271,14 @@ extension PostsAndSavesCell: UIScrollViewDelegate {
         if currentIndex != currentPage {
             currentIndex = currentPage
             print("Switched to child view controller at index \(currentIndex)")
+            
+            if currentIndex == 0 {
+                
+                delegate?.postsSavesChange(isMyPosts: true)
+            } else {
+                
+                delegate?.postsSavesChange(isMyPosts: false)
+            }
         }
     }
     

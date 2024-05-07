@@ -81,7 +81,8 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
 }
 
 extension OtherChatBubbleTableViewCell {
-    func update(messageData: Message) {
+    func update(messageData: Message, avatarImage: UIImage) {
         messageLabel.text = messageData.body
+        avatarImageView.image = avatarImage
     }
 }

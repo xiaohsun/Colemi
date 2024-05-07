@@ -180,7 +180,7 @@ class ColorSimilarityViewController: UIViewController {
                 self.distanceLabel.alpha = 1
             }
             
-            if let selectedUIColor = userManager.selectedUIColor {
+            if let selectedUIColor = UIColor(hex: userManager.colorToday) {
                 colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
                 for colorDistance in colorDistances {
                     
@@ -191,7 +191,7 @@ class ColorSimilarityViewController: UIViewController {
                         colorDistancesString.append(String(roundedNumber))
                         totalBonusCount += (100 - roundedNumber)
                     } else {
-                        roundedColorSimilarity.append(100 - roundedNumber)
+                        roundedColorSimilarity.append(0)
                         colorDistancesString.append(String(100))
                         totalBonusCount += 0
                     }
@@ -291,7 +291,7 @@ class ColorSimilarityViewController: UIViewController {
         view.addSubview(lineIconImageView)
         
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        missionColorView.backgroundColor = userManager.selectedUIColor
+        missionColorView.backgroundColor = UIColor(hex: userManager.colorToday)
         
         distanceLabelBottomConstraint = distanceLabel.bottomAnchor.constraint(equalTo: colorViewOne.topAnchor, constant: -320)
         colorViewOneTrailingConstraint =
