@@ -125,6 +125,7 @@
 		289D72A52BDD4CD100051D07 /* GenSenRounded-R.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */; };
 		289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A62BDD4FCB00051D07 /* FontProperty.swift */; };
 		289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A82BDE0D2500051D07 /* UITextView+Extension.swift */; };
+		28B0CD632BE9C0CA00485A95 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */; };
 		28C69B812BD1724800725BE7 /* MyChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */; };
 		28C69B852BD2642600725BE7 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 28C69B842BD2642600725BE7 /* IQKeyboardManagerSwift */; };
 		28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */; };
@@ -237,6 +238,7 @@
 		289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-R.ttc"; sourceTree = "<group>"; };
 		289D72A62BDD4FCB00051D07 /* FontProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontProperty.swift; sourceTree = "<group>"; };
 		289D72A82BDE0D2500051D07 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
+		28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		28C69B802BD1724800725BE7 /* MyChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		28C69B882BD270BA00725BE7 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -337,6 +339,7 @@
 				287A62E82BE5E0C700E09788 /* SettingViewModel.swift */,
 				287A62F92BE7551F00E09788 /* FollowViewModel.swift */,
 				28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */,
+				28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -701,6 +704,7 @@
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
 				287A62DE2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift in Sources */,
 				288064452BD1092300FC2EFA /* PostsAndSavesCell.swift in Sources */,
+				28B0CD632BE9C0CA00485A95 /* SignInViewModel.swift in Sources */,
 				281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */,
 				288064502BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift in Sources */,
 				287A62F82BE7530C00E09788 /* FollowTableViewCell.swift in Sources */,

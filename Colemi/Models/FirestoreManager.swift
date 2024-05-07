@@ -201,9 +201,10 @@ class FirestoreManager {
         }
     }
     
-    func setData<T: Encodable>(_ data: T, at docRef: DocumentReference) {
+    func setData<T: Encodable>(_ data: T, at docRef: DocumentReference, completion: ((() -> Void)?) = nil) {
         do {
             try docRef.setData(from: data)
+            completion?()
         } catch {
             print("DEBUG: Error encoding \(data.self) data -", error.localizedDescription)
         }

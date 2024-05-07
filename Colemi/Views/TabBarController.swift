@@ -16,6 +16,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidLoad()
         setUpTabs()
         setButton()
+        
         // tabBar.barTintColor = UIColor(hex: "#414141")
         // tabBar.tintColor = UIColor(hex: "#F9F4E8")
         self.delegate = self

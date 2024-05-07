@@ -148,6 +148,7 @@ class LobbyViewController: UIViewController {
         setUpUI()
         addChildVCs()
         
+        
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
     }
     

@@ -14,10 +14,14 @@ import GoogleSignIn
 
 class SignInViewController: UIViewController {
     
+    let signInViewModel = SignInViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUpUI()
+        
+        navigationController?.navigationBar.isHidden = true
     }
     
     private func setUpUI() {
@@ -77,7 +81,9 @@ class SignInViewController: UIViewController {
                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
                 return
             }
-            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self) {
+                self.pushToTabBarController()
+            }
         }
     }
     
@@ -209,7 +215,11 @@ extension SignInViewController {
                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
                 return
             }
-            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+//            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
+            
+            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self) {
+                self.pushToTabBarController()
+            }
         }
     }
     
@@ -223,6 +233,12 @@ extension SignInViewController {
         let uid = user.uid
         let email = user.email
         CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
+    }
+    
+    func pushToTabBarController() {
+        signInViewModel.loginUser()
+        let tabBarController = TabBarController()
+        self.navigationController?.pushViewController(tabBarController, animated: true)
     }
     
     // MARK: - 監聽目前的 Apple ID 的登入狀況

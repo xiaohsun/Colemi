@@ -1,0 +1,95 @@
+//
+//  SignInViewModel.swift
+//  Colemi
+//
+//  Created by 徐柏勳 on 5/7/24.
+//
+
+import Foundation
+import Firebase
+import FirebaseAuth
+
+class SignInViewModel {
+    
+    let userData = UserManager.shared
+    var isCreatedOnce: Bool = false
+    
+    func createUser() {
+        let firestoreManager = FirestoreManager.shared
+        // let docRef = firestoreManager.newDocument(of: FirestoreEndpoint.users.ref)
+        
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        isCreatedOnce = true
+        
+        let user = User(id: userID,
+                        name: "你是誰",
+                        posts: [],
+                        likes: [],
+                        avatarPhoto: "",
+                        friends: [],
+                        description: "",
+                        savedPosts: [],
+                        signUpTime: Timestamp(),
+                        lastestLoginTime: Timestamp(),
+                        colorToday: "",
+                        colorSetToday: [],
+                        chatRooms: [],
+                        followers: [],
+                        following: [],
+                        blocking: [],
+                        beBlocked: []
+        )
+        
+        do {
+            try Firestore.firestore().collection("users").document(userID).setData(from: user) { _ in
+                self.loginUser()
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func loginUser() {
+        Task {
+            await getUserData { [weak self] user in
+                guard let self = self else { return }
+                if let user = user {
+                    DispatchQueue.main.async {
+                        self.userData.avatarPhoto = user.avatarPhoto
+                        self.userData.chatRooms = user.chatRooms
+                        self.userData.description = user.description
+                        self.userData.followers = user.followers
+                        self.userData.following = user.following
+                        self.userData.id = user.id
+                        self.userData.lastestLoginTime = user.lastestLoginTime
+                        self.userData.likes = user.likes
+                        self.userData.name = user.name
+                        self.userData.colorToday = user.colorToday
+                        self.userData.colorSetToday = user.colorSetToday
+                        self.userData.savedPosts = user.savedPosts
+                        self.userData.signUpTime = user.signUpTime
+                        self.userData.posts = user.posts
+                        self.userData.blocking = user.blocking
+                        self.userData.beBlocked = user.beBlocked
+                        print(self.userData.name)
+                    }
+                } else {
+                    if !isCreatedOnce {
+                        createUser()
+                    }
+                }
+            }
+        }
+    }
+    
+    func getUserData(completion: @escaping (User?) -> Void) async {
+        if let userID = Auth.auth().currentUser?.uid {
+            let firestoreManager = FirestoreManager.shared
+            let ref = FirestoreEndpoint.users.ref
+            let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: userID)
+            
+            completion(userData)
+        }
+    }
+    
+}
