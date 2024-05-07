@@ -73,7 +73,7 @@ class PaletteViewController: UIViewController {
     lazy var midColorContainerView: UIView = {
         let view = UIView()
         
-        if let selectedColor = userManager.selectedUIColor {
+        if let selectedColor = UIColor(hex: userManager.colorToday) {
             view.backgroundColor = selectedColor
             
         } else {
@@ -89,7 +89,7 @@ class PaletteViewController: UIViewController {
     lazy var bigColorContainerView: UIView = {
         let view = UIView()
         
-        if let selectedColor = userManager.selectedUIColor {
+        if let selectedColor = UIColor(hex: userManager.colorToday) {
             view.backgroundColor = selectedColor
             
         } else {

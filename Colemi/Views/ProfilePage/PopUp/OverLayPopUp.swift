@@ -77,6 +77,8 @@ class OverLayPopUp: UIViewController {
         containerViewTopCons = containerView.topAnchor.constraint(equalTo: view.bottomAnchor)
         containerViewTopCons?.isActive = true
         
+        containerViewHeight = fromDetailPage ? 120 : 180
+        
         NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -179,7 +181,7 @@ class OverLayPopUp: UIViewController {
 
 extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        2
+        fromDetailPage ? 1 : 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,9 +190,14 @@ extension OverLayPopUp: UITableViewDelegate, UITableViewDataSource {
         //        if fromDetailPage {
         //            cell.label.text = reportTextDetailPage[indexPath.row]
         //        } else {
-        if indexPath.row == 1 {
-            cell.update()
+        if fromDetailPage {
+            return cell
+        } else {
+            if indexPath.row == 1 {
+                cell.update()
+            }
         }
+        
         // }
         
         return cell

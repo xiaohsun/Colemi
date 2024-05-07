@@ -71,10 +71,8 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
+        setCtaLabel()
         
-        if viewModel.userManager.mixColorToday == "" {
-            setCtaLabel()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,6 +84,9 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
 //                self.postsCollectionView.reloadData()
 //            }
 //        }
+        if viewModel.userManager.mixColorToday != "" {
+            ctaLabel.isHidden = true
+        }
         
         
         if userManager.mixColorToday != "" {

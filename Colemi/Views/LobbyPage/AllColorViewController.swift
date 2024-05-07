@@ -194,40 +194,39 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
         setUpUI()
         
         // MARK: For Tests
-        view.addSubview(chooseColorButton)
-        view.addSubview(createUserButton)
-        view.addSubview(loginUser1Button)
-        view.addSubview(loginUser2Button)
-        view.addSubview(signInButton)
-        
-        NSLayoutConstraint.activate([
-            
-            createUserButton.heightAnchor.constraint(equalToConstant: 50),
-            createUserButton.widthAnchor.constraint(equalToConstant: 100),
-            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            
-            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
-            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            
-            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
-            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
-            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            signInButton.heightAnchor.constraint(equalToConstant: 50),
-            signInButton.widthAnchor.constraint(equalToConstant: 100),
-            signInButton.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
-            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
-            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ]
-        )
+//        view.addSubview(chooseColorButton)
+//        view.addSubview(createUserButton)
+//        view.addSubview(loginUser1Button)
+//        view.addSubview(loginUser2Button)
+//        view.addSubview(signInButton)
+//        
+//        NSLayoutConstraint.activate([
+//            
+//            createUserButton.heightAnchor.constraint(equalToConstant: 50),
+//            createUserButton.widthAnchor.constraint(equalToConstant: 100),
+//            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+//            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            
+//            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
+//            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
+//            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+//            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            
+//            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
+//            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
+//            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+//            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            
+//            signInButton.heightAnchor.constraint(equalToConstant: 50),
+//            signInButton.widthAnchor.constraint(equalToConstant: 100),
+//            signInButton.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
+//            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            
+//            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
+//            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
+//            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+//            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+//            ])
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -42,7 +42,7 @@ class WritePostContentViewController: UIViewController {
     
     lazy var colorView: UIView = {
         let view = UIView()
-        view.backgroundColor = userManager.selectedUIColor
+        view.backgroundColor = UIColor(hex: userManager.colorToday)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
@@ -300,9 +300,7 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         let imageHeight = Double(imageSize.height)
         let imageWidth = Double(imageSize.width)
         
-        if let colorString = userManager.selectedHexColor {
-            viewModel.addData(authorId: userManager.id, content: content, type: 0, color: colorString, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
-        }
+        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
