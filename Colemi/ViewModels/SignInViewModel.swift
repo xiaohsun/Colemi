@@ -12,10 +12,12 @@ import FirebaseAuth
 class SignInViewModel {
     
     let userData = UserManager.shared
+    let firestoreManager = FirestoreManager.shared
     var isCreatedOnce: Bool = false
+    let dateFormatter = DateFormatter()
     
     func createUser() {
-        let firestoreManager = FirestoreManager.shared
+        
         // let docRef = firestoreManager.newDocument(of: FirestoreEndpoint.users.ref)
         
         guard let userID = Auth.auth().currentUser?.uid else { return }
@@ -72,6 +74,8 @@ class SignInViewModel {
                         self.userData.blocking = user.blocking
                         self.userData.beBlocked = user.beBlocked
                         print(self.userData.name)
+                        
+                        self.seeIfLastLoginTimeToday()
                     }
                 } else {
                     if !isCreatedOnce {
@@ -84,7 +88,6 @@ class SignInViewModel {
     
     func getUserData(completion: @escaping (User?) -> Void) async {
         if let userID = Auth.auth().currentUser?.uid {
-            let firestoreManager = FirestoreManager.shared
             let ref = FirestoreEndpoint.users.ref
             let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: userID)
             
@@ -92,4 +95,74 @@ class SignInViewModel {
         }
     }
     
+    // 在選完顏色後再改登入時間
+    func updateLoginTime() {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        let ref = FirestoreEndpoint.users.ref
+        
+        firestoreManager.updateDocument(data: [UserProperty.lastestLoginTime.rawValue: Timestamp()], collection: ref, docID: userID)
+    }
+    
+    func seeIfLastLoginTimeToday() {
+        let lastestLoginTime = userData.lastestLoginTime.dateValue()
+        
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        let localTimeString = dateFormatter.string(from: lastestLoginTime)
+        print(localTimeString)
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        
+        if let date = dateFormatter.date(from: localTimeString) {
+            print(date)
+            if isToday(date: date) {
+                if isCreatedOnce {
+                    setRootVCToChooseColor()
+                } else {
+                    updateLoginTime()
+                    setRootVCToTabBarController()
+                }
+                
+            } else {
+                setRootVCToChooseColor()
+            }
+        } else {
+            print("Can't read lastLoginTime")
+        }
+    }
+    
+    func isToday(date: Date) -> Bool {
+        let calendar = Calendar.current
+        return calendar.isDateInToday(date)
+    }
+    
+    func setRootVCToChooseColor() {
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+            return
+        }
+            
+        let chooseColorVC = ChooseColorViewController()
+        
+        UIView.transition(with: sceneDelegate.window!,
+                          duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: {
+            sceneDelegate.window?.rootViewController = chooseColorVC
+        })
+    }
+    
+    func setRootVCToTabBarController() {
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+            return
+        }
+            
+        let tabBarController = TabBarController()
+        
+        UIView.transition(with: sceneDelegate.window!,
+                          duration: 0.3,
+                          options: .transitionCrossDissolve,
+                          animations: {
+            sceneDelegate.window?.rootViewController = tabBarController
+        })
+    }
 }

@@ -72,7 +72,7 @@ class MissionCell: UITableViewCell {
 }
 
 extension MissionCell {
-    func update(color: UIColor) {
-        colorView.backgroundColor = color
+    func update(color: String) {
+        colorView.backgroundColor = UIColor(hex: color)
     }
 }

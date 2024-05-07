@@ -20,14 +20,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        if Auth.auth().currentUser == nil {
-            let loggedInViewController = SignInViewController()
-            let loggedInNavController = UINavigationController(rootViewController: loggedInViewController)
-            window?.rootViewController = loggedInNavController
-        } else {
-            let notLoggedInViewController = TabBarController()
-            window?.rootViewController = notLoggedInViewController
-        }
+//        if Auth.auth().currentUser == nil {
+//            let loggedInViewController = SignInViewController()
+//            let loggedInNavController = UINavigationController(rootViewController: loggedInViewController)
+//            window?.rootViewController = loggedInNavController
+//        } else {
+//            let notLoggedInViewController = TabBarController()
+//            window?.rootViewController = notLoggedInViewController
+//        }
+        let launchViewController = LaunchViewController()
+        window?.rootViewController = launchViewController
         
         // window?.rootViewController = TabBarController()
         window?.makeKeyAndVisible()

@@ -20,8 +20,6 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setUpUI()
-        
-        navigationController?.navigationBar.isHidden = true
     }
     
     private func setUpUI() {
@@ -82,7 +80,8 @@ class SignInViewController: UIViewController {
                 return
             }
             CustomFunc.customAlert(title: "登入成功！", message: "", vc: self) {
-                self.pushToTabBarController()
+                // self.changeRootVC()
+                self.signInViewModel.loginUser()
             }
         }
     }
@@ -215,10 +214,9 @@ extension SignInViewController {
                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
                 return
             }
-//            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self, actionHandler: self.getFirebaseUserInfo)
             
             CustomFunc.customAlert(title: "登入成功！", message: "", vc: self) {
-                self.pushToTabBarController()
+                self.signInViewModel.loginUser()
             }
         }
     }
@@ -235,11 +233,22 @@ extension SignInViewController {
         CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
     }
     
-    func pushToTabBarController() {
-        signInViewModel.loginUser()
-        let tabBarController = TabBarController()
-        self.navigationController?.pushViewController(tabBarController, animated: true)
-    }
+//    func changeRootVC() {
+//        signInViewModel.loginUser()
+//        
+//        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+//            return
+//        }
+//            
+//        let tabBarController = TabBarController()
+//        
+//        UIView.transition(with: sceneDelegate.window!,
+//                          duration: 0.3,
+//                          options: .transitionCrossDissolve,
+//                          animations: {
+//            sceneDelegate.window?.rootViewController = tabBarController
+//        })
+//    }
     
     // MARK: - 監聽目前的 Apple ID 的登入狀況
     // 主動監聽

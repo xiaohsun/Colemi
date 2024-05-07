@@ -128,12 +128,14 @@ class ChooseColorViewController: UIViewController {
             // userData.selectedColor = selectedColor.rgba
             userData.selectedUIColor = selectedColor
             userData.selectedHexColor = selectedColor.toHexString()
-            // doing
             Task {
                 await viewModel.updateUserData(colorToday: userData.selectedHexColor ?? "", colorSetToday: userData.colorSetToday, docID: userData.id)
             }
             
-            navigationController?.popViewController(animated: true)
+            // navigationController?.popViewController(animated: true)
+            let signInViewModel = SignInViewModel()
+            signInViewModel.updateLoginTime()
+            signInViewModel.setRootVCToTabBarController()
         }
     }
     
@@ -169,6 +171,155 @@ class ChooseColorViewController: UIViewController {
         colorView3HeightCons?.isActive = true
     }
     
+    lazy var colorView1 = createColorView()
+    lazy var colorView2 = createColorView()
+    lazy var colorView3 = createColorView()
+    lazy var colorContainerView1 = createColorContainerViews()
+    lazy var colorContainerView2 = createColorContainerViews()
+    lazy var colorContainerView3 = createColorContainerViews()
+    lazy var raindropImageView1 = createRaindropImageView()
+    lazy var raindropImageView2 = createRaindropImageView()
+    lazy var raindropImageView3 = createRaindropImageView()
+    
+    private func setUpUI() {
+        
+        view.backgroundColor = UIColor(hex: "#333333")
+        
+        view.addSubview(chooseColorLabel)
+        view.addSubview(colorContainerView1)
+        view.addSubview(colorContainerView2)
+        view.addSubview(colorContainerView3)
+        view.addSubview(colorView2)
+        view.addSubview(raindropImageView2)
+        view.addSubview(colorView3)
+        view.addSubview(colorView1)
+        view.addSubview(raindropImageView1)
+        view.addSubview(raindropImageView3)
+        view.addSubview(checkIconImageView)
+        
+        commonInitPostion()
+        
+        NSLayoutConstraint.activate([
+            chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            chooseColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
+            
+            colorContainerView1.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            colorContainerView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorContainerView1.widthAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
+            colorContainerView1.heightAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
+            
+            colorContainerView2.topAnchor.constraint(equalTo: colorContainerView1.bottomAnchor, constant: 30),
+            colorContainerView2.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
+            colorContainerView2.widthAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
+            colorContainerView2.heightAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
+            
+            colorContainerView3.topAnchor.constraint(equalTo: colorContainerView2.bottomAnchor, constant: 25),
+            colorContainerView3.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
+            colorContainerView3.widthAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
+            colorContainerView3.heightAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
+            
+            raindropImageView1.heightAnchor.constraint(equalToConstant: 40),
+            raindropImageView1.widthAnchor.constraint(equalToConstant: 40),
+            raindropImageView1.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor, constant: 20),
+            
+            raindropImageView2.heightAnchor.constraint(equalToConstant: 40),
+            raindropImageView2.widthAnchor.constraint(equalToConstant: 40),
+            raindropImageView2.centerXAnchor.constraint(equalTo: colorView2.centerXAnchor, constant: -20),
+            
+            raindropImageView3.heightAnchor.constraint(equalToConstant: 40),
+            raindropImageView3.widthAnchor.constraint(equalToConstant: 40),
+            raindropImageView3.centerXAnchor.constraint(equalTo: colorView3.centerXAnchor, constant: 20),
+            
+            checkIconImageView.heightAnchor.constraint(equalToConstant: 50),
+            checkIconImageView.widthAnchor.constraint(equalToConstant: 50),
+            checkIconImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            checkIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        viewModel.delegate = self
+        
+        locationManager.delegate = self
+        
+        setUpUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // tabBarController?.tabBar.isHidden = true
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        for index in 0..<colorViews.count {
+            colorViews[index].layer.cornerRadius = colorViews[index].frame.width / 2
+            colorContainerViews[index].layer.cornerRadius = colorContainerViews[index].frame.width / 2
+        }
+    }
+}
+
+extension ChooseColorViewController: CLLocationManagerDelegate {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+        locationManager.stopUpdatingLocation()
+        if let location = locations.last {
+            Task.init {
+                await viewModel.currentWeather(for: location)
+            }
+        }
+    }
+}
+
+extension ChooseColorViewController: ChooseColorViewModelDelegate {
+    func passWeatherCondition(_ condition: WeatherCondition) {
+        DispatchQueue.main.async {
+            switch condition {
+            case .partlyCloudy, .cloudy, .clear, .hot, .mostlyCloudy, .mostlyClear, .sunFlurries :
+                self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
+                self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
+                self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
+                self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
+                self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
+                self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
+                self.goodWeather = true
+                // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
+                
+                self.setUpSunnyInitPosition()
+                self.sunnyAnimation()
+                self.userData.colorSetToday = self.colorModel.sunnyColorsHex
+                
+            default:
+                self.colorView1.backgroundColor = self.colorModel.rainColors[2]
+                self.colorView2.backgroundColor = self.colorModel.rainColors[0]
+                self.colorView3.backgroundColor = self.colorModel.rainColors[1]
+                self.colorContainerView1.backgroundColor = self.colorModel.rainColors[2]
+                self.colorContainerView2.backgroundColor = self.colorModel.rainColors[0]
+                self.colorContainerView3.backgroundColor = self.colorModel.rainColors[1]
+                self.goodWeather = false
+                // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
+                self.raindropImageView1.tintColor = self.colorModel.rainColors[2]
+                self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
+                self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
+                
+                self.setUpRainInitPosition()
+                self.rainAnimation()
+                self.userData.colorSetToday = self.colorModel.rainColorsHex
+            }
+        }
+    }
+}
+
+// MARK: - Animation
+
+extension ChooseColorViewController {
     // 晴天最初的位置
     private func setUpSunnyInitPosition() {
         view.addSubview(auraImageView)
@@ -385,151 +536,6 @@ class ChooseColorViewController: UIViewController {
                         }
                     }
                 }
-            }
-        }
-    }
-    
-    lazy var colorView1 = createColorView()
-    lazy var colorView2 = createColorView()
-    lazy var colorView3 = createColorView()
-    lazy var colorContainerView1 = createColorContainerViews()
-    lazy var colorContainerView2 = createColorContainerViews()
-    lazy var colorContainerView3 = createColorContainerViews()
-    lazy var raindropImageView1 = createRaindropImageView()
-    lazy var raindropImageView2 = createRaindropImageView()
-    lazy var raindropImageView3 = createRaindropImageView()
-    
-    private func setUpUI() {
-        
-        view.backgroundColor = UIColor(hex: "#333333")
-        
-        view.addSubview(chooseColorLabel)
-        view.addSubview(colorContainerView1)
-        view.addSubview(colorContainerView2)
-        view.addSubview(colorContainerView3)
-        view.addSubview(colorView2)
-        view.addSubview(raindropImageView2)
-        view.addSubview(colorView3)
-        view.addSubview(colorView1)
-        view.addSubview(raindropImageView1)
-        view.addSubview(raindropImageView3)
-        view.addSubview(checkIconImageView)
-        
-        commonInitPostion()
-        
-        NSLayoutConstraint.activate([
-            chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            chooseColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
-            
-            colorContainerView1.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
-            colorContainerView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorContainerView1.widthAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
-            colorContainerView1.heightAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
-            
-            colorContainerView2.topAnchor.constraint(equalTo: colorContainerView1.bottomAnchor, constant: 30),
-            colorContainerView2.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
-            colorContainerView2.widthAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
-            colorContainerView2.heightAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
-            
-            colorContainerView3.topAnchor.constraint(equalTo: colorContainerView2.bottomAnchor, constant: 25),
-            colorContainerView3.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
-            colorContainerView3.widthAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
-            colorContainerView3.heightAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
-            
-            raindropImageView1.heightAnchor.constraint(equalToConstant: 40),
-            raindropImageView1.widthAnchor.constraint(equalToConstant: 40),
-            raindropImageView1.centerXAnchor.constraint(equalTo: colorView1.centerXAnchor, constant: 20),
-            
-            raindropImageView2.heightAnchor.constraint(equalToConstant: 40),
-            raindropImageView2.widthAnchor.constraint(equalToConstant: 40),
-            raindropImageView2.centerXAnchor.constraint(equalTo: colorView2.centerXAnchor, constant: -20),
-            
-            raindropImageView3.heightAnchor.constraint(equalToConstant: 40),
-            raindropImageView3.widthAnchor.constraint(equalToConstant: 40),
-            raindropImageView3.centerXAnchor.constraint(equalTo: colorView3.centerXAnchor, constant: 20),
-            
-            checkIconImageView.heightAnchor.constraint(equalToConstant: 50),
-            checkIconImageView.widthAnchor.constraint(equalToConstant: 50),
-            checkIconImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            checkIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        viewModel.delegate = self
-        
-        locationManager.delegate = self
-        
-        setUpUI()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = true
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        for index in 0..<colorViews.count {
-            colorViews[index].layer.cornerRadius = colorViews[index].frame.width / 2
-            colorContainerViews[index].layer.cornerRadius = colorContainerViews[index].frame.width / 2
-        }
-    }
-}
-
-extension ChooseColorViewController: CLLocationManagerDelegate {
-    func locationManager(
-        _ manager: CLLocationManager,
-        didUpdateLocations locations: [CLLocation]
-    ) {
-        locationManager.stopUpdatingLocation()
-        if let location = locations.last {
-            Task.init {
-                await viewModel.currentWeather(for: location)
-            }
-        }
-    }
-}
-
-extension ChooseColorViewController: ChooseColorViewModelDelegate {
-    func passWeatherCondition(_ condition: WeatherCondition) {
-        DispatchQueue.main.async {
-            switch condition {
-            case .partlyCloudy, .cloudy, .clear, .hot, .mostlyCloudy, .mostlyClear, .sunFlurries :
-                self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
-                self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
-                self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
-                self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
-                self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
-                self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
-                self.goodWeather = true
-                // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
-                
-                self.setUpSunnyInitPosition()
-                self.sunnyAnimation()
-                self.userData.colorSetToday = self.colorModel.sunnyColorsHex
-                
-            default:
-                self.colorView1.backgroundColor = self.colorModel.rainColors[2]
-                self.colorView2.backgroundColor = self.colorModel.rainColors[0]
-                self.colorView3.backgroundColor = self.colorModel.rainColors[1]
-                self.colorContainerView1.backgroundColor = self.colorModel.rainColors[2]
-                self.colorContainerView2.backgroundColor = self.colorModel.rainColors[0]
-                self.colorContainerView3.backgroundColor = self.colorModel.rainColors[1]
-                self.goodWeather = false
-                // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
-                self.raindropImageView1.tintColor = self.colorModel.rainColors[2]
-                self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
-                self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
-                
-                self.setUpRainInitPosition()
-                self.rainAnimation()
-                self.userData.colorSetToday = self.colorModel.rainColorsHex
             }
         }
     }

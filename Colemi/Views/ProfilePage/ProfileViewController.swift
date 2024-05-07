@@ -127,9 +127,8 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
         case 1:
             
-            if let color = userData.selectedUIColor {
-                missionCell.update(color: color)
-            }
+            let colorTodayHex = userData.colorToday
+            missionCell.update(color: colorTodayHex)
             
             return missionCell
             
