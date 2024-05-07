@@ -115,11 +115,13 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
                         self.userManager.colorSetToday = user.colorSetToday
+                        self.userManager.mixColorToday = user.mixColorToday
                         self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
                         self.userManager.blocking = user.blocking
                         self.userManager.beBlocked = user.beBlocked
+                        self.userManager.didUserPostToday = user.didUserPostToday
                         print(self.userManager.name)
                     }
                 }
@@ -153,11 +155,13 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.name = user.name
                         self.userManager.colorToday = user.colorToday
                         self.userManager.colorSetToday = user.colorSetToday
+                        self.userManager.mixColorToday = user.mixColorToday
                         self.userManager.savedPosts = user.savedPosts
                         self.userManager.signUpTime = user.signUpTime
                         self.userManager.posts = user.posts
                         self.userManager.blocking = user.blocking
                         self.userManager.beBlocked = user.beBlocked
+                        self.userManager.didUserPostToday = user.didUserPostToday
                         print(self.userManager.name)
                     }
                 }

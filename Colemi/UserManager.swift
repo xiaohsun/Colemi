@@ -20,16 +20,17 @@ class UserManager {
     var posts: [String] = []
     var likes: [String] = []
     var avatarPhoto = ""
-    var friends: [String] = []
     var description = ""
     var savedPosts: [String] = []
     var signUpTime = Timestamp()
     var lastestLoginTime = Timestamp()
     var colorToday = ""
     var colorSetToday: [String] = []
+    var mixColorToday = ""
     var chatRooms: [SimpleChatRoom] = []
     var followers: [String] = []
     var following: [String] = []
     var blocking: [String] = []
     var beBlocked: [String] = []
+    var didUserPostToday: Bool = false
 }

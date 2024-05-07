@@ -26,18 +26,19 @@ class LobbyViewModel {
                         posts: [],
                         likes: [],
                         avatarPhoto: "",
-                        friends: [],
                         description: "",
                         savedPosts: [],
                         signUpTime: Timestamp(),
                         lastestLoginTime: Timestamp(),
                         colorToday: "",
                         colorSetToday: [],
+                        mixColorToday: "",
                         chatRooms: [],
                         followers: [],
                         following: [],
                         blocking: [],
-                        beBlocked: []
+                        beBlocked: [],
+                        didUserPostToday: false
         )
         
         firestoreManager.setData(user, at: docRef)

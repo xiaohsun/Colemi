@@ -24,8 +24,10 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
     lazy var colorImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor(hex: "#54518B")
         imageView.layer.cornerRadius = 5
+        imageView.image = UIImage(systemName: "questionmark")?.withRenderingMode(.alwaysTemplate)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
         return imageView
     }()
     
@@ -61,11 +63,16 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
 //            }
 //        }
         
-        Task.detached {
-            await self.viewModel.getSpecificPosts(colorCode: "#54518B") {
-                DispatchQueue.main.async {
-                    self.postsCollectionView.collectionViewLayout.invalidateLayout()
-                    self.postsCollectionView.reloadData()
+        
+        if userManager.mixColorToday != "" {
+            colorImageView.backgroundColor = UIColor(hex: userManager.mixColorToday)
+            colorImageView.image = nil
+            Task.detached {
+                await self.viewModel.getSpecificPosts(colorCode: self.userManager.mixColorToday) {
+                    DispatchQueue.main.async {
+                        self.postsCollectionView.collectionViewLayout.invalidateLayout()
+                        self.postsCollectionView.reloadData()
+                    }
                 }
             }
         }

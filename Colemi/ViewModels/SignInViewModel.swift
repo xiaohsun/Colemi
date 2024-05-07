@@ -28,18 +28,19 @@ class SignInViewModel {
                         posts: [],
                         likes: [],
                         avatarPhoto: "",
-                        friends: [],
                         description: "",
                         savedPosts: [],
                         signUpTime: Timestamp(),
                         lastestLoginTime: Timestamp(),
                         colorToday: "",
                         colorSetToday: [],
+                        mixColorToday: "",
                         chatRooms: [],
                         followers: [],
                         following: [],
                         blocking: [],
-                        beBlocked: []
+                        beBlocked: [],
+                        didUserPostToday: false
         )
         
         do {
@@ -68,11 +69,13 @@ class SignInViewModel {
                         self.userData.name = user.name
                         self.userData.colorToday = user.colorToday
                         self.userData.colorSetToday = user.colorSetToday
+                        self.userData.mixColorToday = user.mixColorToday
                         self.userData.savedPosts = user.savedPosts
                         self.userData.signUpTime = user.signUpTime
                         self.userData.posts = user.posts
                         self.userData.blocking = user.blocking
                         self.userData.beBlocked = user.beBlocked
+                        self.userData.didUserPostToday = user.didUserPostToday
                         print(self.userData.name)
                         
                         self.seeIfLastLoginTimeToday()
@@ -107,15 +110,16 @@ class SignInViewModel {
     func seeIfLastLoginTimeToday() {
         let lastestLoginTime = userData.lastestLoginTime.dateValue()
         
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = TimeZone.current
-        let localTimeString = dateFormatter.string(from: lastestLoginTime)
-        print(localTimeString)
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        dateFormatter.timeZone = TimeZone.current
+//        let localTimeString = dateFormatter.string(from: lastestLoginTime)
+//        print(localTimeString)
+//        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
         
-        if let date = dateFormatter.date(from: localTimeString) {
-            print(date)
-            if isToday(date: date) {
+        // if let date = dateFormatter.date(from: localTimeString) {
+//        if let lastestLoginTime {
+//            print(date)
+            if isToday(date: lastestLoginTime) {
                 if isCreatedOnce {
                     setRootVCToChooseColor()
                 } else {
@@ -126,14 +130,22 @@ class SignInViewModel {
             } else {
                 setRootVCToChooseColor()
             }
-        } else {
-            print("Can't read lastLoginTime")
-        }
+//        } else {
+//            print("Can't read lastLoginTime")
+//        }
     }
     
+//    func isToday(date: Date) -> Bool {
+//        let calendar = Calendar.current
+//        return calendar.isDateInToday(date)
+//    }
+    
     func isToday(date: Date) -> Bool {
-        let calendar = Calendar.current
-        return calendar.isDateInToday(date)
+        
+        let todayDateString = dateFormatter.string(from: Date())
+        let dateString = dateFormatter.string(from: date)
+        
+        return dateString == todayDateString
     }
     
     func setRootVCToChooseColor() {

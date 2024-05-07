@@ -124,12 +124,13 @@ class ChooseColorViewController: UIViewController {
     }()
     
     @objc private func checkTapped(_ sender: UITapGestureRecognizer) {
-        if let selectedColor = selectedUIColor {
+        if let selectedColorHex = selectedUIColor?.toHexString() {
             // userData.selectedColor = selectedColor.rgba
-            userData.selectedUIColor = selectedColor
-            userData.selectedHexColor = selectedColor.toHexString()
+            userData.colorToday = selectedColorHex
+            // userData.selectedUIColor = selectedColor
+            // userData.selectedHexColor = selectedColor.toHexString()
             Task {
-                await viewModel.updateUserData(colorToday: userData.selectedHexColor ?? "", colorSetToday: userData.colorSetToday, docID: userData.id)
+                await viewModel.updateUserData(colorToday: selectedColorHex, colorSetToday: userData.colorSetToday, docID: userData.id)
             }
             
             // navigationController?.popViewController(animated: true)
