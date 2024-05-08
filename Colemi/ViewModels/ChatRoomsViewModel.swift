@@ -11,6 +11,7 @@ import FirebaseFirestore
 class ChatRoomsViewModel {
     
     let firestoreManager = FirestoreManager.shared
+    let userData = UserManager.shared
     
     func createDetailedChatRoom() {
         let docRef = firestoreManager.newDocument(of: FirestoreEndpoint.chatRooms.ref)
