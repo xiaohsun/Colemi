@@ -15,6 +15,7 @@ class ProfileViewModel {
     //    @Published var isShowingPosts: Bool = false
     //    private var cancellables = Set<AnyCancellable>()
     
+    let firestoreManager = FirestoreManager.shared
     var posts: [Post] = []
     var saves: [Post] = []
     var images: [UIImage] = []
@@ -22,7 +23,7 @@ class ProfileViewModel {
     var mySavesSizes: [CGSize] = []
     var contentJSONString: [String] = []
     var savesContentJSONString: [String] = []
-    let userData = UserManager.shared
+    var userData = UserManager.shared
     
     var otherUserData: User? {
         didSet {
@@ -70,6 +71,17 @@ class ProfileViewModel {
 //        
 //        completion(otherUserFollowers)
 //    }
+    
+    func getUserData(completion: @escaping() -> Void) async {
+        let ref = FirestoreEndpoint.users.ref
+        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: userData.id)
+        
+        if let userData = userData {
+            self.userData.followers = userData.followers
+            self.userData.following = userData.following
+        }
+        completion()
+    }
     
     func getMyPosts(postIDs: [String], completion: @escaping() -> Void) async {
         let firestoreManager = FirestoreManager.shared

@@ -39,6 +39,16 @@ class ChooseColorViewController: UIViewController {
     var raindropView2TopCons: NSLayoutConstraint?
     var raindropView3TopCons: NSLayoutConstraint?
     
+    lazy var tapScreenLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 24)
+        label.textColor = .white
+        label.text = "請點選螢幕"
+        
+        return label
+    }()
+    
     lazy var chooseColorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -155,6 +165,9 @@ class ChooseColorViewController: UIViewController {
     
     @objc private func setSunnyAnimation() {
         view.removeGestureRecognizer(tapGesture)
+        UIView.animate(withDuration: 0.4) {
+            self.tapScreenLabel.alpha = 0
+        }
         setUpSunnyInitPosition()
         sunnyAnimation()
         userData.colorSetToday = colorModel.sunnyColorsHex
@@ -162,6 +175,9 @@ class ChooseColorViewController: UIViewController {
     
     @objc private func setRainyAnimation() {
         view.removeGestureRecognizer(tapGesture)
+        UIView.animate(withDuration: 0.4) {
+            self.tapScreenLabel.alpha = 0
+        }
         setUpRainInitPosition()
         rainAnimation()
         userData.colorSetToday = colorModel.rainColorsHex
@@ -226,7 +242,9 @@ class ChooseColorViewController: UIViewController {
         view.addSubview(raindropImageView1)
         view.addSubview(raindropImageView3)
         
-         view.addSubview(checkIconImageView)
+        view.addSubview(tapScreenLabel)
+        
+        view.addSubview(checkIconImageView)
         
         commonInitPostion()
         
@@ -264,50 +282,53 @@ class ChooseColorViewController: UIViewController {
             checkIconImageView.heightAnchor.constraint(equalToConstant: 50),
             checkIconImageView.widthAnchor.constraint(equalToConstant: 50),
             checkIconImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            checkIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            checkIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            tapScreenLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tapScreenLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
     // 因為 cross 交換 VC 時，這些 view 會莫名跑出來，所以等到點擊螢幕時再加上去
     
-    private func setUpHiddenViews() {
-        view.addSubview(chooseColorLabel)
-        view.addSubview(colorContainerView1)
-        view.addSubview(colorContainerView2)
-        view.addSubview(colorContainerView3)
-        view.addSubview(colorView2)
-        view.addSubview(raindropImageView2)
-        view.addSubview(colorView3)
-        view.addSubview(colorView1)
-        view.addSubview(raindropImageView1)
-        view.addSubview(raindropImageView3)
-        view.addSubview(checkIconImageView)
-        
-        NSLayoutConstraint.activate([
-            chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            chooseColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
-            
-            colorContainerView1.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
-            colorContainerView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorContainerView1.widthAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
-            colorContainerView1.heightAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
-            
-            colorContainerView2.topAnchor.constraint(equalTo: colorContainerView1.bottomAnchor, constant: 30),
-            colorContainerView2.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
-            colorContainerView2.widthAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
-            colorContainerView2.heightAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
-            
-            colorContainerView3.topAnchor.constraint(equalTo: colorContainerView2.bottomAnchor, constant: 25),
-            colorContainerView3.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
-            colorContainerView3.widthAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
-            colorContainerView3.heightAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
-            
-            checkIconImageView.heightAnchor.constraint(equalToConstant: 50),
-            checkIconImageView.widthAnchor.constraint(equalToConstant: 50),
-            checkIconImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            checkIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-    }
+//    private func setUpHiddenViews() {
+//        view.addSubview(chooseColorLabel)
+//        view.addSubview(colorContainerView1)
+//        view.addSubview(colorContainerView2)
+//        view.addSubview(colorContainerView3)
+//        view.addSubview(colorView2)
+//        view.addSubview(raindropImageView2)
+//        view.addSubview(colorView3)
+//        view.addSubview(colorView1)
+//        view.addSubview(raindropImageView1)
+//        view.addSubview(raindropImageView3)
+//        view.addSubview(checkIconImageView)
+//        
+//        NSLayoutConstraint.activate([
+//            chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            chooseColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
+//            
+//            colorContainerView1.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+//            colorContainerView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            colorContainerView1.widthAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
+//            colorContainerView1.heightAnchor.constraint(equalTo: colorView1.widthAnchor, multiplier: 1.2),
+//            
+//            colorContainerView2.topAnchor.constraint(equalTo: colorContainerView1.bottomAnchor, constant: 30),
+//            colorContainerView2.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
+//            colorContainerView2.widthAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
+//            colorContainerView2.heightAnchor.constraint(equalTo: colorView2.widthAnchor, multiplier: 1.2),
+//            
+//            colorContainerView3.topAnchor.constraint(equalTo: colorContainerView2.bottomAnchor, constant: 25),
+//            colorContainerView3.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
+//            colorContainerView3.widthAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
+//            colorContainerView3.heightAnchor.constraint(equalTo: colorView3.widthAnchor, multiplier: 1.2),
+//            
+//            checkIconImageView.heightAnchor.constraint(equalToConstant: 50),
+//            checkIconImageView.widthAnchor.constraint(equalToConstant: 50),
+//            checkIconImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+//            checkIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+//        ])
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -46,6 +46,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(messageLabel)
@@ -68,7 +69,8 @@ class ChatRoomTableViewCell: UITableViewCell {
         ])
     }
     
-    override func layoutSubviews() {
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
     }
     

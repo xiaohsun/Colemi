@@ -62,13 +62,15 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
         contentView.backgroundColor = UIColor(hex: "#F9F4E8")
         
         NSLayoutConstraint.activate([
-            postsButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            postsButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 100),
-            postsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            postsButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            postsButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 5),
+            postsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            postsButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/2),
             
-            savesButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            savesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -100),
-            savesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            savesButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            savesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -5),
+            savesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            savesButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/2)
         ])
     }
     
