@@ -62,6 +62,7 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         deleteAccountCell.delegate = self
+        signOutCell.delegate = self
         contactDeveloperCell.delegate = self
     }
 }
@@ -146,5 +147,11 @@ extension SettingViewController: ContactDeveloperCellDelegate {
 extension SettingViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         dismiss(animated: true)
+    }
+}
+
+extension SettingViewController: SignOutCellDelegate {
+    func presentSignOutAlert(alert: UIAlertController) {
+        present(alert, animated: true)
     }
 }

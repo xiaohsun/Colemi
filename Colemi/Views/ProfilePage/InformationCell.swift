@@ -23,7 +23,7 @@ class InformationCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "勳仔子"
+        label.text = "Hello"
         
         return label
     }()
@@ -34,7 +34,7 @@ class InformationCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "xiaohsun"
+        label.text = ""
         
         return label
     }()
@@ -196,7 +196,8 @@ class InformationCell: UITableViewCell {
 
 extension InformationCell {
     func update(name: String, followers: [String], following: [String], isOthersPage: Bool, avatarUrl: String) {
-        nameLabel.text = name
+        // nameLabel.text = name
+        idLabel.text = name
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
         let url = URL(string: avatarUrl)

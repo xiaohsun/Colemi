@@ -32,9 +32,24 @@ class DeleteAccountCell: UITableViewCell {
         
         alert1.addAction(UIAlertAction(title: "確定", style: .default, handler: { _ in
             Task {
-                await self.authenticationViewModel.deleteAccount { title, content in
+                await self.authenticationViewModel.deleteAccount { title, content, isSuccess in
                     let alert2 = UIAlertController(title: title, message: content, preferredStyle: .alert)
-                    alert2.addAction(UIAlertAction(title: "好的", style: .default))
+                    alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
+                        if isSuccess {
+                            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+                                return
+                            }
+                            
+                            let loggedInViewController = SignInViewController()
+                            
+                            UIView.transition(with: sceneDelegate.window!,
+                                              duration: 0.3,
+                                              options: .transitionCrossDissolve,
+                                              animations: {
+                                sceneDelegate.window?.rootViewController = loggedInViewController
+                            })
+                        }
+                    }))
                     self.delegate?.presentAlert(alert: alert2)
                 }
             }

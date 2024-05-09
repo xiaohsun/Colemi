@@ -16,6 +16,13 @@ class SignInViewController: UIViewController {
     
     let signInViewModel = SignInViewModel()
     
+    lazy var colorImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "ColemiIcon")
+        return imageView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -23,10 +30,16 @@ class SignInViewController: UIViewController {
     }
     
     private func setUpUI() {
+        view.addSubview(colorImageView)
         view.addSubview(signInWithGoogleBtn)
         view.addSubview(signInWithAppleBtn)
         
         NSLayoutConstraint.activate([
+            colorImageView.heightAnchor.constraint(equalToConstant: 100),
+            colorImageView.widthAnchor.constraint(equalTo: colorImageView.heightAnchor),
+            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            
             signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
             signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
             signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
