@@ -123,5 +123,3 @@ extension AvatarEditCell: PHPickerViewControllerDelegate {
 protocol AvatarEditCellDelegate: AnyObject {
     func presentPHPicker(_ pickerVC: PHPickerViewController)
 }
-
-
