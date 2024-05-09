@@ -170,6 +170,7 @@ class WritePostContentViewController: UIViewController {
         //            let imageHeight = image.size.height * image.scale
         //            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: CGSize(width: imageWidth, height: imageHeight))
         //        }
+        arrowIconImageView.isUserInteractionEnabled = false
         
         if let imageData = imageData, let selectedImageSize = selectedImageSize {
             colorSimilarityViewController.selectedImageData = imageData

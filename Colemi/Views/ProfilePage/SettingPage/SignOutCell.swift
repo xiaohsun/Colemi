@@ -10,6 +10,8 @@ import FirebaseAuth
 
 class SignOutCell: UITableViewCell {
     
+    weak var delegate: SignOutCellDelegate?
+    
     lazy var button: UIButton = {
         let button = UIButton()
         button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
@@ -24,15 +26,44 @@ class SignOutCell: UITableViewCell {
     }()
     
     @objc private func signOutButtonTapped() {
-        print(Auth.auth().currentUser)
         let firebaseAuth = Auth.auth()
-        do {
-          try firebaseAuth.signOut()
-            print("SignOut Success")
-            print(Auth.auth().currentUser)
-        } catch let signOutError as NSError {
-          print("Error signing out: %@", signOutError)
-        }
+        
+        let signOutAlert = UIAlertController(title: "登出", message: "確定要登出嗎?", preferredStyle: .alert)
+        let signOutSuccessAlert = UIAlertController(title: "已登出", message: "請重新登入", preferredStyle: .alert)
+        let signOutFailAlert = UIAlertController(title: "已登出", message: "請重新登入", preferredStyle: .alert)
+        
+        signOutAlert.addAction(UIAlertAction(title: "登出", style: .default, handler: { _ in
+            do {
+              try firebaseAuth.signOut()
+                
+                self.delegate?.presentSignOutAlert(alert: signOutSuccessAlert)
+                
+            } catch let signOutError as NSError {
+                
+              print("Error signing out: %@", signOutError)
+                
+                self.delegate?.presentSignOutAlert(alert: signOutFailAlert)
+            }
+        }))
+        
+        signOutSuccessAlert.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in
+            
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+                return
+            }
+            
+            let loggedInViewController = SignInViewController()
+            
+            UIView.transition(with: sceneDelegate.window!,
+                              duration: 0.3,
+                              options: .transitionCrossDissolve,
+                              animations: {
+                sceneDelegate.window?.rootViewController = loggedInViewController
+            })
+        }))
+
+        signOutAlert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        delegate?.presentSignOutAlert(alert: signOutAlert)
     }
     
     private func setUpUI() {
@@ -55,4 +86,8 @@ class SignOutCell: UITableViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
+
+protocol SignOutCellDelegate: AnyObject {
+    func presentSignOutAlert(alert: UIAlertController)
 }

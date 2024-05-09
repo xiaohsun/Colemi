@@ -184,10 +184,10 @@ class ColorSimilarityViewController: UIViewController {
                 colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
                 for colorDistance in colorDistances {
                     
-                    let roundedNumber = (colorDistance * 10).rounded() / 10
                     // let formattedSimilarity = String(format: "%.1f", colorDistance)
-                    if roundedNumber < 100 {
-                        roundedColorSimilarity.append(100 - roundedNumber)
+                    if colorDistance < 100 {
+                        let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
+                        roundedColorSimilarity.append(roundedNumber)
                         colorDistancesString.append(String(roundedNumber))
                         totalBonusCount += (100 - roundedNumber)
                     } else {

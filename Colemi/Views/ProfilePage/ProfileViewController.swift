@@ -11,11 +11,9 @@ import UIKit
 class ProfileViewController: UIViewController {
     
     let viewModel = ProfileViewModel()
-    var userData: UserManager?
     var isOthersPage: Bool = false
     
     var othersID: String?
-    // var otherUserData: User?
     var isShowingPosts: Bool = true
     
     var selectedCell: LobbyPostCell?
@@ -91,8 +89,18 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        userData = UserManager.shared
-        tableView.reloadData()
+        
+        if !isOthersPage {
+            Task {
+                await viewModel.getUserData {
+                    DispatchQueue.main.async {
+                        self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+                    }
+                }
+            }
+        }
+        
+        self.tableView.reloadData()
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
     }
@@ -104,7 +112,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let userData = userData else { return UITableViewCell()}
+        let userData = viewModel.userData
         
         switch indexPath.section {
         case 0:
@@ -127,10 +135,23 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
         case 1:
             
-            let colorTodayHex = userData.colorToday
-            missionCell.update(color: colorTodayHex)
+            if isOthersPage {
+                guard let otherUserData = viewModel.otherUserData else {
+                    print("Error get otherUserData.")
+                    return missionCell
+                }
+                let colorTodayHex = otherUserData.colorToday
+                missionCell.update(color: colorTodayHex)
+                
+                return missionCell
+                
+            } else {
+                let colorTodayHex = userData.colorToday
+                missionCell.update(color: colorTodayHex)
+                
+                return missionCell
+            }
             
-            return missionCell
             
         default:
 

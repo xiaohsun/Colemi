@@ -16,6 +16,26 @@ class SignInViewController: UIViewController {
     
     let signInViewModel = SignInViewModel()
     
+    lazy var colorImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(named: "ColemiIcon")
+        return imageView
+    }()
+    
+//    lazy var button: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Crash", for: .normal)
+//        button.setTitleColor(.black, for: .normal)
+//        button.addTarget(self, action: #selector(crashTapped), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        return button
+//    }()
+//    
+//    @objc func crashTapped() {
+//        fatalError()
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -23,10 +43,22 @@ class SignInViewController: UIViewController {
     }
     
     private func setUpUI() {
+        // view.addSubview(button)
+        view.addSubview(colorImageView)
         view.addSubview(signInWithGoogleBtn)
         view.addSubview(signInWithAppleBtn)
         
         NSLayoutConstraint.activate([
+            colorImageView.heightAnchor.constraint(equalToConstant: 100),
+            colorImageView.widthAnchor.constraint(equalTo: colorImageView.heightAnchor),
+            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            colorImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            
+//            button.heightAnchor.constraint(equalToConstant: 100),
+//            button.widthAnchor.constraint(equalTo: button.heightAnchor),
+//            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            button.topAnchor.constraint(equalTo: colorImageView.bottomAnchor, constant: 50),
+            
             signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
             signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
             signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),

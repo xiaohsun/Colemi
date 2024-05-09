@@ -30,17 +30,23 @@ class ChatCell: UICollectionViewCell {
         var isChattedBefore = false
         var chatRoomID = ""
         
-        for chatRoom in viewModel.userData.chatRooms where chatRoom.receiverID == viewModel.otherUserData?.id {
-            isChattedBefore = true
-            chatRoomID = chatRoom.id
-            break
-        }
-        
-        if !isChattedBefore {
-            viewModel.createDetailedChatRoom()
-            delegate?.pushToChatRoom(chatRoomID: viewModel.chatRoomID)
-        } else {
-            delegate?.pushToChatRoom(chatRoomID: chatRoomID)
+        Task { 
+            await viewModel.getUserData {
+                DispatchQueue.main.async {
+                    for chatRoom in self.viewModel.userData.chatRooms where chatRoom.receiverID == self.viewModel.otherUserData?.id {
+                        isChattedBefore = true
+                        chatRoomID = chatRoom.id
+                        break
+                    }
+                    
+                    if !isChattedBefore {
+                        self.viewModel.createDetailedChatRoom()
+                        self.delegate?.pushToChatRoom(chatRoomID: self.viewModel.chatRoomID)
+                    } else {
+                        self.delegate?.pushToChatRoom(chatRoomID: chatRoomID)
+                    }
+                }
+            }
         }
         
         print("私訊！")
