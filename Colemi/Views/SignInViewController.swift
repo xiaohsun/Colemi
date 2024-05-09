@@ -84,6 +84,13 @@ class SignInViewController: UIViewController {
     
     @objc private func signInWithGoogleBtnTapped() {
         signInWithGoogle()
+        signInWithGoogleBtn.isEnabled = false
+        signInWithGoogleBtn.backgroundColor = .gray
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.signInWithGoogleBtn.isEnabled = true
+            self.signInWithGoogleBtn.backgroundColor = .white
+        }
     }
     
     private func signInWithGoogle() {
@@ -136,6 +143,13 @@ class SignInViewController: UIViewController {
     fileprivate var currentNonce: String?
     
     @objc private func signInWithApple() {
+        
+        signInWithAppleBtn.isEnabled = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.signInWithAppleBtn.isEnabled = true
+        }
+        
         let nonce = randomNonceString()
         currentNonce = nonce
         let appleIDProvider = ASAuthorizationAppleIDProvider()

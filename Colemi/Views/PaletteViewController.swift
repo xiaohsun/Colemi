@@ -362,13 +362,18 @@ class PaletteViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         
-        userDataReadyToSend.color = userManager.colorToday
-        
-        mpc = MPCSession(service: "colemi", identity: "")
-        
-        mpc?.peerConnectedHandler = connectedToPeer
-        mpc?.peerDataHandler = dataReceivedHandler
-        mpc?.peerDisconnectedHandler = disconnectedFromPeer
+        if userManager.mixColorToday == "" {
+            userDataReadyToSend.color = userManager.colorToday
+            
+            mpc = MPCSession(service: "colemi", identity: "")
+            
+            mpc?.peerConnectedHandler = connectedToPeer
+            mpc?.peerDataHandler = dataReceivedHandler
+            mpc?.peerDisconnectedHandler = disconnectedFromPeer
+        } else {
+            findColorLabel.text = "已經混色過囉，明天再來吧"
+            findColorLabel.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -381,10 +386,15 @@ class PaletteViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        animationShouldStop = false
-        containerViewAppearAnimate()
-        mpc?.invalidate()
-        mpc?.start()
+        if userManager.mixColorToday == "" {
+            animationShouldStop = false
+            containerViewAppearAnimate()
+            mpc?.invalidate()
+            mpc?.start()
+        } else {
+            findColorLabel.text = "已經混色過囉，明天再來吧"
+            findColorLabel.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

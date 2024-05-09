@@ -17,6 +17,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         setUpTabs()
         setButton()
         
+        if UserManager.shared.colorSetToday.isEmpty {
+            UserManager.shared.colorSetToday = ["#A6EDED", "#FEFFA8", "#FF8A8A"]
+            if UserManager.shared.mixColorToday == "" {
+                UserManager.shared.colorToday = "#A6EDED"
+            } else {
+                UserManager.shared.colorToday = UserManager.shared.mixColorToday
+            }
+        }
+        
         // tabBar.barTintColor = UIColor(hex: "#414141")
         // tabBar.tintColor = UIColor(hex: "#F9F4E8")
         self.delegate = self
