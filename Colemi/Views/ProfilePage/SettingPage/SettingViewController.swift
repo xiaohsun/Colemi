@@ -7,6 +7,7 @@
 
 import UIKit
 import PhotosUI
+import MessageUI
 
 class SettingViewController: UIViewController {
     
@@ -14,6 +15,7 @@ class SettingViewController: UIViewController {
     let avatarEditCell = AvatarEditCell()
     let signOutCell = SignOutCell()
     let deleteAccountCell = DeleteAccountCell()
+    let contactDeveloperCell = ContactDeveloperCell()
     
     private func setUpNavigationBar() {
         navigationController?.navigationBar.isHidden = false
@@ -60,12 +62,13 @@ class SettingViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         deleteAccountCell.delegate = self
+        contactDeveloperCell.delegate = self
     }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        4
+        5
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -84,6 +87,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if indexPath.row == 3 {
             return deleteAccountCell
+            
+        } else if indexPath.row == 4 {
+            return contactDeveloperCell
+            
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NormalSettingCell.reuseIdentifier, for: indexPath) as? NormalSettingCell else { return UITableViewCell() }
             
@@ -100,6 +107,44 @@ extension SettingViewController: AvatarEditCellDelegate {
 
 extension SettingViewController: DeleteAccountCellDelegate {
     func presentAlert(alert: UIAlertController) {
-        self.present(alert, animated: true)
+        present(alert, animated: true)
+    }
+}
+
+extension SettingViewController: ContactDeveloperCellDelegate {
+    func presentComposeVC() {
+        if MFMailComposeViewController.canSendMail() {
+            let composeVC = MFMailComposeViewController()
+            composeVC.mailComposeDelegate = self
+            composeVC.setToRecipients(["bobbytesting0123@gmail.com"])
+            composeVC.setSubject("Colemi! \(UserManager.shared.name)想回報問題！")
+            composeVC.setMessageBody("""
+                                     ID: \(UserManager.shared.id)
+                                     請描述你所遇到的問題：
+                                     
+                                     
+                                     """, isHTML: false)
+            present(composeVC, animated: true)
+            
+        } else {
+            if let mailURLString = "mailto:\("example@example.com")?subject=\("Example Subject")".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                   let mailURL = URL(string: mailURLString) {
+                    if UIApplication.shared.canOpenURL(mailURL) { //check not needed, but if desired add mailto to LSApplicationQueriesSchemes in Info.plist
+                        view.window?.windowScene?.open(mailURL, options: nil, completionHandler: nil)
+                    } else {
+                        let alert = UIAlertController(title: "歡迎聯繫我", message: "開發者信箱：bobbytesting0123@gmail.com", preferredStyle: .alert)
+                        
+                        alert.addAction(UIAlertAction(title: "好的", style: .default))
+                        
+                        present(alert, animated: true, completion: nil)
+                    }
+                }
+        }
+    }
+}
+
+extension SettingViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true)
     }
 }

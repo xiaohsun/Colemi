@@ -116,6 +116,7 @@
 		2882607C2BE0D77600BE9B52 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2882607B2BE0D77600BE9B52 /* GoogleSignIn */; };
 		2882607E2BE0D77600BE9B52 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2882607D2BE0D77600BE9B52 /* GoogleSignInSwift */; };
 		288260802BE0D85F00BE9B52 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */; };
+		288753D52BEC5DD400EB601F /* ContactDeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */; };
 		28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28966AC12BE099AD0088A526 /* UILabel+Extension.swift */; };
 		289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */; };
 		289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */; };
@@ -230,6 +231,7 @@
 		2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		2880644F2BD156D100FC2EFA /* OtherChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDeveloperCell.swift; sourceTree = "<group>"; };
 		28966AC12BE099AD0088A526 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-B.ttc"; sourceTree = "<group>"; };
 		289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-EL.ttc"; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 				28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */,
 				28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */,
 				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
+				288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */,
 			);
 			path = SettingPage;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
 				287A62FA2BE7551F00E09788 /* FollowViewModel.swift in Sources */,
 				281C65822BCFED73003D2ECE /* AuthorInfoAndTitleCell.swift in Sources */,
+				288753D52BEC5DD400EB601F /* ContactDeveloperCell.swift in Sources */,
 				284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */,
 				287A62E92BE5E0C700E09788 /* SettingViewModel.swift in Sources */,
 				288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */,

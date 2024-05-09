@@ -159,12 +159,15 @@ class ChooseColorViewController: UIViewController {
             tapGesture = UITapGestureRecognizer(target: self, action: #selector(setRainyAnimation))
         }
         
-        view.addGestureRecognizer(tapGesture)
+            view.addGestureRecognizer(tapGesture)
+        
         // setUpHiddenViews()
     }
     
     @objc private func setSunnyAnimation() {
-        view.removeGestureRecognizer(tapGesture)
+        for gesture in view.gestureRecognizers! {
+            view.removeGestureRecognizer(gesture)
+        }
         UIView.animate(withDuration: 0.4) {
             self.tapScreenLabel.alpha = 0
         }
@@ -174,7 +177,9 @@ class ChooseColorViewController: UIViewController {
     }
     
     @objc private func setRainyAnimation() {
-        view.removeGestureRecognizer(tapGesture)
+        for gesture in view.gestureRecognizers! {
+            view.removeGestureRecognizer(gesture)
+        }
         UIView.animate(withDuration: 0.4) {
             self.tapScreenLabel.alpha = 0
         }
@@ -343,7 +348,7 @@ class ChooseColorViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // tabBarController?.tabBar.isHidden = true
-        locationManager.requestAlwaysAuthorization()
+        // locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
@@ -638,7 +643,7 @@ extension ChooseColorViewController {
                                 self.checkIconImageView.alpha = 1
                             }
                             self.checkIconImageView.isUserInteractionEnabled = true
-                            
+                            // self.view.isUserInteractionEnabled = true
                             for colorView in self.colorViews {
                                 colorView.isUserInteractionEnabled = true
                             }
