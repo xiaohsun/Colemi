@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
 
 class ChatRoomViewModel {
     
@@ -18,6 +19,7 @@ class ChatRoomViewModel {
     var timestamp: Timestamp?
     let userData = UserManager.shared
     var imageData: Data?
+    var imageSize: CGSize?
     // var otherUserAvatarImage: UIImage?
     
     var chatRoomID: String = "" {
@@ -74,7 +76,7 @@ class ChatRoomViewModel {
     
     // 必須先有 user
     // doing
-    func updateUsersSimpleChatRoom(latestMessage: String) async {
+    func updateUsersSimpleChatRoom(latestMessage: String, type: Int) async {
         let ref = FirestoreEndpoint.users.ref
         
         timestamp = Timestamp()
@@ -84,7 +86,7 @@ class ChatRoomViewModel {
         guard let chatRoomData = chatRoomData, let myUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userOneID), var simpleChatRoomArray = myUserData?.chatRooms else { return }
         
         if let index = simpleChatRoomArray.firstIndex(where: { $0.id == chatRoomID }) {
-            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, latestMessageType: 0, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
+            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, latestMessageType: type, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
             
             simpleChatRoomArray.remove(at: index)
             
@@ -97,7 +99,7 @@ class ChatRoomViewModel {
         guard let otherUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userTwoID), var simpleChatRoomArray = otherUserData?.chatRooms else { return }
         
         if let index = simpleChatRoomArray.firstIndex(where: { $0.id == chatRoomID }) {
-            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, latestMessageType: 0, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
+            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, latestMessageType: type, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
             
             simpleChatRoomArray.remove(at: index)
             
@@ -107,21 +109,61 @@ class ChatRoomViewModel {
         }
         
         Task {
-            await updateDetailedChatRoom(latestMessage: latestMessage)
+            await updateDetailedChatRoom(latestMessage: latestMessage, type: type)
         }
     }
     
-    private func updateDetailedChatRoom(latestMessage: String) async {
+    private func updateDetailedChatRoom(latestMessage: String, type: Int) async {
         let ref = FirestoreEndpoint.chatRooms.ref
         
         guard let timestamp = timestamp else { return }
         
-        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: userData.id, body: latestMessage, time: timestamp, type: 0))
+        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: userData.id, body: latestMessage, time: timestamp, type: type))
         
         firestoreManager.updateDocument(data: [DetailedChatRoomProperty.messages.rawValue: messages], collection: ref, docID: chatRoomID)
         
         delegate?.updateTableView()
     }
+    
+    // doing
+    
+    func uploadImgToFirebase(imageData: Data, imageSize: CGSize) {
+       
+        let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")
+        
+        storageRef.putData(imageData, metadata: nil) { (metadata, error) in
+            guard let metadata = metadata else {
+                print("Error uploading image: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            // 把 size 存在 firestore
+            
+            storageRef.downloadURL { (downloadURL, error) in
+                if let downloadURL = downloadURL {
+                    print("Image uploaded to: \(downloadURL.absoluteString)")
+                    
+                    Task {
+                        await self.updateUsersSimpleChatRoom(latestMessage: downloadURL.absoluteString, type: 1)
+                    }
+                    
+                } else {
+                    print("Error getting download URL: \(error?.localizedDescription ?? "Unknown error")")
+                }
+            }
+        }
+    }
+    
+//    private func addDataToFireBase(_ imageUrl: String, imageSize: CGSize) {
+//        let imageHeight = Double(imageSize.height)
+//        let imageWidth = Double(imageSize.width)
+//        
+//        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
+//        
+//        colorSimilarityViewController.selectedImage = selectedImage
+//        colorSimilarityViewController.selectedImageURL = imageUrl
+//        
+//        navigationController?.pushViewController(colorSimilarityViewController, animated: true)
+//    }
 }
 
 protocol ChatRoomViewModelDelegate: AnyObject {

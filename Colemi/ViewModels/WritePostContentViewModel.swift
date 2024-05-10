@@ -75,6 +75,7 @@ class WritePostContentViewModel {
         return contentJSON
     }
     
+    // 有兩個地方用到，要改成可複用
     func uploadImgToFirebase(imageData: Data, imageSize: CGSize) {
        
         let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")

@@ -1,5 +1,5 @@
 //
-//  ChatBubbleTableViewCell.swift
+//  MyChatBubbleTableViewCell.swift
 //  Colemi
 //
 //  Created by 徐柏勳 on 4/18/24.
@@ -7,19 +7,9 @@
 
 import UIKit
 
-class OtherChatBubbleTableViewCell: UITableViewCell {
+class MyChatTextBubbleTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = "\(OtherChatBubbleTableViewCell.self)"
-    
-    lazy var avatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
-        
-        return imageView
-    }()
+    static let reuseIdentifier = "\(MyChatTextBubbleTableViewCell.self)"
     
     lazy var messageView: UIView = {
         let view = UIView()
@@ -37,31 +27,23 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "dleqw"
+        label.text = "嗨嗨"
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
         
         return label
     }()
     
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        contentView.addSubview(avatarImageView)
+        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(messageView)
         contentView.addSubview(messageLabel)
-        contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            avatarImageView.widthAnchor.constraint(equalToConstant: 50),
-            avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
-            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            
-            messageView.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 10),
-            messageView.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
-            messageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -100),
+            messageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            messageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 100),
             messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10),
             
             messageLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15),
@@ -71,18 +53,13 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         ])
     }
     
-    override func draw(_ rect: CGRect) {
-        avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-extension OtherChatBubbleTableViewCell {
-    func update(messageData: Message, avatarImage: UIImage) {
+extension MyChatTextBubbleTableViewCell {
+    func update(messageData: Message) {
         messageLabel.text = messageData.body
-        avatarImageView.image = avatarImage
     }
 }
