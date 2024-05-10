@@ -15,6 +15,7 @@ import GoogleSignIn
 class SignInViewController: UIViewController {
     
     let signInViewModel = SignInViewModel()
+    var agreeEULA: Bool = false
     
     lazy var colorImageView: UIImageView = {
         let imageView = UIImageView()
@@ -23,18 +24,34 @@ class SignInViewController: UIViewController {
         return imageView
     }()
     
-//    lazy var button: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Crash", for: .normal)
-//        button.setTitleColor(.black, for: .normal)
-//        button.addTarget(self, action: #selector(crashTapped), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-//    }()
-//    
-//    @objc func crashTapped() {
-//        fatalError()
-//    }
+    lazy var checkImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
+        imageView.backgroundColor = .white
+        imageView.contentMode = .scaleAspectFit
+
+        return imageView
+    }()
+    
+    lazy var EULAButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("使用者條款", for: .normal)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(showEULAPage), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func showEULAPage() {
+        let eulaPopUp = EULAPopUp()
+        eulaPopUp.delegate = self
+        eulaPopUp.fromSignInPage = true
+        eulaPopUp.appear(sender: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +59,15 @@ class SignInViewController: UIViewController {
         setUpUI()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        checkImageView.layer.cornerRadius = checkImageView.frame.width / 2
+    }
+    
     private func setUpUI() {
-        // view.addSubview(button)
+        view.addSubview(checkImageView)
+        
+        view.addSubview(EULAButton)
         view.addSubview(colorImageView)
         view.addSubview(signInWithGoogleBtn)
         view.addSubview(signInWithAppleBtn)
@@ -54,20 +78,23 @@ class SignInViewController: UIViewController {
             colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             
-//            button.heightAnchor.constraint(equalToConstant: 100),
-//            button.widthAnchor.constraint(equalTo: button.heightAnchor),
-//            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            button.topAnchor.constraint(equalTo: colorImageView.bottomAnchor, constant: 50),
+            checkImageView.widthAnchor.constraint(equalToConstant: 20),
+            checkImageView.heightAnchor.constraint(equalTo: checkImageView.widthAnchor),
+            checkImageView.trailingAnchor.constraint(equalTo: EULAButton.leadingAnchor, constant: -10),
+            checkImageView.centerYAnchor.constraint(equalTo: EULAButton.centerYAnchor),
             
-            signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
-            signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
-            signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            EULAButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
+            EULAButton.bottomAnchor.constraint(equalTo: signInWithGoogleBtn.topAnchor, constant: -20),
             
             signInWithGoogleBtn.heightAnchor.constraint(equalToConstant: 50),
             signInWithGoogleBtn.widthAnchor.constraint(equalToConstant: 280),
             signInWithGoogleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithGoogleBtn.bottomAnchor.constraint(equalTo: signInWithAppleBtn.topAnchor, constant: -100)
+            signInWithGoogleBtn.bottomAnchor.constraint(equalTo: signInWithAppleBtn.topAnchor, constant: -30),
+            
+            signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
+            signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
+            signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
         ])
     }
     
@@ -83,13 +110,17 @@ class SignInViewController: UIViewController {
     }()
     
     @objc private func signInWithGoogleBtnTapped() {
-        signInWithGoogle()
-        signInWithGoogleBtn.isEnabled = false
-        signInWithGoogleBtn.backgroundColor = .gray
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.signInWithGoogleBtn.isEnabled = true
-            self.signInWithGoogleBtn.backgroundColor = .white
+        if !agreeEULA {
+            showEULAAlert()
+        } else {
+            signInWithGoogle()
+            signInWithGoogleBtn.isEnabled = false
+            signInWithGoogleBtn.backgroundColor = .gray
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.signInWithGoogleBtn.isEnabled = true
+                self.signInWithGoogleBtn.backgroundColor = .white
+            }
         }
     }
     
@@ -143,24 +174,27 @@ class SignInViewController: UIViewController {
     fileprivate var currentNonce: String?
     
     @objc private func signInWithApple() {
-        
-        signInWithAppleBtn.isEnabled = false
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.signInWithAppleBtn.isEnabled = true
+        if !agreeEULA {
+            showEULAAlert()
+        } else {
+            signInWithAppleBtn.isEnabled = false
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.signInWithAppleBtn.isEnabled = true
+            }
+            
+            let nonce = randomNonceString()
+            currentNonce = nonce
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            request.requestedScopes = [.fullName, .email]
+            request.nonce = sha256(nonce)
+            
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = self
+            authorizationController.performRequests()
         }
-        
-        let nonce = randomNonceString()
-        currentNonce = nonce
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        request.nonce = sha256(nonce)
-        
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
     }
     
     private func randomNonceString(length: Int = 32) -> String {
@@ -339,5 +373,21 @@ class CustomFunc {
         dateFormatter.locale = Locale.ReferenceType.system
         dateFormatter.timeZone = TimeZone.ReferenceType.system
         return dateFormatter.string(from: currectDate)
+    }
+}
+
+extension SignInViewController: EULAPopUpDelegate {
+    func eulaAgreeTapped() {
+        agreeEULA = true
+        
+        checkImageView.image = UIImage(systemName: "checkmark.circle")?.withRenderingMode(.alwaysTemplate)
+        checkImageView.tintColor = ThemeColorProperty.darkColor.getColor()
+        checkImageView.layoutIfNeeded()
+    }
+}
+
+extension SignInViewController {
+    func showEULAAlert() {
+        CustomFunc.customAlert(title: "請同意使用者條款", message: "您必須同意使用者條款才能註冊並使用 Colemi", vc: self, actionHandler: nil)
     }
 }

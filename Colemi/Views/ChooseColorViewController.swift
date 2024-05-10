@@ -61,6 +61,22 @@ class ChooseColorViewController: UIViewController {
         return label
     }()
     
+    lazy var weatherInfoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "info.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.addTarget(self, action: #selector(infoBtnTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.alpha = 0
+        button.imageView?.tintColor = .white
+        return button
+    }()
+    
+    @objc private func infoBtnTapped() {
+        let weatherInfoPopUp = WeatherInfoPopUp()
+        weatherInfoPopUp.modalPresentationStyle = .overCurrentContext
+        weatherInfoPopUp.appear(sender: self)
+    }
+    
     private func createColorView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -236,6 +252,7 @@ class ChooseColorViewController: UIViewController {
         view.backgroundColor = UIColor(hex: "#333333")
         
         view.addSubview(chooseColorLabel)
+        view.addSubview(weatherInfoButton)
         view.addSubview(colorContainerView1)
         view.addSubview(colorContainerView2)
         view.addSubview(colorContainerView3)
@@ -248,7 +265,6 @@ class ChooseColorViewController: UIViewController {
         view.addSubview(raindropImageView3)
         
         view.addSubview(tapScreenLabel)
-        
         view.addSubview(checkIconImageView)
         
         commonInitPostion()
@@ -256,6 +272,11 @@ class ChooseColorViewController: UIViewController {
         NSLayoutConstraint.activate([
             chooseColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             chooseColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 110),
+            
+            weatherInfoButton.leadingAnchor.constraint(equalTo: chooseColorLabel.trailingAnchor, constant: 10),
+            weatherInfoButton.widthAnchor.constraint(equalToConstant: 15),
+            weatherInfoButton.heightAnchor.constraint(equalTo: weatherInfoButton.widthAnchor),
+            weatherInfoButton.centerYAnchor.constraint(equalTo: chooseColorLabel.centerYAnchor),
             
             colorContainerView1.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             colorContainerView1.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -534,6 +555,7 @@ extension ChooseColorViewController {
                                                 UIView.animate(withDuration: 0.6) {
                                                     self.chooseColorLabel.alpha = 1
                                                     self.checkIconImageView.alpha = 1
+                                                    self.weatherInfoButton.alpha = 1
                                                 }
                                                 self.checkIconImageView.isUserInteractionEnabled = true
                                                 
@@ -641,6 +663,7 @@ extension ChooseColorViewController {
                             UIView.animate(withDuration: 0.6) {
                                 self.chooseColorLabel.alpha = 1
                                 self.checkIconImageView.alpha = 1
+                                self.weatherInfoButton.alpha = 1
                             }
                             self.checkIconImageView.isUserInteractionEnabled = true
                             // self.view.isUserInteractionEnabled = true
