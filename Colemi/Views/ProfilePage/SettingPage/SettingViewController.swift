@@ -16,6 +16,7 @@ class SettingViewController: UIViewController {
     let signOutCell = SignOutCell()
     let deleteAccountCell = DeleteAccountCell()
     let contactDeveloperCell = ContactDeveloperCell()
+    let eulaCell = EULACell()
     
     private func setUpNavigationBar() {
         navigationController?.navigationBar.isHidden = false
@@ -64,12 +65,13 @@ class SettingViewController: UIViewController {
         deleteAccountCell.delegate = self
         signOutCell.delegate = self
         contactDeveloperCell.delegate = self
+        eulaCell.delegate = self
     }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        6
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -91,6 +93,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if indexPath.row == 4 {
             return contactDeveloperCell
+            
+        } else if indexPath.row == 5 {
+            return eulaCell
             
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NormalSettingCell.reuseIdentifier, for: indexPath) as? NormalSettingCell else { return UITableViewCell() }
@@ -153,5 +158,12 @@ extension SettingViewController: MFMailComposeViewControllerDelegate {
 extension SettingViewController: SignOutCellDelegate {
     func presentSignOutAlert(alert: UIAlertController) {
         present(alert, animated: true)
+    }
+}
+
+extension SettingViewController: EULACellDelegate {
+    func presentEULAPopUp() {
+        let eulaPopUp = EULAPopUp()
+        eulaPopUp.appear(sender: self)
     }
 }

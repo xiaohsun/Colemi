@@ -42,6 +42,8 @@
 		281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E22BC807C400777F91 /* WritePostContentViewModel.swift */; };
 		281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E42BC91B4700777F91 /* LobbyViewModel.swift */; };
 		281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E62BC9231800777F91 /* ChooseColorViewController.swift */; };
+		2815FE122BEDF10800A2757B /* EULAPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2815FE112BEDF10800A2757B /* EULAPopUp.swift */; };
+		2815FE142BEE0DA700A2757B /* EULACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2815FE132BEE0DA700A2757B /* EULACell.swift */; };
 		2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */; };
 		2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */; };
 		2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7432BDA3C5200434EBF /* MixColorViewController.swift */; };
@@ -160,6 +162,8 @@
 		281240E42BC91B4700777F91 /* LobbyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LobbyViewModel.swift; sourceTree = "<group>"; };
 		281240E62BC9231800777F91 /* ChooseColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorViewController.swift; sourceTree = "<group>"; };
 		281240E82BC9315400777F91 /* Colemi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Colemi.entitlements; sourceTree = "<group>"; };
+		2815FE112BEDF10800A2757B /* EULAPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAPopUp.swift; sourceTree = "<group>"; };
+		2815FE132BEE0DA700A2757B /* EULACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULACell.swift; sourceTree = "<group>"; };
 		2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllColorViewController.swift; sourceTree = "<group>"; };
 		2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorViewController.swift; sourceTree = "<group>"; };
 		2818B7432BDA3C5200434EBF /* MixColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorViewController.swift; sourceTree = "<group>"; };
@@ -313,6 +317,7 @@
 			children = (
 				28B0CD642BE9EF6400485A95 /* LaunchViewController.swift */,
 				28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */,
+				2815FE112BEDF10800A2757B /* EULAPopUp.swift */,
 				28D253152BD62D1600864187 /* TabBarController.swift */,
 				28C69B822BD2638600725BE7 /* LobbyPage */,
 				281C657E2BCFEAB5003D2ECE /* PostDetailPage */,
@@ -444,6 +449,7 @@
 				28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */,
 				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
 				288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */,
+				2815FE132BEE0DA700A2757B /* EULACell.swift */,
 			);
 			path = SettingPage;
 			sourceTree = "<group>";
@@ -731,6 +737,7 @@
 				287A62E02BE4E56B00E09788 /* ChatCell.swift in Sources */,
 				287A62E72BE5314700E09788 /* NormalSettingCell.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
+				2815FE142BEE0DA700A2757B /* EULACell.swift in Sources */,
 				2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */,
 				28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */,
 				287A62DE2BE4C5EF00E09788 /* AllAndMixVCProtocol.swift in Sources */,
@@ -772,6 +779,7 @@
 				2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */,
 				287A62F62BE751BB00E09788 /* FollowViewController.swift in Sources */,
 				281C65862BCFFE29003D2ECE /* TagCell.swift in Sources */,
+				2815FE122BEDF10800A2757B /* EULAPopUp.swift in Sources */,
 				282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */,
 				282343932BCEB5D20040C1CA /* Post.swift in Sources */,
 				28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */,
