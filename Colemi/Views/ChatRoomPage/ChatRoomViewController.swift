@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import PhotosUI
 
 class ChatRoomViewController: UIViewController {
     
     let userData = UserManager.shared
     let viewModel = ChatRoomViewModel()
     let textViewInitHeight: CGFloat = 33
+    // var containerViewTopCons: NSLayoutConstraint?
     var chatTextViewHeightCons: NSLayoutConstraint?
+    var imageViewTopCons: NSLayoutConstraint?
+    var imageViewWidthCons: NSLayoutConstraint?
     // var chatRoomID: String = ""
     
     lazy var tableView: UITableView = {
@@ -41,7 +45,7 @@ class ChatRoomViewController: UIViewController {
         return textView
     }()
     
-    func chatTextViewInit() {
+    private func chatTextViewInit() {
         chatTextView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
         chatTextView.textColor = ThemeColorProperty.darkColor.getColor()
         chatTextView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
@@ -62,6 +66,15 @@ class ChatRoomViewController: UIViewController {
         return button
     }()
     
+    lazy var choosePhotoButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(choosePicButtonTapped), for: .touchUpInside)
+        button.setImage(.photoSquareIcon, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
+    
     @objc private func sendMessageButtonTapped() {
         
         if chatTextView.text != "" {
@@ -76,12 +89,45 @@ class ChatRoomViewController: UIViewController {
             // 更新 Chatroom 內的 messages
     }
     
+    @objc private func choosePicButtonTapped() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    @objc private func sendPicButtonTapped() {
+    }
+    
+    lazy var sendPicLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "傳送圖片"
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.textColor = .white
+        label.alpha = 0
+        
+        return label
+    }()
+    
     lazy var backButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
         button.addTarget(self, action: #selector(popNav), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(.backIcon, for: .normal)
         return button
+    }()
+    
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage()
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
+        
+        return imageView
     }()
     
     private func setUpNavigationBar() {
@@ -101,8 +147,11 @@ class ChatRoomViewController: UIViewController {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(containerView)
+        view.addSubview(imageView)
         containerView.addSubview(chatTextView)
         containerView.addSubview(sendMessageButton)
+        containerView.addSubview(choosePhotoButton)
+        containerView.addSubview(sendPicLabel)
         
         tabBarController?.tabBar.isHidden = true
         setUpNavigationBar()
@@ -111,11 +160,20 @@ class ChatRoomViewController: UIViewController {
         chatTextViewHeightCons = chatTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
         chatTextViewHeightCons?.isActive = true
         
+        imageViewTopCons = imageView.topAnchor.constraint(equalTo: view.bottomAnchor)
+        imageViewTopCons?.isActive = true
+        
+        imageViewWidthCons = imageView.widthAnchor.constraint(equalToConstant: 200)
+        imageViewWidthCons?.isActive = true
+        
+//        containerViewTopCons = containerView.topAnchor.constraint(equalTo: chatTextView.topAnchor, constant: -25)
+//        containerViewTopCons?.isActive = true
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: containerView.topAnchor),
             
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -123,13 +181,24 @@ class ChatRoomViewController: UIViewController {
             containerView.topAnchor.constraint(equalTo: chatTextView.topAnchor, constant: -25),
             
             chatTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
-            chatTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -25),
-            chatTextView.trailingAnchor.constraint(equalTo: sendMessageButton.leadingAnchor, constant: -20),
+            chatTextView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -35),
+            chatTextView.trailingAnchor.constraint(equalTo: choosePhotoButton.leadingAnchor, constant: -20),
             
             sendMessageButton.centerYAnchor.constraint(equalTo: chatTextView.centerYAnchor),
             sendMessageButton.heightAnchor.constraint(equalToConstant: 20),
-            sendMessageButton.widthAnchor.constraint(equalToConstant: 20),
-            sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25)
+            sendMessageButton.widthAnchor.constraint(equalTo: sendMessageButton.heightAnchor),
+            sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+            
+            choosePhotoButton.trailingAnchor.constraint(equalTo: sendMessageButton.leadingAnchor, constant: -20),
+            choosePhotoButton.heightAnchor.constraint(equalToConstant: 20),
+            choosePhotoButton.widthAnchor.constraint(equalTo: choosePhotoButton.heightAnchor),
+            choosePhotoButton.centerYAnchor.constraint(equalTo: sendMessageButton.centerYAnchor),
+            
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            
+            sendPicLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sendPicLabel.centerYAnchor.constraint(equalTo: sendMessageButton.centerYAnchor)
         ])
     }
     
@@ -195,6 +264,42 @@ extension ChatRoomViewController: UITextViewDelegate {
             chatTextView.addLineSpacing()
         } else {
             chatTextViewHeightCons.constant = textViewInitHeight
+        }
+    }
+}
+
+extension ChatRoomViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        if !results.isEmpty {
+            let result = results.first!
+            let itemProvider = result.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
+                    guard let image = image as? UIImage, let self = self else {
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self.imageView.image = image
+                        self.viewModel.imageData = image.jpegData(compressionQuality: 0.6)
+//                        self.selectedImageSize = image.size
+                        let ratio = image.size.height / 200
+                        
+                        self.imageViewWidthCons?.constant = image.size.width / ratio
+                        self.view.layoutIfNeeded()
+                        
+                        self.imageViewTopCons?.constant = -(self.imageView.frame.height + self.containerView.frame.height + 25)
+                        
+                        UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                            self.chatTextView.alpha = 0
+                            self.choosePhotoButton.alpha = 0
+                            self.sendPicLabel.alpha = 1
+                            self.view.layoutIfNeeded()
+                        }
+                    }
+                }
+            }
         }
     }
 }

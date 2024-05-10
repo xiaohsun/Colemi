@@ -81,7 +81,11 @@ class ChatRoomTableViewCell: UITableViewCell {
 
 extension ChatRoomTableViewCell {
     func update(simpleChatRoomData: SimpleChatRoom) {
-        messageLabel.text = simpleChatRoomData.latestMessage
+        if simpleChatRoomData.latestMessageType == 0 {
+            messageLabel.text = simpleChatRoomData.latestMessage
+        } else {
+            messageLabel.text = "\(simpleChatRoomData.receiverName)傳送了一張圖片"
+        }
         nameLabel.text = simpleChatRoomData.receiverName
         let avatarUrl = URL(string: simpleChatRoomData.receiverAvatarURL)
         avatarImageView.kf.setImage(with: avatarUrl)

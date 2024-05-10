@@ -17,6 +17,7 @@ class ChatRoomViewModel {
     var otherUserAvatarImage: UIImage?
     var timestamp: Timestamp?
     let userData = UserManager.shared
+    var imageData: Data?
     // var otherUserAvatarImage: UIImage?
     
     var chatRoomID: String = "" {
@@ -83,7 +84,7 @@ class ChatRoomViewModel {
         guard let chatRoomData = chatRoomData, let myUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userOneID), var simpleChatRoomArray = myUserData?.chatRooms else { return }
         
         if let index = simpleChatRoomArray.firstIndex(where: { $0.id == chatRoomID }) {
-            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
+            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, latestMessageType: 0, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
             
             simpleChatRoomArray.remove(at: index)
             
@@ -96,7 +97,7 @@ class ChatRoomViewModel {
         guard let otherUserData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: chatRoomData.userTwoID), var simpleChatRoomArray = otherUserData?.chatRooms else { return }
         
         if let index = simpleChatRoomArray.firstIndex(where: { $0.id == chatRoomID }) {
-            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
+            simpleChatRoomArray.append(SimpleChatRoom(id: chatRoomID, receiverAvatarURL: simpleChatRoomArray[index].receiverAvatarURL, latestMessage: latestMessage, latestMessageType: 0, receiverID: simpleChatRoomArray[index].receiverID, receiverName: simpleChatRoomArray[index].receiverName, latestMessageTime: timestamp))
             
             simpleChatRoomArray.remove(at: index)
             
@@ -115,7 +116,7 @@ class ChatRoomViewModel {
         
         guard let timestamp = timestamp else { return }
         
-        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: userData.id, body: latestMessage, time: timestamp))
+        messages.append(Message(id: "\(UUID())\(timestamp.seconds)", senderID: userData.id, body: latestMessage, time: timestamp, type: 0))
         
         firestoreManager.updateDocument(data: [DetailedChatRoomProperty.messages.rawValue: messages], collection: ref, docID: chatRoomID)
         
