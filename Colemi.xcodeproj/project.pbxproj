@@ -44,6 +44,7 @@
 		281240E72BC9231800777F91 /* ChooseColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281240E62BC9231800777F91 /* ChooseColorViewController.swift */; };
 		2815FE122BEDF10800A2757B /* EULAPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2815FE112BEDF10800A2757B /* EULAPopUp.swift */; };
 		2815FE142BEE0DA700A2757B /* EULACell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2815FE132BEE0DA700A2757B /* EULACell.swift */; };
+		2815FE162BEE12C700A2757B /* WeatherInfoPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2815FE152BEE12C700A2757B /* WeatherInfoPopUp.swift */; };
 		2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */; };
 		2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */; };
 		2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7432BDA3C5200434EBF /* MixColorViewController.swift */; };
@@ -164,6 +165,7 @@
 		281240E82BC9315400777F91 /* Colemi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Colemi.entitlements; sourceTree = "<group>"; };
 		2815FE112BEDF10800A2757B /* EULAPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAPopUp.swift; sourceTree = "<group>"; };
 		2815FE132BEE0DA700A2757B /* EULACell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULACell.swift; sourceTree = "<group>"; };
+		2815FE152BEE12C700A2757B /* WeatherInfoPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoPopUp.swift; sourceTree = "<group>"; };
 		2818B73F2BDA3BE700434EBF /* AllColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllColorViewController.swift; sourceTree = "<group>"; };
 		2818B7412BDA3C2900434EBF /* TodayColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorViewController.swift; sourceTree = "<group>"; };
 		2818B7432BDA3C5200434EBF /* MixColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorViewController.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				281C657E2BCFEAB5003D2ECE /* PostDetailPage */,
 				281C65AF2BD0C490003D2ECE /* ProfilePage */,
 				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
+				2815FE152BEE12C700A2757B /* WeatherInfoPopUp.swift */,
 				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
 				281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */,
 				281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */,
@@ -707,6 +710,7 @@
 				2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */,
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
 				288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */,
+				2815FE162BEE12C700A2757B /* WeatherInfoPopUp.swift in Sources */,
 				28564D782BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift in Sources */,
 				28564D7A2BE87CB8003B3FBA /* OverLayPopUpViewModel.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
