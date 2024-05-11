@@ -57,12 +57,12 @@ class OtherChatTextBubbleTableViewCell: UITableViewCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: 35),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
             avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             
             messageView.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 15),
             messageView.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             messageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -100),
-            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10),
+            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15),
             
             messageLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15),
             messageLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -15),

@@ -12,6 +12,7 @@ struct SimpleChatRoom: Codable {
     let id: String
     let receiverAvatarURL: String
     let latestMessage: String
+    let latestMessageSender: String
     let latestMessageType: Int
     let receiverID: String
     let receiverName: String
@@ -22,6 +23,7 @@ enum SimpleChatRoomProperty: String {
     case id
     case receiverAvatarURL
     case latestMessage
+    case latestMessageSender
     case latestMessageType
     case receiverID
     case receiverName

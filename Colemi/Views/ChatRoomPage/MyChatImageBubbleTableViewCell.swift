@@ -56,7 +56,7 @@ class MyChatImageBubbleTableViewCell: UITableViewCell {
             imageMessageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 100),
             imageMessageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             imageMessageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            imageMessageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
+            imageMessageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15)
         ])
     }
     

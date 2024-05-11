@@ -66,7 +66,7 @@ class ChatCellViewModel {
         
         var mySimpleChatRoomArray = userData.chatRooms
         
-        mySimpleChatRoomArray.append(SimpleChatRoom(id: detailedChatRoomID, receiverAvatarURL: otherUserData.avatarPhoto, latestMessage: "", latestMessageType: 0, receiverID: otherUserData.id, receiverName: otherUserData.name, latestMessageTime: Timestamp()))
+        mySimpleChatRoomArray.append(SimpleChatRoom(id: detailedChatRoomID, receiverAvatarURL: otherUserData.avatarPhoto, latestMessage: "", latestMessageSender: userData.id, latestMessageType: 0, receiverID: otherUserData.id, receiverName: otherUserData.name, latestMessageTime: Timestamp()))
         
         firestoreManager.updateDocument(data: [UserProperty.chatRooms.rawValue: mySimpleChatRoomArray], collection: ref, docID: userData.id)
         
@@ -74,7 +74,7 @@ class ChatCellViewModel {
         
         var othersSimpleChatRoomArray = otherUserData.chatRooms
         
-        othersSimpleChatRoomArray.append(SimpleChatRoom(id: detailedChatRoomID, receiverAvatarURL: userData.avatarPhoto, latestMessage: "", latestMessageType: 0, receiverID: userData.id, receiverName: userData.name, latestMessageTime: Timestamp()))
+        othersSimpleChatRoomArray.append(SimpleChatRoom(id: detailedChatRoomID, receiverAvatarURL: userData.avatarPhoto, latestMessage: "", latestMessageSender: userData.id, latestMessageType: 0, receiverID: userData.id, receiverName: userData.name, latestMessageTime: Timestamp()))
         
         firestoreManager.updateDocument(data: [UserProperty.chatRooms.rawValue: othersSimpleChatRoomArray], collection: ref, docID: otherUserData.id)
     }

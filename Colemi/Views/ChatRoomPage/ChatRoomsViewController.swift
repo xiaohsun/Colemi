@@ -9,7 +9,7 @@ import UIKit
 
 class ChatRoomsViewController: UIViewController {
     
-    var userData: UserManager?
+    // var userData: UserManager?
     let viewModel = ChatRoomsViewModel()
     
 //    lazy var createChatRoomButton: UIButton = {
@@ -62,24 +62,27 @@ class ChatRoomsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        
+        viewModel.getSimpleChatRoomDataRealTime {
+            self.tableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        userData = UserManager.shared
-        tableView.reloadData()
+//        userData = UserManager.shared
+//        tableView.reloadData()
         tabBarController?.tabBar.isHidden = false
     }
 }
 
 extension ChatRoomsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let userData = userData else { return 0 }
-        return userData.chatRooms.count
+        return viewModel.userData.chatRooms.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let userData = userData else { return }
+        let userData = viewModel.userData
         let cell = tableView.cellForRow(at: indexPath) as? ChatRoomTableViewCell
         let chatRoomViewController = ChatRoomViewController()
         let simpleChatRoom = userData.chatRooms[indexPath.item]
@@ -92,7 +95,8 @@ extension ChatRoomsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let userData = userData, let cell = tableView.dequeueReusableCell(withIdentifier: ChatRoomTableViewCell.reuseIdentifier, for: indexPath) as? ChatRoomTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatRoomTableViewCell.reuseIdentifier, for: indexPath) as? ChatRoomTableViewCell else { return UITableViewCell() }
+        let userData = viewModel.userData
         
         cell.update(simpleChatRoomData: userData.chatRooms[indexPath.item])
         

@@ -42,9 +42,9 @@ class MyChatTextBubbleTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             messageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             messageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 100),
-            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10),
+            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15),
             
             messageLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15),
             messageLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -15),

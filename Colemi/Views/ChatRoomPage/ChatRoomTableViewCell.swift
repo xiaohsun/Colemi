@@ -35,7 +35,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "你真是太棒了"
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_L.rawValue, size: 18)
@@ -63,7 +63,7 @@ class ChatRoomTableViewCell: UITableViewCell {
             nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -100),
             
             messageLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -150),
+            messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -50),
             messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             messageLabel.bottomAnchor.constraint(equalTo: avatarImageView.bottomAnchor)
         ])
@@ -84,7 +84,11 @@ extension ChatRoomTableViewCell {
         if simpleChatRoomData.latestMessageType == 0 {
             messageLabel.text = simpleChatRoomData.latestMessage
         } else {
-            messageLabel.text = "\(simpleChatRoomData.receiverName)傳送了一張圖片"
+            if simpleChatRoomData.latestMessageSender == UserManager.shared.id {
+                messageLabel.text = "你傳送了一張圖片"
+            } else {
+                messageLabel.text = "\(simpleChatRoomData.receiverName)傳送了一張圖片"
+            }
         }
         nameLabel.text = simpleChatRoomData.receiverName
         let avatarUrl = URL(string: simpleChatRoomData.receiverAvatarURL)

@@ -19,6 +19,7 @@ class ChatRoomViewController: UIViewController {
     var imageViewWidthCons: NSLayoutConstraint?
     // var chatRoomID: String = ""
     var isSendingImage = false
+    var tappedImageView: UIImageView?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -35,6 +36,8 @@ class ChatRoomViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        tableView.showsVerticalScrollIndicator = false
+        
         return tableView
     }()
     
@@ -88,6 +91,7 @@ class ChatRoomViewController: UIViewController {
                     await viewModel.updateUsersSimpleChatRoom(latestMessage: chatTextView.text, type: 0)
                     DispatchQueue.main.async {
                         self.chatTextView.text = ""
+                        self.view.endEditing(true)
                     }
                 }
             }
@@ -100,6 +104,7 @@ class ChatRoomViewController: UIViewController {
             DispatchQueue.main.async {
                 self.isSendingImage = false
                 self.imageViewTopCons?.constant = 0
+                self.view.endEditing(true)
                 
                 UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                     self.chatTextView.alpha = 1
@@ -124,6 +129,7 @@ class ChatRoomViewController: UIViewController {
         picker.delegate = self
         present(picker, animated: true)
     }
+    
     lazy var sendPicLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -287,12 +293,31 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? MyChatImageBubbleTableViewCell {
+            let imageDetailViewController = ImageDetailViewController()
+            tappedImageView = cell.imageMessageView
+            
+            imageDetailViewController.modalPresentationStyle = .custom
+            imageDetailViewController.transitioningDelegate = self
+            self.present(imageDetailViewController, animated: true)
+            
+        }
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? OtherChatImageBubbleTableViewCell {
+            let imageDetailViewController = ImageDetailViewController()
+            tappedImageView = cell.imageMessageView
+        }
+    }
 }
 
 extension ChatRoomViewController: ChatRoomViewModelDelegate {
     func updateTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
+            let indexPath = IndexPath(row: self.viewModel.messages.count - 1, section: 0)
+            self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
 }

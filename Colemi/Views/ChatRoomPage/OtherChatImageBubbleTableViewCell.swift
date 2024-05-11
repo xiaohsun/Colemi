@@ -68,12 +68,12 @@ class OtherChatImageBubbleTableViewCell: UITableViewCell {
             avatarImageView.widthAnchor.constraint(equalToConstant: 35),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
             avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             
             imageMessageView.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 15),
             imageMessageView.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             imageMessageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -50),
-            imageMessageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10)
+            imageMessageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15)
         ])
     }
     
@@ -89,7 +89,7 @@ class OtherChatImageBubbleTableViewCell: UITableViewCell {
 extension OtherChatImageBubbleTableViewCell {
     func update(messageData: Message, avatarImage: UIImage) {
         let url = URL(string: messageData.body)
-        
+        avatarImageView.image = avatarImage
         KingfisherManager.shared.retrieveImage(with: url!) { result in
             switch result {
             case .success(let value):

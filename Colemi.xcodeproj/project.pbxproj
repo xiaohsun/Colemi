@@ -91,6 +91,8 @@
 		28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */; };
 		28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */; };
 		28564D802BE913C6003B3FBA /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */; };
+		2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */; };
+		2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */; };
 		287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */; };
 		287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */; };
 		287A62D42BE3E21800E09788 /* TodayColorVCProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */; };
@@ -213,6 +215,8 @@
 		28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutCell.swift; sourceTree = "<group>"; };
 		28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
 		28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCPopAnimator.swift; sourceTree = "<group>"; };
+		2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
 		287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCPopAnimator.swift; sourceTree = "<group>"; };
 		287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCDismissAnimator.swift; sourceTree = "<group>"; };
 		287A62D32BE3E21800E09788 /* TodayColorVCProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCProtocol.swift; sourceTree = "<group>"; };
@@ -414,6 +418,7 @@
 				287A62CD2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift */,
 				287A62D92BE4915900E09788 /* ProfileVCPopAnimator.swift */,
 				287A62DB2BE4917E00E09788 /* ProfileVCDismissAnimator.swift */,
+				2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -492,6 +497,7 @@
 				2815616F2BEE6CF300C98859 /* MyChatImageBubbleTableViewCell.swift */,
 				2880644F2BD156D100FC2EFA /* OtherChatTextBubbleTableViewCell.swift */,
 				281561712BEE721300C98859 /* OtherChatImageBubbleTableViewCell.swift */,
+				2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */,
 			);
 			path = ChatRoomPage;
 			sourceTree = "<group>";
@@ -722,6 +728,7 @@
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
+				2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */,
 				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
 				287A62F42BE690E200E09788 /* OverLayPopUpCell.swift in Sources */,
 				287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */,
@@ -776,6 +783,7 @@
 				287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */,
 				289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
+				2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */,
 				281561702BEE6CF300C98859 /* MyChatImageBubbleTableViewCell.swift in Sources */,
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
