@@ -74,10 +74,6 @@ class FirstColorViewController: UIViewController, TodayColorVCProtocol {
 //            }
 //        }
 //    }
-    
-    override func viewIsAppearing(_ animated: Bool) {
-        print("hahaha, this is viewIsAppearing")
-    }
 }
 
 // MARK: - UICollectionViewDataSource

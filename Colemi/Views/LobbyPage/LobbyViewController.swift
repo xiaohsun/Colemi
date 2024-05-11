@@ -15,6 +15,7 @@ class LobbyViewController: UIViewController {
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
+    var bottomLabels: [UILabel] = []
     var buttonWidth: CGFloat = 80
     var buttonHeight: CGFloat = 25
     
@@ -55,6 +56,16 @@ class LobbyViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    func makeBottomLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "滑到底囉～！"
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        
+        return label
+    }
     
     @objc private func buttonTapped(_ sender: UIButton) {
         for button in buttons {
@@ -99,7 +110,17 @@ class LobbyViewController: UIViewController {
         
         for (index, childVC) in children.enumerated() {
             childVC.view.frame = CGRect(x: CGFloat(index) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            bottomLabels.append(makeBottomLabel())
             scrollView.addSubview(childVC.view)
+            
+            if index != 1 {
+                scrollView.addSubview(bottomLabels[index])
+                NSLayoutConstraint.activate([
+                    bottomLabels[index].topAnchor.constraint(equalTo: childVC.view.bottomAnchor, constant: 80),
+                    bottomLabels[index].centerXAnchor.constraint(equalTo: childVC.view.centerXAnchor)
+                ])
+            }
+            
             childVC.didMove(toParent: self)
         }
     }
@@ -136,7 +157,7 @@ class LobbyViewController: UIViewController {
             buttonThree.topAnchor.constraint(equalTo: buttonTwo.topAnchor),
             
             scrollView.topAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: 30),
-            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
@@ -167,7 +188,7 @@ extension LobbyViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView.contentOffset.y != 0 {
-                scrollView.contentOffset.y = 0
+                // scrollView.contentOffset.y = 0
         } else {
             let pageWidth = scrollView.bounds.width
             let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
@@ -179,6 +200,12 @@ extension LobbyViewController: UIScrollViewDelegate {
         }
     }
     
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+//        UIView.animate(withDuration: 0.1) {
+//            self.scrollView.contentOffset.y = 0
+//        }
+    }
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.bounds.width
         let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
@@ -188,5 +215,13 @@ extension LobbyViewController: UIScrollViewDelegate {
         }
         
         buttons[currentPage].isSelected = true
+        
+//        UIView.animate(withDuration: 0.2) {
+//            self.scrollView.contentOffset.y = 0
+//        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+            self.scrollView.contentOffset.y = 0
+        }
     }
 }

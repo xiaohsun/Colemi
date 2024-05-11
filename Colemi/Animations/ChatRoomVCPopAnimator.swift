@@ -11,13 +11,6 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
     
     private let duration: TimeInterval = 0.25
     
-//    var fromVC: ChatRoomViewController
-//    
-//    init(fromVC: ChatRoomViewController) {
-//        self.fromVC = fromVC
-//        super.init()
-//    }
-    
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         duration
     }
@@ -46,8 +39,7 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
         let ratio = (imageView.image?.size.width)! / fromVC.view.frame.width
         toVC.imageViewHeightCons?.constant = (imageView.image?.size.height)! / ratio
         
-        containerView.insertSubview(toVC.view, belowSubview: fromNav.view)
-        // containerView.addSubview(toVC.view)
+        containerView.addSubview(toVC.view)
         containerView.addSubview(snapShotView)
         
         toVC.view.layoutIfNeeded()

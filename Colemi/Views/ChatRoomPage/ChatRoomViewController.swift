@@ -241,6 +241,7 @@ class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         viewModel.delegate = self
+        // navigationController?.delegate = self
         viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
     }
 }
@@ -258,8 +259,8 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatTextBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatTextBubbleTableViewCell else { return UITableViewCell() }
                 
                 cell.update(messageData: viewModel.messages[indexPath.item])
-                cell.layoutSubviews()
-                cell.layoutIfNeeded()
+                //                cell.layoutSubviews()
+                //                cell.layoutIfNeeded()
                 
                 return cell
                 
@@ -267,8 +268,9 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatImageBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatImageBubbleTableViewCell else { return UITableViewCell() }
                 
                 cell.update(messageData: viewModel.messages[indexPath.item])
-                cell.layoutSubviews()
-                cell.layoutIfNeeded()
+                //                cell.layoutSubviews()
+//                cell.delegate = self
+                //                cell.layoutIfNeeded()
                 
                 return cell
             }
@@ -281,8 +283,8 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 else { return UITableViewCell() }
                 
                 cell.update(messageData: viewModel.messages[indexPath.item], avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
-                cell.layoutSubviews()
-                cell.layoutIfNeeded()
+                //                cell.layoutSubviews()
+                //                cell.layoutIfNeeded()
                 
                 return cell
                 
@@ -291,8 +293,10 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 else { return UITableViewCell() }
                 
                 cell.update(messageData: viewModel.messages[indexPath.item], avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
-                cell.layoutSubviews()
-                cell.layoutIfNeeded()
+                //                cell.layoutSubviews()
+                //                cell.layoutIfNeeded()
+                
+//                cell.delegate = self
                 
                 return cell
             }
@@ -308,8 +312,8 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             imageDetailViewController.modalPresentationStyle = .custom
             imageDetailViewController.transitioningDelegate = self
             
-            // navigationController?.present(imageDetailViewController, animated: true)
-            self.present(imageDetailViewController, animated: true)
+            navigationController?.present(imageDetailViewController, animated: true)
+            // self.present(imageDetailViewController, animated: true)
         }
         
         if let cell = tableView.cellForRow(at: indexPath) as? OtherChatImageBubbleTableViewCell {
@@ -320,9 +324,14 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             imageDetailViewController.modalPresentationStyle = .custom
             imageDetailViewController.transitioningDelegate = self
             
-            // self.navigationController?.present(imageDetailViewController, animated: true)
-            self.present(imageDetailViewController, animated: true)
+            navigationController?.present(imageDetailViewController, animated: true)
+            // self.present(imageDetailViewController, animated: true)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.layoutIfNeeded()
+        cell.setNeedsLayout()
     }
 }
 
@@ -403,7 +412,6 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        // popAnimator = ChatRoomVCPopAnimator(fromVC: self)
         popAnimator = ChatRoomVCPopAnimator()
         
         return popAnimator
@@ -417,15 +425,24 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
-//extension ChatRoomViewController: UINavigationControllerDelegate {
-//    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        switch operation {
-//        case .push:
-//            return ChatRoomVCPopAnimator()
-//        case .pop:
-//            return ChatRoomVCDismissAnimator()
-//        default:
-//            return nil
+//extension ChatRoomViewController: MyChatImageBubbleTableViewCellDelegate, OtherChatImageBubbleTableViewCellDelegate {
+//    func updateTableView1(cell: UITableViewCell) {
+//        UIView.performWithoutAnimation {
+//            tableView.beginUpdates()
+//            if let indexPath = tableView.indexPath(for: cell) {
+//                tableView.reloadRows(at: [indexPath], with: .none)
+//            }
+//            tableView.endUpdates()
+//        }
+//    }
+//    
+//    func updateTableView2(cell: UITableViewCell) {
+//        UIView.performWithoutAnimation {
+//            tableView.beginUpdates()
+//            if let indexPath = tableView.indexPath(for: cell) {
+//                tableView.reloadRows(at: [indexPath], with: .none)
+//            }
+//            tableView.endUpdates()
 //        }
 //    }
 //}

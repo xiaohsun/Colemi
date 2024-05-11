@@ -41,17 +41,6 @@ class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
         setUpUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-//        viewModel.readData {
-//            DispatchQueue.main.async {
-//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                self.postsCollectionView.reloadData()
-//            }
-//        }
-    }
-    
     func loadData() {
         if !loadedBefore {
             Task.detached {

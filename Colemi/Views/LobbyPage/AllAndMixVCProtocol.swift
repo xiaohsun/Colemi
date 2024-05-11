@@ -40,7 +40,7 @@ extension AllAndMixVCProtocol {
             
             postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
             postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            postsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
         ])
     }
