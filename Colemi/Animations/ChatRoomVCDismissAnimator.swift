@@ -9,6 +9,13 @@ import UIKit
 
 final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
+    var toNav: UINavigationController
+    
+    init(toNav: UINavigationController) {
+        self.toNav = toNav
+        super.init()
+    }
+    
     private let duration: TimeInterval = 0.25
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -20,8 +27,8 @@ final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         let containerView = transitionContext.containerView
         guard
               let fromVC = transitionContext.viewController(forKey: .from) as? ImageDetailViewController,
-              let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
-              let toNav = tabBarController.chatRoomsNavController,
+              // let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
+              // let toNav = tabBarController.chatRoomsNavController,
               let toVC = toNav.topViewController as? ChatRoomViewController,
               let cell = toVC.tappedCell,
               let tappedImageView = toVC.tappedImageView

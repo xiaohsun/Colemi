@@ -18,6 +18,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         setUpTabs()
         setButton()
         
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        
         if UserManager.shared.colorSetToday.isEmpty {
             UserManager.shared.colorSetToday = ["#A6EDED", "#FEFFA8", "#FF8A8A"]
             if UserManager.shared.mixColorToday == "" {

@@ -10,9 +10,11 @@ import UIKit
 final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     var fromVC: ProfileViewController
+    var isFromDetailPage: Bool
     
-    init(fromVC: ProfileViewController) {
+    init(fromVC: ProfileViewController, isFromDetailPage: Bool) {
         self.fromVC = fromVC
+        self.isFromDetailPage = isFromDetailPage
         super.init()
     }
     
@@ -48,23 +50,34 @@ final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitionin
         toVC.tableView.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
-            guard let headerView = toVC.headerView else { return }
+            // guard let headerView = toVC.headerView else { return }
+            let headerView = toVC.headerView
             snapShotView.frame = headerView.photoImageView.frame
-            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
-            //fromVC.view.alpha = 0
+            snapShotView.frame.origin.y += 60
             // tabBarController.tabBar.alpha = 0
+            
+            if !self.isFromDetailPage {
+                guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController else { return }
+                tabBarController.tabBar.alpha = 0
+                self.fromVC.view.alpha = 0
+            }
             
         } completion: { _ in
             guard let selectedImageView = self.fromVC.selectedImageView else { return }
             cell.isHidden = false
             
             toVC.view.alpha = 1
-            // fromVC.view.alpha = 1
             // tabBarController.tabBar.alpha = 1
             selectedImageView.isHidden = false
             // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)
+            
+            if !self.isFromDetailPage {
+                guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController else { return }
+                tabBarController.tabBar.alpha = 1
+                self.fromVC.view.alpha = 1
+            }
         }
     }
 }

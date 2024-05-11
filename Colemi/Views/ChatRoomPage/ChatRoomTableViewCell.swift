@@ -38,7 +38,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         label.numberOfLines = 1
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "你真是太棒了"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_L.rawValue, size: 18)
+        label.font = UIFont(name: FontProperty.GenSenRoundedTW_L.rawValue, size: 16)
         
         return label
     }()

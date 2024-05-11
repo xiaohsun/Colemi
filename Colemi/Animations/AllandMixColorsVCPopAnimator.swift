@@ -86,8 +86,11 @@ final class AllandMixColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTran
         toVC.tableView.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
-            snapShotView.frame = toVC.headerView!.photoImageView.frame
-            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
+            snapShotView.frame = toVC.headerView.photoImageView.frame
+//            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
+            
+            snapShotView.frame.origin.y += 60
+//            snapShotView.frame = toVC.headerView.convert(toVC.headerView.photoImageView.frame, to: toVC.view)
             fromVC.view.alpha = 0
             tabBarController.tabBar.alpha = 0
             

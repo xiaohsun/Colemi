@@ -45,9 +45,11 @@ final class TodayColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTrans
         }
         
         guard let toVC = toVC,
-              let cell = toVC.selectedCell,
-              let fromVCHeader = fromVC.headerView
+              let cell = toVC.selectedCell
+              
         else { return }
+        
+        let fromVCHeader = fromVC.headerView
         
         fromVC.view.isHidden = true
         
@@ -56,7 +58,7 @@ final class TodayColorVCDismissAnimator: NSObject, UIViewControllerAnimatedTrans
         
         var frame = fromVCHeader.photoImageView.frame
         frame.origin.x += fromVC.xPosition
-        frame.origin.y += fromVC.view.safeAreaLayoutGuide.layoutFrame.origin.y + fromVC.yPosition
+        frame.origin.y += 60 + fromVC.yPosition
         snapShotView.frame = frame
         
         containerView.addSubview(snapShotView)

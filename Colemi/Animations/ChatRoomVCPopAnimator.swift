@@ -9,6 +9,13 @@ import UIKit
 
 final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
+    var fromNav: UINavigationController
+    
+    init(fromNav: UINavigationController) {
+        self.fromNav = fromNav
+        super.init()
+    }
+    
     private let duration: TimeInterval = 0.25
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -18,10 +25,10 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
-            let fromNav = tabBarController.chatRoomsNavController,
-            let fromVC = fromNav.topViewController as? ChatRoomViewController,
-            let toVC = transitionContext.viewController(forKey: .to) as? ImageDetailViewController,
+        guard // let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
+            // let fromNav = tabBarController.chatRoomsNavController,
+              let fromVC = fromNav.topViewController as? ChatRoomViewController,
+              let toVC = transitionContext.viewController(forKey: .to) as? ImageDetailViewController,
               let imageView = fromVC.tappedImageView,
               let cell = fromVC.tappedCell
         else { return }
@@ -46,11 +53,13 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
         
         UIView.animate(withDuration: duration) {
             snapShotView.frame = toVC.imageView.frame
+            self.fromNav.view.alpha = 0
             
         } completion: { _ in
             
             imageView.isHidden = false
             toVC.view.alpha = 1
+            self.fromNav.view.alpha = 1
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)
         }

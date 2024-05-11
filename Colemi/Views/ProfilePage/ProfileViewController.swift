@@ -16,6 +16,8 @@ class ProfileViewController: UIViewController {
     var othersID: String?
     var isShowingPosts: Bool = true
     
+    var isFromDetailPage: Bool = false
+    
     var selectedCell: LobbyPostCell?
     var selectedImageView: UIImageView?
     var collectionViewInPostsAndSavesCell: UICollectionView?
@@ -83,7 +85,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         
-        popAnimator = ProfileVCPopAnimator(fromVC: self)
+        popAnimator = ProfileVCPopAnimator(fromVC: self, isFromDetailPage: isFromDetailPage)
         dismissAnimator = ProfileVCDismissAnimator(toVC: self)
     }
     
@@ -343,3 +345,5 @@ extension ProfileViewController: InformationCellDelegate {
         navigationController?.pushViewController(followViewController, animated: true)
     }
 }
+
+

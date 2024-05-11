@@ -21,7 +21,7 @@ class PostDetailViewController: UIViewController {
     var post: Post?
     var comments: [Comment] = []
     
-    var headerView: DetailTableViewHeaderView?
+    var headerView = DetailTableViewHeaderView()
     
     var commentTextViewTrailing: NSLayoutConstraint?
     var commentTextViewHeight: NSLayoutConstraint?
@@ -53,6 +53,22 @@ class PostDetailViewController: UIViewController {
         button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         return button
     }()
+    
+    lazy var backImageView: UIImageView = {
+        let imageView = UIImageView()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(backImageViewTapped))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = .backIcon.withRenderingMode(.alwaysTemplate)
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    @objc private func backImageViewTapped(_ sender: UITapGestureRecognizer) {
+        dismiss(animated: true)
+    }
     
     @objc private func sendButtonTapped() {
         viewModel.updateComments(commentText: commentTextView.text)
@@ -121,16 +137,13 @@ class PostDetailViewController: UIViewController {
         }
     }
     
-    @objc private func viewTapped(_ sender: UITapGestureRecognizer) {
-        dismiss(animated: true)
-    }
-    
     private func setUpUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(commentTextView)
         view.addSubview(starImageView)
         view.addSubview(sendButton)
+        view.addSubview(backImageView)
         view.layer.cornerRadius = 30
         setUpStarImageView()
         commentTextViewInit()
@@ -141,7 +154,7 @@ class PostDetailViewController: UIViewController {
         commentTextViewHeight = commentTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
         commentTextViewHeight?.isActive = true
         
-        tableView.register(DetailTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderView.reuseIdentifier)
+//        tableView.register(DetailTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderView.reuseIdentifier)
         tableView.register(AuthorInfoAndTitleCell.self, forCellReuseIdentifier: AuthorInfoAndTitleCell.reuseIdentifier)
         tableView.register(DescriptionCell.self, forCellReuseIdentifier: DescriptionCell.reuseIdentifier)
         tableView.register(TagCell.self, forCellReuseIdentifier: TagCell.reuseIdentifier)
@@ -149,6 +162,12 @@ class PostDetailViewController: UIViewController {
         tableView.register(CommentCell.self, forCellReuseIdentifier: CommentCell.reuseIdentifier)
         
         NSLayoutConstraint.activate([
+            
+            backImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
+            backImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            backImageView.widthAnchor.constraint(equalToConstant: 16),
+            backImageView.heightAnchor.constraint(equalTo: backImageView.widthAnchor),
+            
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -247,15 +266,14 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
+//            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
             // if let photoImage = photoImage {
-            self.headerView = headerView
+            // self.headerView = headerView
             let url = URL(string: imageUrl)
             headerView.photoImageView.kf.setImage(with: url)
             // }
             // headerView.photoImageView.image?.size.height
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-            headerView.addGestureRecognizer(tapGesture)
+
             headerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
             
             
@@ -280,6 +298,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
 extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func pushToAuthorProfilePage() {
         let profileViewController = ProfileViewController()
+        profileViewController.isFromDetailPage = true
         
         if authorID == userData.id {
             profileViewController.setUpNavBar()
@@ -368,9 +387,9 @@ extension PostDetailViewController {
             
             
         } else if gesture.state == .ended {
-            if abs(gesture.translation(in: self.view).x) >= 100 {
+            if abs(gesture.translation(in: self.view).x) >= 100 || abs(gesture.translation(in: self.view).y) >= 100 {
                 xPosition = gesture.translation(in: self.view).x
-                yPosition = gesture.translation(in: self.view).y + 60
+                yPosition = gesture.translation(in: self.view).y
                 dismiss(animated: true)
             } else {
                 UIView.animate(withDuration: 0.4) {

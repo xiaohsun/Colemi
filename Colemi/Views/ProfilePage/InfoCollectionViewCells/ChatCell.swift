@@ -48,8 +48,6 @@ class ChatCell: UICollectionViewCell {
                 }
             }
         }
-        
-        print("私訊！")
     }
     
     override init(frame: CGRect) {

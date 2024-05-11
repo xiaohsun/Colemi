@@ -35,9 +35,9 @@ final class ProfileVCDismissAnimator: NSObject, UIViewControllerAnimatedTransiti
         let snapShotView = cell.snapshotView(afterScreenUpdates: false)
         guard let snapShotView = snapShotView else { return }
         
-        var frame = (fromVC.headerView?.photoImageView.frame)!
+        var frame = fromVC.headerView.photoImageView.frame
         frame.origin.x += fromVC.xPosition
-        frame.origin.y += fromVC.view.safeAreaLayoutGuide.layoutFrame.origin.y + fromVC.yPosition
+        frame.origin.y += 60 + fromVC.yPosition
         snapShotView.frame = frame
         
         containerView.addSubview(snapShotView)

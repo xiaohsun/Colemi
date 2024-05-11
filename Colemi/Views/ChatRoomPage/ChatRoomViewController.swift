@@ -146,13 +146,13 @@ class ChatRoomViewController: UIViewController {
         return label
     }()
     
-    lazy var backButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
-        button.addTarget(self, action: #selector(popNav), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(.backIcon, for: .normal)
-        return button
-    }()
+//    lazy var backButton: UIButton = {
+//        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
+//        button.addTarget(self, action: #selector(popNav), for: .touchUpInside)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setImage(.backIcon, for: .normal)
+//        return button
+//    }()
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -412,14 +412,18 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        popAnimator = ChatRoomVCPopAnimator()
+        if let navigationController = navigationController {
+            popAnimator = ChatRoomVCPopAnimator(fromNav: navigationController)
+        }
         
         return popAnimator
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        dismissAnimator = ChatRoomVCDismissAnimator()
+        if let navigationController = navigationController {
+            dismissAnimator = ChatRoomVCDismissAnimator(toNav: navigationController)
+        }
         
         return dismissAnimator
     }
