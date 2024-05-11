@@ -20,6 +20,10 @@ class ChatRoomViewController: UIViewController {
     // var chatRoomID: String = ""
     var isSendingImage = false
     var tappedImageView: UIImageView?
+    var tappedCell: UITableViewCell?
+    
+    var popAnimator: ChatRoomVCPopAnimator?
+    var dismissAnimator: ChatRoomVCDismissAnimator?
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -127,6 +131,7 @@ class ChatRoomViewController: UIViewController {
         configuration.filter = .images
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
+        
         present(picker, animated: true)
     }
     
@@ -298,16 +303,25 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         if let cell = tableView.cellForRow(at: indexPath) as? MyChatImageBubbleTableViewCell {
             let imageDetailViewController = ImageDetailViewController()
             tappedImageView = cell.imageMessageView
+            tappedCell = cell
             
             imageDetailViewController.modalPresentationStyle = .custom
             imageDetailViewController.transitioningDelegate = self
-            self.present(imageDetailViewController, animated: true)
             
+            // self.navigationController?.present(imageDetailViewController, animated: true)
+            self.present(imageDetailViewController, animated: true)
         }
         
         if let cell = tableView.cellForRow(at: indexPath) as? OtherChatImageBubbleTableViewCell {
             let imageDetailViewController = ImageDetailViewController()
             tappedImageView = cell.imageMessageView
+            tappedCell = cell
+            
+            imageDetailViewController.modalPresentationStyle = .custom
+            imageDetailViewController.transitioningDelegate = self
+            
+            self.navigationController?.present(imageDetailViewController, animated: true)
+            // self.present(imageDetailViewController, animated: true)
         }
     }
 }
@@ -382,5 +396,23 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        popAnimator = ChatRoomVCPopAnimator(fromVC: self)
+        // popAnimator = ChatRoomVCPopAnimator()
+        
+        return popAnimator
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        dismissAnimator = ChatRoomVCDismissAnimator(toVC: self)
+        
+        return dismissAnimator
     }
 }

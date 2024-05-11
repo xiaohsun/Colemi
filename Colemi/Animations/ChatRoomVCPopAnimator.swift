@@ -25,43 +25,39 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let toNav = transitionContext.viewController(forKey: .to) as? UINavigationController,
-              let toVC = toNav.topViewController as? ImageDetailViewController,
-              let cell = fromVC.selectedCell,
-              let collectionView = fromVC.collectionViewInPostsAndSavesCell
+        guard let toVC = transitionContext.viewController(forKey: .to) as? ImageDetailViewController,
+              let imageView = fromVC.tappedImageView,
+              let cell = fromVC.tappedCell
         else { return }
         
-        cell.isHidden = true
+        imageView.isHidden = true
         
-        let snapShotView = cell.snapshotView(afterScreenUpdates: false)
+        // let snapShotView = cell.snapshotView(afterScreenUpdates: false)
+        
+        let snapShotView = imageView.snapshotView(afterScreenUpdates: false)
         
         guard let snapShotView = snapShotView else { return }
         
-        snapShotView.frame = collectionView.convert(cell.frame, to: nil)
-        
+//        snapShotView.frame = collectionView.convert(cell.frame, to: nil)
+        snapShotView.frame = cell.convert(imageView.frame, to: nil)
         toVC.view.alpha = 0
+        toVC.imageView.image = imageView.image
+        let ratio = (imageView.image?.size.width)! / fromVC.view.frame.width
+        toVC.imageViewHeightCons?.constant = (imageView.image?.size.height)! / ratio
         
-        containerView.insertSubview(toNav.view, belowSubview: fromVC.view)
+        containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
         
         toVC.view.layoutIfNeeded()
-        toVC.tableView.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
-            guard let headerView = toVC.headerView else { return }
-            snapShotView.frame = headerView.photoImageView.frame
-            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
-            //fromVC.view.alpha = 0
-            // tabBarController.tabBar.alpha = 0
+            snapShotView.frame = toVC.imageView.frame
             
         } completion: { _ in
-            guard let selectedImageView = self.fromVC.selectedImageView else { return }
-            cell.isHidden = false
             
+            imageView.isHidden = false
             toVC.view.alpha = 1
-            // fromVC.view.alpha = 1
-            // tabBarController.tabBar.alpha = 1
-            selectedImageView.isHidden = false
+            // selectedImageView.isHidden = false
             // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)

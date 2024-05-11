@@ -9,12 +9,22 @@ import UIKit
 
 class ImageDetailViewController: UIViewController {
     
+    var imageViewHeightCons: NSLayoutConstraint?
+    
     lazy var imageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissVC))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
        
         return imageView
     }()
+    
+    @objc private func dismissVC() {
+        dismiss(animated: true)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,11 +32,14 @@ class ImageDetailViewController: UIViewController {
         view.backgroundColor = .black
         view.addSubview(imageView)
         
+        imageViewHeightCons = imageView.heightAnchor.constraint(equalToConstant: 400)
+        imageViewHeightCons?.isActive = true
+        
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 }
