@@ -11,12 +11,12 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
     
     private let duration: TimeInterval = 0.25
     
-    var fromVC: ChatRoomViewController
-    
-    init(fromVC: ChatRoomViewController) {
-        self.fromVC = fromVC
-        super.init()
-    }
+//    var fromVC: ChatRoomViewController
+//    
+//    init(fromVC: ChatRoomViewController) {
+//        self.fromVC = fromVC
+//        super.init()
+//    }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         duration
@@ -25,27 +25,29 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
         let containerView = transitionContext.containerView
-        guard let toVC = transitionContext.viewController(forKey: .to) as? ImageDetailViewController,
+        guard let tabBarController = transitionContext.viewController(forKey: .from) as? TabBarController,
+            let fromNav = tabBarController.chatRoomsNavController,
+            let fromVC = fromNav.topViewController as? ChatRoomViewController,
+            let toVC = transitionContext.viewController(forKey: .to) as? ImageDetailViewController,
               let imageView = fromVC.tappedImageView,
               let cell = fromVC.tappedCell
         else { return }
         
         imageView.isHidden = true
         
-        // let snapShotView = cell.snapshotView(afterScreenUpdates: false)
-        
         let snapShotView = imageView.snapshotView(afterScreenUpdates: false)
         
         guard let snapShotView = snapShotView else { return }
         
-//        snapShotView.frame = collectionView.convert(cell.frame, to: nil)
         snapShotView.frame = cell.convert(imageView.frame, to: nil)
         toVC.view.alpha = 0
         toVC.imageView.image = imageView.image
+        
         let ratio = (imageView.image?.size.width)! / fromVC.view.frame.width
         toVC.imageViewHeightCons?.constant = (imageView.image?.size.height)! / ratio
         
-        containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
+        containerView.insertSubview(toVC.view, belowSubview: fromNav.view)
+        // containerView.addSubview(toVC.view)
         containerView.addSubview(snapShotView)
         
         toVC.view.layoutIfNeeded()
@@ -57,8 +59,6 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
             
             imageView.isHidden = false
             toVC.view.alpha = 1
-            // selectedImageView.isHidden = false
-            // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)
         }

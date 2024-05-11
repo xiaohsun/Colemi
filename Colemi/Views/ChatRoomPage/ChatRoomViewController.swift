@@ -308,7 +308,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             imageDetailViewController.modalPresentationStyle = .custom
             imageDetailViewController.transitioningDelegate = self
             
-            // self.navigationController?.present(imageDetailViewController, animated: true)
+            // navigationController?.present(imageDetailViewController, animated: true)
             self.present(imageDetailViewController, animated: true)
         }
         
@@ -320,8 +320,8 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             imageDetailViewController.modalPresentationStyle = .custom
             imageDetailViewController.transitioningDelegate = self
             
-            self.navigationController?.present(imageDetailViewController, animated: true)
-            // self.present(imageDetailViewController, animated: true)
+            // self.navigationController?.present(imageDetailViewController, animated: true)
+            self.present(imageDetailViewController, animated: true)
         }
     }
 }
@@ -403,16 +403,29 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        popAnimator = ChatRoomVCPopAnimator(fromVC: self)
-        // popAnimator = ChatRoomVCPopAnimator()
+        // popAnimator = ChatRoomVCPopAnimator(fromVC: self)
+        popAnimator = ChatRoomVCPopAnimator()
         
         return popAnimator
     }
     
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        dismissAnimator = ChatRoomVCDismissAnimator(toVC: self)
+        dismissAnimator = ChatRoomVCDismissAnimator()
         
         return dismissAnimator
     }
 }
+
+//extension ChatRoomViewController: UINavigationControllerDelegate {
+//    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        switch operation {
+//        case .push:
+//            return ChatRoomVCPopAnimator()
+//        case .pop:
+//            return ChatRoomVCDismissAnimator()
+//        default:
+//            return nil
+//        }
+//    }
+//}

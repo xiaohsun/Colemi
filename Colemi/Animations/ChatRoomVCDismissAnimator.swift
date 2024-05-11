@@ -9,12 +9,12 @@ import UIKit
 
 final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    var toVC: ChatRoomViewController
-    
-    init(toVC: ChatRoomViewController) {
-        self.toVC = toVC
-        super.init()
-    }
+//    var toVC: ChatRoomViewController
+//    
+//    init(toVC: ChatRoomViewController) {
+//        self.toVC = toVC
+//        super.init()
+//    }
     
     private let duration: TimeInterval = 0.25
     
@@ -27,6 +27,9 @@ final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         let containerView = transitionContext.containerView
         guard
               let fromVC = transitionContext.viewController(forKey: .from) as? ImageDetailViewController,
+              let tabBarController = transitionContext.viewController(forKey: .to) as? TabBarController,
+            let toNav = tabBarController.chatRoomsNavController,
+            let toVC = toNav.topViewController as? ChatRoomViewController,
               let cell = toVC.tappedCell,
               let tappedImageView = toVC.tappedImageView
         else { return }
@@ -43,7 +46,9 @@ final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         
         fromVC.view.alpha = 0
         
-        containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
+        containerView.insertSubview(toNav.view, belowSubview: fromVC.view)
+        // containerView.addSubview(toVC.view)
+        // containerView.addSubview(tabBarController.view)
         containerView.addSubview(snapShotView)
         
         UIView.animate(withDuration: duration) {
@@ -53,8 +58,12 @@ final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
             
             tappedImageView.isHidden = false
             
-            self.toVC.view.alpha = 1
-            self.toVC.navigationController?.view.addSubview(self.toVC.view)
+            toVC.view.alpha = 1
+            // tabBarController.view.addSubview(toVC.view)
+            
+            tabBarController.view.addSubview(toNav.view)
+            // toNav.view.addSubview(toVC.view)
+            
             // self.toVC.navigationController?.navigationBar.isHidden = false
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)

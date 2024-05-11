@@ -29,7 +29,7 @@ class ImageDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .black
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(imageView)
         
         imageViewHeightCons = imageView.heightAnchor.constraint(equalToConstant: 400)
@@ -39,7 +39,7 @@ class ImageDetailViewController: UIViewController {
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }

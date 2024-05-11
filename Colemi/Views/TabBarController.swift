@@ -11,6 +11,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     var lobbyViewController: LobbyViewController?
     var profileViewController: ProfileViewController?
+    var chatRoomsNavController: UINavigationController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +56,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         let chatRoomsViewController = ChatRoomsViewController()
         let chatRoomsNavController = UINavigationController(rootViewController: chatRoomsViewController)
+        self.chatRoomsNavController = chatRoomsNavController
         chatRoomsNavController.tabBarItem.image = UIImage.chatIcon
         chatRoomsNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
