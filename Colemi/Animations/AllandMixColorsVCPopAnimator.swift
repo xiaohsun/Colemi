@@ -64,17 +64,16 @@ final class AllandMixColorsVCPopAnimator: NSObject, UIViewControllerAnimatedTran
         
         // containerView.convert(fromVC.selectedImageView!.frame, from: fromVC.view)
         
-        let width = containerView.convert(cell.frame, to: tabBarController.view).width
-        let height = containerView.convert(cell.frame, to: tabBarController.view).height
-        let xPosition = fromVC.selectedCell!.frame.origin.x
-        let yPosition = fromVC.postsCollectionView.convert(cell.frame, to: nil).origin.y // 對的
+//        let width = containerView.convert(cell.frame, to: tabBarController.view).width
+//        let height = containerView.convert(cell.frame, to: tabBarController.view).height
+//        let xPosition = fromVC.selectedCell!.frame.origin.x
+//        let yPosition = fromVC.postsCollectionView.convert(cell.frame, to: nil).origin.y // 對的
         
         // let yPosition = cell!.convert(cell!.frame, to: window!).origin.y // 這只有在第一行 cell 成功
         // 寬高x是對的
         
         // snapShotView.frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
         snapShotView.frame = fromVC.postsCollectionView.convert(cell.frame, to: nil)
-        
         // toVC.view.frame = transitionContext.finalFrame(for: toVC)
         toVC.view.alpha = 0
         

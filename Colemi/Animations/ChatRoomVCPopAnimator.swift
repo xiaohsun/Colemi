@@ -11,6 +11,13 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
     
     var fromNav: UINavigationController
     
+    lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        view.alpha = 0
+        return view
+    }()
+    
     init(fromNav: UINavigationController) {
         self.fromNav = fromNav
         super.init()
@@ -47,20 +54,23 @@ final class ChatRoomVCPopAnimator: NSObject, UIViewControllerAnimatedTransitioni
         toVC.imageViewHeightCons?.constant = (imageView.image?.size.height)! / ratio
         
         containerView.addSubview(toVC.view)
+        containerView.addSubview(backgroundView)
         containerView.addSubview(snapShotView)
+        
+        backgroundView.frame = containerView.frame
         
         toVC.view.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
             snapShotView.frame = toVC.imageView.frame
-            self.fromNav.view.alpha = 0
+            self.backgroundView.alpha = 1
             
         } completion: { _ in
             
             imageView.isHidden = false
             toVC.view.alpha = 1
-            self.fromNav.view.alpha = 1
             snapShotView.removeFromSuperview()
+            self.backgroundView.removeFromSuperview()
             transitionContext.completeTransition(true)
         }
     }

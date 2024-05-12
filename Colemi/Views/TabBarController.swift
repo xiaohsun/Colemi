@@ -78,13 +78,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         NSLayoutConstraint.activate([
             button.centerYAnchor.constraint(equalTo: tabBar.centerYAnchor, constant: -13),
             button.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor),
-            button.widthAnchor.constraint(equalToConstant: 70),
-            button.heightAnchor.constraint(equalToConstant: 50)
+            button.widthAnchor.constraint(equalToConstant: 30),
+            button.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         button.setImage(.postIcon, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
         
         view.layoutIfNeeded()
     }

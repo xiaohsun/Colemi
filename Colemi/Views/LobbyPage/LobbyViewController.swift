@@ -103,6 +103,13 @@ class LobbyViewController: UIViewController {
         return scrollView
     }()
     
+//    @objc private func toMixPostColorView() {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//            self.scrollView.setContentOffset(CGPoint(x: self.scrollView.bounds.width * 2, y: 0), animated: true)
+//            self.buttonThree.isSelected = true
+//        }
+//    }
+    
     private func addChildVCs() {
         addChild(allColorChild)
         addChild(todayColorChild)
@@ -169,8 +176,12 @@ class LobbyViewController: UIViewController {
         setUpUI()
         addChildVCs()
         
-        
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
+        
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(self.toMixPostColorView),
+//                                               name: NSNotification.Name("ToMixPostColorView"),
+//                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {

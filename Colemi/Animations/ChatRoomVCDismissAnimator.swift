@@ -16,6 +16,13 @@ final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         super.init()
     }
     
+    lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        view.alpha = 1
+        return view
+    }()
+    
     private let duration: TimeInterval = 0.25
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -41,19 +48,23 @@ final class ChatRoomVCDismissAnimator: NSObject, UIViewControllerAnimatedTransit
         guard let snapShotView = snapShotView else { return }
         
         snapShotView.frame = fromVC.imageView.frame
+        backgroundView.frame = containerView.frame
         
         fromVC.view.alpha = 0
         
+        containerView.addSubview(backgroundView)
         containerView.addSubview(snapShotView)
         
         UIView.animate(withDuration: duration) {
             snapShotView.frame = cell.convert(tappedImageView.frame, to: nil)
+            self.backgroundView.alpha = 0
             
         } completion: { _ in
             
             tappedImageView.isHidden = false
             
-            toVC.view.alpha = 1
+            // toVC.view.alpha = 1
+            self.backgroundView.removeFromSuperview()
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)
         }
