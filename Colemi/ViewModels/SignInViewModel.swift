@@ -40,7 +40,8 @@ class SignInViewModel {
                         following: [],
                         blocking: [],
                         beBlocked: [],
-                        didUserPostToday: false
+                        didUserPostToday: false,
+                        status: 1
         )
         
         do {
@@ -76,6 +77,7 @@ class SignInViewModel {
                         self.userData.blocking = user.blocking
                         self.userData.beBlocked = user.beBlocked
                         self.userData.didUserPostToday = user.didUserPostToday
+                        self.userData.status = user.status
                         print(self.userData.name)
                         
                         self.seeIfLastLoginTimeToday()

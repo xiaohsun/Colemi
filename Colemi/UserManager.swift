@@ -33,4 +33,5 @@ class UserManager {
     var blocking: [String] = []
     var beBlocked: [String] = []
     var didUserPostToday: Bool = false
+    var status: Int = 1
 }

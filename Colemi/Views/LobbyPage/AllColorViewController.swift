@@ -122,6 +122,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.blocking = user.blocking
                         self.userManager.beBlocked = user.beBlocked
                         self.userManager.didUserPostToday = user.didUserPostToday
+                        self.userManager.status = user.status
                         print(self.userManager.name)
                     }
                 }
@@ -162,6 +163,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
                         self.userManager.blocking = user.blocking
                         self.userManager.beBlocked = user.beBlocked
                         self.userManager.didUserPostToday = user.didUserPostToday
+                        self.userManager.status = user.status
                         print(self.userManager.name)
                     }
                 }
