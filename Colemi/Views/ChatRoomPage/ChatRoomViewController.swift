@@ -87,6 +87,23 @@ class ChatRoomViewController: UIViewController {
         return button
     }()
     
+    private func pictureGoDownAnimation() {
+        isSendingImage = false
+        view.endEditing(true)
+        imageViewTopCons?.constant = 0
+        
+        UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+            self.chatTextView.alpha = 1
+            self.choosePhotoButton.alpha = 1
+            self.sendPicLabel.alpha = 0
+            self.cancelPicImageView.alpha = 0
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.imageViewWidthCons?.constant = 200
+            self.view.layoutIfNeeded()
+        }
+    }
+    
     @objc private func sendMessageButtonTapped() {
         
         if !isSendingImage {
@@ -99,27 +116,14 @@ class ChatRoomViewController: UIViewController {
                     }
                 }
             }
-        } else {
             
+        } else {
             guard let imageData = viewModel.imageData, let imageSize = viewModel.imageSize else { return }
             
             viewModel.uploadImgToFirebase(imageData: imageData, imageSize: imageSize)
             
             DispatchQueue.main.async {
-                self.isSendingImage = false
-                self.imageViewTopCons?.constant = 0
-                self.view.endEditing(true)
-                
-                UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                    self.chatTextView.alpha = 1
-                    self.choosePhotoButton.alpha = 1
-                    self.sendPicLabel.alpha = 0
-                    self.view.layoutIfNeeded()
-                } completion: { _ in
-                    self.imageViewWidthCons?.constant = 200
-                    self.view.layoutIfNeeded()
-                    
-                }
+                self.pictureGoDownAnimation()
             }
         }
         // 更新 user chatroom 的時間
@@ -135,6 +139,22 @@ class ChatRoomViewController: UIViewController {
         present(picker, animated: true)
     }
     
+    lazy var cancelPicImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = ThemeColorProperty.darkColor.getColor()
+        imageView.image = UIImage(systemName: "xmark.circle.fill")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = .white
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(cancelPicture))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        imageView.alpha = 0
+        
+        return imageView
+    }()
+    
     lazy var sendPicLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -146,6 +166,10 @@ class ChatRoomViewController: UIViewController {
         return label
     }()
     
+    @objc private func cancelPicture() {
+        pictureGoDownAnimation()
+    }
+    
 //    lazy var backButton: UIButton = {
 //        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
 //        button.addTarget(self, action: #selector(popNav), for: .touchUpInside)
@@ -154,7 +178,7 @@ class ChatRoomViewController: UIViewController {
 //        return button
 //    }()
     
-    lazy var imageView: UIImageView = {
+    lazy var pictureImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -182,7 +206,8 @@ class ChatRoomViewController: UIViewController {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(containerView)
-        view.addSubview(imageView)
+        view.addSubview(pictureImageView)
+        view.addSubview(cancelPicImageView)
         containerView.addSubview(chatTextView)
         containerView.addSubview(sendMessageButton)
         containerView.addSubview(choosePhotoButton)
@@ -195,10 +220,10 @@ class ChatRoomViewController: UIViewController {
         chatTextViewHeightCons = chatTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
         chatTextViewHeightCons?.isActive = true
         
-        imageViewTopCons = imageView.topAnchor.constraint(equalTo: view.bottomAnchor)
+        imageViewTopCons = pictureImageView.topAnchor.constraint(equalTo: view.bottomAnchor)
         imageViewTopCons?.isActive = true
         
-        imageViewWidthCons = imageView.widthAnchor.constraint(equalToConstant: 200)
+        imageViewWidthCons = pictureImageView.widthAnchor.constraint(equalToConstant: 200)
         imageViewWidthCons?.isActive = true
         
         //        containerViewTopCons = containerView.topAnchor.constraint(equalTo: chatTextView.topAnchor, constant: -25)
@@ -225,12 +250,17 @@ class ChatRoomViewController: UIViewController {
             sendMessageButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             
             choosePhotoButton.trailingAnchor.constraint(equalTo: sendMessageButton.leadingAnchor, constant: -20),
-            choosePhotoButton.heightAnchor.constraint(equalToConstant: 20),
+            choosePhotoButton.heightAnchor.constraint(equalToConstant: 22),
             choosePhotoButton.widthAnchor.constraint(equalTo: choosePhotoButton.heightAnchor),
             choosePhotoButton.centerYAnchor.constraint(equalTo: sendMessageButton.centerYAnchor),
             
-            imageView.heightAnchor.constraint(equalToConstant: 200),
-            imageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            pictureImageView.heightAnchor.constraint(equalToConstant: 200),
+            pictureImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            
+            cancelPicImageView.trailingAnchor.constraint(equalTo: pictureImageView.trailingAnchor, constant: 12.5),
+            cancelPicImageView.topAnchor.constraint(equalTo: pictureImageView.topAnchor, constant: -12.5),
+            cancelPicImageView.widthAnchor.constraint(equalToConstant: 25),
+            cancelPicImageView.heightAnchor.constraint(equalTo: cancelPicImageView.widthAnchor),
             
             sendPicLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             sendPicLabel.centerYAnchor.constraint(equalTo: sendMessageButton.centerYAnchor)
@@ -243,6 +273,11 @@ class ChatRoomViewController: UIViewController {
         viewModel.delegate = self
         // navigationController?.delegate = self
         viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        cancelPicImageView.layer.cornerRadius = cancelPicImageView.frame.width / 2
     }
 }
 
@@ -385,7 +420,7 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate {
                         return
                     }
                     DispatchQueue.main.async {
-                        self.imageView.image = image
+                        self.pictureImageView.image = image
                         self.viewModel.imageData = image.jpegData(compressionQuality: 0.6)
                         self.viewModel.imageSize = image.size
                         
@@ -394,13 +429,14 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate {
                         self.imageViewWidthCons?.constant = image.size.width / ratio
                         self.view.layoutIfNeeded()
                         
-                        self.imageViewTopCons?.constant = -(self.imageView.frame.height + self.containerView.frame.height + 25)
+                        self.imageViewTopCons?.constant = -(self.pictureImageView.frame.height + self.containerView.frame.height + 25)
                         self.isSendingImage = true
                         
                         UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                             self.chatTextView.alpha = 0
                             self.choosePhotoButton.alpha = 0
                             self.sendPicLabel.alpha = 1
+                            self.cancelPicImageView.alpha = 1
                             self.view.layoutIfNeeded()
                         }
                     }
