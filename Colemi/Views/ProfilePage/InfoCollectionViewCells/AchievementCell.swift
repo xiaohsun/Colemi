@@ -20,7 +20,7 @@ class AchievementCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var footprintLabel: UILabel = {
+    lazy var achievementLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -37,7 +37,7 @@ class AchievementCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 16)
         label.textColor = .white
-        label.text = "3"
+        label.text = "0"
         
         return label
     }()
@@ -46,7 +46,7 @@ class AchievementCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.addSubview(containerView)
-        containerView.addSubview(footprintLabel)
+        containerView.addSubview(achievementLabel)
         containerView.addSubview(footprintNumberLabel)
         
         NSLayoutConstraint.activate([
@@ -55,8 +55,8 @@ class AchievementCell: UICollectionViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            footprintLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            footprintLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            achievementLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
+            achievementLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
             footprintNumberLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
             footprintNumberLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)

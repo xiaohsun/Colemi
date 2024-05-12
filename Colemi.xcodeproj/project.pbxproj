@@ -67,9 +67,11 @@
 		281C65B32BD0DC08003D2ECE /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65B22BD0DC08003D2ECE /* TextViewCell.swift */; };
 		281C65B52BD0E373003D2ECE /* FollowOrEditInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65B42BD0E373003D2ECE /* FollowOrEditInfoCell.swift */; };
 		281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65B62BD0E50B003D2ECE /* ColorFootprintCell.swift */; };
-		281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65B82BD0E663003D2ECE /* BestColorCell.swift */; };
+		281C65B92BD0E663003D2ECE /* CollectedColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65B82BD0E663003D2ECE /* CollectedColorCell.swift */; };
 		281C65BB2BD0E7EB003D2ECE /* AchievementCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65BA2BD0E7EB003D2ECE /* AchievementCell.swift */; };
 		281C65BE2BD0EDDA003D2ECE /* MissionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65BD2BD0EDD9003D2ECE /* MissionCell.swift */; };
+		281ED83C2BF0ACDD00EBE3D4 /* CollectedColorPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281ED83B2BF0ACDD00EBE3D4 /* CollectedColorPopUp.swift */; };
+		281ED83E2BF0ADBB00EBE3D4 /* AchievementPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281ED83D2BF0ADBB00EBE3D4 /* AchievementPopUp.swift */; };
 		2823431B2BCCF2210040C1CA /* CloudVisionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */; };
 		282343912BCD22020040C1CA /* ColorSimilarityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282343902BCD22020040C1CA /* ColorSimilarityViewModel.swift */; };
 		282343932BCEB5D20040C1CA /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 282343922BCEB5D20040C1CA /* Post.swift */; };
@@ -155,7 +157,9 @@
 		28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530F2BD4BA3C00864187 /* FakeUserData.swift */; };
 		28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */; };
 		28D253162BD62D1600864187 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253152BD62D1600864187 /* TabBarController.swift */; };
+		28D533AC2BF0A51C00851B9A /* ColorFootprintPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D533AB2BF0A51C00851B9A /* ColorFootprintPopUp.swift */; };
 		28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */; };
+		28DFAACC2BF0BAEA00787F52 /* ChangeNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DFAACB2BF0BAEA00787F52 /* ChangeNameCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -192,9 +196,11 @@
 		281C65B22BD0DC08003D2ECE /* TextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
 		281C65B42BD0E373003D2ECE /* FollowOrEditInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowOrEditInfoCell.swift; sourceTree = "<group>"; };
 		281C65B62BD0E50B003D2ECE /* ColorFootprintCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFootprintCell.swift; sourceTree = "<group>"; };
-		281C65B82BD0E663003D2ECE /* BestColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestColorCell.swift; sourceTree = "<group>"; };
+		281C65B82BD0E663003D2ECE /* CollectedColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedColorCell.swift; sourceTree = "<group>"; };
 		281C65BA2BD0E7EB003D2ECE /* AchievementCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementCell.swift; sourceTree = "<group>"; };
 		281C65BD2BD0EDD9003D2ECE /* MissionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionCell.swift; sourceTree = "<group>"; };
+		281ED83B2BF0ACDD00EBE3D4 /* CollectedColorPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedColorPopUp.swift; sourceTree = "<group>"; };
+		281ED83D2BF0ADBB00EBE3D4 /* AchievementPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementPopUp.swift; sourceTree = "<group>"; };
 		2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudVisionResponseModel.swift; sourceTree = "<group>"; };
 		282343902BCD22020040C1CA /* ColorSimilarityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSimilarityViewModel.swift; sourceTree = "<group>"; };
 		282343922BCEB5D20040C1CA /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -279,7 +285,9 @@
 		28D2530F2BD4BA3C00864187 /* FakeUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUserData.swift; sourceTree = "<group>"; };
 		28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewModel.swift; sourceTree = "<group>"; };
 		28D253152BD62D1600864187 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		28D533AB2BF0A51C00851B9A /* ColorFootprintPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFootprintPopUp.swift; sourceTree = "<group>"; };
 		28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		28DFAACB2BF0BAEA00787F52 /* ChangeNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNameCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -405,8 +413,11 @@
 				281C65B42BD0E373003D2ECE /* FollowOrEditInfoCell.swift */,
 				287A62DF2BE4E56B00E09788 /* ChatCell.swift */,
 				281C65B62BD0E50B003D2ECE /* ColorFootprintCell.swift */,
-				281C65B82BD0E663003D2ECE /* BestColorCell.swift */,
+				28D533AB2BF0A51C00851B9A /* ColorFootprintPopUp.swift */,
+				281C65B82BD0E663003D2ECE /* CollectedColorCell.swift */,
+				281ED83B2BF0ACDD00EBE3D4 /* CollectedColorPopUp.swift */,
 				281C65BA2BD0E7EB003D2ECE /* AchievementCell.swift */,
+				281ED83D2BF0ADBB00EBE3D4 /* AchievementPopUp.swift */,
 			);
 			path = InfoCollectionViewCells;
 			sourceTree = "<group>";
@@ -460,9 +471,10 @@
 			children = (
 				287A62E12BE52DEA00E09788 /* SettingViewController.swift */,
 				287A62E42BE52F7700E09788 /* AvatarEditCell.swift */,
+				28DFAACB2BF0BAEA00787F52 /* ChangeNameCell.swift */,
+				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
 				28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */,
 				28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */,
-				287A62E62BE5314700E09788 /* NormalSettingCell.swift */,
 				288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */,
 				2815FE132BEE0DA700A2757B /* EULACell.swift */,
 			);
@@ -730,7 +742,7 @@
 				28564D7A2BE87CB8003B3FBA /* OverLayPopUpViewModel.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
-				281C65B92BD0E663003D2ECE /* BestColorCell.swift in Sources */,
+				281C65B92BD0E663003D2ECE /* CollectedColorCell.swift in Sources */,
 				2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */,
 				2818B7442BDA3C5200434EBF /* MixColorViewController.swift in Sources */,
 				287A62F42BE690E200E09788 /* OverLayPopUpCell.swift in Sources */,
@@ -756,6 +768,7 @@
 				283EF6582BD757420007C8D8 /* Comment.swift in Sources */,
 				281561722BEE721300C98859 /* OtherChatImageBubbleTableViewCell.swift in Sources */,
 				287A62E02BE4E56B00E09788 /* ChatCell.swift in Sources */,
+				281ED83E2BF0ADBB00EBE3D4 /* AchievementPopUp.swift in Sources */,
 				287A62E72BE5314700E09788 /* NormalSettingCell.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
 				2815FE142BEE0DA700A2757B /* EULACell.swift in Sources */,
@@ -797,6 +810,7 @@
 				287A62E52BE52F7700E09788 /* AvatarEditCell.swift in Sources */,
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
 				281C65802BCFEB66003D2ECE /* DetailTableViewHeaderView.swift in Sources */,
+				28D533AC2BF0A51C00851B9A /* ColorFootprintPopUp.swift in Sources */,
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
 				2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */,
@@ -814,12 +828,14 @@
 				281C65882BD000F7003D2ECE /* SeperatorCell.swift in Sources */,
 				281C65B12BD0C4E5003D2ECE /* InformationCell.swift in Sources */,
 				28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */,
+				281ED83C2BF0ACDD00EBE3D4 /* CollectedColorPopUp.swift in Sources */,
 				28C69B8B2BD2A4C000725BE7 /* ProfileViewModel.swift in Sources */,
 				28C69B892BD270BA00725BE7 /* Content.swift in Sources */,
 				28A076EF2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift in Sources */,
 				287A62CE2BE3D3A100E09788 /* TodayColorVCDismissAnimator.swift in Sources */,
 				2840D8A12BDB720700A6B3DC /* AllandMixColorsVCPopAnimator.swift in Sources */,
 				2840D8A32BDBCAE800A6B3DC /* AllandMixColorVCDismissAnimator.swift in Sources */,
+				28DFAACC2BF0BAEA00787F52 /* ChangeNameCell.swift in Sources */,
 				281240E52BC91B4700777F91 /* LobbyViewModel.swift in Sources */,
 				2823431B2BCCF2210040C1CA /* CloudVisionResponseModel.swift in Sources */,
 				28C69B872BD26AD900725BE7 /* ChatRoomViewModel.swift in Sources */,

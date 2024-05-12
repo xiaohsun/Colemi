@@ -132,6 +132,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             informationCell.delegate = self
+            informationCell.viewController = self
             
             return informationCell
             
@@ -259,12 +260,9 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         if isMyPosts {
             postDetailViewController.viewModel.post = viewModel.posts[index]
             postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
-            // postDetailViewController.photoImage = viewModel.images[index]
             postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
             postDetailViewController.postID = viewModel.posts[index].id
             postDetailViewController.viewModel.authorID = viewModel.posts[index].authorId
-            // postDetailViewController.comments = viewModel.posts[index].comments
-            // postDetailViewController.post = viewModel.posts[index]
             
         } else {
             postDetailViewController.viewModel.post = viewModel.saves[index]
@@ -272,8 +270,6 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
             postDetailViewController.imageUrl = viewModel.saves[index].imageUrl
             postDetailViewController.postID = viewModel.saves[index].id
             postDetailViewController.viewModel.authorID = viewModel.saves[index].authorId
-            // postDetailViewController.comments = viewModel.saves[index].comments
-            // postDetailViewController.post = viewModel.saves[index]
         }
         
         let navController = UINavigationController(rootViewController: postDetailViewController)

@@ -14,6 +14,7 @@ class InformationCell: UITableViewCell {
     var isOthersPage: Bool = false
     
     let viewModel = InformationCellViewModel()
+    var viewController: ProfileViewController?
     
     weak var delegate: InformationCellDelegate?
     
@@ -179,8 +180,9 @@ class InformationCell: UITableViewCell {
         collectionView.register(FollowOrEditInfoCell.self, forCellWithReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier)
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.reuseIdentifier)
         collectionView.register(ColorFootprintCell.self, forCellWithReuseIdentifier: ColorFootprintCell.reuseIdentifier)
-        collectionView.register(BestColorCell.self, forCellWithReuseIdentifier: BestColorCell.reuseIdentifier)
+        collectionView.register(CollectedColorCell.self, forCellWithReuseIdentifier: CollectedColorCell.reuseIdentifier)
         collectionView.register(AchievementCell.self, forCellWithReuseIdentifier: AchievementCell.reuseIdentifier)
+        collectionView.delegate = self
         // configureDataSource()
     }
     
@@ -344,7 +346,7 @@ extension InformationCell {
                     
                     return cell
                 case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestColorCell.reuseIdentifier, for: indexPath) as? BestColorCell else { fatalError("Can't create new cell") }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectedColorCell.reuseIdentifier, for: indexPath) as? CollectedColorCell else { fatalError("Can't create new cell") }
                     
                     return cell
                 default:
@@ -368,9 +370,24 @@ extension InformationCell {
             initialSnapshot.appendItems(Array(4...6), toSection: .bottom)
         }
         
-        
-        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+}
+
+extension InformationCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let vc = viewController else { return }
+        
+        if indexPath == IndexPath(row: 0, section: 1) {
+            let colorFootprintPopUp = ColorFootprintPopUp()
+            colorFootprintPopUp.appear(sender: vc)
+        } else if indexPath == IndexPath(row: 1, section: 1) {
+            let collectedColorPopUp = CollectedColorPopUp()
+            collectedColorPopUp.appear(sender: vc)
+        } else {
+            let achievementPopUp = AchievementPopUp()
+            achievementPopUp.appear(sender: vc)
+        }
     }
 }
 

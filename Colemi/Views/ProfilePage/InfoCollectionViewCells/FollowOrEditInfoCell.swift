@@ -14,12 +14,10 @@ class FollowOrEditInfoCell: UICollectionViewCell {
     static let reuseIdentifier = "\(FollowOrEditInfoCell.self)"
     
     @objc private func followBtnTapped(_ sender: UIButton) {
-        print("Follow!")
         delegate?.updateFollower()
     }
     
     @objc private func settingBtnTapped(_ sender: UIButton) {
-        print("Setting!")
         delegate?.pushToSettingVC()
     }
     

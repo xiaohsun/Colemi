@@ -37,7 +37,7 @@ class ColorFootprintCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 16)
         label.textColor = .white
-        label.text = "940"
+        label.text = "942"
         
         return label
     }()
