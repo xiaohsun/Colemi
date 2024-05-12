@@ -97,10 +97,10 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
         
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         postDetailViewController.postID = viewModel.posts[indexPath.item].id
-        postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+        postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-        postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-        postDetailViewController.post = viewModel.posts[indexPath.item]
+        // postDetailViewController.comments = viewModel.posts[indexPath.item].comments
+        // postDetailViewController.post = viewModel.posts[indexPath.item]
         
         let navController = UINavigationController(rootViewController: postDetailViewController)
         

@@ -14,12 +14,8 @@ class PostDetailViewController: UIViewController {
     var contentJSONString = ""
     var photoImage: UIImage?
     var content: Content?
-    let userData = UserManager.shared
     var postID = ""
-    var authorID = ""
     var imageUrl = ""
-    var post: Post?
-    var comments: [Comment] = []
     
     var headerView = DetailTableViewHeaderView()
     
@@ -38,12 +34,15 @@ class PostDetailViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
         return tableView
     }()
     
     lazy var sendButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Send", for: .normal)
+        button.setTitle("留言", for: .normal)
         button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 14)
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
@@ -72,7 +71,9 @@ class PostDetailViewController: UIViewController {
     
     @objc private func sendButtonTapped() {
         viewModel.updateComments(commentText: commentTextView.text)
-        tableView.reloadData()
+        let indexPath = IndexPath(row: viewModel.comments.count - 1, section: 2)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.scrollToRow(at: IndexPath(row: viewModel.comments.count - 1, section: 2), at: .bottom, animated: true)
         commentTextView.resignFirstResponder()
         commentTextView.text = ""
         
@@ -114,6 +115,8 @@ class PostDetailViewController: UIViewController {
     }()
     
     @objc private func starTapped(_ sender: UITapGestureRecognizer) {
+        let userData = viewModel.userData
+        
         if userData.savedPosts.contains(postID) {
             userData.savedPosts.removeAll { $0 == postID }
             starImageView.image = UIImage(systemName: "star")
@@ -130,6 +133,8 @@ class PostDetailViewController: UIViewController {
     }
     
     private func setUpStarImageView() {
+        let userData = viewModel.userData
+        
         if userData.savedPosts.contains(postID) {
             starImageView.image = UIImage(systemName: "star.fill")
         } else {
@@ -154,7 +159,6 @@ class PostDetailViewController: UIViewController {
         commentTextViewHeight = commentTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
         commentTextViewHeight?.isActive = true
         
-//        tableView.register(DetailTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: DetailTableViewHeaderView.reuseIdentifier)
         tableView.register(AuthorInfoAndTitleCell.self, forCellReuseIdentifier: AuthorInfoAndTitleCell.reuseIdentifier)
         tableView.register(DescriptionCell.self, forCellReuseIdentifier: DescriptionCell.reuseIdentifier)
         tableView.register(TagCell.self, forCellReuseIdentifier: TagCell.reuseIdentifier)
@@ -195,9 +199,15 @@ class PostDetailViewController: UIViewController {
             guard let self = self else { return }
             self.content = content
         }
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+        
+        viewModel.getPostData { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel.getAuthorData { _ in
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -223,7 +233,10 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AuthorInfoAndTitleCell.reuseIdentifier, for: indexPath) as? AuthorInfoAndTitleCell else { return UITableViewCell() }
             
             cell.delegate = self
-            cell.update(content: content)
+            
+            if let authorData = viewModel.authorData {
+                cell.update(content: content, userData: authorData)
+            }
             
             return cell
             
@@ -266,14 +279,14 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-//            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
+            //            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
             // if let photoImage = photoImage {
             // self.headerView = headerView
             let url = URL(string: imageUrl)
             headerView.photoImageView.kf.setImage(with: url)
             // }
             // headerView.photoImageView.image?.size.height
-
+            
             headerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
             
             
@@ -297,40 +310,35 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func pushToAuthorProfilePage() {
+        let userData = viewModel.userData
         let profileViewController = ProfileViewController()
         profileViewController.isFromDetailPage = true
         
-        if authorID == userData.id {
+        if viewModel.authorID == userData.id {
             profileViewController.setUpNavBar()
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             
-            let firestoreManager = FirestoreManager.shared
-            let ref = FirestoreEndpoint.users.ref
+            profileViewController.isOthersPage = true
+            profileViewController.setUpNavBar()
             
-            
-            Task {
-                let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: authorID)
-                
-                if let userData = userData {
-                    
-                    profileViewController.isOthersPage = true
+            viewModel.getAuthorData(completion: { userData in
+                DispatchQueue.main.async {
                     profileViewController.viewModel.otherUserData = userData
-                    profileViewController.setUpNavBar()
-                    navigationController?.pushViewController(profileViewController, animated: true)
+                    self.navigationController?.pushViewController(profileViewController, animated: true)
                 }
-            }
+            })
         }
     }
     
     func showReportPopUp() {
         let overLayPopUp = OverLayPopUp()
         overLayPopUp.fromDetailPage = true
-//        if let otherUserID = authorID,
-//           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
-//            overLayPopUp.viewModel.otherUserID = otherUserID
-//            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
-//        }
+        //        if let otherUserID = authorID,
+        //           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
+        //            overLayPopUp.viewModel.otherUserID = otherUserID
+        //            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
+        //        }
         overLayPopUp.appear(sender: self)
     }
 }

@@ -16,7 +16,7 @@ struct ColorModel {
     
     var rainColors: [UIColor] = [UIColor(red: 139/255, green: 174/255, blue: 170/255, alpha: 1), UIColor(red: 2/255, green: 90/255, blue: 106/255, alpha: 1), UIColor(red: 181/255, green: 192/255, blue: 186/255, alpha: 1)]
     
-    var rainColorsHex: [String] = ["#8BAEAA", "#025A6A", "B5C0BA"]
+    var rainColorsHex: [String] = ["#8BAEAA", "#025A6A", "#B5C0BA"]
     
     var sunnyColorsMix: [UIColor] = [UIColor(red: 182/255, green: 226/255, blue: 161/255, alpha: 1), UIColor(red: 229/255, green: 212/255, blue: 255/255, alpha: 1), UIColor(red: 254/255, green: 190/255, blue: 140/255, alpha: 1)]
     

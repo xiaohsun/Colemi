@@ -8,7 +8,6 @@
 import UIKit
 
 class DetailTableViewHeaderView: UITableViewHeaderFooterView {
-    // static let reuseIdentifier = "\(DetailTableViewHeaderView.self)"
     
     lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()

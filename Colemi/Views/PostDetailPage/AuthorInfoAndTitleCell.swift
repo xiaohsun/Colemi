@@ -111,10 +111,13 @@ class AuthorInfoAndTitleCell: UITableViewCell {
 }
 
 extension AuthorInfoAndTitleCell {
-    func update(content: Content) {
+    func update(content: Content, userData: User) {
         self.content = content
-        authorNameLabel.text = content.authorName
+        authorNameLabel.text = userData.name
         titleLabel.text = content.title
+        
+        let url = URL(string: userData.avatarPhoto)
+        authorImageView.kf.setImage(with: url)
     }
 }
 

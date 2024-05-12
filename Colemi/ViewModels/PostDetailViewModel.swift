@@ -16,8 +16,13 @@ class PostDetailViewModel {
             comments = post.comments
         }
     }
+    
     var comments: [Comment] = []
     let userData = UserManager.shared
+    let firestoreManager = FirestoreManager.shared
+    var authorName: String = ""
+    var authorData: User?
+    var authorID = ""
     
     func decodeContent(jsonString: String, completion: @escaping (Content) -> Void) {
         let cleanedString = jsonString.replacingOccurrences(of: "\\", with: "")
@@ -51,5 +56,34 @@ class PostDetailViewModel {
         comments.append(Comment(id: "\(UUID().uuidString)\(Date().timeIntervalSince1970)", postID: post.id, userID: userData.id, avatarURL: userData.avatarPhoto, userName: userData.name, body: commentText, createdTime: "\(FieldValue.serverTimestamp())"))
         
         firestoreManager.updateDocument(data: [PostProperty.comments.rawValue: comments], collection: ref, docID: post.id)
+    }
+    
+    func getPostData(completion: ((Post) -> Void)? = nil ) {
+        let ref = FirestoreEndpoint.posts.ref
+        guard let post = post else { return }
+        
+        Task {
+            let postData: Post? = await firestoreManager.getSpecificDocument(collection: ref, docID: post.id)
+            
+            if let postData = postData {
+                self.post = postData
+                completion?(postData)
+            }
+        }
+    }
+    
+    func getAuthorData(completion: ((User) -> Void)? = nil ) {
+        let ref = FirestoreEndpoint.users.ref
+        guard let post = post else { return }
+        
+        Task {
+            let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: post.authorId)
+            
+            if let userData = userData {
+                self.authorData = userData
+                self.authorName = userData.name
+                completion?(userData)
+            }
+        }
     }
 }
