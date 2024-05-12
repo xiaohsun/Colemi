@@ -114,8 +114,23 @@ class PostDetailViewController: UIViewController {
         return imageView
     }()
     
+    private func starTappedAnimation() {
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+            self.starImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        } completion: { _ in
+            UIView.animate(withDuration: 0.25, delay: 0) {
+                self.starImageView.transform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+            } completion: { _ in
+                UIView.animate(withDuration: 0.2, delay: 0) {
+                    self.starImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                }
+            }
+        }
+    }
+    
     @objc private func starTapped(_ sender: UITapGestureRecognizer) {
         let userData = viewModel.userData
+        starTappedAnimation()
         
         if userData.savedPosts.contains(postID) {
             userData.savedPosts.removeAll { $0 == postID }
@@ -123,6 +138,7 @@ class PostDetailViewController: UIViewController {
             Task {
                 await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
             }
+            
         } else {
             userData.savedPosts.append(postID)
             starImageView.image = UIImage(systemName: "star.fill")
