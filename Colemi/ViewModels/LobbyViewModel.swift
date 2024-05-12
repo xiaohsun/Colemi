@@ -38,7 +38,8 @@ class LobbyViewModel {
                         following: [],
                         blocking: [],
                         beBlocked: [],
-                        didUserPostToday: false
+                        didUserPostToday: false,
+                        status: 1
         )
         
         firestoreManager.setData(user, at: docRef)

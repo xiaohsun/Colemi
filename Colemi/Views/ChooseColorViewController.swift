@@ -372,6 +372,7 @@ class ChooseColorViewController: UIViewController {
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -397,7 +398,27 @@ extension ChooseColorViewController: CLLocationManagerDelegate {
             Task.init {
                 await viewModel.currentWeather(for: location)
             }
+        } else {
+            self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
+            self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
+            self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
+            self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
+            self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
+            self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
+            self.goodWeather = true
+            self.addShowAnimationGes()
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
+        self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
+        self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
+        self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
+        self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
+        self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
+        self.goodWeather = true
+        self.addShowAnimationGes()
     }
 }
 

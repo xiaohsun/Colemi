@@ -27,6 +27,7 @@ struct User: Codable {
     let blocking: [String]
     let beBlocked: [String]
     let didUserPostToday: Bool
+    let status: Int
 }
 
 enum UserProperty: String {
@@ -48,6 +49,7 @@ enum UserProperty: String {
     case blocking
     case beBlocked
     case didUserPostToday
+    case status
 }
 
 struct ChatRoom: Codable {

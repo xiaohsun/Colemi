@@ -35,7 +35,11 @@ class ChooseColorViewModel {
                 delegate?.passWeatherCondition(today.condition)
                 // print(WeatherCondition.allCases)
                 // print(today.symbolName)
+            } else {
+                delegate?.passWeatherCondition(WeatherCondition.clear)
             }
+        } else {
+            delegate?.passWeatherCondition(WeatherCondition.clear)
         }
     }
     

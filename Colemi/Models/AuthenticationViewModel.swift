@@ -170,6 +170,8 @@ extension AuthenticationViewModel {
             try await user.delete()
             errorMessage = ""
             isSuccess = true
+            changeUserDataStatus()
+            
             completion?("刪除成功", "有緣再相見，要再回來唷！", isSuccess)
             return true
         } catch {
@@ -191,6 +193,13 @@ extension AuthenticationViewModel {
             errorMessage = error.localizedDescription
             return false
         }
+    }
+    
+    func changeUserDataStatus() {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        
+        firestoreManager.updateDocument(data: [UserProperty.status.rawValue: 0], collection: ref, docID: UserManager.shared.id)
     }
 }
 
