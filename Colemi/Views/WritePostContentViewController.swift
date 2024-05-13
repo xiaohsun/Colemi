@@ -223,10 +223,10 @@ class WritePostContentViewController: UIViewController {
             missionColorLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 40),
             missionColorLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             
-            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 25),
-            colorView.centerXAnchor.constraint(equalTo: missionColorLabel.centerXAnchor),
-            colorView.heightAnchor.constraint(equalToConstant: 70),
-            colorView.widthAnchor.constraint(equalToConstant: 70),
+            colorView.heightAnchor.constraint(equalTo: colorView.widthAnchor),
+            colorView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -30),
+            colorView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 30),
+            colorView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -30),
             
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.21),
