@@ -10,7 +10,7 @@ import Kingfisher
 
 class OtherChatImageBubbleTableViewCell: UITableViewCell {
     
-    // weak var delegate: OtherChatImageBubbleTableViewCellDelegate?
+    weak var delegate: OtherChatImageBubbleTableViewCellDelegate?
     
     static let reuseIdentifier = "\(OtherChatImageBubbleTableViewCell.self)"
     
@@ -33,7 +33,8 @@ class OtherChatImageBubbleTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
-        imageView.backgroundColor = UIColor(hex: "#BEC7B4")?.withAlphaComponent(0.35)
+        // imageView.backgroundColor = UIColor(hex: "#BEC7B4")?.withAlphaComponent(0.35)
+        imageView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         imageView.layer.cornerRadius = 15
         
         return imageView
@@ -45,13 +46,6 @@ class OtherChatImageBubbleTableViewCell: UITableViewCell {
         imageMessageView.image = nil
         // self.layoutIfNeeded()
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        
-//        self.layoutIfNeeded()
-//        contentView.layoutIfNeeded()
-//    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -116,7 +110,7 @@ extension OtherChatImageBubbleTableViewCell {
                 
                 self.contentView.layoutIfNeeded()
                 
-                // self.delegate?.updateTableView2(cell: self)
+                self.delegate?.updateTableView2(cell: self)
                 
             case .failure(let error):
                 print("Error retrieving image: \(error)")
@@ -125,6 +119,6 @@ extension OtherChatImageBubbleTableViewCell {
     }
 }
 
-//protocol OtherChatImageBubbleTableViewCellDelegate: AnyObject {
-//    func updateTableView2(cell: UITableViewCell)
-//}
+protocol OtherChatImageBubbleTableViewCellDelegate: AnyObject {
+    func updateTableView2(cell: UITableViewCell)
+}

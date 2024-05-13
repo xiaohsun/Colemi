@@ -122,7 +122,7 @@ class ChatRoomViewModel {
         
         firestoreManager.updateDocument(data: [DetailedChatRoomProperty.messages.rawValue: messages], collection: ref, docID: chatRoomID)
         
-        delegate?.updateTableView()
+        // delegate?.updateTableView()
     }
     
     // doing

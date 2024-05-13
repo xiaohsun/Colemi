@@ -10,7 +10,7 @@ import Kingfisher
 
 class MyChatImageBubbleTableViewCell: UITableViewCell {
     
-    // weak var delegate: MyChatImageBubbleTableViewCellDelegate?
+    weak var delegate: MyChatImageBubbleTableViewCellDelegate?
     
     static let reuseIdentifier = "\(MyChatImageBubbleTableViewCell.self)"
     
@@ -23,7 +23,8 @@ class MyChatImageBubbleTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15
-        imageView.backgroundColor = UIColor(hex: "#BEC7B4")?.withAlphaComponent(0.35)
+        // imageView.backgroundColor = UIColor(hex: "#BEC7B4")?.withAlphaComponent(0.35)
+        imageView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         return imageView
     }()
@@ -34,13 +35,6 @@ class MyChatImageBubbleTableViewCell: UITableViewCell {
         imageMessageView.image = nil
         // self.layoutIfNeeded()
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        
-//        self.layoutIfNeeded()
-//        contentView.layoutIfNeeded()
-//    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -90,12 +84,12 @@ extension MyChatImageBubbleTableViewCell {
                     self.imageMessageView.layer.cornerRadius = 15
                     
                 } else {
+                    self.imageMessageViewHeightCons?.constant = 300
                     self.imageMessageViewWidthCons?.constant = imageSize.width / ratio
                 }
                 
                 self.contentView.layoutIfNeeded()
-                
-//                self.delegate?.updateTableView1(cell: self)
+                self.delegate?.updateTableView1(cell: self)
                 
             case .failure(let error):
                 print("Error retrieving image: \(error)")
@@ -103,7 +97,7 @@ extension MyChatImageBubbleTableViewCell {
         }
     }
 }
-//
-//protocol MyChatImageBubbleTableViewCellDelegate: AnyObject {
-//    func updateTableView1(cell: UITableViewCell)
-//}
+
+protocol MyChatImageBubbleTableViewCellDelegate: AnyObject {
+    func updateTableView1(cell: UITableViewCell)
+}

@@ -21,6 +21,7 @@ class ChatRoomViewController: UIViewController {
     var isSendingImage = false
     var tappedImageView: UIImageView?
     var tappedCell: UITableViewCell?
+    var loadFirstTime: Bool = true
     
     var popAnimator: ChatRoomVCPopAnimator?
     var dismissAnimator: ChatRoomVCDismissAnimator?
@@ -304,7 +305,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 cell.update(messageData: viewModel.messages[indexPath.item])
                 //                cell.layoutSubviews()
-//                cell.delegate = self
+                cell.delegate = self
                 //                cell.layoutIfNeeded()
                 
                 return cell
@@ -331,7 +332,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
                 //                cell.layoutSubviews()
                 //                cell.layoutIfNeeded()
                 
-//                cell.delegate = self
+                cell.delegate = self
                 
                 return cell
             }
@@ -376,7 +377,12 @@ extension ChatRoomViewController: ChatRoomViewModelDelegate {
             self.tableView.reloadData()
             if !self.viewModel.messages.isEmpty {
                 let indexPath = IndexPath(row: self.viewModel.messages.count - 1, section: 0)
-                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                if self.loadFirstTime {
+                    self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                    self.loadFirstTime = false
+                } else {
+                    self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+                }
             }
         }
     }
@@ -467,24 +473,34 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
     }
 }
 
-//extension ChatRoomViewController: MyChatImageBubbleTableViewCellDelegate, OtherChatImageBubbleTableViewCellDelegate {
-//    func updateTableView1(cell: UITableViewCell) {
-//        UIView.performWithoutAnimation {
+extension ChatRoomViewController: MyChatImageBubbleTableViewCellDelegate, OtherChatImageBubbleTableViewCellDelegate {
+    // 完全沒被執行到
+    func updateTableView1(cell: UITableViewCell) {
+//        view.layoutIfNeeded()
+//        tableView.layoutIfNeeded()
+        // UIView.performWithoutAnimation {
 //            tableView.beginUpdates()
-//            if let indexPath = tableView.indexPath(for: cell) {
-//                tableView.reloadRows(at: [indexPath], with: .none)
-//            }
+////            if let indexPath = tableView.indexPath(for: cell) {
+////                tableView.reloadRows(at: [indexPath], with: .none)
+////            }
+////            view.layoutIfNeeded()
+////            tableView.layoutIfNeeded()
 //            tableView.endUpdates()
-//        }
-//    }
-//    
-//    func updateTableView2(cell: UITableViewCell) {
-//        UIView.performWithoutAnimation {
+        //}
+    }
+    
+    func updateTableView2(cell: UITableViewCell) {
+//        view.layoutIfNeeded()
+//        tableView.layoutIfNeeded()
+        
+        //UIView.performWithoutAnimation {
 //            tableView.beginUpdates()
-//            if let indexPath = tableView.indexPath(for: cell) {
-//                tableView.reloadRows(at: [indexPath], with: .none)
-//            }
+////            if let indexPath = tableView.indexPath(for: cell) {
+////                tableView.reloadRows(at: [indexPath], with: .none)
+////            }
+////            view.layoutIfNeeded()
+////            tableView.layoutIfNeeded()
 //            tableView.endUpdates()
-//        }
-//    }
-//}
+       // }
+    }
+}
