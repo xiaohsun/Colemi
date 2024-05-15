@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import FirebaseAuth
 
 class MixColorViewController: UIViewController, AllAndMixVCProtocol {
     
@@ -136,6 +137,11 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
         
+        if Auth.auth().currentUser == nil {
+            CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
+            return
+            
+        } else {
         if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
             selectedImageView = cell.imageView
             selectedCell = cell
@@ -157,6 +163,7 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         navController.transitioningDelegate = self
         navController.navigationBar.isHidden = true
         present(navController, animated: true)
+        }
     }
 }
 

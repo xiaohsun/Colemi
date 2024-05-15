@@ -46,6 +46,21 @@ class SignInViewController: UIViewController {
         return button
     }()
     
+    lazy var goWithoutSignIn: UIButton = {
+        let button = UIButton()
+        button.setTitle("遊客登入", for: .normal)
+        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
+        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(goWithoutSignInTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    @objc func goWithoutSignInTapped() {
+        signInViewModel.setRootVCToTabBarController()
+    }
+    
     @objc func showEULAPage() {
         let eulaPopUp = EULAPopUp()
         eulaPopUp.delegate = self
@@ -66,11 +81,11 @@ class SignInViewController: UIViewController {
     
     private func setUpUI() {
         view.addSubview(checkImageView)
-        
         view.addSubview(EULAButton)
         view.addSubview(colorImageView)
         view.addSubview(signInWithGoogleBtn)
         view.addSubview(signInWithAppleBtn)
+        view.addSubview(goWithoutSignIn)
         
         NSLayoutConstraint.activate([
             colorImageView.heightAnchor.constraint(equalToConstant: 100),
@@ -94,7 +109,12 @@ class SignInViewController: UIViewController {
             signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
             signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
             signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
+            signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            
+            goWithoutSignIn.heightAnchor.constraint(equalToConstant: 50),
+            goWithoutSignIn.widthAnchor.constraint(equalToConstant: 280),
+            goWithoutSignIn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            goWithoutSignIn.topAnchor.constraint(equalTo: signInWithAppleBtn.bottomAnchor, constant: 10)
         ])
     }
     
@@ -363,6 +383,23 @@ class CustomFunc {
             actionHandler?()
         }
         alertController.addAction(closeAction)
+        vc.present(alertController, animated: true)
+    }
+    
+    class func needLoginAlert(title: String, message: String, vc: UIViewController, actionHandler: (() -> Void)?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let closeAction = UIAlertAction(title: "關閉", style: .default) { _ in
+            actionHandler?()
+        }
+        let signInAction = UIAlertAction(title: "登入", style: .default) { _ in
+            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+                return
+            }
+            let loggedInViewController = SignInViewController()
+            sceneDelegate.window?.rootViewController = loggedInViewController
+        }
+        alertController.addAction(closeAction)
+        alertController.addAction(signInAction)
         vc.present(alertController, animated: true)
     }
     
