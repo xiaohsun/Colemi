@@ -116,9 +116,9 @@ class ColorSimilarityViewController: UIViewController {
     private func setupColorViews() {
         for (index, color) in colors.enumerated() {
             let colorView = colorViews[index]
-            let red = CGFloat(color.color.red) / 255
-            let green = CGFloat(color.color.green) / 255
-            let blue = CGFloat(color.color.blue) / 255
+            let red = CGFloat(color.color.red ?? 0) / 255
+            let green = CGFloat(color.color.green ?? 0) / 255
+            let blue = CGFloat(color.color.blue ?? 0) / 255
             colorView.layer.cornerRadius = view.frame.width / 9
             colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         }
@@ -254,8 +254,8 @@ class ColorSimilarityViewController: UIViewController {
                         if colorDistance < 100 {
                             let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
                             self.roundedColorSimilarity.append(roundedNumber)
-                            self.colorDistancesString.append(String(roundedNumber))
-                            self.totalBonusCount += (100 - roundedNumber)
+                            self.colorDistancesString.append(String(100 - roundedNumber))
+                            self.totalBonusCount += roundedNumber
                         } else {
                             self.roundedColorSimilarity.append(0)
                             self.colorDistancesString.append(String(100))

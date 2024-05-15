@@ -475,8 +475,8 @@ class PaletteViewController: UIViewController {
                                     self.mixColorView.layer.cornerRadius = self.mixColorView.frame.width / 2
                                     
                                 } completion: { _ in
+                                    self.findColorLabel.textColor = ThemeColorProperty.darkColor.getColor()
                                     self.findColorLabel.text = "完成混色！"
-                                    self.findColorLabel.textColor = ThemeColorProperty.lightColor.getColor()
                                     
                                     UIView.animate(withDuration: 0.4, delay: 0.5) {
                                         self.findColorLabel.alpha = 1

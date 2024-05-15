@@ -31,7 +31,7 @@ struct Color: Codable {
 }
 
 struct ColorValue: Codable {
-    let red, green, blue: Int
+    let red, green, blue: Int?
 }
 
 struct CropHintsAnnotation: Codable {
