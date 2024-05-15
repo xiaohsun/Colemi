@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import FirebaseAuth
 
 class AllColorViewController: UIViewController, AllAndMixVCProtocol {
     
@@ -287,24 +288,31 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(viewModel.posts[indexPath.item].imageUrl)
         
-        if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
-            selectedImageView = cell.imageView
-            selectedCell = cell
+        if Auth.auth().currentUser == nil {
+            CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
+            return
+        } else {
+            
+            
+            if let cell = collectionView.cellForItem(at: IndexPath(item: indexPath.item, section: 0)) as? LobbyPostCell {
+                selectedImageView = cell.imageView
+                selectedCell = cell
+            }
+            
+            let postDetailViewController = PostDetailViewController()
+            postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
+            postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
+            postDetailViewController.postID = viewModel.posts[indexPath.item].id
+            postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
+            postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
+            
+            let navController = UINavigationController(rootViewController: postDetailViewController)
+            
+            navController.modalPresentationStyle = .custom
+            navController.transitioningDelegate = self
+            navController.navigationBar.isHidden = true
+            present(navController, animated: true)
         }
-        
-        let postDetailViewController = PostDetailViewController()
-        postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
-        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-        postDetailViewController.postID = viewModel.posts[indexPath.item].id
-        postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
-        postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-        
-        let navController = UINavigationController(rootViewController: postDetailViewController)
-        
-        navController.modalPresentationStyle = .custom
-        navController.transitioningDelegate = self
-        navController.navigationBar.isHidden = true
-        present(navController, animated: true)
     }
 }
 

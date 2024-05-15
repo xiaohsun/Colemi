@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
@@ -90,12 +91,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     @objc private func buttonTapped() {
-        let writePostContentViewController = WritePostContentViewController()
-        let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
-        
-        writePostContentNavController.modalPresentationStyle = .fullScreen
-        
-        present(writePostContentNavController, animated: true)
+        if Auth.auth().currentUser == nil {
+            CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
+            return
+        } else {
+            let writePostContentViewController = WritePostContentViewController()
+            let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
+            
+            writePostContentNavController.modalPresentationStyle = .fullScreen
+            
+            present(writePostContentNavController, animated: true)
+        }
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
@@ -104,8 +110,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         if selectedIndex == 2 {
             return false
-        } else {
+        } else if selectedIndex == 0 {
             return true
+        } else {
+            if Auth.auth().currentUser == nil {
+                CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
+                return false
+            } else {
+                return true
+            }
         }
     }
 }
