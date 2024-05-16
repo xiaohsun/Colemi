@@ -434,37 +434,38 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
                 self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
                 self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
                 self.goodWeather = true
+                self.addShowAnimationGes()
                 // self.weatherDescriptionLabel.text = "今天的天氣是 \(condition.description)"
                 
 //                self.setUpSunnyInitPosition()
 //                self.sunnyAnimation()
 //                self.userData.colorSetToday = self.colorModel.sunnyColorsHex
-                self.addShowAnimationGes()
+                
                 
             default:
                 // 暫時改成全部都是陽光
-//                self.colorView1.backgroundColor = self.colorModel.rainColors[2]
-//                self.colorView2.backgroundColor = self.colorModel.rainColors[0]
-//                self.colorView3.backgroundColor = self.colorModel.rainColors[1]
-//                self.colorContainerView1.backgroundColor = self.colorModel.rainColors[2]
-//                self.colorContainerView2.backgroundColor = self.colorModel.rainColors[0]
-//                self.colorContainerView3.backgroundColor = self.colorModel.rainColors[1]
-//                self.raindropImageView1.tintColor = self.colorModel.rainColors[2]
-//                self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
-//                self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
-//                self.goodWeather = false
-//                self.addShowAnimationGes()
+                self.colorView1.backgroundColor = self.colorModel.rainColors[2]
+                self.colorView2.backgroundColor = self.colorModel.rainColors[0]
+                self.colorView3.backgroundColor = self.colorModel.rainColors[1]
+                self.colorContainerView1.backgroundColor = self.colorModel.rainColors[2]
+                self.colorContainerView2.backgroundColor = self.colorModel.rainColors[0]
+                self.colorContainerView3.backgroundColor = self.colorModel.rainColors[1]
+                self.raindropImageView1.tintColor = self.colorModel.rainColors[2]
+                self.raindropImageView2.tintColor = self.colorModel.rainColors[0]
+                self.raindropImageView3.tintColor = self.colorModel.rainColors[1]
+                self.goodWeather = false
+                self.addShowAnimationGes()
                 // 以上 Demo 完要改回來
                 
                 // 以下 Demo 完要刪掉
-                self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
-                self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
-                self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
-                self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
-                self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
-                self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
-                self.goodWeather = true
-                self.addShowAnimationGes()
+//                self.colorView1.backgroundColor = self.colorModel.sunnyColors[2]
+//                self.colorView2.backgroundColor = self.colorModel.sunnyColors[0]
+//                self.colorView3.backgroundColor = self.colorModel.sunnyColors[1]
+//                self.colorContainerView1.backgroundColor = self.colorModel.sunnyColors[2]
+//                self.colorContainerView2.backgroundColor = self.colorModel.sunnyColors[0]
+//                self.colorContainerView3.backgroundColor = self.colorModel.sunnyColors[1]
+//                self.goodWeather = true
+//                self.addShowAnimationGes()
                 // 以上 Demo 完要刪掉
                 
 //                self.setUpRainInitPosition()

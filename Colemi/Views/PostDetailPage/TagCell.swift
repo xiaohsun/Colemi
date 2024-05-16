@@ -17,7 +17,7 @@ class TagCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "#cute"
+        label.text = ""
         
         return label
     }()
@@ -46,6 +46,6 @@ class TagCell: UITableViewCell {
 
 extension TagCell {
     func update(content: Content) {
-        tagLabel.text = "#cute"
+        tagLabel.text = ""
     }
 }
