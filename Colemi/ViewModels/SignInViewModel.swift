@@ -35,13 +35,15 @@ class SignInViewModel {
                         colorToday: "",
                         colorSetToday: [],
                         mixColorToday: "",
+                        postToday: "",
                         chatRooms: [],
                         followers: [],
                         following: [],
                         blocking: [],
                         beBlocked: [],
-                        didUserPostToday: false,
-                        status: 1
+                        status: 1,
+                        colorPoints: 0,
+                        collectedColors: []
         )
         
         do {
@@ -71,13 +73,15 @@ class SignInViewModel {
                         self.userData.colorToday = user.colorToday
                         self.userData.colorSetToday = user.colorSetToday
                         self.userData.mixColorToday = user.mixColorToday
+                        self.userData.postToday = user.postToday
                         self.userData.savedPosts = user.savedPosts
                         self.userData.signUpTime = user.signUpTime
                         self.userData.posts = user.posts
                         self.userData.blocking = user.blocking
                         self.userData.beBlocked = user.beBlocked
-                        self.userData.didUserPostToday = user.didUserPostToday
                         self.userData.status = user.status
+                        self.userData.colorPoints = user.colorPoints
+                        self.userData.collectedColors = user.collectedColors
                         print(self.userData.name)
                         
                         self.seeIfLastLoginTimeToday()

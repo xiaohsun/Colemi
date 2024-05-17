@@ -22,7 +22,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "Hello"
         
@@ -33,7 +33,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = ""
         
@@ -54,7 +54,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "粉絲"
         addFollowerTappedGes(label: label, action: #selector(followersTapped))
@@ -66,7 +66,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "999"
         addFollowerTappedGes(label: label, action: #selector(followersTapped))
@@ -78,7 +78,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "追蹤中"
         addFollowerTappedGes(label: label, action: #selector(followingTapped))
@@ -90,7 +90,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "50"
         addFollowerTappedGes(label: label, action: #selector(followingTapped))

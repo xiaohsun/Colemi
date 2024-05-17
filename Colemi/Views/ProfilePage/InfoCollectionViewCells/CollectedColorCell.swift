@@ -24,7 +24,7 @@ class CollectedColorCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = .white
         label.text = "收集顏色"
         

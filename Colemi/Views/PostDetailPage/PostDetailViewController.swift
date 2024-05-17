@@ -43,7 +43,7 @@ class PostDetailViewController: UIViewController {
     lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle("留言", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 14)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 14)
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
@@ -98,7 +98,7 @@ class PostDetailViewController: UIViewController {
     }()
     
     private func commentTextViewInit() {
-        commentTextView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        commentTextView.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         commentTextView.textColor = ThemeColorProperty.darkColor.getColor()
         commentTextView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
     }

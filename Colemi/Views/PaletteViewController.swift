@@ -39,7 +39,7 @@ class PaletteViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "尋找附近的顏色中..."
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 30)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 30)
         label.textColor = .white
         
         return label
@@ -131,7 +131,7 @@ class PaletteViewController: UIViewController {
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(mixColorButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 30)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         button.alpha = 0
@@ -240,7 +240,7 @@ class PaletteViewController: UIViewController {
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(saveMixColorButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 20)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         button.alpha = 0
@@ -353,7 +353,7 @@ class PaletteViewController: UIViewController {
             mpc?.peerDisconnectedHandler = disconnectedFromPeer
         } else {
             findColorLabel.text = "已經混色過囉，明天再來吧"
-            findColorLabel.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+            findColorLabel.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 20)
         }
     }
     
@@ -374,7 +374,7 @@ class PaletteViewController: UIViewController {
             mpc?.start()
         } else {
             findColorLabel.text = "已經混色過囉，明天再來吧"
-            findColorLabel.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+            findColorLabel.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 20)
         }
     }
     

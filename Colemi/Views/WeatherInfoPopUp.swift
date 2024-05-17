@@ -32,7 +32,7 @@ class WeatherInfoPopUp: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = """
         Colemi 會使用您所在位置的天氣資料，資料來源為  Weather：

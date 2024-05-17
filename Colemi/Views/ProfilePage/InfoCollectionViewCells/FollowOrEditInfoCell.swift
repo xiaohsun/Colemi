@@ -23,7 +23,7 @@ class FollowOrEditInfoCell: UICollectionViewCell {
     
     lazy var button: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         button.backgroundColor = .white
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false

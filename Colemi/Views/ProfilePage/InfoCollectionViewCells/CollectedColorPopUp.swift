@@ -53,7 +53,7 @@ class CollectedColorPopUp: UIViewController {
         let label = UILabel()
         label.text = "收集過的顏色"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label

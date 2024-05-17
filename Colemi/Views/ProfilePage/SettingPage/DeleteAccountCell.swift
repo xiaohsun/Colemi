@@ -17,7 +17,7 @@ class DeleteAccountCell: UITableViewCell {
         let button = UIButton()
         button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
         button.setTitle("刪除帳號", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         button.backgroundColor = UIColor(hex: "EE4A43")
         // button.backgroundColor = UIColor(hex: "DC2B37")
         button.addTarget(self, action: #selector(deleteAccountButtonTapped), for: .touchUpInside)

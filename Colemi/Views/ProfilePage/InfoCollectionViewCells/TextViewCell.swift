@@ -25,7 +25,7 @@ class TextViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "新增個人描述"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
@@ -35,7 +35,7 @@ class TextViewCell: UICollectionViewCell {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
-        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        textView.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         textView.textColor = ThemeColorProperty.darkColor.getColor()
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.delegate = self

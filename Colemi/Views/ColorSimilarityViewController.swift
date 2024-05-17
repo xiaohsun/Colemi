@@ -90,7 +90,7 @@ class ColorSimilarityViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "點擊螢幕"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 22)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 22)
         label.textAlignment = .center
         label.alpha = 0
         
@@ -147,7 +147,7 @@ class ColorSimilarityViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "分析顏色"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 24)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 24)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
@@ -157,7 +157,7 @@ class ColorSimilarityViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "恭喜！"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_H.rawValue, size: 34)
+        label.font = ThemeFontProperty.GenSenRoundedTW_H.getFont(size: 34)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.alpha = 0
         
@@ -167,7 +167,7 @@ class ColorSimilarityViewController: UIViewController {
     lazy var totalCountsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_H.rawValue, size: 34)
+        label.font = ThemeFontProperty.GenSenRoundedTW_H.getFont(size: 34)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.alpha = 0
         
@@ -180,7 +180,7 @@ class ColorSimilarityViewController: UIViewController {
         button.backgroundColor = ThemeColorProperty.lightColor.getColor()
         button.addTarget(self, action: #selector(backToMainPageButtonTapped), for: .touchUpInside)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 28)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 28)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0
         

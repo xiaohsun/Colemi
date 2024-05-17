@@ -74,7 +74,7 @@ class TodayColorViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "滑到底囉～！"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label

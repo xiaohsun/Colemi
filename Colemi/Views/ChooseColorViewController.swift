@@ -42,7 +42,7 @@ class ChooseColorViewController: UIViewController {
     lazy var tapScreenLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 24)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 24)
         label.textColor = .white
         label.text = "請點選螢幕"
         
@@ -55,7 +55,7 @@ class ChooseColorViewController: UIViewController {
         label.numberOfLines = 0
         label.text = "選擇代表今日的顏色"
         label.textColor = .white
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 24)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 24)
         label.alpha = 0
         
         return label

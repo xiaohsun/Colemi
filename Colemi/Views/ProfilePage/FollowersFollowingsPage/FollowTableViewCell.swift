@@ -24,7 +24,7 @@ class FollowTableViewCell: UITableViewCell {
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 16)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = ""
         

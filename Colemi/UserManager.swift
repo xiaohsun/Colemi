@@ -15,7 +15,7 @@ class UserManager {
     var selectedColor: (red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat)?
     var selectedUIColor: UIColor?
     var selectedHexColor: String?
-    var id = FakeUserData.shared.userOneID
+    var id = ""
     var name = "柏勳一號"
     var posts: [String] = []
     var likes: [String] = []
@@ -27,11 +27,13 @@ class UserManager {
     var colorToday = "#A6EDED"
     var colorSetToday: [String] = ["#A6EDED", "#FEFFA8", "#FF8A8A"]
     var mixColorToday = ""
+    var postToday = ""
     var chatRooms: [SimpleChatRoom] = []
     var followers: [String] = []
     var following: [String] = []
     var blocking: [String] = []
     var beBlocked: [String] = []
-    var didUserPostToday: Bool = false
     var status: Int = 1
+    var colorPoints: Int = 0
+    var collectedColors: [String] = []
 }

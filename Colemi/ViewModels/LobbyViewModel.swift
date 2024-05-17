@@ -33,46 +33,48 @@ class LobbyViewModel {
                         colorToday: "",
                         colorSetToday: [],
                         mixColorToday: "",
+                        postToday: "",
                         chatRooms: [],
                         followers: [],
                         following: [],
                         blocking: [],
                         beBlocked: [],
-                        didUserPostToday: false,
-                        status: 1
+                        status: 1,
+                        colorPoints: 0,
+                        collectedColors: []
         )
         
         firestoreManager.setData(user, at: docRef)
     }
     
-    func loginUserOne(completion: @escaping (User?) -> Void) async {
-        let firestoreManager = FirestoreManager.shared
-        let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: FakeUserData.shared.userOneID)
-        completion(userData)
-        //        let docRef = ref.document("uEXEtoFSGINxrlEDUypP")
-        //
-        //        do {
-        //            let document = try docRef.getDocument()
-        //            if document.exists {
-        //                if let data = document.data() {
-        //                    let decodedData = try Firestore.Decoder().decode(User.self, from: data)
-        //                    completion(decodedData)
-        //                } else {
-        //                    print("Document data is empty")
-        //                }
-        //            }
-        //        } catch {
-        //            print("Error getting document: \(error)")
-        //        }
-    }
+//    func loginUserOne(completion: @escaping (User?) -> Void) async {
+//        let firestoreManager = FirestoreManager.shared
+//        let ref = FirestoreEndpoint.users.ref
+//        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: FakeUserData.shared.userOneID)
+//        completion(userData)
+//        //        let docRef = ref.document("uEXEtoFSGINxrlEDUypP")
+//        //
+//        //        do {
+//        //            let document = try docRef.getDocument()
+//        //            if document.exists {
+//        //                if let data = document.data() {
+//        //                    let decodedData = try Firestore.Decoder().decode(User.self, from: data)
+//        //                    completion(decodedData)
+//        //                } else {
+//        //                    print("Document data is empty")
+//        //                }
+//        //            }
+//        //        } catch {
+//        //            print("Error getting document: \(error)")
+//        //        }
+//    }
     
-    func loginUserTwo(completion: @escaping (User?) -> Void) async {
-        let firestoreManager = FirestoreManager.shared
-        let ref = FirestoreEndpoint.users.ref
-        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: FakeUserData.shared.userTwoID)
-        completion(userData)
-    }
+//    func loginUserTwo(completion: @escaping (User?) -> Void) async {
+//        let firestoreManager = FirestoreManager.shared
+//        let ref = FirestoreEndpoint.users.ref
+//        let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: FakeUserData.shared.userTwoID)
+//        completion(userData)
+//    }
     
     func readData(completion: @escaping () -> Void) {
         let ref = FirestoreEndpoint.posts.ref

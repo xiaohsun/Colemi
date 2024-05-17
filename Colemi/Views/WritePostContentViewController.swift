@@ -33,7 +33,7 @@ class WritePostContentViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 16)
         label.text = "任務顏色"
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
@@ -53,7 +53,7 @@ class WritePostContentViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        textField.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 40)
+        textField.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 40)
         textField.textColor = ThemeColorProperty.darkColor.getColor()
         textField.placeholder = "標題"
         
@@ -75,7 +75,7 @@ class WritePostContentViewController: UIViewController {
         textView.addLineSpacing()
         textView.textColor = .white
         textView.textContainerInset = .init(top: 25, left: 20, bottom: 25, right: 20)
-        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        textView.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         textView.text = "多大埔的傍晚 5 點 23 分，在綠色曠野撒上一抹陽光，春天好像偷偷地來了呢。"
         
         return textView
@@ -86,7 +86,7 @@ class WritePostContentViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
         textField.placeholder = "#標籤"
-        textField.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        textField.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         textField.textAlignment = .right
         textField.textColor = ThemeColorProperty.darkColor.getColor()
         

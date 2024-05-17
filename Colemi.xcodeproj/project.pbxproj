@@ -133,7 +133,7 @@
 		289D72A32BDD4CCD00051D07 /* GenSenRounded-L.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729C2BDD4C4200051D07 /* GenSenRounded-L.ttc */; };
 		289D72A42BDD4CCF00051D07 /* GenSenRounded-M.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729E2BDD4C4300051D07 /* GenSenRounded-M.ttc */; };
 		289D72A52BDD4CD100051D07 /* GenSenRounded-R.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */; };
-		289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A62BDD4FCB00051D07 /* FontProperty.swift */; };
+		289D72A72BDD4FCB00051D07 /* ThemeFontProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */; };
 		289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A82BDE0D2500051D07 /* UITextView+Extension.swift */; };
 		28A076EF2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A076EE2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift */; };
 		28A91F7C2BEA185F0078F4C9 /* PaletteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A91F7B2BEA185F0078F4C9 /* PaletteViewModel.swift */; };
@@ -154,7 +154,6 @@
 		28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */; };
 		28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */; };
 		28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */; };
-		28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530F2BD4BA3C00864187 /* FakeUserData.swift */; };
 		28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */; };
 		28D253162BD62D1600864187 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253152BD62D1600864187 /* TabBarController.swift */; };
 		28D533AC2BF0A51C00851B9A /* ColorFootprintPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D533AB2BF0A51C00851B9A /* ColorFootprintPopUp.swift */; };
@@ -260,7 +259,7 @@
 		289D729D2BDD4C4300051D07 /* GenSenRounded-H.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-H.ttc"; sourceTree = "<group>"; };
 		289D729E2BDD4C4300051D07 /* GenSenRounded-M.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-M.ttc"; sourceTree = "<group>"; };
 		289D729F2BDD4C4400051D07 /* GenSenRounded-R.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-R.ttc"; sourceTree = "<group>"; };
-		289D72A62BDD4FCB00051D07 /* FontProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontProperty.swift; sourceTree = "<group>"; };
+		289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFontProperty.swift; sourceTree = "<group>"; };
 		289D72A82BDE0D2500051D07 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		28A076EE2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCDismissAnimator.swift; sourceTree = "<group>"; };
 		28A91F7B2BEA185F0078F4C9 /* PaletteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewModel.swift; sourceTree = "<group>"; };
@@ -282,7 +281,6 @@
 		28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChatRoom.swift; sourceTree = "<group>"; };
 		28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedChatRoom.swift; sourceTree = "<group>"; };
-		28D2530F2BD4BA3C00864187 /* FakeUserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeUserData.swift; sourceTree = "<group>"; };
 		28D253112BD4BD7900864187 /* ChatRoomsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewModel.swift; sourceTree = "<group>"; };
 		28D253152BD62D1600864187 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		28D533AB2BF0A51C00851B9A /* ColorFootprintPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFootprintPopUp.swift; sourceTree = "<group>"; };
@@ -571,9 +569,8 @@
 				281240E82BC9315400777F91 /* Colemi.entitlements */,
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
-				28D2530F2BD4BA3C00864187 /* FakeUserData.swift */,
 				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
-				289D72A62BDD4FCB00051D07 /* FontProperty.swift */,
+				289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
 				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
 				289D72992BDD4BDC00051D07 /* Fonts */,
@@ -764,7 +761,6 @@
 				287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */,
 				284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */,
 				282F57ED2BCC0F0E00E3DBE6 /* CloudVisionManager.swift in Sources */,
-				28D253102BD4BA3C00864187 /* FakeUserData.swift in Sources */,
 				283EF6582BD757420007C8D8 /* Comment.swift in Sources */,
 				281561722BEE721300C98859 /* OtherChatImageBubbleTableViewCell.swift in Sources */,
 				287A62E02BE4E56B00E09788 /* ChatCell.swift in Sources */,
@@ -797,7 +793,7 @@
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
 				287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */,
-				289D72A72BDD4FCB00051D07 /* FontProperty.swift in Sources */,
+				289D72A72BDD4FCB00051D07 /* ThemeFontProperty.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
 				2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */,
 				281561702BEE6CF300C98859 /* MyChatImageBubbleTableViewCell.swift in Sources */,

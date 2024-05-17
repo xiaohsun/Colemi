@@ -53,7 +53,7 @@ class AchievementPopUp: UIViewController {
         let label = UILabel()
         label.text = "成就"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
@@ -63,7 +63,7 @@ class AchievementPopUp: UIViewController {
         let label = UILabel()
         label.text = "此功能尚未開放，敬請期待"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 16)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label

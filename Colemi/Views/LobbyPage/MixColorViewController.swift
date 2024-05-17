@@ -47,7 +47,7 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 24)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 24)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "混色後再來看看吧"
         

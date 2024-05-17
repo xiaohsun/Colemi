@@ -25,7 +25,7 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "臭芭樂"
         
@@ -36,7 +36,7 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label

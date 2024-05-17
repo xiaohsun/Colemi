@@ -26,7 +26,7 @@ class LobbyViewController: UIViewController {
     lazy var buttonOne: UIButton = {
         let button = UIButton()
         button.setTitle("全部顏色", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.isSelected = true
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
@@ -38,7 +38,7 @@ class LobbyViewController: UIViewController {
     lazy var buttonTwo: UIButton = {
         let button = UIButton()
         button.setTitle("今日顏色", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.setTitleColor(.lightGray, for: .normal)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -49,7 +49,7 @@ class LobbyViewController: UIViewController {
     lazy var buttonThree: UIButton = {
         let button = UIButton()
         button.setTitle("今日混色", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -61,7 +61,7 @@ class LobbyViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "滑到底囉～！"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label

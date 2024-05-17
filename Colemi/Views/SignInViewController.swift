@@ -39,7 +39,7 @@ class SignInViewController: UIViewController {
         let button = UIButton()
         button.setTitle("使用者條款", for: .normal)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 16)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(showEULAPage), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ class SignInViewController: UIViewController {
         let button = UIButton()
         button.setTitle("遊客登入", for: .normal)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 16)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(goWithoutSignInTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
