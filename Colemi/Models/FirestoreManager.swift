@@ -183,31 +183,6 @@ class FirestoreManager {
         return documents
     }
     
-//    func getIsEqualToNotInDocument<T: Codable>(query: Query) async -> T? {
-//        
-//        var document: T?
-//            
-//            do {
-//                let querySnapshots = try await query.getDocuments()
-//                for doc in querySnapshots.documents {
-//                    let data = doc.data()
-//                    if let decodedData = try? Firestore.Decoder().decode(T.self, from: data) {
-//                        document = decodedData
-//                    }
-//                }
-//            } catch {
-//                print("Error fetching documents: \(error)")
-//            }
-//        
-//            return document
-//        }
-    
-    
-    // 不確定
-    //    func updateDocument<T>(data: [String: T], collection: CollectionReference, docID: String) {
-    //        collection.document(docID).updateData(data)
-    //    }
-    
     func updateDocument<T: Encodable>(data: [String: T], collection: CollectionReference, docID: String) {
         do {
             let jsonData = try JSONEncoder().encode(data)
