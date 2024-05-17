@@ -10,6 +10,7 @@ import Kingfisher
 class ChatRoomTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "\(ChatRoomTableViewCell.self)"
+    let viewModel = ChatRoomViewModel()
     
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -26,7 +27,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "勳寶貝"
+        label.text = "User"
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
         
         return label
@@ -37,14 +38,13 @@ class ChatRoomTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textColor = ThemeColorProperty.darkColor.getColor()
-        label.text = "你真是太棒了"
+        label.text = "Hi"
         label.font = UIFont(name: FontProperty.GenSenRoundedTW_L.rawValue, size: 16)
         
         return label
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    private func setUpUI() {
         self.selectionStyle = .none
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(avatarImageView)
@@ -69,6 +69,11 @@ class ChatRoomTableViewCell: UITableViewCell {
         ])
     }
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setUpUI()
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
         avatarImageView.layer.cornerRadius = avatarImageView.frame.width / 2
@@ -81,17 +86,17 @@ class ChatRoomTableViewCell: UITableViewCell {
 
 extension ChatRoomTableViewCell {
     func update(simpleChatRoomData: SimpleChatRoom) {
-        if simpleChatRoomData.latestMessageType == 0 {
-            messageLabel.text = simpleChatRoomData.latestMessage
-        } else {
-            if simpleChatRoomData.latestMessageSender == UserManager.shared.id {
-                messageLabel.text = "你傳送了一張圖片"
-            } else {
-                messageLabel.text = "\(simpleChatRoomData.receiverName)傳送了一張圖片"
-            }
-        }
-        nameLabel.text = simpleChatRoomData.receiverName
+        
         let avatarUrl = URL(string: simpleChatRoomData.receiverAvatarURL)
         avatarImageView.kf.setImage(with: avatarUrl)
+        nameLabel.text = simpleChatRoomData.receiverName
+        
+        switch simpleChatRoomData.latestMessageType {
+        case 0:
+            messageLabel.text = simpleChatRoomData.latestMessage
+        default:
+            let isSenderMyself = simpleChatRoomData.latestMessageSender == viewModel.userData.id
+            messageLabel.text = isSenderMyself ? "你傳送了一張圖片" : "\(simpleChatRoomData.receiverName)傳送了一張圖片"
+        }
     }
 }

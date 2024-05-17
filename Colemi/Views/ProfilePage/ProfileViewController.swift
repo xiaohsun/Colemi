@@ -318,7 +318,6 @@ extension ProfileViewController: InformationCellDelegate {
         let chatRoomViewController = ChatRoomViewController()
         chatRoomViewController.viewModel.chatRoomID = chatRoomID
         chatRoomViewController.viewModel.otherUserName = otherUserData.name
-        // chatRoomViewController.viewModel.otherUserAvatarUrl = otherUserData.avatarPhoto
         chatRoomViewController.viewModel.otherUserAvatarImage = avatarImage
         
         navigationController?.pushViewController(chatRoomViewController, animated: true)
@@ -341,5 +340,3 @@ extension ProfileViewController: InformationCellDelegate {
         navigationController?.pushViewController(followViewController, animated: true)
     }
 }
-
-

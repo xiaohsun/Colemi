@@ -10,18 +10,17 @@ import PhotosUI
 
 class ChatRoomViewController: UIViewController {
     
-    let userData = UserManager.shared
     let viewModel = ChatRoomViewModel()
+    
     let textViewInitHeight: CGFloat = 33
-    // var containerViewTopCons: NSLayoutConstraint?
     var chatTextViewHeightCons: NSLayoutConstraint?
     var imageViewTopCons: NSLayoutConstraint?
     var imageViewWidthCons: NSLayoutConstraint?
-    // var chatRoomID: String = ""
-    var isSendingImage = false
     var tappedImageView: UIImageView?
     var tappedCell: UITableViewCell?
-    var loadFirstTime: Bool = true
+    
+    var isSendingImage: Bool = false
+    var isPageLoadFirstTime: Bool = true
     
     var popAnimator: ChatRoomVCPopAnimator?
     var dismissAnimator: ChatRoomVCDismissAnimator?
@@ -32,9 +31,9 @@ class ChatRoomViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.register(OtherChatTextBubbleTableViewCell.self, forCellReuseIdentifier: OtherChatTextBubbleTableViewCell.reuseIdentifier)
         tableView.register(MyChatTextBubbleTableViewCell.self, forCellReuseIdentifier: MyChatTextBubbleTableViewCell.reuseIdentifier)
         tableView.register(MyChatImageBubbleTableViewCell.self, forCellReuseIdentifier: MyChatImageBubbleTableViewCell.reuseIdentifier)
+        tableView.register(OtherChatTextBubbleTableViewCell.self, forCellReuseIdentifier: OtherChatTextBubbleTableViewCell.reuseIdentifier)
         tableView.register(OtherChatImageBubbleTableViewCell.self, forCellReuseIdentifier: OtherChatImageBubbleTableViewCell.reuseIdentifier)
         
         tableView.estimatedRowHeight = 150
@@ -42,7 +41,6 @@ class ChatRoomViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         tableView.showsVerticalScrollIndicator = false
-        
         return tableView
     }()
     
@@ -54,12 +52,11 @@ class ChatRoomViewController: UIViewController {
         textView.backgroundColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.delegate = self
-        
         return textView
     }()
     
     private func chatTextViewInit() {
-        chatTextView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
+        chatTextView.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 16)
         chatTextView.textColor = ThemeColorProperty.darkColor.getColor()
         chatTextView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
     }
@@ -88,58 +85,6 @@ class ChatRoomViewController: UIViewController {
         return button
     }()
     
-    private func pictureGoDownAnimation() {
-        isSendingImage = false
-        view.endEditing(true)
-        imageViewTopCons?.constant = 0
-        
-        UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-            self.chatTextView.alpha = 1
-            self.choosePhotoButton.alpha = 1
-            self.sendPicLabel.alpha = 0
-            self.cancelPicImageView.alpha = 0
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            self.imageViewWidthCons?.constant = 200
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    @objc private func sendMessageButtonTapped() {
-        
-        if !isSendingImage {
-            if chatTextView.text != "" {
-                Task {
-                    await viewModel.updateUsersSimpleChatRoom(latestMessage: chatTextView.text, type: 0)
-                    DispatchQueue.main.async {
-                        self.chatTextView.text = ""
-                        self.view.endEditing(true)
-                    }
-                }
-            }
-            
-        } else {
-            guard let imageData = viewModel.imageData, let imageSize = viewModel.imageSize else { return }
-            
-            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: imageSize)
-            
-            DispatchQueue.main.async {
-                self.pictureGoDownAnimation()
-            }
-        }
-        // 更新 user chatroom 的時間
-        // 更新 Chatroom 內的 messages
-    }
-    
-    @objc private func choosePicButtonTapped() {
-        var configuration = PHPickerConfiguration()
-        configuration.filter = .images
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        
-        present(picker, animated: true)
-    }
-    
     lazy var cancelPicImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -160,24 +105,12 @@ class ChatRoomViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "傳送圖片"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         label.textColor = .white
         label.alpha = 0
         
         return label
     }()
-    
-    @objc private func cancelPicture() {
-        pictureGoDownAnimation()
-    }
-    
-//    lazy var backButton: UIButton = {
-//        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
-//        button.addTarget(self, action: #selector(popNav), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setImage(.backIcon, for: .normal)
-//        return button
-//    }()
     
     lazy var pictureImageView: UIImageView = {
         let imageView = UIImageView()
@@ -190,17 +123,89 @@ class ChatRoomViewController: UIViewController {
         return imageView
     }()
     
+    private func dismissPictureView() {
+        view.endEditing(true)
+        imageViewTopCons?.constant = 0
+        self.pictureUpDownAnimation(isSendingImage: false)
+    }
+    
+    private func showPictureView(image: UIImage) {
+        let ratio = image.size.height / 200
+        self.imageViewWidthCons?.constant = image.size.width / ratio
+        self.view.layoutIfNeeded()
+        
+        self.imageViewTopCons?.constant = -(self.pictureImageView.frame.height + self.containerView.frame.height + 25)
+        
+        self.pictureUpDownAnimation(isSendingImage: true)
+    }
+    
+    private func pictureUpDownAnimation(isSendingImage: Bool) {
+        self.isSendingImage = isSendingImage
+        UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+            self.chatTextView.alpha = isSendingImage ? 0 : 1
+            self.choosePhotoButton.alpha = isSendingImage ? 0 : 1
+            self.sendPicLabel.alpha = isSendingImage ? 1 : 0
+            self.cancelPicImageView.alpha = isSendingImage ? 1 : 0
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func sendMessageButtonTapped() {
+        if !isSendingImage && chatTextView.text != "" {
+            Task {
+                await viewModel.updateUsersSimpleChatRoom(latestMessage: chatTextView.text, type: 0)
+                DispatchQueue.main.async {
+                    self.chatTextView.text = ""
+                    self.view.endEditing(true)
+                }
+            }
+            
+        } else {
+            guard let imageData = viewModel.imageData, let imageSize = viewModel.imageSize else { return }
+            
+            viewModel.uploadImgToFirebase(imageData: imageData, imageSize: imageSize)
+            
+            DispatchQueue.main.async {
+                self.dismissPictureView()
+            }
+        }
+    }
+    
+    @objc private func choosePicButtonTapped() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        
+        present(picker, animated: true)
+    }
+    
+    @objc private func cancelPicture() {
+        dismissPictureView()
+    }
+    
     private func setUpNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         navigationItem.title = viewModel.otherUserName
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
     @objc private func popNav() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func presentImageDetailViewController(cell: UITableViewCell, imageMessageView: UIImageView) {
+        let imageDetailViewController = ImageDetailViewController()
+        tappedImageView = imageMessageView
+        tappedCell = cell
+        
+        imageDetailViewController.modalPresentationStyle = .custom
+        imageDetailViewController.transitioningDelegate = self
+        
+        navigationController?.present(imageDetailViewController, animated: true)
     }
     
     private func setUpUI() {
@@ -226,9 +231,6 @@ class ChatRoomViewController: UIViewController {
         
         imageViewWidthCons = pictureImageView.widthAnchor.constraint(equalToConstant: 200)
         imageViewWidthCons?.isActive = true
-        
-        //        containerViewTopCons = containerView.topAnchor.constraint(equalTo: chatTextView.topAnchor, constant: -25)
-        //        containerViewTopCons?.isActive = true
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -272,7 +274,6 @@ class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         viewModel.delegate = self
-        // navigationController?.delegate = self
         viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
     }
     
@@ -289,82 +290,55 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if viewModel.messages[indexPath.item].senderID == userData.id {
+        let isSenderMyself = viewModel.messages[indexPath.item].senderID == viewModel.userData.id
+        let isMessageTypeText = viewModel.messages[indexPath.item].type == 0
+        let message = viewModel.messages[indexPath.item]
+        
+        if isSenderMyself && isMessageTypeText {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatTextBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatTextBubbleTableViewCell else { return UITableViewCell() }
             
-            if viewModel.messages[indexPath.item].type == 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatTextBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatTextBubbleTableViewCell else { return UITableViewCell() }
-                
-                cell.update(messageData: viewModel.messages[indexPath.item])
-                //                cell.layoutSubviews()
-                //                cell.layoutIfNeeded()
-                
-                return cell
-                
-            } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatImageBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatImageBubbleTableViewCell else { return UITableViewCell() }
-                
-                cell.update(messageData: viewModel.messages[indexPath.item])
-                //                cell.layoutSubviews()
-                cell.delegate = self
-                //                cell.layoutIfNeeded()
-                
-                return cell
-            }
+            cell.update(messageData: message)
             
+            return cell
+            
+        } else if isSenderMyself && !isMessageTypeText {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatImageBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatImageBubbleTableViewCell else { return UITableViewCell() }
+            
+            cell.update(messageData: message)
+            cell.delegate = self
+            
+            return cell
+            
+        } else if !isSenderMyself && isMessageTypeText {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatTextBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatTextBubbleTableViewCell
+            else { return UITableViewCell() }
+            
+            cell.update(messageData: message, avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
+            
+            return cell
             
         } else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatImageBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatImageBubbleTableViewCell
+            else { return UITableViewCell() }
             
-            if viewModel.messages[indexPath.item].type == 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatTextBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatTextBubbleTableViewCell
-                else { return UITableViewCell() }
-                
-                cell.update(messageData: viewModel.messages[indexPath.item], avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
-                //                cell.layoutSubviews()
-                //                cell.layoutIfNeeded()
-                
-                return cell
-                
-            } else {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: OtherChatImageBubbleTableViewCell.reuseIdentifier, for: indexPath) as? OtherChatImageBubbleTableViewCell
-                else { return UITableViewCell() }
-                
-                cell.update(messageData: viewModel.messages[indexPath.item], avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
-                //                cell.layoutSubviews()
-                //                cell.layoutIfNeeded()
-                
-                cell.delegate = self
-                
-                return cell
-            }
+            cell.update(messageData: message, avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
+            cell.delegate = self
+            
+            return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? MyChatImageBubbleTableViewCell {
-            let imageDetailViewController = ImageDetailViewController()
-            tappedImageView = cell.imageMessageView
-            tappedCell = cell
-            
-            imageDetailViewController.modalPresentationStyle = .custom
-            imageDetailViewController.transitioningDelegate = self
-            
-            navigationController?.present(imageDetailViewController, animated: true)
-            // self.present(imageDetailViewController, animated: true)
+            presentImageDetailViewController(cell: cell, imageMessageView: cell.imageMessageView)
         }
         
         if let cell = tableView.cellForRow(at: indexPath) as? OtherChatImageBubbleTableViewCell {
-            let imageDetailViewController = ImageDetailViewController()
-            tappedImageView = cell.imageMessageView
-            tappedCell = cell
-            
-            imageDetailViewController.modalPresentationStyle = .custom
-            imageDetailViewController.transitioningDelegate = self
-            
-            navigationController?.present(imageDetailViewController, animated: true)
-            // self.present(imageDetailViewController, animated: true)
+            presentImageDetailViewController(cell: cell, imageMessageView: cell.imageMessageView)
         }
     }
     
+    // 可能可以刪掉
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.layoutIfNeeded()
         cell.setNeedsLayout()
@@ -375,14 +349,15 @@ extension ChatRoomViewController: ChatRoomViewModelDelegate {
     func updateTableView() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
-            if !self.viewModel.messages.isEmpty {
-                let indexPath = IndexPath(row: self.viewModel.messages.count - 1, section: 0)
-                if self.loadFirstTime {
-                    self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
-                    self.loadFirstTime = false
-                } else {
-                    self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
-                }
+            let havePastMessages = !self.viewModel.messages.isEmpty
+            let indexPath = IndexPath(row: self.viewModel.messages.count - 1, section: 0)
+            
+            if havePastMessages && self.isPageLoadFirstTime {
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                self.isPageLoadFirstTime = false
+                
+            } else if havePastMessages && !self.isPageLoadFirstTime {
+                self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
             }
         }
     }
@@ -430,21 +405,8 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate {
                         self.viewModel.imageData = image.jpegData(compressionQuality: 0.6)
                         self.viewModel.imageSize = image.size
                         
-                        let ratio = image.size.height / 200
-                        
-                        self.imageViewWidthCons?.constant = image.size.width / ratio
-                        self.view.layoutIfNeeded()
-                        
-                        self.imageViewTopCons?.constant = -(self.pictureImageView.frame.height + self.containerView.frame.height + 25)
-                        self.isSendingImage = true
-                        
-                        UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                            self.chatTextView.alpha = 0
-                            self.choosePhotoButton.alpha = 0
-                            self.sendPicLabel.alpha = 1
-                            self.cancelPicImageView.alpha = 1
-                            self.view.layoutIfNeeded()
-                        }
+                        self.showPictureView(image: image)
+                        self.pictureUpDownAnimation(isSendingImage: true)
                     }
                 }
             }
@@ -453,7 +415,6 @@ extension ChatRoomViewController: PHPickerViewControllerDelegate {
 }
 
 extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
-    
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         if let navigationController = navigationController {
@@ -476,31 +437,31 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
 extension ChatRoomViewController: MyChatImageBubbleTableViewCellDelegate, OtherChatImageBubbleTableViewCellDelegate {
     // 完全沒被執行到
     func updateTableView1(cell: UITableViewCell) {
-//        view.layoutIfNeeded()
-//        tableView.layoutIfNeeded()
+        //        view.layoutIfNeeded()
+        //        tableView.layoutIfNeeded()
         // UIView.performWithoutAnimation {
-//            tableView.beginUpdates()
-////            if let indexPath = tableView.indexPath(for: cell) {
-////                tableView.reloadRows(at: [indexPath], with: .none)
-////            }
-////            view.layoutIfNeeded()
-////            tableView.layoutIfNeeded()
-//            tableView.endUpdates()
+        //            tableView.beginUpdates()
+        ////            if let indexPath = tableView.indexPath(for: cell) {
+        ////                tableView.reloadRows(at: [indexPath], with: .none)
+        ////            }
+        ////            view.layoutIfNeeded()
+        ////            tableView.layoutIfNeeded()
+        //            tableView.endUpdates()
         //}
     }
     
     func updateTableView2(cell: UITableViewCell) {
-//        view.layoutIfNeeded()
-//        tableView.layoutIfNeeded()
+        //        view.layoutIfNeeded()
+        //        tableView.layoutIfNeeded()
         
         //UIView.performWithoutAnimation {
-//            tableView.beginUpdates()
-////            if let indexPath = tableView.indexPath(for: cell) {
-////                tableView.reloadRows(at: [indexPath], with: .none)
-////            }
-////            view.layoutIfNeeded()
-////            tableView.layoutIfNeeded()
-//            tableView.endUpdates()
-       // }
+        //            tableView.beginUpdates()
+        ////            if let indexPath = tableView.indexPath(for: cell) {
+        ////                tableView.reloadRows(at: [indexPath], with: .none)
+        ////            }
+        ////            view.layoutIfNeeded()
+        ////            tableView.layoutIfNeeded()
+        //            tableView.endUpdates()
+        // }
     }
 }
