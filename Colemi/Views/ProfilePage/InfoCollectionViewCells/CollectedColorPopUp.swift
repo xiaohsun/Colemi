@@ -10,7 +10,7 @@ import UIKit
 class CollectedColorPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
-    var containerViewHeight: CGFloat = 300
+    let userData = UserManager.shared
     
     lazy var backgroundView: UIView = {
         let view = UIView()
@@ -28,32 +28,23 @@ class CollectedColorPopUp: UIViewController {
         return view
     }()
     
-//    lazy var iconImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")?.withRenderingMode(.alwaysTemplate)
-//        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
-//        
-//        return imageView
-//    }()
-    
-//    lazy var tableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.backgroundColor = .white
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        tableView.separatorStyle = .none
-//        tableView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
-//        tableView.register(OverLayPopUpCell.self, forCellReuseIdentifier: OverLayPopUpCell.reuseIdentifier)
-//        return tableView
-//    }()
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .white
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
+        tableView.register(CollectedColorTableViewCell.self, forCellReuseIdentifier: CollectedColorTableViewCell.reuseIdentifier)
+        return tableView
+    }()
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "收集過的顏色"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 20)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
@@ -77,7 +68,7 @@ class CollectedColorPopUp: UIViewController {
         view.addSubview(backgroundView)
         view.addSubview(containerView)
         containerView.addSubview(titleLabel)
-        // containerView.addSubview(tableView)
+        containerView.addSubview(tableView)
         containerView.addSubview(closeButton)
         
         containerViewTopCons = containerView.topAnchor.constraint(equalTo: view.bottomAnchor)
@@ -91,7 +82,7 @@ class CollectedColorPopUp: UIViewController {
             
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: containerViewHeight),
+            containerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             
             closeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
@@ -99,12 +90,12 @@ class CollectedColorPopUp: UIViewController {
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
-            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
-//            tableView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
-//            tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-//            tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-//            tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 25),
+            tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
+            tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
         ])
     }
     
@@ -151,15 +142,17 @@ class CollectedColorPopUp: UIViewController {
     }
 }
 
-//extension ColorFootprintPopUp: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        1
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//            return UITableViewCell()
-//    }
-//    
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    }
-//}
+extension CollectedColorPopUp: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        userData.collectedColors.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectedColorTableViewCell.reuseIdentifier, for: indexPath) as? CollectedColorTableViewCell else { return UITableViewCell() }
+        let reverseIndex = userData.collectedColors.count - indexPath.row - 1
+        let hexColor = userData.collectedColors[reverseIndex]
+        cell.update(hexColor: hexColor)
+        
+        return cell
+    }
+}

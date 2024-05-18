@@ -28,15 +28,6 @@ class ColorFootprintPopUp: UIViewController {
         return view
     }()
     
-//    lazy var iconImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")?.withRenderingMode(.alwaysTemplate)
-//        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
-//        
-//        return imageView
-//    }()
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +44,7 @@ class ColorFootprintPopUp: UIViewController {
         let label = UILabel()
         label.text = "排行榜"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 20)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label

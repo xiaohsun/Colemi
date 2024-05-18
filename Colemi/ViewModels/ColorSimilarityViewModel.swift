@@ -42,8 +42,13 @@ class ColorSimilarityViewModel {
         let ref = FirestoreEndpoint.users.ref
         userData.colorPoints += colorPoints
         
+        if !userData.collectedColors.contains(userData.colorToday) {
+            userData.collectedColors.append(userData.colorToday)
+        }
+        
         let updateData: [String: Any] = [
-            UserProperty.colorPoints.rawValue: userData.colorPoints
+            UserProperty.colorPoints.rawValue: userData.colorPoints,
+            UserProperty.collectedColors.rawValue: userData.collectedColors,
         ]
         
         firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: userData.id)
