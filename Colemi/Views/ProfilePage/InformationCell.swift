@@ -105,13 +105,12 @@ class InformationCell: UITableViewCell {
     }
     
     @objc private func followersTapped() {
-        print("Followers get tapped")
         // isOthersPage ? print(viewModel.otherUserData?.followers) : print(viewModel.userData.followers)
         delegate?.pushToFollowVC(isFollowersTapped: true)
     }
     
     @objc private func followingTapped() {
-        print("Following get tapped")
+        
         // isOthersPage ? print(viewModel.otherUserData?.following) : print(viewModel.userData.following)
         delegate?.pushToFollowVC(isFollowersTapped: false)
     }
@@ -343,6 +342,7 @@ extension InformationCell {
                 switch indexPath.row {
                 case 0:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorFootprintCell.reuseIdentifier, for: indexPath) as? ColorFootprintCell else { fatalError("Can't create new cell") }
+                    cell.update(colorPoints: self.viewModel.userData.colorPoints)
                     
                     return cell
                 case 1:

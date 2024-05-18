@@ -37,7 +37,6 @@ class ColorFootprintCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 16)
         label.textColor = .white
-        label.text = "942"
         
         return label
     }()
@@ -65,5 +64,11 @@ class ColorFootprintCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+}
+
+extension ColorFootprintCell {
+    func update(colorPoints: Int) {
+        footprintNumberLabel.text = String(colorPoints)
     }
 }
