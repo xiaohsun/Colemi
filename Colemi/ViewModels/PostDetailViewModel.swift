@@ -14,6 +14,7 @@ class PostDetailViewModel {
         didSet {
             guard let post = post else { return }
             comments = post.comments
+            tag = post.tag
         }
     }
     
@@ -23,6 +24,7 @@ class PostDetailViewModel {
     var authorName: String = ""
     var authorData: User?
     var authorID = ""
+    var tag = ""
     
     func decodeContent(jsonString: String, completion: @escaping (Content) -> Void) {
         let cleanedString = jsonString.replacingOccurrences(of: "\\", with: "")

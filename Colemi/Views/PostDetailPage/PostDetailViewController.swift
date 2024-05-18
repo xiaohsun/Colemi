@@ -236,7 +236,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
         if section == 0 {
             return 1
         } else if section == 1 {
-            return 3
+            return 4
         } else {
             return viewModel.comments.count
         }
@@ -268,14 +268,23 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
             case 1:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: TagCell.reuseIdentifier, for: indexPath) as? TagCell else { return UITableViewCell() }
                 
-                cell.update(content: content)
+                cell.update(tag: viewModel.tag)
                 
                 return cell
                 
             case 2:
+                let cell = ColorPointsCell()
+                if let post = viewModel.post {
+                    cell.update(colorPoints: post.colorPoints, color: post.color)
+                }
+                
+                return cell
+                
+            case 3:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: SeperatorCell.reuseIdentifier, for: indexPath) as? SeperatorCell else { return UITableViewCell() }
                 
                 return cell
+                
             default:
                 return UITableViewCell()
             }

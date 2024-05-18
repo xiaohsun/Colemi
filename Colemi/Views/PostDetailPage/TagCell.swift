@@ -45,7 +45,9 @@ class TagCell: UITableViewCell {
 }
 
 extension TagCell {
-    func update(content: Content) {
-        tagLabel.text = ""
+    func update(tag: String) {
+        if tag != "" {
+            tagLabel.text = "#\(tag)"
+        }
     }
 }

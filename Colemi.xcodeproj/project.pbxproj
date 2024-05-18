@@ -88,6 +88,7 @@
 		284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C72BC98F8B00A61E88 /* UserManager.swift */; };
 		284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */; };
 		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
+		285358DB2BF889470052C27B /* ColorPointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285358DA2BF889470052C27B /* ColorPointsCell.swift */; };
 		28564D782BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D772BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift */; };
 		28564D7A2BE87CB8003B3FBA /* OverLayPopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */; };
 		28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */; };
@@ -216,6 +217,7 @@
 		284F32C72BC98F8B00A61E88 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewController.swift; sourceTree = "<group>"; };
 		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
+		285358DA2BF889470052C27B /* ColorPointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPointsCell.swift; sourceTree = "<group>"; };
 		28564D772BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageOverLayPopUp.swift; sourceTree = "<group>"; };
 		28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUpViewModel.swift; sourceTree = "<group>"; };
 		28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutCell.swift; sourceTree = "<group>"; };
@@ -382,6 +384,7 @@
 				281C65812BCFED73003D2ECE /* AuthorInfoAndTitleCell.swift */,
 				281C65832BCFFB15003D2ECE /* DescriptionCell.swift */,
 				281C65852BCFFE29003D2ECE /* TagCell.swift */,
+				285358DA2BF889470052C27B /* ColorPointsCell.swift */,
 				281C65872BD000F7003D2ECE /* SeperatorCell.swift */,
 				281C65892BD00233003D2ECE /* CommentCell.swift */,
 			);
@@ -790,6 +793,7 @@
 				28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */,
 				28B0CD652BE9EF6400485A95 /* LaunchViewController.swift in Sources */,
 				281240A52BC7C23D00777F91 /* PhotoCollectionViewCell.swift in Sources */,
+				285358DB2BF889470052C27B /* ColorPointsCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
 				287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */,
