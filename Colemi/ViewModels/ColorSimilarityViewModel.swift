@@ -9,7 +9,9 @@ import UIKit
 
 class ColorSimilarityViewModel {
     
+    let userData = UserManager.shared
     var colorsDistance: [Double] = []
+    var postID: String = ""
     
     func caculateColorDistance(selectedUIColor: UIColor, colors: [Color]) -> [Double] {
         for color in colors {
@@ -22,5 +24,28 @@ class ColorSimilarityViewModel {
         
         // return colorsDistance.min() ?? 0
         return colorsDistance
+    }
+    
+    func updatePostData(colorPoints: Int) {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.posts.ref
+        
+        let updateData: [String: Any] = [
+            PostProperty.colorPoints.rawValue: colorPoints
+        ]
+        
+        firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: postID)
+    }
+    
+    func updateUserData(colorPoints: Int) {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        userData.colorPoints += colorPoints
+        
+        let updateData: [String: Any] = [
+            UserProperty.colorPoints.rawValue: userData.colorPoints
+        ]
+        
+        firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: userData.id)
     }
 }

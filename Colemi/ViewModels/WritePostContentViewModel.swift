@@ -13,8 +13,9 @@ import FirebaseStorage
 class WritePostContentViewModel {
     
     weak var delegate: WritePostContentViewModelDelegate?
+    var postDocID: String = ""
     
-    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String], imageUrl: String, imageHeight: Double, imageWidth: Double) {
+    func addData(authorId: String, content: String, type: Int, color: String, tag: String, imageUrl: String, imageHeight: Double, imageWidth: Double) {
         
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
@@ -25,15 +26,17 @@ class WritePostContentViewModel {
             PostProperty.type.rawValue: 0,
             PostProperty.color.rawValue: color,
             PostProperty.createdTime.rawValue: FieldValue.serverTimestamp(),
-            PostProperty.colorSimularity.rawValue: colorSimularity,
             PostProperty.totalSaved.rawValue: [] as [String],
             PostProperty.reports.rawValue: [] as [String],
             PostProperty.imageUrl.rawValue: imageUrl,
             PostProperty.imageHeight.rawValue: imageHeight,
             PostProperty.imageWidth.rawValue: imageWidth,
-            PostProperty.comments.rawValue: []
+            PostProperty.comments.rawValue: [],
+            PostProperty.colorPoints.rawValue: 0,
+            PostProperty.tag.rawValue: tag
         ]
         document.setData(data)
+        postDocID = document.documentID
         
         Task {
             await self.updateData(postID: document.documentID, docID: UserManager.shared.id)

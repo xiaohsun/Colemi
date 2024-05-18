@@ -44,7 +44,7 @@ class ChooseColorViewModel {
         }
     }
     
-    func updateUserData(colorToday: String, colorSetToday: [String], docID: String) async {
+    func updateUserData(colorToday: String, colorSetToday: [String], docID: String) {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
@@ -56,8 +56,6 @@ class ChooseColorViewModel {
         
         firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: docID)
     }
-    
-
 }
 
 protocol ChooseColorViewModelDelegate: AnyObject {

@@ -266,6 +266,8 @@ class ColorSimilarityViewController: UIViewController {
                     self.totalBonusCount = self.totalBonusCount.rounded()
                     self.totalCountsLabel.text = "顏色足跡 +\(String(format: "%.0f", self.totalBonusCount))"
                     
+                    self.colorSimilarityViewModel.updatePostData(colorPoints: Int(self.totalBonusCount))
+                    self.colorSimilarityViewModel.updateUserData(colorPoints: Int(self.totalBonusCount))
                 }
             }
         }

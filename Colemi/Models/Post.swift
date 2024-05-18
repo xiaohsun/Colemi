@@ -11,7 +11,6 @@ import FirebaseFirestore
 struct Post: Codable {
     let authorId: String
     let color: String
-    let colorSimularity: String
     let content: String
     let createdTime: Timestamp
     let id: String
@@ -22,12 +21,13 @@ struct Post: Codable {
     let imageHeight: Double
     let imageWidth: Double
     let comments: [Comment]
+    let tag: String
+    let colorPoints: Int
 }
 
 enum PostProperty: String {
     case authorId
     case color
-    case colorSimularity
     case content
     case createdTime
     case id
@@ -38,4 +38,6 @@ enum PostProperty: String {
     case imageHeight
     case imageWidth
     case comments
+    case tag
+    case colorPoints
 }

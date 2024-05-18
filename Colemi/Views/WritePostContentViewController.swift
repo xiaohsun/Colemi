@@ -300,11 +300,13 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: userManager.name))
         let imageHeight = Double(imageSize.height)
         let imageWidth = Double(imageSize.width)
+        let tag = tagTextField.text ?? ""
         
-        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
+        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, tag: tag, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
+        colorSimilarityViewController.colorSimilarityViewModel.postID = viewModel.postDocID
         
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
