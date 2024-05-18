@@ -53,6 +53,7 @@
 		2818B7462BDA3C8400434EBF /* FirstColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */; };
 		2818B7482BDA3CA500434EBF /* SecondColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */; };
 		2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */; };
+		281925632BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281925622BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift */; };
 		281C65772BCF7848003D2ECE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 281C65762BCF7848003D2ECE /* Kingfisher */; };
 		281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65782BCFC918003D2ECE /* PostDetailViewController.swift */; };
 		281C657B2BCFCA91003D2ECE /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */; };
@@ -89,6 +90,7 @@
 		284F32CA2BCA48BD00A61E88 /* PaletteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */; };
 		284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284F32CB2BCA641900A61E88 /* MPCSession.swift */; };
 		285358DB2BF889470052C27B /* ColorPointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285358DA2BF889470052C27B /* ColorPointsCell.swift */; };
+		285358DD2BF891A50052C27B /* RankingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285358DC2BF891A50052C27B /* RankingCell.swift */; };
 		28564D782BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D772BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift */; };
 		28564D7A2BE87CB8003B3FBA /* OverLayPopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */; };
 		28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */; };
@@ -183,6 +185,7 @@
 		2818B7452BDA3C8400434EBF /* FirstColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstColorViewController.swift; sourceTree = "<group>"; };
 		2818B7472BDA3CA500434EBF /* SecondColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondColorViewController.swift; sourceTree = "<group>"; };
 		2818B7492BDA3CC600434EBF /* ThirdColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdColorViewController.swift; sourceTree = "<group>"; };
+		281925622BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFootprintPopUpViewModel.swift; sourceTree = "<group>"; };
 		281C65782BCFC918003D2ECE /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		281C657F2BCFEB66003D2ECE /* DetailTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewHeaderView.swift; sourceTree = "<group>"; };
@@ -218,6 +221,7 @@
 		284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewController.swift; sourceTree = "<group>"; };
 		284F32CB2BCA641900A61E88 /* MPCSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MPCSession.swift; sourceTree = "<group>"; };
 		285358DA2BF889470052C27B /* ColorPointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPointsCell.swift; sourceTree = "<group>"; };
+		285358DC2BF891A50052C27B /* RankingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCell.swift; sourceTree = "<group>"; };
 		28564D772BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageOverLayPopUp.swift; sourceTree = "<group>"; };
 		28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverLayPopUpViewModel.swift; sourceTree = "<group>"; };
 		28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutCell.swift; sourceTree = "<group>"; };
@@ -367,6 +371,7 @@
 				28C69B862BD26AD900725BE7 /* ChatRoomViewModel.swift */,
 				28C69B8A2BD2A4C000725BE7 /* ProfileViewModel.swift */,
 				287A62EC2BE6255300E09788 /* InformationCellViewModel.swift */,
+				281925622BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift */,
 				287A62EE2BE63B5B00E09788 /* ChatCellViewModel.swift */,
 				287A62E82BE5E0C700E09788 /* SettingViewModel.swift */,
 				287A62F92BE7551F00E09788 /* FollowViewModel.swift */,
@@ -415,6 +420,7 @@
 				287A62DF2BE4E56B00E09788 /* ChatCell.swift */,
 				281C65B62BD0E50B003D2ECE /* ColorFootprintCell.swift */,
 				28D533AB2BF0A51C00851B9A /* ColorFootprintPopUp.swift */,
+				285358DC2BF891A50052C27B /* RankingCell.swift */,
 				281C65B82BD0E663003D2ECE /* CollectedColorCell.swift */,
 				281ED83B2BF0ACDD00EBE3D4 /* CollectedColorPopUp.swift */,
 				281C65BA2BD0E7EB003D2ECE /* AchievementCell.swift */,
@@ -784,6 +790,7 @@
 				281240A32BC7BDDD00777F91 /* PickPhotoViewController.swift in Sources */,
 				287A62DC2BE4917E00E09788 /* ProfileVCDismissAnimator.swift in Sources */,
 				28D24DCF2BC6C24200B7E114 /* LobbyViewController.swift in Sources */,
+				281925632BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift in Sources */,
 				281C65B52BD0E373003D2ECE /* FollowOrEditInfoCell.swift in Sources */,
 				281240E32BC807C400777F91 /* WritePostContentViewModel.swift in Sources */,
 				281C65B32BD0DC08003D2ECE /* TextViewCell.swift in Sources */,
@@ -844,6 +851,7 @@
 				287A62ED2BE6255300E09788 /* InformationCellViewModel.swift in Sources */,
 				2818B7462BDA3C8400434EBF /* FirstColorViewController.swift in Sources */,
 				2880644D2BD153B500FC2EFA /* ChatRoomViewController.swift in Sources */,
+				285358DD2BF891A50052C27B /* RankingCell.swift in Sources */,
 				28564D802BE913C6003B3FBA /* AuthenticationViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

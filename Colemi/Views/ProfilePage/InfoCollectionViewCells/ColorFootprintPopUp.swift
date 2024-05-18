@@ -10,7 +10,7 @@ import UIKit
 class ColorFootprintPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
-    var containerViewHeight: CGFloat = 300
+    let viewModel = ColorFootprintPopUpViewModel()
     
     lazy var backgroundView: UIView = {
         let view = UIView()
@@ -45,13 +45,13 @@ class ColorFootprintPopUp: UIViewController {
         tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
-        tableView.register(OverLayPopUpCell.self, forCellReuseIdentifier: OverLayPopUpCell.reuseIdentifier)
+        tableView.register(RankingCell.self, forCellReuseIdentifier: RankingCell.reuseIdentifier)
         return tableView
     }()
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "顏色足跡排行榜"
+        label.text = "排行榜"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
@@ -91,17 +91,17 @@ class ColorFootprintPopUp: UIViewController {
             
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.heightAnchor.constraint(equalToConstant: containerViewHeight),
+            containerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             
-            closeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
-            closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            closeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             closeButton.widthAnchor.constraint(equalToConstant: 10),
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
             titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
             tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
@@ -112,6 +112,13 @@ class ColorFootprintPopUp: UIViewController {
         super.viewDidLoad()
         setUpUI()
         backgroundAddGesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getUsersData {
+            self.tableView.reloadData()
+        }
     }
     
     private func backgroundAddGesture() {
@@ -126,7 +133,6 @@ class ColorFootprintPopUp: UIViewController {
             self.containerViewTopCons?.isActive = false
             self.containerViewTopCons = self.containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
             self.containerViewTopCons?.isActive = true
-            // self.containerViewTopCons?.constant = -self.containerViewHeight
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                 self.backgroundView.alpha = 1
@@ -153,13 +159,14 @@ class ColorFootprintPopUp: UIViewController {
 
 extension ColorFootprintPopUp: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        viewModel.topTenUsers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RankingCell.reuseIdentifier, for: indexPath) as? RankingCell else { return UITableViewCell() }
+        let user = viewModel.topTenUsers[indexPath.row]
+        cell.update(index: indexPath.row + 1, colorPoints: user.colorPoints, userName: user.name)
+        
+        return cell
     }
 }

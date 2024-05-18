@@ -93,13 +93,13 @@ class CollectedColorPopUp: UIViewController {
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             containerView.heightAnchor.constraint(equalToConstant: containerViewHeight),
             
-            closeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
-            closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30),
+            closeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             closeButton.widthAnchor.constraint(equalToConstant: 10),
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
-            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
             
 //            tableView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
 //            tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),

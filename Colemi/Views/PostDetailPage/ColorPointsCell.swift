@@ -35,13 +35,14 @@ class ColorPointsCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
 //            colorView.centerYAnchor.constraint(equalTo: colorPointsLabel.centerYAnchor),
-//            colorView.trailingAnchor.constraint(equalTo: colorPointsLabel.leadingAnchor, constant: -8),
+//            colorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
 //            colorView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.06),
 //            colorView.heightAnchor.constraint(equalTo: colorView.widthAnchor),
 //            
-//            colorPointsLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-//            colorPointsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+//            colorPointsLabel.trailingAnchor.constraint(equalTo: colorView.leadingAnchor, constant: -8),
+//            colorPointsLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 25),
 //            colorPointsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            
             colorView.centerYAnchor.constraint(equalTo: colorPointsLabel.centerYAnchor),
             colorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             colorView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.06),
