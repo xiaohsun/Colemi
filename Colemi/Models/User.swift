@@ -17,7 +17,7 @@ struct User: Codable {
     let description: String
     let savedPosts: [String]
     let signUpTime: Timestamp
-    let lastestLoginTime: Timestamp
+    let lastestLoginTime: Timestamp?
     let colorToday: String
     let colorSetToday: [String]
     let mixColorToday: String

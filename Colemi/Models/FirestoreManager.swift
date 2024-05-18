@@ -196,6 +196,16 @@ class FirestoreManager {
         }
     }
     
+    func updateMutipleDocument(data: [String: Any], collection: CollectionReference, docID: String) {
+        collection.document(docID).updateData(data) { error in
+            if let error = error {
+                print("Error updating document: \(error)")
+            } else {
+                print("Document successfully updated")
+            }
+        }
+    }
+    
     func setData<T: Encodable>(_ data: T, at docRef: DocumentReference, completion: ((() -> Void)?) = nil) {
         do {
             try docRef.setData(from: data)

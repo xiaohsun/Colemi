@@ -163,7 +163,6 @@ class ChooseColorViewController: UIViewController {
             
             // navigationController?.popViewController(animated: true)
             let signInViewModel = SignInViewModel()
-            signInViewModel.updateLoginTime()
             signInViewModel.setRootVCToTabBarController()
         }
     }
