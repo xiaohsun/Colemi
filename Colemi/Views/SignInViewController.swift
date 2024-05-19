@@ -16,12 +16,18 @@ class SignInViewController: UIViewController {
     
     let signInViewModel = SignInViewModel()
     var agreeEULA: Bool = false
+    let containerViewColors = [UIColor(hex: "#EF8E83"), UIColor(hex: "#FFEA63"), UIColor(hex: "#577D41")]
+    var containerViews: [UIView] = []
     
-    lazy var colorImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "ColemiIcon")
-        return imageView
+    lazy var chooseLoginMethodLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.text = "選擇登入方式"
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 30)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        
+        return label
     }()
     
     lazy var checkImageView: UIImageView = {
@@ -29,10 +35,26 @@ class SignInViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "circle")?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = ThemeColorProperty.darkColor.getColor()
-        imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFit
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showEULAPage))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
 
         return imageView
+    }()
+    
+    lazy var squareGreenView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#B7CC9A")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var squareBlueView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hex: "#97B9F2")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var EULAButton: UIButton = {
@@ -40,7 +62,6 @@ class SignInViewController: UIViewController {
         button.setTitle("使用者條款", for: .normal)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 16)
-        button.backgroundColor = .white
         button.addTarget(self, action: #selector(showEULAPage), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -48,10 +69,8 @@ class SignInViewController: UIViewController {
     
     lazy var goWithoutSignIn: UIButton = {
         let button = UIButton()
-        button.setTitle("遊客登入", for: .normal)
-        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 16)
-        button.backgroundColor = .white
+        button.setImage(.touristIcon, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
         button.addTarget(self, action: #selector(goWithoutSignInTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -68,30 +87,44 @@ class SignInViewController: UIViewController {
         eulaPopUp.appear(sender: self)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        setUpUI()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        checkImageView.layer.cornerRadius = checkImageView.frame.width / 2
+    private func createContainerView(withBackgroundColor color: UIColor) -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = color
+        return view
     }
     
     private func setUpUI() {
+        view.addSubview(squareBlueView)
+        view.addSubview(squareGreenView)
+        
+        for color in containerViewColors {
+            let containerView = createContainerView(withBackgroundColor: color ?? .white)
+            view.addSubview(containerView)
+            containerViews.append(containerView)
+        }
+        
+        view.addSubview(chooseLoginMethodLabel)
         view.addSubview(checkImageView)
         view.addSubview(EULAButton)
-        view.addSubview(colorImageView)
         view.addSubview(signInWithGoogleBtn)
         view.addSubview(signInWithAppleBtn)
         view.addSubview(goWithoutSignIn)
         
         NSLayoutConstraint.activate([
-            colorImageView.heightAnchor.constraint(equalToConstant: 100),
-            colorImageView.widthAnchor.constraint(equalTo: colorImageView.heightAnchor),
-            colorImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            
+            squareBlueView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.1),
+            squareBlueView.heightAnchor.constraint(equalTo: squareBlueView.widthAnchor, multiplier: 0.7),
+            squareBlueView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 50),
+            squareBlueView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 50),
+            
+            squareGreenView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.1),
+            squareGreenView.heightAnchor.constraint(equalTo: squareGreenView.widthAnchor, multiplier: 0.4),
+            squareGreenView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
+            squareGreenView.centerYAnchor.constraint(equalTo: squareBlueView.centerYAnchor, constant: 120),
+            
+            chooseLoginMethodLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            chooseLoginMethodLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             
             checkImageView.widthAnchor.constraint(equalToConstant: 20),
             checkImageView.heightAnchor.constraint(equalTo: checkImageView.widthAnchor),
@@ -99,30 +132,71 @@ class SignInViewController: UIViewController {
             checkImageView.centerYAnchor.constraint(equalTo: EULAButton.centerYAnchor),
             
             EULAButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
-            EULAButton.bottomAnchor.constraint(equalTo: signInWithGoogleBtn.topAnchor, constant: -20),
+            EULAButton.topAnchor.constraint(equalTo: chooseLoginMethodLabel.bottomAnchor, constant: 20),
             
-            signInWithGoogleBtn.heightAnchor.constraint(equalToConstant: 50),
-            signInWithGoogleBtn.widthAnchor.constraint(equalToConstant: 280),
-            signInWithGoogleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithGoogleBtn.bottomAnchor.constraint(equalTo: signInWithAppleBtn.topAnchor, constant: -30),
+            containerViews[0].heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
+            containerViews[0].widthAnchor.constraint(equalTo: containerViews[0].heightAnchor),
+            containerViews[0].centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerViews[0].topAnchor.constraint(equalTo: EULAButton.bottomAnchor, constant: 60),
             
-            signInWithAppleBtn.heightAnchor.constraint(equalToConstant: 50),
-            signInWithAppleBtn.widthAnchor.constraint(equalToConstant: 280),
-            signInWithAppleBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            signInWithAppleBtn.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            signInWithGoogleBtn.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.15),
+            signInWithGoogleBtn.widthAnchor.constraint(equalTo: signInWithGoogleBtn.heightAnchor),
+            signInWithGoogleBtn.centerXAnchor.constraint(equalTo: containerViews[0].centerXAnchor),
+            signInWithGoogleBtn.centerYAnchor.constraint(equalTo: containerViews[0].centerYAnchor),
             
-            goWithoutSignIn.heightAnchor.constraint(equalToConstant: 50),
-            goWithoutSignIn.widthAnchor.constraint(equalToConstant: 280),
-            goWithoutSignIn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            goWithoutSignIn.topAnchor.constraint(equalTo: signInWithAppleBtn.bottomAnchor, constant: 10)
+            containerViews[1].heightAnchor.constraint(equalTo: containerViews[0].widthAnchor),
+            containerViews[1].widthAnchor.constraint(equalTo: containerViews[0].widthAnchor),
+            containerViews[1].centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
+            containerViews[1].topAnchor.constraint(equalTo: containerViews[0].bottomAnchor, constant: 50),
+            
+            signInWithAppleBtn.heightAnchor.constraint(equalTo: signInWithGoogleBtn.widthAnchor),
+            signInWithAppleBtn.widthAnchor.constraint(equalTo: signInWithGoogleBtn.heightAnchor),
+            signInWithAppleBtn.centerXAnchor.constraint(equalTo: containerViews[1].centerXAnchor),
+            signInWithAppleBtn.centerYAnchor.constraint(equalTo: containerViews[1].centerYAnchor),
+            
+            containerViews[2].heightAnchor.constraint(equalTo: containerViews[0].widthAnchor),
+            containerViews[2].widthAnchor.constraint(equalTo: containerViews[0].widthAnchor),
+            containerViews[2].centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -50),
+            containerViews[2].topAnchor.constraint(equalTo: containerViews[1].bottomAnchor, constant: 50),
+            
+            goWithoutSignIn.heightAnchor.constraint(equalTo: signInWithGoogleBtn.widthAnchor),
+            goWithoutSignIn.widthAnchor.constraint(equalTo: signInWithGoogleBtn.heightAnchor),
+            goWithoutSignIn.centerXAnchor.constraint(equalTo: containerViews[2].centerXAnchor),
+            goWithoutSignIn.centerYAnchor.constraint(equalTo: containerViews[2].centerYAnchor)
         ])
+        
+        view.clipsToBounds = true
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
+        setUpUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        checkImageView.layer.cornerRadius = checkImageView.frame.width / 2
+        for view in containerViews {
+            view.layer.cornerRadius = view.frame.width / 2
+        }
+        squareGreenView.layer.cornerRadius = squareGreenView.frame.width / 8
+        squareBlueView.layer.cornerRadius = squareBlueView.frame.width / 3
+        
+        squareGreenView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 60 / 180)
+        squareBlueView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi * 45 / 180)
+        
+        // squareGreenView.transform = .init(rotationAngle: 73)
+        // squareBlueView.transform = .init(rotationAngle: 100)
+
     }
     
     // MARK: - Sign in with Google
     
-    lazy var signInWithGoogleBtn: GIDSignInButton = {
-        let button = GIDSignInButton()
-        button.layer.cornerRadius = 25
+    lazy var signInWithGoogleBtn: UIButton = {
+        let button = UIButton()
+        button.setImage(.googleIcon, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(signInWithGoogleBtnTapped), for: .touchUpInside)
        
@@ -135,11 +209,9 @@ class SignInViewController: UIViewController {
         } else {
             signInWithGoogle()
             signInWithGoogleBtn.isEnabled = false
-            signInWithGoogleBtn.backgroundColor = .gray
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.signInWithGoogleBtn.isEnabled = true
-                self.signInWithGoogleBtn.backgroundColor = .white
             }
         }
     }
@@ -179,17 +251,18 @@ class SignInViewController: UIViewController {
     
     // MARK: - Sign in with Apple
     
-    lazy var signInWithAppleBtn: ASAuthorizationAppleIDButton = {
-        let signInWithAppleBtn = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: chooseAppleButtonStyle())
-        signInWithAppleBtn.cornerRadius = 25
-        signInWithAppleBtn.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
-        signInWithAppleBtn.translatesAutoresizingMaskIntoConstraints = false
-        return signInWithAppleBtn
+    lazy var signInWithAppleBtn: UIButton = {
+        let button = UIButton()
+        button.setImage(.appleIcon, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFill
+        button.addTarget(self, action: #selector(signInWithApple), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
-    private func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
-        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white
-    }
+//    private func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
+//        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white
+//    }
     
     fileprivate var currentNonce: String?
     

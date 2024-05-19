@@ -151,7 +151,7 @@ class WritePostContentViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage.arrorIcon
+        imageView.image = UIImage.arrowIcon
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(arrowTapped))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
