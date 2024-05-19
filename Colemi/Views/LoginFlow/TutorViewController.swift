@@ -40,6 +40,7 @@ class TutorViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.text = TutorTitleProperty.zero.getTitle()
         label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 38)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         return label
@@ -49,6 +50,7 @@ class TutorViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.text = TutorContentProperty.zero.getContent()
         label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 20)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.addLineSpacing(lineSpacing: 8)
@@ -70,17 +72,19 @@ class TutorViewController: UIViewController {
         if currentPage < circularButtons.count - 1 {
             currentPage += 1
             circularButtonTapped(sender: circularButtons[currentPage])
-        } else {
-            print("Last Page")
+        } else if currentPage == circularButtons.count - 1 {
+            setRootVCToChooseColor()
         }
+    }
+    
+    private func setRootVCToChooseColor() {
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
         
-//        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
-//        
-//        let chooseColorVC = ChooseColorViewController()
-//        
-//        UIView.transition(with: sceneDelegate.window!, duration: 0.3, options: .transitionCrossDissolve, animations: {
-//            sceneDelegate.window?.rootViewController = chooseColorVC
-//        })
+        let chooseColorVC = ChooseColorViewController()
+        
+        UIView.transition(with: sceneDelegate.window!, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            sceneDelegate.window?.rootViewController = chooseColorVC
+        })
     }
     
     func createCircularButton() -> UIButton {

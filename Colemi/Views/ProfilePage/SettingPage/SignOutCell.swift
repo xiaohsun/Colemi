@@ -18,7 +18,6 @@ class SignOutCell: UITableViewCell {
         button.setTitle("登出", for: .normal)
         button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         button.backgroundColor = UIColor(hex: "036DA4")
-        // button.backgroundColor = UIColor(hex: "244667")
         button.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
@@ -52,13 +51,13 @@ class SignOutCell: UITableViewCell {
                 return
             }
             
-            let loggedInViewController = SignInViewController()
+            let preLoginInViewController = PreLoginInViewController()
             
             UIView.transition(with: sceneDelegate.window!,
                               duration: 0.3,
                               options: .transitionCrossDissolve,
                               animations: {
-                sceneDelegate.window?.rootViewController = loggedInViewController
+                sceneDelegate.window?.rootViewController = preLoginInViewController
             })
         }))
 

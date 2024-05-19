@@ -21,9 +21,7 @@ class LaunchViewController: UIViewController {
         }
         
         if Auth.auth().currentUser == nil {
-//            let preLoginInViewController = PreLoginInViewController()
-//            sceneDelegate.window?.rootViewController = preLoginInViewController
-            let preLoginInViewController = TutorViewController()
+            let preLoginInViewController = PreLoginInViewController()
             sceneDelegate.window?.rootViewController = preLoginInViewController
         } else {
             signInViewModel.loginUser()

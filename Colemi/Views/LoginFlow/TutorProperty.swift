@@ -7,6 +7,29 @@
 
 import UIKit
 
+enum TutorTitleProperty: Int {
+    case zero = 0
+    case one = 1
+    case two = 2
+    case three = 3
+    case four = 4
+    
+    func getTitle() -> String {
+        switch self {
+        case .zero:
+            "選擇顏色"
+        case .one:
+            "混合顏色"
+        case .two:
+            "發佈貼文"
+        case .three:
+            "顏色足跡"
+        case .four:
+            "瀏覽貼文"
+        }
+    }
+}
+
 enum TutorContentProperty: Int {
     case zero = 0
     case one = 1
@@ -51,29 +74,6 @@ enum TutorContentProperty: Int {
             留言、追蹤、聊天
             結交志同道合的顏色大師吧！
             """
-        }
-    }
-}
-
-enum TutorTitleProperty: Int {
-    case zero = 0
-    case one = 1
-    case two = 2
-    case three = 3
-    case four = 4
-    
-    func getTitle() -> String {
-        switch self {
-        case .zero:
-            "選擇顏色"
-        case .one:
-            "混合顏色"
-        case .two:
-            "發佈顏色"
-        case .three:
-            "顏色足跡"
-        case .four:
-            "瀏覽貼文"
         }
     }
 }

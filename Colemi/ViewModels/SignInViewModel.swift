@@ -146,7 +146,7 @@ class SignInViewModel {
     
     private func goToAnotherPage(isSameDay: Bool) {
         if isNewbie {
-            setRootVCToChooseColor()
+            setRootVCToTutor()
         } else if !isNewbie && isSameDay {
             updateLoginTime()
             setRootVCToTabBarController()
@@ -163,6 +163,16 @@ class SignInViewModel {
         
         UIView.transition(with: sceneDelegate.window!, duration: 0.3, options: .transitionCrossDissolve, animations: {
             sceneDelegate.window?.rootViewController = chooseColorVC
+        })
+    }
+    
+    func setRootVCToTutor() {
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+        
+        let tutorViewController = TutorViewController()
+        
+        UIView.transition(with: sceneDelegate.window!, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            sceneDelegate.window?.rootViewController = tutorViewController
         })
     }
     
