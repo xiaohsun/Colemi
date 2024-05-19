@@ -56,6 +56,8 @@
 		281925632BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281925622BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift */; };
 		281925652BF8AC0B00D99040 /* CollectedColorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281925642BF8AC0B00D99040 /* CollectedColorTableViewCell.swift */; };
 		281925692BF9AEBC00D99040 /* PreLoginInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281925682BF9AEBC00D99040 /* PreLoginInViewController.swift */; };
+		2819256B2BF9D17900D99040 /* TutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2819256A2BF9D17900D99040 /* TutorViewController.swift */; };
+		2819256D2BF9D41500D99040 /* TutorProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2819256C2BF9D41500D99040 /* TutorProperty.swift */; };
 		281C65772BCF7848003D2ECE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 281C65762BCF7848003D2ECE /* Kingfisher */; };
 		281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C65782BCFC918003D2ECE /* PostDetailViewController.swift */; };
 		281C657B2BCFCA91003D2ECE /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */; };
@@ -132,6 +134,11 @@
 		288260802BE0D85F00BE9B52 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */; };
 		288753D52BEC5DD400EB601F /* ContactDeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */; };
 		28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28966AC12BE099AD0088A526 /* UILabel+Extension.swift */; };
+		289B98792BF9DFF100535F4D /* ChooseColorTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B98782BF9DFF100535F4D /* ChooseColorTutorVC.swift */; };
+		289B987B2BF9E02A00535F4D /* MixColorTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B987A2BF9E02A00535F4D /* MixColorTutorVC.swift */; };
+		289B987D2BF9E04C00535F4D /* PostsTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B987C2BF9E04C00535F4D /* PostsTutorVC.swift */; };
+		289B987F2BF9E06800535F4D /* ColorPointsTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B987E2BF9E06800535F4D /* ColorPointsTutorVC.swift */; };
+		289B98812BF9E0A000535F4D /* WallTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B98802BF9E0A000535F4D /* WallTutorVC.swift */; };
 		289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */; };
 		289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */; };
 		289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */ = {isa = PBXBuildFile; fileRef = 289D729D2BDD4C4300051D07 /* GenSenRounded-H.ttc */; };
@@ -190,6 +197,8 @@
 		281925622BF89FDC00D99040 /* ColorFootprintPopUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFootprintPopUpViewModel.swift; sourceTree = "<group>"; };
 		281925642BF8AC0B00D99040 /* CollectedColorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectedColorTableViewCell.swift; sourceTree = "<group>"; };
 		281925682BF9AEBC00D99040 /* PreLoginInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreLoginInViewController.swift; sourceTree = "<group>"; };
+		2819256A2BF9D17900D99040 /* TutorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorViewController.swift; sourceTree = "<group>"; };
+		2819256C2BF9D41500D99040 /* TutorProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorProperty.swift; sourceTree = "<group>"; };
 		281C65782BCFC918003D2ECE /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		281C657A2BCFCA91003D2ECE /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		281C657F2BCFEB66003D2ECE /* DetailTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewHeaderView.swift; sourceTree = "<group>"; };
@@ -263,6 +272,11 @@
 		2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDeveloperCell.swift; sourceTree = "<group>"; };
 		28966AC12BE099AD0088A526 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
+		289B98782BF9DFF100535F4D /* ChooseColorTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorTutorVC.swift; sourceTree = "<group>"; };
+		289B987A2BF9E02A00535F4D /* MixColorTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixColorTutorVC.swift; sourceTree = "<group>"; };
+		289B987C2BF9E04C00535F4D /* PostsTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTutorVC.swift; sourceTree = "<group>"; };
+		289B987E2BF9E06800535F4D /* ColorPointsTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPointsTutorVC.swift; sourceTree = "<group>"; };
+		289B98802BF9E0A000535F4D /* WallTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallTutorVC.swift; sourceTree = "<group>"; };
 		289D729A2BDD4C4100051D07 /* GenSenRounded-B.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-B.ttc"; sourceTree = "<group>"; };
 		289D729B2BDD4C4200051D07 /* GenSenRounded-EL.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-EL.ttc"; sourceTree = "<group>"; };
 		289D729C2BDD4C4200051D07 /* GenSenRounded-L.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GenSenRounded-L.ttc"; sourceTree = "<group>"; };
@@ -344,8 +358,7 @@
 			isa = PBXGroup;
 			children = (
 				28B0CD642BE9EF6400485A95 /* LaunchViewController.swift */,
-				281925682BF9AEBC00D99040 /* PreLoginInViewController.swift */,
-				28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */,
+				2819256E2BF9D42500D99040 /* LoginFlow */,
 				2815FE112BEDF10800A2757B /* EULAPopUp.swift */,
 				28D253152BD62D1600864187 /* TabBarController.swift */,
 				28C69B822BD2638600725BE7 /* LobbyPage */,
@@ -384,6 +397,22 @@
 				28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2819256E2BF9D42500D99040 /* LoginFlow */ = {
+			isa = PBXGroup;
+			children = (
+				281925682BF9AEBC00D99040 /* PreLoginInViewController.swift */,
+				28DF70372BE0C7BC00E14E8C /* SignInViewController.swift */,
+				2819256A2BF9D17900D99040 /* TutorViewController.swift */,
+				2819256C2BF9D41500D99040 /* TutorProperty.swift */,
+				289B98782BF9DFF100535F4D /* ChooseColorTutorVC.swift */,
+				289B987A2BF9E02A00535F4D /* MixColorTutorVC.swift */,
+				289B987C2BF9E04C00535F4D /* PostsTutorVC.swift */,
+				289B987E2BF9E06800535F4D /* ColorPointsTutorVC.swift */,
+				289B98802BF9E0A000535F4D /* WallTutorVC.swift */,
+			);
+			path = LoginFlow;
 			sourceTree = "<group>";
 		};
 		281C657E2BCFEAB5003D2ECE /* PostDetailPage */ = {
@@ -753,6 +782,7 @@
 				28564D782BE7CAD1003B3FBA /* MainPageOverLayPopUp.swift in Sources */,
 				28564D7A2BE87CB8003B3FBA /* OverLayPopUpViewModel.swift in Sources */,
 				281C65792BCFC918003D2ECE /* PostDetailViewController.swift in Sources */,
+				289B987F2BF9E06800535F4D /* ColorPointsTutorVC.swift in Sources */,
 				284F32C62BC98E0B00A61E88 /* ColorModel.swift in Sources */,
 				281C65B92BD0E663003D2ECE /* CollectedColorCell.swift in Sources */,
 				2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */,
@@ -760,15 +790,18 @@
 				287A62F42BE690E200E09788 /* OverLayPopUpCell.swift in Sources */,
 				287A62DA2BE4915900E09788 /* ProfileVCPopAnimator.swift in Sources */,
 				28C69B812BD1724800725BE7 /* MyChatTextBubbleTableViewCell.swift in Sources */,
+				289B987D2BF9E04C00535F4D /* PostsTutorVC.swift in Sources */,
 				281925692BF9AEBC00D99040 /* PreLoginInViewController.swift in Sources */,
 				287A62D42BE3E21800E09788 /* TodayColorVCProtocol.swift in Sources */,
 				281C65B72BD0E50B003D2ECE /* ColorFootprintCell.swift in Sources */,
 				28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */,
+				2819256D2BF9D41500D99040 /* TutorProperty.swift in Sources */,
 				2812409F2BC7847700777F91 /* LobbyPostCell.swift in Sources */,
 				287A62FA2BE7551F00E09788 /* FollowViewModel.swift in Sources */,
 				281C65822BCFED73003D2ECE /* AuthorInfoAndTitleCell.swift in Sources */,
 				288753D52BEC5DD400EB601F /* ContactDeveloperCell.swift in Sources */,
 				284F32C82BC98F8B00A61E88 /* UserManager.swift in Sources */,
+				289B98812BF9E0A000535F4D /* WallTutorVC.swift in Sources */,
 				287A62E92BE5E0C700E09788 /* SettingViewModel.swift in Sources */,
 				288064432BD1045A00FC2EFA /* SelectorHeaderView.swift in Sources */,
 				281C65AE2BD0C33F003D2ECE /* ProfileViewController.swift in Sources */,
@@ -780,6 +813,7 @@
 				283EF6582BD757420007C8D8 /* Comment.swift in Sources */,
 				281561722BEE721300C98859 /* OtherChatImageBubbleTableViewCell.swift in Sources */,
 				287A62E02BE4E56B00E09788 /* ChatCell.swift in Sources */,
+				289B987B2BF9E02A00535F4D /* MixColorTutorVC.swift in Sources */,
 				281ED83E2BF0ADBB00EBE3D4 /* AchievementPopUp.swift in Sources */,
 				287A62E72BE5314700E09788 /* NormalSettingCell.swift in Sources */,
 				281240A72BC7EAC700777F91 /* WritePostContentViewController.swift in Sources */,
@@ -810,6 +844,7 @@
 				285358DB2BF889470052C27B /* ColorPointsCell.swift in Sources */,
 				28D24DCB2BC6C24200B7E114 /* AppDelegate.swift in Sources */,
 				28D253122BD4BD7900864187 /* ChatRoomsViewModel.swift in Sources */,
+				289B98792BF9DFF100535F4D /* ChooseColorTutorVC.swift in Sources */,
 				287A62EF2BE63B5B00E09788 /* ChatCellViewModel.swift in Sources */,
 				289D72A72BDD4FCB00051D07 /* ThemeFontProperty.swift in Sources */,
 				281C65842BCFFB15003D2ECE /* DescriptionCell.swift in Sources */,
@@ -818,6 +853,7 @@
 				2844CDC92BD65AB10086F67A /* ThemeColorProperty.swift in Sources */,
 				28D2530E2BD40F2300864187 /* DetailedChatRoom.swift in Sources */,
 				28DF70382BE0C7BC00E14E8C /* SignInViewController.swift in Sources */,
+				2819256B2BF9D17900D99040 /* TutorViewController.swift in Sources */,
 				287A62F12BE67D8200E09788 /* OverLayPopUp.swift in Sources */,
 				289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */,
 				2818B7402BDA3BE700434EBF /* AllColorViewController.swift in Sources */,
