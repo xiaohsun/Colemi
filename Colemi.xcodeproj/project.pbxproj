@@ -100,6 +100,7 @@
 		28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */; };
 		28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */; };
 		28564D802BE913C6003B3FBA /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */; };
+		286106292BFAFCC3005614AD /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286106282BFAFCC3005614AD /* CustomFunc.swift */; };
 		2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */; };
 		2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */; };
 		287A62CC2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */; };
@@ -240,6 +241,7 @@
 		28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutCell.swift; sourceTree = "<group>"; };
 		28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
 		28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		286106282BFAFCC3005614AD /* CustomFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFunc.swift; sourceTree = "<group>"; };
 		2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCPopAnimator.swift; sourceTree = "<group>"; };
 		2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
 		287A62CB2BE3D1F900E09788 /* TodayColorVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayColorVCPopAnimator.swift; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
 				289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
+				286106282BFAFCC3005614AD /* CustomFunc.swift */,
 				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
 				289D72992BDD4BDC00051D07 /* Fonts */,
 				2840D89F2BDB71F300A6B3DC /* Animations */,
@@ -776,6 +779,7 @@
 			files = (
 				28A91F7C2BEA185F0078F4C9 /* PaletteViewModel.swift in Sources */,
 				2818B74A2BDA3CC600434EBF /* ThirdColorViewController.swift in Sources */,
+				286106292BFAFCC3005614AD /* CustomFunc.swift in Sources */,
 				281240A12BC79FE000777F91 /* LobbyLayout.swift in Sources */,
 				288064472BD143A300FC2EFA /* FirestoreManager.swift in Sources */,
 				2815FE162BEE12C700A2757B /* WeatherInfoPopUp.swift in Sources */,

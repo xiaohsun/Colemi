@@ -9,12 +9,11 @@ import UIKit
 import FirebaseAuth
 import FirebaseCore
 import AuthenticationServices
-import CryptoKit
-import GoogleSignIn
 
 class SignInViewController: UIViewController {
     
     let signInViewModel = SignInViewModel()
+    let authenticationViewModel = AuthenticationViewModel()
     var agreeEULA: Bool = false
     let containerViewColors = [UIColor(hex: "#EF8E83"), UIColor(hex: "#FFEA63"), UIColor(hex: "#577D41")]
     var containerViews: [UIView] = []
@@ -185,9 +184,6 @@ class SignInViewController: UIViewController {
         
         squareGreenView.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 60 / 180)
         squareBlueView.transform = CGAffineTransform(rotationAngle: -CGFloat.pi * 45 / 180)
-        
-        // squareGreenView.transform = .init(rotationAngle: 73)
-        // squareBlueView.transform = .init(rotationAngle: 100)
 
     }
     
@@ -207,7 +203,7 @@ class SignInViewController: UIViewController {
         if !agreeEULA {
             showEULAAlert()
         } else {
-            signInWithGoogle()
+            signInViewModel.signInWithGoogle(vc: self)
             signInWithGoogleBtn.isEnabled = false
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
@@ -215,39 +211,6 @@ class SignInViewController: UIViewController {
             }
         }
     }
-    
-    private func signInWithGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.configuration = config
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
-            
-            guard error == nil else {
-                CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
-                return
-            }
-            guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
-            
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                             accessToken: user.accessToken.tokenString)
-            
-            self.firebaseSignInWithGoogle(credential: credential)
-        }
-    }
-
-    private func firebaseSignInWithGoogle(credential: AuthCredential) {
-        Auth.auth().signIn(with: credential) { _, error in
-            guard error == nil else {
-                CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: self, actionHandler: nil)
-                return
-            }
-            CustomFunc.customAlert(title: "登入成功！", message: "", vc: self) {
-                // self.changeRootVC()
-                self.signInViewModel.loginUser()
-            }
-        }
-    }
-    
     
     // MARK: - Sign in with Apple
     
@@ -276,100 +239,95 @@ class SignInViewController: UIViewController {
                 self.signInWithAppleBtn.isEnabled = true
             }
             
-            let nonce = randomNonceString()
-            currentNonce = nonce
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-            let request = appleIDProvider.createRequest()
-            request.requestedScopes = [.fullName, .email]
-            request.nonce = sha256(nonce)
-            
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-            authorizationController.delegate = self
-            authorizationController.presentationContextProvider = self
-            authorizationController.performRequests()
-        }
-    }
-    
-    private func randomNonceString(length: Int = 32) -> String {
-        precondition(length > 0)
-        let charset: Array<Character> = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-        var result = ""
-        var remainingLength = length
-        
-        while(remainingLength > 0) {
-            let randoms: [UInt8] = (0 ..< 16).map { _ in
-                var random: UInt8 = 0
-                let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
-                if (errorCode != errSecSuccess) {
-                    fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
-                }
-                return random
-            }
-            
-            randoms.forEach { random in
-                if (remainingLength == 0) {
-                    return
-                }
-                
-                if (random < charset.count) {
-                    result.append(charset[Int(random)])
-                    remainingLength -= 1
+            // performAppleSignIn()
+            Task {
+                await signInWithApple { credential in
+                    self.firebaseSignInWithApple(credential: credential)
                 }
             }
         }
-        return result
     }
     
-    private func sha256(_ input: String) -> String {
-        let inputData = Data(input.utf8)
-        let hashedData = SHA256.hash(data: inputData)
-        let hashString = hashedData.compactMap {
-            return String(format: "%02x", $0)
-        }.joined()
-        return hashString
-    }
-}
-
-extension SignInViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        // 登入成功
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
+    func signInWithApple(completion: @escaping (AuthCredential) -> Void) async {
+        let signInWithApple = SignInWithApple()
+        do {
+            let appleIDCredential = try await signInWithApple()
             guard let appleIDToken = appleIDCredential.identityToken else {
-                CustomFunc.customAlert(title: "", message: "Unable to fetch identity token", vc: self, actionHandler: nil)
+                print("Unable to fetdch identify token.")
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                CustomFunc.customAlert(title: "", message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)", vc: self, actionHandler: nil)
+                print("Unable to serialise token string from data: \(appleIDToken.debugDescription)")
                 return
             }
-            // 產生 Apple ID 登入的 Credential
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-            // 與 Firebase Auth 進行串接
-            firebaseSignInWithApple(credential: credential)
+            
+            let nonce = randomNonceString()
+            let credential = OAuthProvider.credential(withProviderID: "apple.com",
+                                                      idToken: idTokenString,
+                                                      rawNonce: nonce)
+            completion(credential)
+        } catch {
+            print(error)
         }
     }
     
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // 登入失敗，處理 Error
-        switch error {
-        case ASAuthorizationError.canceled:
-            CustomFunc.customAlert(title: "使用者取消登入", message: "", vc: self, actionHandler: nil)
-        case ASAuthorizationError.failed:
-            CustomFunc.customAlert(title: "授權請求失敗", message: "", vc: self, actionHandler: nil)
-        case ASAuthorizationError.invalidResponse:
-            CustomFunc.customAlert(title: "授權請求無回應", message: "", vc: self, actionHandler: nil)
-        case ASAuthorizationError.notHandled:
-            CustomFunc.customAlert(title: "授權請求未處理", message: "", vc: self, actionHandler: nil)
-        case ASAuthorizationError.unknown:
-            CustomFunc.customAlert(title: "授權失敗，原因不知", message: "", vc: self, actionHandler: nil)
-        default:
-            break
-        }
-    }
+//    func performAppleSignIn() {
+//        
+//        let nonce = randomNonceString()
+//        currentNonce = nonce
+//        let appleIDProvider = ASAuthorizationAppleIDProvider()
+//        
+//        let request = appleIDProvider.createRequest()
+//        request.requestedScopes = [.fullName, .email]
+//        request.nonce = sha256(nonce)
+//        
+//        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+//        authorizationController.delegate = self
+//        authorizationController.presentationContextProvider = self
+//        authorizationController.performRequests()
+//    }
 }
+
+//extension SignInViewController: ASAuthorizationControllerDelegate {
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+//        
+//        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+//            guard let nonce = currentNonce else {
+//                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+//            }
+//            guard let appleIDToken = appleIDCredential.identityToken else {
+//                CustomFunc.customAlert(title: "", message: "Unable to fetch identity token", vc: self, actionHandler: nil)
+//                return
+//            }
+//            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+//                CustomFunc.customAlert(title: "", message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)", vc: self, actionHandler: nil)
+//                return
+//            }
+//            
+//            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+//            
+//            firebaseSignInWithApple(credential: credential)
+//        }
+//    }
+//    
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+//        CustomFunc.customAlert(title: "請再試一次", message: "", vc: self, actionHandler: nil)
+////        switch error {
+////        case ASAuthorizationError.canceled:
+////            CustomFunc.customAlert(title: "使用者取消登入", message: "", vc: self, actionHandler: nil)
+////        case ASAuthorizationError.failed:
+////            CustomFunc.customAlert(title: "授權請求失敗", message: "", vc: self, actionHandler: nil)
+////        case ASAuthorizationError.invalidResponse:
+////            CustomFunc.customAlert(title: "授權請求無回應", message: "", vc: self, actionHandler: nil)
+////        case ASAuthorizationError.notHandled:
+////            CustomFunc.customAlert(title: "授權請求未處理", message: "", vc: self, actionHandler: nil)
+////        case ASAuthorizationError.unknown:
+////            CustomFunc.customAlert(title: "授權失敗，原因不知", message: "", vc: self, actionHandler: nil)
+////        default:
+////            break
+////        }
+//    }
+//}
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 // 在畫面上顯示授權畫面
@@ -394,35 +352,6 @@ extension SignInViewController {
         }
     }
     
-    // MARK: - Firebase 取得登入使用者的資訊
-    func getFirebaseUserInfo() {
-        let currentUser = Auth.auth().currentUser
-        guard let user = currentUser else {
-            CustomFunc.customAlert(title: "無法取得使用者資料！", message: "", vc: self, actionHandler: nil)
-            return
-        }
-        let uid = user.uid
-        let email = user.email
-        CustomFunc.customAlert(title: "使用者資訊", message: "UID：\(uid)\nEmail：\(email!)", vc: self, actionHandler: nil)
-    }
-    
-//    func changeRootVC() {
-//        signInViewModel.loginUser()
-//        
-//        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
-//            return
-//        }
-//            
-//        let tabBarController = TabBarController()
-//        
-//        UIView.transition(with: sceneDelegate.window!,
-//                          duration: 0.3,
-//                          options: .transitionCrossDissolve,
-//                          animations: {
-//            sceneDelegate.window?.rootViewController = tabBarController
-//        })
-//    }
-    
     // MARK: - 監聽目前的 Apple ID 的登入狀況
     // 主動監聽
     func checkAppleIDCredentialState(userID: String) {
@@ -446,43 +375,6 @@ extension SignInViewController {
         NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: nil) { (_: Notification) in
             CustomFunc.customAlert(title: "使用者登入或登出", message: "", vc: self, actionHandler: nil)
         }
-    }
-}
-
-class CustomFunc {
-    class func customAlert(title: String, message: String, vc: UIViewController, actionHandler: (() -> Void)?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: "關閉", style: .default) { _ in
-            actionHandler?()
-        }
-        alertController.addAction(closeAction)
-        vc.present(alertController, animated: true)
-    }
-    
-    class func needLoginAlert(title: String, message: String, vc: UIViewController, actionHandler: (() -> Void)?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: "關閉", style: .default) { _ in
-            actionHandler?()
-        }
-        let signInAction = UIAlertAction(title: "登入", style: .default) { _ in
-            guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
-                return
-            }
-            let loggedInViewController = SignInViewController()
-            sceneDelegate.window?.rootViewController = loggedInViewController
-        }
-        alertController.addAction(closeAction)
-        alertController.addAction(signInAction)
-        vc.present(alertController, animated: true)
-    }
-    
-    class func getSystemTime() -> String {
-        let currectDate = Date()
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
-        dateFormatter.locale = Locale.ReferenceType.system
-        dateFormatter.timeZone = TimeZone.ReferenceType.system
-        return dateFormatter.string(from: currectDate)
     }
 }
 

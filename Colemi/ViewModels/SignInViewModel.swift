@@ -8,6 +8,8 @@
 import Foundation
 import Firebase
 import FirebaseAuth
+import GoogleSignIn
+import CryptoKit
 
 class SignInViewModel {
     
@@ -189,5 +191,36 @@ class SignInViewModel {
                           animations: {
             sceneDelegate.window?.rootViewController = tabBarController
         })
+    }
+    
+    func signInWithGoogle(vc: UIViewController) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        GIDSignIn.sharedInstance.signIn(withPresenting: vc) { [unowned self] result, error in
+            
+            guard error == nil else {
+                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: vc, actionHandler: nil)
+                return
+            }
+            guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                             accessToken: user.accessToken.tokenString)
+            
+            self.firebaseSignInWithGoogle(credential: credential, vc: vc )
+        }
+    }
+
+    private func firebaseSignInWithGoogle(credential: AuthCredential, vc: UIViewController) {
+        Auth.auth().signIn(with: credential) { _, error in
+            guard error == nil else {
+                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: vc, actionHandler: nil)
+                return
+            }
+            CustomFunc.customAlert(title: "登入成功！", message: "", vc: vc) {
+                self.loginUser()
+            }
+        }
     }
 }
