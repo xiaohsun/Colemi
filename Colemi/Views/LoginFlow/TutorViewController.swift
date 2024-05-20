@@ -190,13 +190,11 @@ class TutorViewController: UIViewController {
         ])
         
         layoutCircularButtons()
-        addChildVCs()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
         circularButtonTapped(sender: circularButtons[0])
     }
     
@@ -205,6 +203,11 @@ class TutorViewController: UIViewController {
         for btn in circularButtons {
             btn.layer.cornerRadius = btn.frame.width / 2
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        addChildVCs()
+        scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
     }
 }
 

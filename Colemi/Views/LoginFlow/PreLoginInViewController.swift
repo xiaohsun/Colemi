@@ -131,12 +131,12 @@ class PreLoginInViewController: UIViewController {
             
             circleView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.2),
             circleView.heightAnchor.constraint(equalTo: circleView.widthAnchor),
-            circleView.centerYAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            circleView.centerYAnchor.constraint(equalTo: view.bottomAnchor),
             circleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             arrowImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             arrowImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            arrowImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
+            arrowImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
             arrowImageView.heightAnchor.constraint(equalTo: arrowImageView.widthAnchor)
         ])
         
