@@ -90,5 +90,6 @@ GoogleService-Info.plist
 
 # GoogleCloudVision API Key
 crypto-talon-420308-bd30ce6fe978.json
+APIKey.plist
 
 # End of https://www.toptal.com/developers/gitignore/api/swift

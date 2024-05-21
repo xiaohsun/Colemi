@@ -7,14 +7,25 @@
 
 import Foundation
 
+struct APIKey: Decodable {
+    let CloudVisionAPIKey: String
+}
+
 class CloudVisionManager {
     
     weak var delegate: CloudVisionManagerDelegate?
     
-    var apiKey = "AIzaSyDvV7Oc5opzGdY_UDsDufy4kfDbMehoZ74"
+    var apiKey: String {
+        guard let plistPath = Bundle.main.path(forResource: "APIKey", ofType: "plist"),
+              let plistDict = NSDictionary(contentsOfFile: plistPath),
+              let apiKey = plistDict["CloudVisionAPIKey"] as? String else {
+            fatalError("API key not found in plist")
+        }
+        return apiKey
+    }
     
     func analyzeImageWithVisionAPI(imageData: Data, url: String) {
-
+        
         let url = URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(apiKey)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -47,8 +58,8 @@ class CloudVisionManager {
             }
             
             if let safeData = data {
-                // let content = String(data: safeData, encoding: .utf8)
-                // print(content!)
+                 let content = String(data: safeData, encoding: .utf8)
+                 print(content!)
                 
                 let decoder = JSONDecoder()
                 do {
