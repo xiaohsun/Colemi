@@ -101,6 +101,7 @@
 		28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */; };
 		28564D802BE913C6003B3FBA /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */; };
 		28569EE72BFC4351005837C8 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28569EE62BFC4351005837C8 /* APIKey.plist */; };
+		28569EE92BFC55BA005837C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28569EE82BFC55BA005837C8 /* GoogleService-Info.plist */; };
 		286106292BFAFCC3005614AD /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286106282BFAFCC3005614AD /* CustomFunc.swift */; };
 		2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */; };
 		2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */; };
@@ -133,7 +134,6 @@
 		288064502BD156D100FC2EFA /* OtherChatTextBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2880644F2BD156D100FC2EFA /* OtherChatTextBubbleTableViewCell.swift */; };
 		2882607C2BE0D77600BE9B52 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 2882607B2BE0D77600BE9B52 /* GoogleSignIn */; };
 		2882607E2BE0D77600BE9B52 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2882607D2BE0D77600BE9B52 /* GoogleSignInSwift */; };
-		288260802BE0D85F00BE9B52 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */; };
 		288753D52BEC5DD400EB601F /* ContactDeveloperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */; };
 		28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28966AC12BE099AD0088A526 /* UILabel+Extension.swift */; };
 		289B98792BF9DFF100535F4D /* ChooseColorTutorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289B98782BF9DFF100535F4D /* ChooseColorTutorVC.swift */; };
@@ -243,6 +243,7 @@
 		28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
 		28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		28569EE62BFC4351005837C8 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
+		28569EE82BFC55BA005837C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		286106282BFAFCC3005614AD /* CustomFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFunc.swift; sourceTree = "<group>"; };
 		2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCPopAnimator.swift; sourceTree = "<group>"; };
 		2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
@@ -273,7 +274,6 @@
 		2880644A2BD14A7000FC2EFA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		2880644C2BD153B500FC2EFA /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		2880644F2BD156D100FC2EFA /* OtherChatTextBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherChatTextBubbleTableViewCell.swift; sourceTree = "<group>"; };
-		2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		288753D42BEC5DD400EB601F /* ContactDeveloperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDeveloperCell.swift; sourceTree = "<group>"; };
 		28966AC12BE099AD0088A526 /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		289B98782BF9DFF100535F4D /* ChooseColorTutorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorTutorVC.swift; sourceTree = "<group>"; };
@@ -640,7 +640,7 @@
 				28D24DD32BC6C24400B7E114 /* Assets.xcassets */,
 				28D24DD52BC6C24400B7E114 /* LaunchScreen.storyboard */,
 				28D24DD82BC6C24400B7E114 /* Info.plist */,
-				2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */,
+				28569EE82BFC55BA005837C8 /* GoogleService-Info.plist */,
 				28569EE62BFC4351005837C8 /* APIKey.plist */,
 			);
 			path = Colemi;
@@ -747,11 +747,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				289D72A52BDD4CD100051D07 /* GenSenRounded-R.ttc in Resources */,
+				28569EE92BFC55BA005837C8 /* GoogleService-Info.plist in Resources */,
 				28D24DD72BC6C24400B7E114 /* LaunchScreen.storyboard in Resources */,
 				289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */,
 				289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */,
 				28569EE72BFC4351005837C8 /* APIKey.plist in Resources */,
-				288260802BE0D85F00BE9B52 /* GoogleService-Info.plist in Resources */,
 				28D24DD42BC6C24400B7E114 /* Assets.xcassets in Resources */,
 				289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */,
 				289D72A42BDD4CCF00051D07 /* GenSenRounded-M.ttc in Resources */,
