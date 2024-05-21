@@ -48,14 +48,13 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
-            let position = gestureRecognizer.location(in: postsCollectionView)
-            if let index = postsCollectionView.indexPathForItem(at: position) {
-                print(index)
-                print(position)
+            let positionInCollectionView = gestureRecognizer.location(in: postsCollectionView)
+            let positionInScreen = gestureRecognizer.location(in: view)
+            if let index = postsCollectionView.indexPathForItem(at: positionInCollectionView) {
+                
                 let mainPageOverLayPopUp = MainPageOverLayPopUp()
-                // fromVC.postsCollectionView.convert(postsCollectionView, to: nil)
-                mainPageOverLayPopUp.gestureYPosision = position.y
-                mainPageOverLayPopUp.gestureXPosision = position.x
+                mainPageOverLayPopUp.gestureYPosision = positionInScreen.y
+                mainPageOverLayPopUp.gestureXPosision = positionInScreen.x
                 mainPageOverLayPopUp.appear(sender: self)
             }
         }

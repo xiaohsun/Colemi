@@ -67,9 +67,7 @@ final class ProfileVCPopAnimator: NSObject, UIViewControllerAnimatedTransitionin
             cell.isHidden = false
             
             toVC.view.alpha = 1
-            // tabBarController.tabBar.alpha = 1
             selectedImageView.isHidden = false
-            // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)
             

@@ -100,6 +100,7 @@
 		28564D7C2BE8DB3E003B3FBA /* SignOutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */; };
 		28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */; };
 		28564D802BE913C6003B3FBA /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */; };
+		28569EE72BFC4351005837C8 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28569EE62BFC4351005837C8 /* APIKey.plist */; };
 		286106292BFAFCC3005614AD /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286106282BFAFCC3005614AD /* CustomFunc.swift */; };
 		2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */; };
 		2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */; };
@@ -241,6 +242,7 @@
 		28564D7B2BE8DB3E003B3FBA /* SignOutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutCell.swift; sourceTree = "<group>"; };
 		28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
 		28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		28569EE62BFC4351005837C8 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
 		286106282BFAFCC3005614AD /* CustomFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFunc.swift; sourceTree = "<group>"; };
 		2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCPopAnimator.swift; sourceTree = "<group>"; };
 		2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
@@ -366,8 +368,7 @@
 				28C69B822BD2638600725BE7 /* LobbyPage */,
 				281C657E2BCFEAB5003D2ECE /* PostDetailPage */,
 				281C65AF2BD0C490003D2ECE /* ProfilePage */,
-				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
-				2815FE152BEE12C700A2757B /* WeatherInfoPopUp.swift */,
+				28569EE52BFB93A8005837C8 /* ChooseColorPage */,
 				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
 				281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */,
 				281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */,
@@ -510,6 +511,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		28569EE52BFB93A8005837C8 /* ChooseColorPage */ = {
+			isa = PBXGroup;
+			children = (
+				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
+				2815FE152BEE12C700A2757B /* WeatherInfoPopUp.swift */,
+			);
+			path = ChooseColorPage;
+			sourceTree = "<group>";
+		};
 		287A62E32BE52E6C00E09788 /* SettingPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,6 +641,7 @@
 				28D24DD52BC6C24400B7E114 /* LaunchScreen.storyboard */,
 				28D24DD82BC6C24400B7E114 /* Info.plist */,
 				2882607F2BE0D85F00BE9B52 /* GoogleService-Info.plist */,
+				28569EE62BFC4351005837C8 /* APIKey.plist */,
 			);
 			path = Colemi;
 			sourceTree = "<group>";
@@ -739,6 +750,7 @@
 				28D24DD72BC6C24400B7E114 /* LaunchScreen.storyboard in Resources */,
 				289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */,
 				289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */,
+				28569EE72BFC4351005837C8 /* APIKey.plist in Resources */,
 				288260802BE0D85F00BE9B52 /* GoogleService-Info.plist in Resources */,
 				28D24DD42BC6C24400B7E114 /* Assets.xcassets in Resources */,
 				289D72A12BDD4CC800051D07 /* GenSenRounded-EL.ttc in Resources */,

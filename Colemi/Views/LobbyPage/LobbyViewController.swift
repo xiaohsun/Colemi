@@ -8,10 +8,13 @@
 import UIKit
 import Kingfisher
 
+enum LobbyButtonProperty: String {
+    case allColor = "全部顏色"
+    case todayColor = "今日顏色"
+    case mixColor = "今日混色"
+}
+
 class LobbyViewController: UIViewController {
-    
-    // let viewModel = LobbyViewModel()
-    // let userManager = UserManager.shared
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
@@ -23,30 +26,11 @@ class LobbyViewController: UIViewController {
     private lazy var todayColorChild = TodayColorViewController()
     private lazy var mixColorChild = MixColorViewController()
     
-    lazy var buttonOne: UIButton = {
-        let button = UIButton()
-        button.setTitle("全部顏色", for: .normal)
-        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
-        button.isSelected = true
-        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    lazy var buttonOne = createButton()
+    lazy var buttonTwo = createButton()
+    lazy var buttonThree = createButton()
     
-    lazy var buttonTwo: UIButton = {
-        let button = UIButton()
-        button.setTitle("今日顏色", for: .normal)
-        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
-        button.setTitleColor(.lightGray, for: .normal)
-        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var buttonThree: UIButton = {
+    func createButton() -> UIButton {
         let button = UIButton()
         button.setTitle("今日混色", for: .normal)
         button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
@@ -55,7 +39,7 @@ class LobbyViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
-    }()
+    }
     
     func makeBottomLabel() -> UILabel {
         let label = UILabel()
@@ -71,11 +55,6 @@ class LobbyViewController: UIViewController {
         for button in buttons {
             button.isSelected = false
         }
-        
-//        for family in UIFont.familyNames.sorted() {
-//            let names = UIFont.fontNames(forFamilyName: family)
-//            print("Family: \(family) Font names: \(names)")
-//        }
         
         switch sender {
         case buttonOne:
@@ -102,13 +81,6 @@ class LobbyViewController: UIViewController {
         scrollView.isDirectionalLockEnabled = true
         return scrollView
     }()
-    
-//    @objc private func toMixPostColorView() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//            self.scrollView.setContentOffset(CGPoint(x: self.scrollView.bounds.width * 2, y: 0), animated: true)
-//            self.buttonThree.isSelected = true
-//        }
-//    }
     
     private func addChildVCs() {
         addChild(allColorChild)
@@ -146,6 +118,12 @@ class LobbyViewController: UIViewController {
         buttons.append(buttonTwo)
         buttons.append(buttonThree)
         
+        buttonOne.setTitle(LobbyButtonProperty.allColor.rawValue, for: .normal)
+        buttonTwo.setTitle(LobbyButtonProperty.todayColor.rawValue, for: .normal)
+        buttonThree.setTitle(LobbyButtonProperty.mixColor.rawValue, for: .normal)
+        
+        buttonOne.isSelected = true
+        
         NSLayoutConstraint.activate([
             
             buttonOne.widthAnchor.constraint(equalToConstant: buttonWidth),
@@ -178,10 +156,10 @@ class LobbyViewController: UIViewController {
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
         
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(self.toMixPostColorView),
-//                                               name: NSNotification.Name("ToMixPostColorView"),
-//                                               object: nil)
+        //        NotificationCenter.default.addObserver(self,
+        //                                               selector: #selector(self.toMixPostColorView),
+        //                                               name: NSNotification.Name("ToMixPostColorView"),
+        //                                               object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -198,9 +176,7 @@ extension LobbyViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.y != 0 {
-                // scrollView.contentOffset.y = 0
-        } else {
+        if scrollView.contentOffset.y == 0 {
             let pageWidth = scrollView.bounds.width
             let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
             
@@ -209,12 +185,6 @@ extension LobbyViewController: UIScrollViewDelegate {
                 print("Switched to child view controller at index \(currentIndex)")
             }
         }
-    }
-    
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-//        UIView.animate(withDuration: 0.1) {
-//            self.scrollView.contentOffset.y = 0
-//        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -226,10 +196,6 @@ extension LobbyViewController: UIScrollViewDelegate {
         }
         
         buttons[currentPage].isSelected = true
-        
-//        UIView.animate(withDuration: 0.2) {
-//            self.scrollView.contentOffset.y = 0
-//        }
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
             self.scrollView.contentOffset.y = 0

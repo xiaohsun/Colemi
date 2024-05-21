@@ -28,27 +28,6 @@ class AchievementPopUp: UIViewController {
         return view
     }()
     
-//    lazy var iconImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.image = UIImage(systemName: "exclamationmark.triangle.fill")?.withRenderingMode(.alwaysTemplate)
-//        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
-//
-//        return imageView
-//    }()
-    
-//    lazy var tableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.backgroundColor = .white
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        tableView.separatorStyle = .none
-//        tableView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
-//        tableView.register(OverLayPopUpCell.self, forCellReuseIdentifier: OverLayPopUpCell.reuseIdentifier)
-//        return tableView
-//    }()
-    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "成就"
