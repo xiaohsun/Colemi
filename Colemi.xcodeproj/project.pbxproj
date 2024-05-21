@@ -101,7 +101,7 @@
 		28564D7E2BE8DD7C003B3FBA /* DeleteAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */; };
 		28564D802BE913C6003B3FBA /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */; };
 		28569EE72BFC4351005837C8 /* APIKey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28569EE62BFC4351005837C8 /* APIKey.plist */; };
-		28569EE92BFC55BA005837C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28569EE82BFC55BA005837C8 /* GoogleService-Info.plist */; };
+		28569EEB2BFC5B17005837C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28569EEA2BFC5B17005837C8 /* GoogleService-Info.plist */; };
 		286106292BFAFCC3005614AD /* CustomFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286106282BFAFCC3005614AD /* CustomFunc.swift */; };
 		2870FBAC2BEF352100928882 /* ChatRoomVCPopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */; };
 		2870FBAE2BEF35C100928882 /* ImageDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */; };
@@ -243,7 +243,7 @@
 		28564D7D2BE8DD7C003B3FBA /* DeleteAccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountCell.swift; sourceTree = "<group>"; };
 		28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		28569EE62BFC4351005837C8 /* APIKey.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKey.plist; sourceTree = "<group>"; };
-		28569EE82BFC55BA005837C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		28569EEA2BFC5B17005837C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		286106282BFAFCC3005614AD /* CustomFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFunc.swift; sourceTree = "<group>"; };
 		2870FBAB2BEF352100928882 /* ChatRoomVCPopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCPopAnimator.swift; sourceTree = "<group>"; };
 		2870FBAD2BEF35C100928882 /* ImageDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailViewController.swift; sourceTree = "<group>"; };
@@ -640,7 +640,7 @@
 				28D24DD32BC6C24400B7E114 /* Assets.xcassets */,
 				28D24DD52BC6C24400B7E114 /* LaunchScreen.storyboard */,
 				28D24DD82BC6C24400B7E114 /* Info.plist */,
-				28569EE82BFC55BA005837C8 /* GoogleService-Info.plist */,
+				28569EEA2BFC5B17005837C8 /* GoogleService-Info.plist */,
 				28569EE62BFC4351005837C8 /* APIKey.plist */,
 			);
 			path = Colemi;
@@ -747,7 +747,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				289D72A52BDD4CD100051D07 /* GenSenRounded-R.ttc in Resources */,
-				28569EE92BFC55BA005837C8 /* GoogleService-Info.plist in Resources */,
+				28569EEB2BFC5B17005837C8 /* GoogleService-Info.plist in Resources */,
 				28D24DD72BC6C24400B7E114 /* LaunchScreen.storyboard in Resources */,
 				289D72A02BDD4CC500051D07 /* GenSenRounded-B.ttc in Resources */,
 				289D72A22BDD4CCA00051D07 /* GenSenRounded-H.ttc in Resources */,
