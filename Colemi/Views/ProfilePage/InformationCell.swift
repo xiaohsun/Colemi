@@ -106,13 +106,10 @@ class InformationCell: UITableViewCell {
     }
     
     @objc private func followersTapped() {
-        // isOthersPage ? print(viewModel.otherUserData?.followers) : print(viewModel.userData.followers)
         delegate?.pushToFollowVC(isFollowersTapped: true)
     }
     
     @objc private func followingTapped() {
-        
-        // isOthersPage ? print(viewModel.otherUserData?.following) : print(viewModel.userData.following)
         delegate?.pushToFollowVC(isFollowersTapped: false)
     }
     
@@ -194,11 +191,59 @@ class InformationCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func configureSelfPageCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.row {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.delegate = self
+            cell.update(description: self.viewModel.userData.description, isOthersPage: self.isOthersPage)
+            return cell
+            
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.changeToSetting()
+            cell.delegate = self
+            return cell
+        }
+    }
+    
+    private func configureOthersPageCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.row {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.delegate = self
+            cell.update(description: self.viewModel.otherUserData?.description ?? "", isOthersPage: self.isOthersPage)
+            return cell
+            
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else {
+                fatalError("Can't create new cell")
+            }
+            let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
+            cell.changeToFollow(isFollowing: isFollowing)
+            cell.delegate = self
+            return cell
+            
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.delegate = self
+            cell.viewModel.otherUserData = self.viewModel.otherUserData
+            return cell
+        }
+    }
 }
 
 extension InformationCell {
     func update(name: String, followers: [String], following: [String], isOthersPage: Bool, avatarUrl: String) {
-        // nameLabel.text = name
         idLabel.text = name
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
@@ -286,78 +331,24 @@ extension InformationCell {
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: self.collectionView) { (collectionView, indexPath, _) -> UICollectionViewCell? in
             
-            if indexPath.section == 0 && !self.isOthersPage {
+            if indexPath.section == 0 {
                 
-                switch indexPath.row {
-                    
-                case 0:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
-                    
-                    cell.delegate = self
-                    cell.update(description: UserManager.shared.description, isOthersPage: self.isOthersPage)
-                    
-                    return cell
-                    
-                default:
-                    
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
-                    
-                    cell.changeToSetting()
-                    
-                    cell.delegate = self
-                    
-                    return cell
-                }
-            } else if indexPath.section == 0 && self.isOthersPage {
-                switch indexPath.row {
-                case 0:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
-                    
-                    cell.delegate = self
-                    cell.update(description: self.viewModel.otherUserData?.description ?? "", isOthersPage: self.isOthersPage)
-                    
-                    return cell
-                    
-                case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
-                    
-                    let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
-                    
-                    cell.changeToFollow(isFollowing: isFollowing)
-                    cell.delegate = self
-                    
-                    return cell
-                    
-                default:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else { fatalError("Can't create new cell") }
-                    
-                    cell.delegate = self
-                    cell.viewModel.otherUserData = self.viewModel.otherUserData
-                    
-                    return cell
+                if self.isOthersPage {
+                    return self.configureOthersPageCell(collectionView: collectionView, indexPath: indexPath)
+                } else {
+                    return self.configureSelfPageCell(collectionView: collectionView, indexPath: indexPath)
                 }
                 
-            } else if indexPath.section == 1 && self.isOthersPage {
-                switch indexPath.row {
-                case 0:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorFootprintCell.reuseIdentifier, for: indexPath) as? ColorFootprintCell else { fatalError("Can't create new cell") }
-                    cell.update(colorPoints: self.viewModel.otherUserData?.colorPoints ?? 0)
-                    
-                    return cell
-                case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectedColorCell.reuseIdentifier, for: indexPath) as? CollectedColorCell else { fatalError("Can't create new cell") }
-                    
-                    return cell
-                default:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AchievementCell.reuseIdentifier, for: indexPath) as? AchievementCell else { fatalError("Can't create new cell") }
-                    
-                    return cell
-                }
             } else {
                 switch indexPath.row {
                 case 0:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorFootprintCell.reuseIdentifier, for: indexPath) as? ColorFootprintCell else { fatalError("Can't create new cell") }
-                    cell.update(colorPoints: self.viewModel.userData.colorPoints)
+                    
+                    if self.isOthersPage {
+                        cell.update(colorPoints: self.viewModel.otherUserData?.colorPoints ?? 0)
+                    } else {
+                        cell.update(colorPoints: self.viewModel.userData.colorPoints)
+                    }
                     
                     return cell
                 case 1:
@@ -368,7 +359,6 @@ extension InformationCell {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AchievementCell.reuseIdentifier, for: indexPath) as? AchievementCell else { fatalError("Can't create new cell") }
                     
                     return cell
-                    
                 }
             }
         }
