@@ -238,36 +238,36 @@ class ColorSimilarityViewController: UIViewController {
                         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.colorViewsMoveUp))
                         self.view.addGestureRecognizer(tapGesture)
                         self.view.isUserInteractionEnabled = true
-                    }
-                }
-                
-                
-                self.setupColorViews()
-                
-                if let selectedUIColor = UIColor(hex: self.userManager.colorToday) {
-                    
-                    self.colorDistances = self.colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: self.colors)
-                    
-                    for colorDistance in self.colorDistances {
                         
-                        // let formattedSimilarity = String(format: "%.1f", colorDistance)
-                        if colorDistance < 100 {
-                            let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
-                            self.roundedColorSimilarity.append(roundedNumber)
-                            self.colorDistancesString.append(String(100 - roundedNumber))
-                            self.totalBonusCount += roundedNumber
-                        } else {
-                            self.roundedColorSimilarity.append(0)
-                            self.colorDistancesString.append(String(100))
-                            self.totalBonusCount += 0
+                        
+                        self.setupColorViews()
+                        
+                        if let selectedUIColor = UIColor(hex: self.userManager.colorToday) {
+                            
+                            self.colorDistances = self.colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: self.colors)
+                            
+                            for colorDistance in self.colorDistances {
+                                
+                                // let formattedSimilarity = String(format: "%.1f", colorDistance)
+                                if colorDistance < 100 {
+                                    let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
+                                    self.roundedColorSimilarity.append(roundedNumber)
+                                    self.colorDistancesString.append(String(100 - roundedNumber))
+                                    self.totalBonusCount += roundedNumber
+                                } else {
+                                    self.roundedColorSimilarity.append(0)
+                                    self.colorDistancesString.append(String(100))
+                                    self.totalBonusCount += 0
+                                }
+                            }
+                            // totalBonusCount = (totalBonusCount / 10).rounded()
+                            self.totalBonusCount = self.totalBonusCount.rounded()
+                            self.totalCountsLabel.text = "顏色足跡 +\(String(format: "%.0f", self.totalBonusCount))"
+                            
+                            self.colorSimilarityViewModel.updatePostData(colorPoints: Int(self.totalBonusCount))
+                            self.colorSimilarityViewModel.updateUserData(colorPoints: Int(self.totalBonusCount))
                         }
                     }
-                    // totalBonusCount = (totalBonusCount / 10).rounded()
-                    self.totalBonusCount = self.totalBonusCount.rounded()
-                    self.totalCountsLabel.text = "顏色足跡 +\(String(format: "%.0f", self.totalBonusCount))"
-                    
-                    self.colorSimilarityViewModel.updatePostData(colorPoints: Int(self.totalBonusCount))
-                    self.colorSimilarityViewModel.updateUserData(colorPoints: Int(self.totalBonusCount))
                 }
             }
         }
