@@ -4,6 +4,7 @@
 //
 //  Created by 徐柏勳 on 4/18/24.
 //
+// swiftlint:disable cyclomatic_complexity
 
 import UIKit
 import Kingfisher
@@ -323,14 +324,12 @@ extension InformationCell {
                     let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
                     
                     cell.changeToFollow(isFollowing: isFollowing)
-                    
                     cell.delegate = self
                     
                     return cell
                     
                 default:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else { fatalError("Can't create new cell") }
-                        // cell.changeToFollow()
                     
                     cell.delegate = self
                     cell.viewModel.otherUserData = self.viewModel.otherUserData
@@ -338,6 +337,22 @@ extension InformationCell {
                     return cell
                 }
                 
+            } else if indexPath.section == 1 && self.isOthersPage {
+                switch indexPath.row {
+                case 0:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorFootprintCell.reuseIdentifier, for: indexPath) as? ColorFootprintCell else { fatalError("Can't create new cell") }
+                    cell.update(colorPoints: self.viewModel.otherUserData?.colorPoints ?? 0)
+                    
+                    return cell
+                case 1:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectedColorCell.reuseIdentifier, for: indexPath) as? CollectedColorCell else { fatalError("Can't create new cell") }
+                    
+                    return cell
+                default:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AchievementCell.reuseIdentifier, for: indexPath) as? AchievementCell else { fatalError("Can't create new cell") }
+                    
+                    return cell
+                }
             } else {
                 switch indexPath.row {
                 case 0:
@@ -383,6 +398,11 @@ extension InformationCell: UICollectionViewDelegate {
             colorFootprintPopUp.appear(sender: vc)
         } else if indexPath == IndexPath(row: 1, section: 1) {
             let collectedColorPopUp = CollectedColorPopUp()
+            if isOthersPage {
+                collectedColorPopUp.collectedColors = viewModel.otherUserData?.collectedColors ?? []
+            } else {
+                collectedColorPopUp.collectedColors = viewModel.userData.collectedColors
+            }
             collectedColorPopUp.appear(sender: vc)
         } else {
             let achievementPopUp = AchievementPopUp()

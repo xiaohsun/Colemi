@@ -10,7 +10,7 @@ import UIKit
 class CollectedColorPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
-    let userData = UserManager.shared
+    var collectedColors: [String] = []
     
     lazy var backgroundView: UIView = {
         let view = UIView()
@@ -117,7 +117,6 @@ class CollectedColorPopUp: UIViewController {
             self.containerViewTopCons?.isActive = false
             self.containerViewTopCons = self.containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
             self.containerViewTopCons?.isActive = true
-            // self.containerViewTopCons?.constant = -self.containerViewHeight
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                 self.backgroundView.alpha = 1
@@ -144,13 +143,13 @@ class CollectedColorPopUp: UIViewController {
 
 extension CollectedColorPopUp: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        userData.collectedColors.count
+        collectedColors.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectedColorTableViewCell.reuseIdentifier, for: indexPath) as? CollectedColorTableViewCell else { return UITableViewCell() }
-        let reverseIndex = userData.collectedColors.count - indexPath.row - 1
-        let hexColor = userData.collectedColors[reverseIndex]
+        let reverseIndex = collectedColors.count - indexPath.row - 1
+        let hexColor = collectedColors[reverseIndex]
         cell.update(hexColor: hexColor)
         
         return cell
