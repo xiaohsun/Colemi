@@ -50,6 +50,7 @@ class WritePostContentViewModel {
         let ref = FirestoreEndpoint.users.ref
         
         userData.posts.append(postID)
+        userData.postToday = postID
         
         let updateData: [String: Any] = [
             UserProperty.posts.rawValue: userData.posts,

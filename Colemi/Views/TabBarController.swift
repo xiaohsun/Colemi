@@ -13,6 +13,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     var lobbyViewController: LobbyViewController?
     var profileViewController: ProfileViewController?
     var chatRoomsNavController: UINavigationController?
+    let userData = UserManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,11 +47,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let paletteViewController = PaletteViewController()
         paletteViewController.tabBarItem.image = UIImage.palleteIcon
         paletteViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
-        
-//        let pickPhotoViewController = PickPhotoViewController()
-//        let pickPhotoNavController = UINavigationController(rootViewController: pickPhotoViewController)
-//        pickPhotoNavController.tabBarItem.image = UIImage.postIcon
-//        pickPhotoNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
         let writePostContentViewController = WritePostContentViewController()
         // let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
@@ -95,12 +91,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
             return
         } else {
-            let writePostContentViewController = WritePostContentViewController()
-            let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
-            
-            writePostContentNavController.modalPresentationStyle = .fullScreen
-            
-            present(writePostContentNavController, animated: true)
+            if userData.postToday != "" {
+                let popUp = DidPostTodayPopUp()
+                popUp.appear(sender: self)
+            } else {
+                let writePostContentViewController = WritePostContentViewController()
+                let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
+                
+                writePostContentNavController.modalPresentationStyle = .fullScreen
+                
+                present(writePostContentNavController, animated: true)
+            }
         }
     }
     
