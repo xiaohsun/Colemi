@@ -16,7 +16,6 @@ class WritePostContentViewController: UIViewController {
     var selectedImage: UIImage?
     var selectedImageSize: CGSize?
     var imageData: Data?
-    let userManager = UserManager.shared
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -42,7 +41,7 @@ class WritePostContentViewController: UIViewController {
     
     lazy var colorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: userManager.colorToday)
+        view.backgroundColor = UIColor(hex: viewModel.userData.colorToday)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
@@ -297,12 +296,12 @@ class WritePostContentViewController: UIViewController {
 
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
     func addDataToFireBase(_ imageUrl: String, imageSize: CGSize) {
-        let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: userManager.name))
+        let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: viewModel.userData.name))
         let imageHeight = Double(imageSize.height)
         let imageWidth = Double(imageSize.width)
         let tag = tagTextField.text ?? ""
         
-        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, tag: tag, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
+        viewModel.addData(authorId: viewModel.userData.id, content: content, type: 0, color: viewModel.userData.colorToday, tag: tag, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl

@@ -14,6 +14,7 @@ class WritePostContentViewModel {
     
     weak var delegate: WritePostContentViewModelDelegate?
     var postDocID: String = ""
+    let userData = UserManager.shared
     
     func addData(authorId: String, content: String, type: Int, color: String, tag: String, imageUrl: String, imageHeight: Double, imageWidth: Double) {
         
@@ -39,20 +40,23 @@ class WritePostContentViewModel {
         postDocID = document.documentID
         
         Task {
-            await self.updateData(postID: document.documentID, docID: UserManager.shared.id)
+            await self.updateData(postID: postDocID)
         }
     }
-
-    func updateData(postID: String, docID: String) async {
+    
+  
+    func updateData(postID: String) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        guard let user: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: docID), var postsArray = user?.posts else { return }
+        userData.posts.append(postID)
         
-        postsArray.append(postID)
-        UserManager.shared.posts.append(postID)
+        let updateData: [String: Any] = [
+            UserProperty.posts.rawValue: userData.posts,
+            UserProperty.postToday.rawValue: postID
+        ]
         
-        firestoreManager.updateDocument(data: [ UserProperty.posts.rawValue: postsArray], collection: ref, docID: docID)
+        firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: userData.id)
     }
     
     func makeContentJson(content: Content) -> String {
