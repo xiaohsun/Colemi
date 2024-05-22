@@ -15,16 +15,15 @@ class ColorSimilarityViewController: UIViewController {
     let cloudVisionManager = CloudVisionManager()
     var colors: [Color] = []
     var colorViews: [UIView] = []
-    let colorSimilarityViewModel = ColorSimilarityViewModel()
-    let userManager = UserManager.shared
+    let viewModel = ColorSimilarityViewModel()
     var colorDistances: [Double] = []
     var roundedColorSimilarity: [Double] = []
-    // 測試用
-    // var roundedColorSimilarity: [Double] = [1,1,1,1,1]
+    
     var colorDistancesString: [String] = []
     
-    
-    let fakeUIColors: [UIColor] = [UIColor.red, UIColor.green, UIColor.blue, UIColor.yellow, UIColor.brown]
+    // 測試用
+    // var roundedColorSimilarity: [Double] = [1,1,1,1,1]
+    // let fakeUIColors: [UIColor] = [UIColor.red, UIColor.green, UIColor.blue, UIColor.yellow, UIColor.brown]
     
     var distanceLabelBottomConstraint: NSLayoutConstraint?
     var colorViewOneTrailingConstraint: NSLayoutConstraint?
@@ -38,12 +37,8 @@ class ColorSimilarityViewController: UIViewController {
     var searchColorLabelTopCons: NSLayoutConstraint?
     var missionColorViewWidthCons: NSLayoutConstraint?
     
-    //    let colorViewHeight: CGFloat = 90
-    //    let colorViewWidth: CGFloat = 280
-    
     var colorViewWidthMutiplier = 0.72
     var colorViewHeightMutiplier = 0.11
-    
     
     var animationCount = 0
     
@@ -123,6 +118,7 @@ class ColorSimilarityViewController: UIViewController {
             colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         }
         
+        // 測試用
         //        for (index, colorView) in colorViews.enumerated() {
         //            let colorView = colorViews[index]
         //            colorView.layer.cornerRadius = view.frame.width / 9
@@ -242,13 +238,12 @@ class ColorSimilarityViewController: UIViewController {
                         
                         self.setupColorViews()
                         
-                        if let selectedUIColor = UIColor(hex: self.userManager.colorToday) {
+                        if let selectedUIColor = UIColor(hex: self.viewModel.userData.colorToday) {
                             
-                            self.colorDistances = self.colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: self.colors)
+                            self.colorDistances = self.viewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: self.colors)
                             
                             for colorDistance in self.colorDistances {
                                 
-                                // let formattedSimilarity = String(format: "%.1f", colorDistance)
                                 if colorDistance < 100 {
                                     let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
                                     self.roundedColorSimilarity.append(roundedNumber)
@@ -260,19 +255,17 @@ class ColorSimilarityViewController: UIViewController {
                                     self.totalBonusCount += 0
                                 }
                             }
-                            // totalBonusCount = (totalBonusCount / 10).rounded()
                             self.totalBonusCount = self.totalBonusCount.rounded()
                             self.totalCountsLabel.text = "顏色足跡 +\(String(format: "%.0f", self.totalBonusCount))"
                             
-                            self.colorSimilarityViewModel.updatePostData(colorPoints: Int(self.totalBonusCount))
-                            self.colorSimilarityViewModel.updateUserData(colorPoints: Int(self.totalBonusCount))
+                            self.viewModel.updatePostData(colorPoints: Int(self.totalBonusCount))
+                            self.viewModel.updateUserData(colorPoints: Int(self.totalBonusCount))
                         }
                     }
                 }
             }
         }
     }
-    // }
     
     @objc private func colorViewsMoveUp() {
         if colorDistancesString.count == 5 {
@@ -356,7 +349,7 @@ class ColorSimilarityViewController: UIViewController {
         view.addSubview(searchColorLabel)
         
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        missionColorView.backgroundColor = UIColor(hex: userManager.colorToday)
+        missionColorView.backgroundColor = UIColor(hex: viewModel.userData.colorToday)
         
         distanceLabelBottomConstraint = distanceLabel.bottomAnchor.constraint(equalTo: colorViewOne.topAnchor, constant: -320)
         colorViewOneTrailingConstraint =

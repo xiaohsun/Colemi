@@ -305,7 +305,7 @@ extension WritePostContentViewController: WritePostContentViewModelDelegate {
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
-        colorSimilarityViewController.colorSimilarityViewModel.postID = viewModel.postDocID
+        colorSimilarityViewController.viewModel.postID = viewModel.postDocID
         
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
