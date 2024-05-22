@@ -47,7 +47,7 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 24)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 24)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "混色後再來看看吧"
         
@@ -149,13 +149,10 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
-        
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         postDetailViewController.postID = viewModel.posts[indexPath.item].id
-        postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+        postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-        postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-        postDetailViewController.post = viewModel.posts[indexPath.item]
         
         let navController = UINavigationController(rootViewController: postDetailViewController)
         

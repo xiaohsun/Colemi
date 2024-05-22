@@ -15,7 +15,7 @@ class EULACell: UITableViewCell {
         let button = UIButton()
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.setTitle("使用者條款", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(btnTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

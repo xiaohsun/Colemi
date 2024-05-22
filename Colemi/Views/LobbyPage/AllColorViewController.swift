@@ -48,19 +48,19 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
     
     @objc func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
-            let position = gestureRecognizer.location(in: postsCollectionView)
-            if let index = postsCollectionView.indexPathForItem(at: position) {
-                print(index)
-                print(position)
+            let positionInCollectionView = gestureRecognizer.location(in: postsCollectionView)
+            let positionInScreen = gestureRecognizer.location(in: view)
+            if let index = postsCollectionView.indexPathForItem(at: positionInCollectionView) {
+                
                 let mainPageOverLayPopUp = MainPageOverLayPopUp()
-                // fromVC.postsCollectionView.convert(postsCollectionView, to: nil)
-                mainPageOverLayPopUp.gestureYPosision = position.y
-                mainPageOverLayPopUp.gestureXPosision = position.x
+                mainPageOverLayPopUp.gestureYPosision = positionInScreen.y
+                mainPageOverLayPopUp.gestureXPosision = positionInScreen.x
                 mainPageOverLayPopUp.appear(sender: self)
             }
         }
     }
     
+<<<<<<< HEAD
     // MARK: - For Tests
     
     lazy var chooseColorButton: UIButton = {
@@ -195,41 +195,6 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
         setUpUI()
-        
-        // MARK: For Tests
-//        view.addSubview(chooseColorButton)
-//        view.addSubview(createUserButton)
-//        view.addSubview(loginUser1Button)
-//        view.addSubview(loginUser2Button)
-//        view.addSubview(signInButton)
-//        
-//        NSLayoutConstraint.activate([
-//            
-//            createUserButton.heightAnchor.constraint(equalToConstant: 50),
-//            createUserButton.widthAnchor.constraint(equalToConstant: 100),
-//            createUserButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-//            createUserButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            
-//            loginUser1Button.heightAnchor.constraint(equalToConstant: 50),
-//            loginUser1Button.widthAnchor.constraint(equalToConstant: 100),
-//            loginUser1Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-//            loginUser1Button.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            
-//            loginUser2Button.heightAnchor.constraint(equalToConstant: 50),
-//            loginUser2Button.widthAnchor.constraint(equalToConstant: 100),
-//            loginUser2Button.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-//            loginUser2Button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            
-//            signInButton.heightAnchor.constraint(equalToConstant: 50),
-//            signInButton.widthAnchor.constraint(equalToConstant: 100),
-//            signInButton.bottomAnchor.constraint(equalTo: createUserButton.topAnchor, constant: -50),
-//            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            
-//            chooseColorButton.heightAnchor.constraint(equalToConstant: 50),
-//            chooseColorButton.widthAnchor.constraint(equalToConstant: 100),
-//            chooseColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
-//            chooseColorButton.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-//            ])
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -301,19 +266,13 @@ extension AllColorViewController: UICollectionViewDataSource, UICollectionViewDe
             
             let postDetailViewController = PostDetailViewController()
             postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
-            
             postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
             postDetailViewController.postID = viewModel.posts[indexPath.item].id
-            postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+            postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
             postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-            postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-            postDetailViewController.post = viewModel.posts[indexPath.item]
             
             let navController = UINavigationController(rootViewController: postDetailViewController)
             
-            //        postDetailViewController.modalPresentationStyle = .custom
-            //        postDetailViewController.transitioningDelegate = self
-            //        present(postDetailViewController, animated: true)
             navController.modalPresentationStyle = .custom
             navController.transitioningDelegate = self
             navController.navigationBar.isHidden = true

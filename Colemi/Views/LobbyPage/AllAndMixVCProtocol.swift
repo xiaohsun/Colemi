@@ -17,7 +17,7 @@ protocol AllAndMixVCProtocol: UIViewController {
     var popAnimator: UIViewControllerAnimatedTransitioning { get }
     var dismissAnimator: UIViewControllerAnimatedTransitioning { get }
     
-    var colorViewWidth: CGFloat {get}
+    var colorViewWidth: CGFloat { get }
     var colorImageView: UIImageView { get }
     var postsCollectionView: UICollectionView { get }
     
@@ -26,9 +26,7 @@ protocol AllAndMixVCProtocol: UIViewController {
 
 extension AllAndMixVCProtocol {
     func setUpUI() {
-        
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        
         view.addSubview(colorImageView)
         view.addSubview(postsCollectionView)
         
@@ -40,7 +38,7 @@ extension AllAndMixVCProtocol {
             
             postsCollectionView.topAnchor.constraint(equalTo: colorImageView.bottomAnchor,constant: 30),
             postsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5),
-            postsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            postsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             postsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5)
         ])
     }

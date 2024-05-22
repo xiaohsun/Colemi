@@ -9,12 +9,12 @@ import UIKit
 
 extension UITextView {
     
-    func addLineSpacing() {
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 5
-            let attributes = [NSAttributedString.Key.paragraphStyle : paragraphStyle]
-            typingAttributes = attributes
-        }
+    func addLineSpacing(lineSpacing: CGFloat = 5) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        let attributes = [NSAttributedString.Key.paragraphStyle : paragraphStyle]
+        typingAttributes = attributes
+    }
     
     func addCharacterSpacing(kernValue: Double = 1.15) {
         if let textString = text, !textString.isEmpty {

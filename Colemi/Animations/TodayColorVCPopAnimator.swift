@@ -64,9 +64,10 @@ final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitio
         toVC.tableView.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
-            guard let headerView = toVC.headerView else { return }
+            
+            let headerView = toVC.headerView
             snapShotView.frame = headerView.photoImageView.frame
-            snapShotView.frame.origin.y += toNav.view.safeAreaLayoutGuide.layoutFrame.origin.y
+            snapShotView.frame.origin.y += 60
             fromVC.view.alpha = 0
             tabBarController.tabBar.alpha = 0
             
@@ -78,7 +79,6 @@ final class TodayColorVCPopAnimator: NSObject, UIViewControllerAnimatedTransitio
             fromVC.view.alpha = 1
             tabBarController.tabBar.alpha = 1
             selectedImageView.isHidden = false
-            // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
             transitionContext.completeTransition(true)
         }

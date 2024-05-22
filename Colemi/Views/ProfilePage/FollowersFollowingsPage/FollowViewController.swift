@@ -45,7 +45,7 @@ class FollowViewController: UIViewController {
     lazy var buttonOne: UIButton = {
         let button = UIButton()
         button.setTitle("粉絲", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +55,7 @@ class FollowViewController: UIViewController {
     lazy var buttonTwo: UIButton = {
         let button = UIButton()
         button.setTitle("追蹤中", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +78,7 @@ class FollowViewController: UIViewController {
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         
         navigationItem.title = viewModel.userName
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
     @objc private func popNav() {

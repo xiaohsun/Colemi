@@ -18,7 +18,7 @@ class ContactDeveloperCell: UITableViewCell {
         let button = UIButton()
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.setTitle("聯絡開發者", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(contactDeveloperBtnTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

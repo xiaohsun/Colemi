@@ -42,17 +42,6 @@ class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
         setUpUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-//        viewModel.readData {
-//            DispatchQueue.main.async {
-//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                self.postsCollectionView.reloadData()
-//            }
-//        }
-    }
-    
     func loadData() {
         if !loadedBefore {
             Task.detached {
@@ -112,13 +101,10 @@ extension ThirdColorViewController: UICollectionViewDataSource, UICollectionView
             
             let postDetailViewController = PostDetailViewController()
             postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
-            
             postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
             postDetailViewController.postID = viewModel.posts[indexPath.item].id
-            postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+            postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
             postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-            postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-            postDetailViewController.post = viewModel.posts[indexPath.item]
             
             let navController = UINavigationController(rootViewController: postDetailViewController)
             

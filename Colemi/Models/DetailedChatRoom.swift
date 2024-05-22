@@ -27,6 +27,7 @@ struct Message: Codable {
     let senderID: String
     let body: String
     let time: Timestamp
+    let type: Int
 }
 
 enum MessageProperty: String {
@@ -34,4 +35,5 @@ enum MessageProperty: String {
     case senderID
     case body
     case time
+    case type
 }

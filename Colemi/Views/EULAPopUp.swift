@@ -43,7 +43,7 @@ class EULAPopUp: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 10)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 10)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = """
         使用者條款（EULA）：
@@ -88,7 +88,7 @@ class EULAPopUp: UIViewController {
         let button = UIButton()
         button.setTitleColor(ThemeColorProperty.lightColor.getColor(), for: .normal)
         button.setTitle("我同意", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_H.rawValue, size: 14)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_H.getFont(size: 14)
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(agreedBtnTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

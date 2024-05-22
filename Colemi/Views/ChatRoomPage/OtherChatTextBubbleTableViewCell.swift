@@ -7,9 +7,9 @@
 
 import UIKit
 
-class OtherChatBubbleTableViewCell: UITableViewCell {
+class OtherChatTextBubbleTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = "\(OtherChatBubbleTableViewCell.self)"
+    static let reuseIdentifier = "\(OtherChatTextBubbleTableViewCell.self)"
     
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -38,7 +38,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "dleqw"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 16)
         
         return label
     }()
@@ -54,15 +54,15 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         NSLayoutConstraint.activate([
-            avatarImageView.widthAnchor.constraint(equalToConstant: 50),
+            avatarImageView.widthAnchor.constraint(equalToConstant: 35),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor),
             avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             
-            messageView.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 10),
+            messageView.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 15),
             messageView.topAnchor.constraint(equalTo: avatarImageView.topAnchor),
             messageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -100),
-            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10),
+            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15),
             
             messageLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15),
             messageLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -15),
@@ -80,7 +80,7 @@ class OtherChatBubbleTableViewCell: UITableViewCell {
     }
 }
 
-extension OtherChatBubbleTableViewCell {
+extension OtherChatTextBubbleTableViewCell {
     func update(messageData: Message, avatarImage: UIImage) {
         messageLabel.text = messageData.body
         avatarImageView.image = avatarImage

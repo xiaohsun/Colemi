@@ -23,7 +23,7 @@ class SettingViewModel {
             storageRef.downloadURL { (downloadURL, error) in
                 if let downloadURL = downloadURL {
                     print("Image uploaded to: \(downloadURL.absoluteString)")
-                    self.updateUserData(url: downloadURL.absoluteString, docID: self.userData.id)
+                    self.updateUserImage(url: downloadURL.absoluteString)
                 } else {
                     print("Error getting download URL: \(error?.localizedDescription ?? "Unknown error")")
                 }
@@ -31,12 +31,22 @@ class SettingViewModel {
         }
     }
     
-    func updateUserData(url: String, docID: String) {
+    func updateUserImage(url: String) {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        firestoreManager.updateDocument(data: [UserProperty.avatarPhoto.rawValue: url], collection: ref, docID: docID)
+        firestoreManager.updateDocument(data: [UserProperty.avatarPhoto.rawValue: url], collection: ref, docID: userData.id)
         
         userData.avatarPhoto = url
     }
+    
+    func updateUserName(newName: String) {
+        let firestoreManager = FirestoreManager.shared
+        let ref = FirestoreEndpoint.users.ref
+        
+        firestoreManager.updateDocument(data: [UserProperty.name.rawValue: newName], collection: ref, docID: userData.id)
+        
+        userData.name = newName
+    }
+
 }

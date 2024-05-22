@@ -1,5 +1,5 @@
 //
-//  BestColorCell.swift
+//  CollectedColorCell.swift
 //  Colemi
 //
 //  Created by 徐柏勳 on 4/18/24.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class BestColorCell: UICollectionViewCell {
+class CollectedColorCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "\(BestColorCell.self)"
+    static let reuseIdentifier = "\(CollectedColorCell.self)"
     
     lazy var containerView: UIView = {
         let view = UIView()
@@ -24,9 +24,9 @@ class BestColorCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = .white
-        label.text = "最準顏色"
+        label.text = "收集顏色"
         
         return label
     }()

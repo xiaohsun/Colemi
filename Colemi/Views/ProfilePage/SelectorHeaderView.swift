@@ -20,7 +20,7 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
         button.setTitle("貼文", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.addTarget(self, action: #selector(buttonGetTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -31,7 +31,7 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
         button.setTitle("收藏", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.addTarget(self, action: #selector(buttonGetTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

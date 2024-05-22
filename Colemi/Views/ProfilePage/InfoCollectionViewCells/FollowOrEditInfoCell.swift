@@ -14,18 +14,16 @@ class FollowOrEditInfoCell: UICollectionViewCell {
     static let reuseIdentifier = "\(FollowOrEditInfoCell.self)"
     
     @objc private func followBtnTapped(_ sender: UIButton) {
-        print("Follow!")
         delegate?.updateFollower()
     }
     
     @objc private func settingBtnTapped(_ sender: UIButton) {
-        print("Setting!")
         delegate?.pushToSettingVC()
     }
     
     lazy var button: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         button.backgroundColor = .white
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false

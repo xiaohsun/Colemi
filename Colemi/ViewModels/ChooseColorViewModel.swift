@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import WeatherKit
+import FirebaseFirestore
 
 class ChooseColorViewModel {
     weak var delegate: ChooseColorViewModelDelegate?
@@ -43,13 +44,17 @@ class ChooseColorViewModel {
         }
     }
     
-    func updateUserData(colorToday: String, colorSetToday: [String], docID: String) async {
+    func updateUserData(colorToday: String, colorSetToday: [String], docID: String) {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        firestoreManager.updateDocument(data: [UserProperty.colorToday.rawValue: colorToday], collection: ref, docID: docID)
+        let updateData: [String: Any] = [
+            UserProperty.colorToday.rawValue: colorToday,
+            UserProperty.colorSetToday.rawValue: colorSetToday,
+            UserProperty.lastestLoginTime.rawValue: Timestamp()
+        ]
         
-        firestoreManager.updateDocument(data: [UserProperty.colorSetToday.rawValue: colorSetToday], collection: ref, docID: docID)
+        firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: docID)
     }
 }
 

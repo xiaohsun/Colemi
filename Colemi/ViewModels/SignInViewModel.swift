@@ -8,20 +8,19 @@
 import Foundation
 import Firebase
 import FirebaseAuth
+import GoogleSignIn
+import CryptoKit
 
 class SignInViewModel {
     
     let userData = UserManager.shared
     let firestoreManager = FirestoreManager.shared
-    var isCreatedOnce: Bool = false
+    var isNewbie: Bool = false
     let dateFormatter = DateFormatter()
     
     func createUser() {
-        
-        // let docRef = firestoreManager.newDocument(of: FirestoreEndpoint.users.ref)
-        
         guard let userID = Auth.auth().currentUser?.uid else { return }
-        isCreatedOnce = true
+        isNewbie = true
         
         let user = User(id: userID,
                         name: "你是誰",
@@ -31,18 +30,19 @@ class SignInViewModel {
                         description: "",
                         savedPosts: [],
                         signUpTime: Timestamp(),
-                        lastestLoginTime: Timestamp(),
+                        lastestLoginTime: nil,
                         colorToday: "",
                         colorSetToday: [],
                         mixColorToday: "",
+                        postToday: "",
                         chatRooms: [],
                         followers: [],
                         following: [],
                         blocking: [],
                         beBlocked: [],
-                        didUserPostToday: false,
-                        status: 1
-        )
+                        status: 1,
+                        colorPoints: 0,
+                        collectedColors: [])
         
         do {
             try Firestore.firestore().collection("users").document(userID).setData(from: user) { _ in
@@ -71,21 +71,25 @@ class SignInViewModel {
                         self.userData.colorToday = user.colorToday
                         self.userData.colorSetToday = user.colorSetToday
                         self.userData.mixColorToday = user.mixColorToday
+                        self.userData.postToday = user.postToday
                         self.userData.savedPosts = user.savedPosts
                         self.userData.signUpTime = user.signUpTime
                         self.userData.posts = user.posts
                         self.userData.blocking = user.blocking
                         self.userData.beBlocked = user.beBlocked
-                        self.userData.didUserPostToday = user.didUserPostToday
                         self.userData.status = user.status
+                        self.userData.colorPoints = user.colorPoints
+                        self.userData.collectedColors = user.collectedColors
                         print(self.userData.name)
                         
-                        self.seeIfLastLoginTimeToday()
+                        if !self.isNewbie {
+                            self.seeIfLastLoginTimeToday()
+                        } else {
+                            self.goToAnotherPage(isSameDay: true)
+                        }
                     }
                 } else {
-                    if !isCreatedOnce {
                         createUser()
-                    }
                 }
             }
         }
@@ -100,8 +104,7 @@ class SignInViewModel {
         }
     }
     
-    // 在選完顏色後再改登入時間
-    func updateLoginTime() {
+    private func updateLoginTime() {
         guard let userID = Auth.auth().currentUser?.uid else { return }
         
         let ref = FirestoreEndpoint.users.ref
@@ -109,59 +112,69 @@ class SignInViewModel {
         firestoreManager.updateDocument(data: [UserProperty.lastestLoginTime.rawValue: Timestamp()], collection: ref, docID: userID)
     }
     
-    func seeIfLastLoginTimeToday() {
-        let lastestLoginTime = userData.lastestLoginTime.dateValue()
+    private func clearLastDayData() {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         
-//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//        dateFormatter.timeZone = TimeZone.current
-//        let localTimeString = dateFormatter.string(from: lastestLoginTime)
-//        print(localTimeString)
-//        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        let ref = FirestoreEndpoint.users.ref
         
-        // if let date = dateFormatter.date(from: localTimeString) {
-//        if let lastestLoginTime {
-//            print(date)
-            if isToday(date: lastestLoginTime) {
-                if isCreatedOnce {
-                    setRootVCToChooseColor()
-                } else {
-                    updateLoginTime()
-                    setRootVCToTabBarController()
-                }
-                
-            } else {
-                setRootVCToChooseColor()
-            }
-//        } else {
-//            print("Can't read lastLoginTime")
-//        }
+        let updateData: [String: Any] = [
+            UserProperty.colorToday.rawValue: "",
+            UserProperty.colorSetToday.rawValue: [] as [String],
+            UserProperty.mixColorToday.rawValue: "",
+            UserProperty.postToday.rawValue: ""
+        ]
+        
+        firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: userID)
     }
     
-//    func isToday(date: Date) -> Bool {
-//        let calendar = Calendar.current
-//        return calendar.isDateInToday(date)
-//    }
+    private func seeIfLastLoginTimeToday() {
+        guard let lastestLoginTime = userData.lastestLoginTime?.dateValue() else {
+            setRootVCToChooseColor()
+            return
+        }
+        
+        let timeNow = Date()
+        let calendar = Calendar.current
+        
+        let lastestLoginTimeComponents = calendar.dateComponents([.year, .month, .day], from: lastestLoginTime)
+        let timeNowComponents = calendar.dateComponents([.year, .month, .day], from: timeNow)
+        
+        let isSameDay = (lastestLoginTimeComponents.year == timeNowComponents.year) &&
+        (lastestLoginTimeComponents.month == timeNowComponents.month) &&
+        (lastestLoginTimeComponents.day == timeNowComponents.day)
+        
+        goToAnotherPage(isSameDay: isSameDay)
+    }
     
-    func isToday(date: Date) -> Bool {
-        
-        let todayDateString = dateFormatter.string(from: Date())
-        let dateString = dateFormatter.string(from: date)
-        
-        return dateString == todayDateString
+    private func goToAnotherPage(isSameDay: Bool) {
+        if isNewbie {
+            setRootVCToTutor()
+        } else if !isNewbie && isSameDay {
+            updateLoginTime()
+            setRootVCToTabBarController()
+        } else if !isNewbie && !isSameDay {
+            clearLastDayData()
+            setRootVCToChooseColor()
+        }
     }
     
     func setRootVCToChooseColor() {
-        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
-            return
-        }
-            
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+        
         let chooseColorVC = ChooseColorViewController()
         
-        UIView.transition(with: sceneDelegate.window!,
-                          duration: 0.3,
-                          options: .transitionCrossDissolve,
-                          animations: {
+        UIView.transition(with: sceneDelegate.window!, duration: 0.3, options: .transitionCrossDissolve, animations: {
             sceneDelegate.window?.rootViewController = chooseColorVC
+        })
+    }
+    
+    func setRootVCToTutor() {
+        guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else { return }
+        
+        let tutorViewController = TutorViewController()
+        
+        UIView.transition(with: sceneDelegate.window!, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            sceneDelegate.window?.rootViewController = tutorViewController
         })
     }
     
@@ -169,7 +182,7 @@ class SignInViewModel {
         guard let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
             return
         }
-            
+        
         let tabBarController = TabBarController()
         
         UIView.transition(with: sceneDelegate.window!,
@@ -178,5 +191,36 @@ class SignInViewModel {
                           animations: {
             sceneDelegate.window?.rootViewController = tabBarController
         })
+    }
+    
+    func signInWithGoogle(vc: UIViewController) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+        GIDSignIn.sharedInstance.signIn(withPresenting: vc) { [unowned self] result, error in
+            
+            guard error == nil else {
+                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: vc, actionHandler: nil)
+                return
+            }
+            guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                             accessToken: user.accessToken.tokenString)
+            
+            self.firebaseSignInWithGoogle(credential: credential, vc: vc )
+        }
+    }
+
+    private func firebaseSignInWithGoogle(credential: AuthCredential, vc: UIViewController) {
+        Auth.auth().signIn(with: credential) { _, error in
+            guard error == nil else {
+                 CustomFunc.customAlert(title: "", message: "\(String(describing: error!.localizedDescription))", vc: vc, actionHandler: nil)
+                return
+            }
+            CustomFunc.customAlert(title: "登入成功！", message: "", vc: vc) {
+                self.loginUser()
+            }
+        }
     }
 }

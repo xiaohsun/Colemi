@@ -1,16 +1,16 @@
 //
-//  WeatherInfoPopUp.swift
+//  DidPostTodayPopUp.swift
 //  Colemi
 //
-//  Created by 徐柏勳 on 5/10/24.
+//  Created by 徐柏勳 on 5/22/24.
 //
 
 import UIKit
 
-class WeatherInfoPopUp: UIViewController {
+class DidPostTodayPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
-    var containerViewYCons: NSLayoutConstraint?
+    var containerViewHeight: CGFloat = 300
     
     lazy var backgroundView: UIView = {
         let view = UIView()
@@ -28,16 +28,28 @@ class WeatherInfoPopUp: UIViewController {
         return view
     }()
     
-    lazy var contentLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.text = "今天已經發過文了"
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 20)
         label.textColor = ThemeColorProperty.darkColor.getColor()
+        
+        return label
+    }()
+    
+    lazy var waitLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
         label.text = """
-        Colemi 會使用您所在位置的天氣資料，資料來源為  Weather：
-        https://weatherkit.apple.com/legal-attribution.html
+        一天只能發一篇文唷
+        先去看看別人是怎麼呈現顏色
+        明天再來挑戰吧！
         """
+        label.addLineSpacing(lineSpacing: 10)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
     }()
@@ -59,11 +71,14 @@ class WeatherInfoPopUp: UIViewController {
         view.backgroundColor = .clear
         view.addSubview(backgroundView)
         view.addSubview(containerView)
+        containerView.addSubview(titleLabel)
+        containerView.addSubview(waitLabel)
         containerView.addSubview(closeButton)
-        containerView.addSubview(contentLabel)
         
         containerViewTopCons = containerView.topAnchor.constraint(equalTo: view.bottomAnchor)
         containerViewTopCons?.isActive = true
+        
+        waitLabel.textAlignment = .center
         
         NSLayoutConstraint.activate([
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -71,24 +86,21 @@ class WeatherInfoPopUp: UIViewController {
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            containerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.15),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: containerViewHeight),
             
-            closeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
-            closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
+            closeButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            closeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             closeButton.widthAnchor.constraint(equalToConstant: 10),
             closeButton.heightAnchor.constraint(equalTo: closeButton.widthAnchor),
             
-            contentLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
-            contentLabel.topAnchor.constraint(equalTo: closeButton.bottomAnchor, constant: 10),
-            contentLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20)
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30),
+            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            
+            waitLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            waitLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        contentLabel.addLineSpacing()
     }
     
     override func viewDidLoad() {
@@ -107,9 +119,10 @@ class WeatherInfoPopUp: UIViewController {
         self.modalPresentationStyle = .overFullScreen
         sender.present(self, animated: false) {
             self.containerViewTopCons?.isActive = false
-            self.containerViewYCons = self.containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-            self.containerViewYCons?.isActive = true
-            UIView.animate(withDuration: 0.2) {
+            self.containerViewTopCons = self.containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+            self.containerViewTopCons?.isActive = true
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                 self.backgroundView.alpha = 1
                 self.view.layoutIfNeeded()
             }
@@ -117,9 +130,11 @@ class WeatherInfoPopUp: UIViewController {
     }
     
     private func hide() {
-        self.containerViewTopCons?.constant = 0
-        self.containerViewYCons?.constant = 1000
-        UIView.animate(withDuration: 0.2) {
+        self.containerViewTopCons?.isActive = false
+        self.containerViewTopCons = self.containerView.topAnchor.constraint(equalTo: self.view.bottomAnchor)
+        self.containerViewTopCons?.isActive = true
+        
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
             self.view.layoutIfNeeded()
             self.backgroundView.alpha = 0
         } completion: { _ in

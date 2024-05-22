@@ -24,7 +24,7 @@ class MissionCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 16)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "今日任務"
         

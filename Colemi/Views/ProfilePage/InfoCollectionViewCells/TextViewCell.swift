@@ -21,13 +21,22 @@ class TextViewCell: UICollectionViewCell {
         return view
     }()
     
+    lazy var placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "新增個人描述"
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        
+        return label
+    }()
+    
     lazy var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .white
-        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        textView.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         textView.textColor = ThemeColorProperty.darkColor.getColor()
-        textView.text = "人無完人，而我是例外。"
         textView.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         textView.delegate = self
         
@@ -39,6 +48,7 @@ class TextViewCell: UICollectionViewCell {
         
         contentView.addSubview(containerView)
         containerView.addSubview(textView)
+        containerView.addSubview(placeholderLabel)
         
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
@@ -49,7 +59,10 @@ class TextViewCell: UICollectionViewCell {
             textView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
             textView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20),
             textView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
-            textView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20)
+            textView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
+            
+            placeholderLabel.centerYAnchor.constraint(equalTo: textView.centerYAnchor, constant: -1.5),
+            placeholderLabel.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 4)
         ])
     }
     
@@ -62,12 +75,24 @@ extension TextViewCell {
     func update(description: String, isOthersPage: Bool) {
         textView.text = description
         textView.isEditable = !isOthersPage
+        
+        if !textView.text.isEmpty {
+            placeholderLabel.alpha = 0
+        }
     }
 }
 
 extension TextViewCell: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         delegate?.userDescriptionChange(text: textView.text)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if !textView.text.isEmpty {
+            placeholderLabel.alpha = 0
+        } else {
+            placeholderLabel.alpha = 1
+        }
     }
 }
 

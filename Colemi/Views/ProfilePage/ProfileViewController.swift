@@ -16,6 +16,8 @@ class ProfileViewController: UIViewController {
     var othersID: String?
     var isShowingPosts: Bool = true
     
+    var isFromDetailPage: Bool = false
+    
     var selectedCell: LobbyPostCell?
     var selectedImageView: UIImageView?
     var collectionViewInPostsAndSavesCell: UICollectionView?
@@ -83,7 +85,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         
-        popAnimator = ProfileVCPopAnimator(fromVC: self)
+        popAnimator = ProfileVCPopAnimator(fromVC: self, isFromDetailPage: isFromDetailPage)
         dismissAnimator = ProfileVCDismissAnimator(toVC: self)
     }
     
@@ -130,6 +132,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
             informationCell.delegate = self
+            informationCell.viewController = self
             
             return informationCell
             
@@ -257,21 +260,16 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         if isMyPosts {
             postDetailViewController.viewModel.post = viewModel.posts[index]
             postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
-            // postDetailViewController.photoImage = viewModel.images[index]
             postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
             postDetailViewController.postID = viewModel.posts[index].id
-            postDetailViewController.authorID = viewModel.posts[index].authorId
-            postDetailViewController.comments = viewModel.posts[index].comments
-            postDetailViewController.post = viewModel.posts[index]
+            postDetailViewController.viewModel.authorID = viewModel.posts[index].authorId
             
         } else {
             postDetailViewController.viewModel.post = viewModel.saves[index]
             postDetailViewController.contentJSONString = viewModel.savesContentJSONString[index]
             postDetailViewController.imageUrl = viewModel.saves[index].imageUrl
             postDetailViewController.postID = viewModel.saves[index].id
-            postDetailViewController.authorID = viewModel.saves[index].authorId
-            postDetailViewController.comments = viewModel.saves[index].comments
-            postDetailViewController.post = viewModel.saves[index]
+            postDetailViewController.viewModel.authorID = viewModel.saves[index].authorId
         }
         
         let navController = UINavigationController(rootViewController: postDetailViewController)
@@ -320,7 +318,6 @@ extension ProfileViewController: InformationCellDelegate {
         let chatRoomViewController = ChatRoomViewController()
         chatRoomViewController.viewModel.chatRoomID = chatRoomID
         chatRoomViewController.viewModel.otherUserName = otherUserData.name
-        // chatRoomViewController.viewModel.otherUserAvatarUrl = otherUserData.avatarPhoto
         chatRoomViewController.viewModel.otherUserAvatarImage = avatarImage
         
         navigationController?.pushViewController(chatRoomViewController, animated: true)

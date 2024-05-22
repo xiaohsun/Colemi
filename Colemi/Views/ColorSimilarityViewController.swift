@@ -15,13 +15,14 @@ class ColorSimilarityViewController: UIViewController {
     let cloudVisionManager = CloudVisionManager()
     var colors: [Color] = []
     var colorViews: [UIView] = []
-    let colorSimilarityViewModel = ColorSimilarityViewModel()
-    let userManager = UserManager.shared
+    let viewModel = ColorSimilarityViewModel()
     var colorDistances: [Double] = []
     var roundedColorSimilarity: [Double] = []
+    
     var colorDistancesString: [String] = []
     
-    
+    // 測試用
+    // var roundedColorSimilarity: [Double] = [1,1,1,1,1]
     // let fakeUIColors: [UIColor] = [UIColor.red, UIColor.green, UIColor.blue, UIColor.yellow, UIColor.brown]
     
     var distanceLabelBottomConstraint: NSLayoutConstraint?
@@ -30,9 +31,14 @@ class ColorSimilarityViewController: UIViewController {
     var colorViewThreeTrailingConstraint: NSLayoutConstraint?
     var colorViewFourLeadingConstraint: NSLayoutConstraint?
     var colorViewFiveTrailingConstraint: NSLayoutConstraint?
+    var totalCountsLabelBottomConstraint: NSLayoutConstraint?
+    var showSimilarityImageViewXCons: NSLayoutConstraint?
+    var showSimilarityImageViewTopCons: NSLayoutConstraint?
+    var searchColorLabelTopCons: NSLayoutConstraint?
+    var missionColorViewWidthCons: NSLayoutConstraint?
     
-    let colorViewHeight: CGFloat = 90
-    let colorViewWidth: CGFloat = 280
+    var colorViewWidthMutiplier = 0.72
+    var colorViewHeightMutiplier = 0.11
     
     var animationCount = 0
     
@@ -79,7 +85,7 @@ class ColorSimilarityViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "點擊螢幕"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 22)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 22)
         label.textAlignment = .center
         label.alpha = 0
         
@@ -90,8 +96,7 @@ class ColorSimilarityViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-        view.alpha = 0
+        view.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         
         return view
     }()
@@ -99,7 +104,6 @@ class ColorSimilarityViewController: UIViewController {
     private func createColorView() -> UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 40
         // colorViews.append(view)
         return view
     }
@@ -107,35 +111,49 @@ class ColorSimilarityViewController: UIViewController {
     private func setupColorViews() {
         for (index, color) in colors.enumerated() {
             let colorView = colorViews[index]
-            let red = CGFloat(color.color.red) / 255
-            let green = CGFloat(color.color.green) / 255
-            let blue = CGFloat(color.color.blue) / 255
+            let red = CGFloat(color.color.red ?? 0) / 255
+            let green = CGFloat(color.color.green ?? 0) / 255
+            let blue = CGFloat(color.color.blue ?? 0) / 255
+            colorView.layer.cornerRadius = view.frame.width / 9
             colorView.backgroundColor = UIColor(red: red, green: green, blue: blue, alpha: 1)
         }
-        //
-//                for (index, colorView) in colorViews.enumerated() {
-//                    let colorView = colorViews[index]
-//                    colorView.backgroundColor = fakeUIColors[index]
-//                }
+        
+        // 測試用
+        //        for (index, colorView) in colorViews.enumerated() {
+        //            let colorView = colorViews[index]
+        //            colorView.layer.cornerRadius = view.frame.width / 9
+        //            colorView.backgroundColor = fakeUIColors[index]
+        //        }
     }
     
-    lazy var showSimilarityButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("萃取顏色", for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 20)
-        button.backgroundColor = ThemeColorProperty.darkColor.getColor()
-        button.addTarget(self, action: #selector(showSimilarityButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
+    lazy var showSimilarityImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "magnifyingglass")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = ThemeColorProperty.darkColor.getColor()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showSimilarityButtonTapped))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
         
-        return button
+        return imageView
+    }()
+    
+    lazy var searchColorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "分析顏色"
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 24)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        
+        return label
     }()
     
     lazy var congratsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "恭喜！"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_H.rawValue, size: 34)
+        label.font = ThemeFontProperty.GenSenRoundedTW_H.getFont(size: 34)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.alpha = 0
         
@@ -145,7 +163,7 @@ class ColorSimilarityViewController: UIViewController {
     lazy var totalCountsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_H.rawValue, size: 34)
+        label.font = ThemeFontProperty.GenSenRoundedTW_H.getFont(size: 34)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.alpha = 0
         
@@ -158,7 +176,7 @@ class ColorSimilarityViewController: UIViewController {
         button.backgroundColor = ThemeColorProperty.lightColor.getColor()
         button.addTarget(self, action: #selector(backToMainPageButtonTapped), for: .touchUpInside)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 28)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 28)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0
         
@@ -169,95 +187,135 @@ class ColorSimilarityViewController: UIViewController {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    @objc private func showSimilarityButtonTapped() {
-        if colors.count == 5 {
-            setupColorViews()
-            
-            UIView.animate(withDuration: 0.4) {
-                self.imageView.alpha = 0
-                self.showSimilarityButton.alpha = 0
-                self.missionColorView.alpha = 1
-                self.distanceLabel.alpha = 1
-            }
-            
-            if let selectedUIColor = UIColor(hex: userManager.colorToday) {
-                colorDistances = colorSimilarityViewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: colors)
-                for colorDistance in colorDistances {
-                    
-                    // let formattedSimilarity = String(format: "%.1f", colorDistance)
-                    if colorDistance < 100 {
-                        let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
-                        roundedColorSimilarity.append(roundedNumber)
-                        colorDistancesString.append(String(roundedNumber))
-                        totalBonusCount += (100 - roundedNumber)
-                    } else {
-                        roundedColorSimilarity.append(0)
-                        colorDistancesString.append(String(100))
-                        totalBonusCount += 0
-                    }
+    func searchColorAnimation(completion: (() -> Void)? = nil) {
+        showSimilarityImageViewXCons?.constant = imageView.frame.width / 2
+        showSimilarityImageViewTopCons?.constant = -imageView.frame.height / 2.3
+        searchColorLabelTopCons?.constant = 60
+        self.searchColorLabel.text = "分析顏色中"
+        UIView.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.showSimilarityImageViewXCons?.constant = -0
+            self.showSimilarityImageViewTopCons?.constant = -self.imageView.frame.height - 30
+            UIView.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                self.searchColorLabel.text = "分析顏色中."
+                self.view.layoutIfNeeded()
+            } completion: { _ in
+                self.showSimilarityImageViewXCons?.constant = -self.imageView.frame.width / 2
+                self.showSimilarityImageViewTopCons?.constant = -self.imageView.frame.height + self.imageView.frame.height / 4
+                
+                UIView.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                    self.searchColorLabel.text = "分析顏色中.."
+                    self.view.layoutIfNeeded()
+                } completion: { _ in
+                    completion?()
                 }
-                // totalBonusCount = (totalBonusCount / 10).rounded()
-                totalBonusCount = totalBonusCount.rounded()
-                totalCountsLabel.text = "顏色里程 +\(String(format: "%.0f", totalBonusCount))"
-                
-                
-                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.colorViewsMoveUp))
-                self.view.addGestureRecognizer(tapGesture)
-                self.view.isUserInteractionEnabled = true
             }
-       }
+        }
     }
     
-    //    @objc private func colorViewsMoveUp() {
-    //        self.firstColorViewTopConstraint?.constant -= self.colorViewHeight
-    //        view.isUserInteractionEnabled = false
-    //        UIView.animate(withDuration: 0.4) {
-    //            self.view.layoutIfNeeded()
-    //        } completion: { _ in
-    //            self.view.isUserInteractionEnabled = true
-    //        }
-    //    }
+    @objc private func showSimilarityButtonTapped() {
+        
+        searchColorAnimation {
+            self.searchColorAnimation {
+                
+                UIView.animate(withDuration: 0.4, delay: 0.4) {
+                    self.imageView.alpha = 0
+                    self.showSimilarityImageView.alpha = 0
+                    self.searchColorLabel.alpha = 0
+                    
+                } completion: { _ in
+                    self.missionColorViewWidthCons?.constant = self.view.frame.width * 0.25
+                    
+                    UIView.animate(withDuration: 0.6, delay: 0.4, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.6) {
+                        self.view.layoutIfNeeded()
+                        self.distanceLabel.alpha = 1
+                    } completion: { _ in
+                        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.colorViewsMoveUp))
+                        self.view.addGestureRecognizer(tapGesture)
+                        self.view.isUserInteractionEnabled = true
+                        
+                        
+                        self.setupColorViews()
+                        
+                        if let selectedUIColor = UIColor(hex: self.viewModel.userData.colorToday) {
+                            
+                            self.colorDistances = self.viewModel.caculateColorDistance(selectedUIColor: selectedUIColor, colors: self.colors)
+                            
+                            for colorDistance in self.colorDistances {
+                                
+                                if colorDistance < 100 {
+                                    let roundedNumber = ((100.0 - colorDistance) * 10).rounded() / 10
+                                    self.roundedColorSimilarity.append(roundedNumber)
+                                    self.colorDistancesString.append(String(100 - roundedNumber))
+                                    self.totalBonusCount += roundedNumber
+                                } else {
+                                    self.roundedColorSimilarity.append(0)
+                                    self.colorDistancesString.append(String(100))
+                                    self.totalBonusCount += 0
+                                }
+                            }
+                            self.totalBonusCount = self.totalBonusCount.rounded()
+                            self.totalCountsLabel.text = "顏色足跡 +\(String(format: "%.0f", self.totalBonusCount))"
+                            
+                            self.viewModel.updatePostData(colorPoints: Int(self.totalBonusCount))
+                            self.viewModel.updateUserData(colorPoints: Int(self.totalBonusCount))
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     @objc private func colorViewsMoveUp() {
         if colorDistancesString.count == 5 {
             if animationCount == 0 {
                 distanceLabelBottomConstraint?.constant = -40
                 colorViewOneTrailingConstraint?.constant = -20
-                // distanceLabel.text = "相似度 \(colorDistancesString[0])"
                 distanceLabel.text = "相似度 \(roundedColorSimilarity[0])"
             } else if animationCount == 1 {
                 colorViewTwoLeadingConstraint?.constant = 20
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                // distanceLabel.text = "距離為 \(colorDistancesString[1])"
+                distanceLabelBottomConstraint?.constant -= colorViews[0].frame.height
                 distanceLabel.text = "相似度 \(roundedColorSimilarity[1])"
             } else if animationCount == 2 {
                 colorViewThreeTrailingConstraint?.constant = -50
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                // distanceLabel.text = "距離為 \(colorDistancesString[2])"
+                distanceLabelBottomConstraint?.constant -= colorViews[0].frame.height
                 distanceLabel.text = "相似度 \(roundedColorSimilarity[2])"
             } else if animationCount == 3 {
                 colorViewFourLeadingConstraint?.constant = 20
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                // distanceLabel.text = "距離為 \(colorDistancesString[3])"
+                distanceLabelBottomConstraint?.constant -= colorViews[0].frame.height
                 distanceLabel.text = "相似度 \(roundedColorSimilarity[3])"
             } else if animationCount == 4 {
                 colorViewFiveTrailingConstraint?.constant = -10
-                distanceLabelBottomConstraint?.constant -= colorViewHeight
-                // distanceLabel.text = "距離為 \(colorDistancesString[4])"
+                distanceLabelBottomConstraint?.constant -= colorViews[0].frame.height
                 distanceLabel.text = "相似度 \(roundedColorSimilarity[4])"
+            }
+            
+            
+            if self.animationCount == 5 {
+                UIView.animate(withDuration: 0.4) {
+                    self.missionColorView.alpha = 0
+                    self.distanceLabel.alpha = 0
+                    self.congratsLabel.alpha = 1
+                    self.totalCountsLabel.alpha = 1
+                } completion: { _ in
+                    self.totalCountsLabelBottomConstraint?.isActive = false
+                    self.totalCountsLabelBottomConstraint = self.totalCountsLabel.bottomAnchor.constraint(equalTo: self.backToMainPageButton.topAnchor, constant: -self.view.frame.height * self.colorViewHeightMutiplier / 1.3)
+                    self.totalCountsLabelBottomConstraint?.isActive = true
+                    UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+                        self.view.layoutIfNeeded()
+                    } completion: { _ in
+                        UIView.animate(withDuration: 0.4, delay: 0.2) {
+                            self.backIconImageView.alpha = 1
+                            self.lineIconImageView.alpha = 1
+                            self.backToMainPageButton.alpha = 1
+                        }
+                    }
+                }
             }
             
             view.isUserInteractionEnabled = false
             UIView.animate(withDuration: 0.4) {
-                if self.animationCount == 5 {
-                    self.missionColorView.alpha = 0
-                    self.distanceLabel.alpha = 0
-                    self.congratsLabel.alpha = 1
-                    self.backToMainPageButton.alpha = 1
-                    self.totalCountsLabel.alpha = 1
-                    self.backIconImageView.alpha = 1
-                    self.lineIconImageView.alpha = 1
-                }
                 self.view.layoutIfNeeded()
             } completion: { _ in
                 self.view.isUserInteractionEnabled = true
@@ -280,27 +338,27 @@ class ColorSimilarityViewController: UIViewController {
         }
         
         view.addSubview(imageView)
-        // view.addSubview(similarityLabel)
         view.addSubview(missionColorView)
-        view.addSubview(showSimilarityButton)
+        view.addSubview(showSimilarityImageView)
         view.addSubview(distanceLabel)
         view.addSubview(congratsLabel)
         view.addSubview(totalCountsLabel)
         view.addSubview(backToMainPageButton)
         view.addSubview(backIconImageView)
         view.addSubview(lineIconImageView)
+        view.addSubview(searchColorLabel)
         
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        missionColorView.backgroundColor = UIColor(hex: userManager.colorToday)
+        missionColorView.backgroundColor = UIColor(hex: viewModel.userData.colorToday)
         
         distanceLabelBottomConstraint = distanceLabel.bottomAnchor.constraint(equalTo: colorViewOne.topAnchor, constant: -320)
         colorViewOneTrailingConstraint =
-        colorViewOne.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: colorViewWidth)
-        colorViewTwoLeadingConstraint = colorViewTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -colorViewWidth)
-        colorViewThreeTrailingConstraint = colorViewThree.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: colorViewWidth)
+        colorViewOne.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: view.frame.width * colorViewWidthMutiplier)
+        colorViewTwoLeadingConstraint = colorViewTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: -view.frame.width * colorViewWidthMutiplier)
+        colorViewThreeTrailingConstraint = colorViewThree.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: view.frame.width * colorViewWidthMutiplier)
         colorViewFourLeadingConstraint =
-        colorViewFour.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  -colorViewWidth)
-        colorViewFiveTrailingConstraint = colorViewFive.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: colorViewWidth)
+        colorViewFour.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:  -view.frame.width * colorViewWidthMutiplier)
+        colorViewFiveTrailingConstraint = colorViewFive.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: view.frame.width * colorViewWidthMutiplier)
         
         distanceLabelBottomConstraint?.isActive = true
         colorViewOneTrailingConstraint?.isActive = true
@@ -309,55 +367,65 @@ class ColorSimilarityViewController: UIViewController {
         colorViewFourLeadingConstraint?.isActive = true
         colorViewFiveTrailingConstraint?.isActive = true
         
+        totalCountsLabelBottomConstraint = totalCountsLabel.bottomAnchor.constraint(equalTo: view.topAnchor)
+        totalCountsLabelBottomConstraint?.isActive = true
+        
+        showSimilarityImageViewXCons = showSimilarityImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        showSimilarityImageViewXCons?.isActive = true
+        showSimilarityImageViewTopCons = showSimilarityImageView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 25)
+        showSimilarityImageViewTopCons?.isActive = true
+        
+        searchColorLabelTopCons = searchColorLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: view.frame.height * 0.1)
+        searchColorLabelTopCons?.isActive = true
+        
+        missionColorViewWidthCons = missionColorView.widthAnchor.constraint(equalToConstant: 0)
+        missionColorViewWidthCons?.isActive = true
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 240),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 1/4),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 3/4),
             
-            // similarityLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            // similarityLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
+            showSimilarityImageView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.1),
+            showSimilarityImageView.widthAnchor.constraint(equalTo: showSimilarityImageView.heightAnchor),
             
-            showSimilarityButton.heightAnchor.constraint(equalToConstant: 60),
-            showSimilarityButton.widthAnchor.constraint(equalToConstant: 120),
-            showSimilarityButton.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50),
-            showSimilarityButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            searchColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            missionColorView.bottomAnchor.constraint(equalTo: distanceLabel.topAnchor, constant: -30),
+            missionColorView.centerYAnchor.constraint(equalTo: distanceLabel.topAnchor, constant: -view.frame.height * 0.1),
             missionColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            missionColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
-            missionColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25),
+            missionColorView.heightAnchor.constraint(equalTo: missionColorView.widthAnchor),
             
             distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             distanceLabel.widthAnchor.constraint(equalToConstant: 140),
             
             colorViewOne.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            colorViewOne.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorViewOne.heightAnchor.constraint(equalToConstant: colorViewHeight),
+            colorViewOne.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: colorViewWidthMutiplier),
+            colorViewOne.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: colorViewHeightMutiplier),
             
             colorViewTwo.bottomAnchor.constraint(equalTo: colorViewOne.topAnchor),
-            colorViewTwo.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorViewTwo.heightAnchor.constraint(equalToConstant: colorViewHeight),
+            colorViewTwo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: colorViewWidthMutiplier),
+            colorViewTwo.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: colorViewHeightMutiplier),
             
             colorViewThree.bottomAnchor.constraint(equalTo: colorViewTwo.topAnchor),
-            colorViewThree.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorViewThree.heightAnchor.constraint(equalToConstant: colorViewHeight),
+            colorViewThree.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: colorViewWidthMutiplier),
+            colorViewThree.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: colorViewHeightMutiplier),
             
             colorViewFour.bottomAnchor.constraint(equalTo: colorViewThree.topAnchor),
-            colorViewFour.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorViewFour.heightAnchor.constraint(equalToConstant: colorViewHeight),
+            colorViewFour.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: colorViewWidthMutiplier),
+            colorViewFour.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: colorViewHeightMutiplier),
             
             colorViewFive.bottomAnchor.constraint(equalTo: colorViewFour.topAnchor),
-            colorViewFive.widthAnchor.constraint(equalToConstant: colorViewWidth),
-            colorViewFive.heightAnchor.constraint(equalToConstant: colorViewHeight),
+            colorViewFive.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: colorViewWidthMutiplier),
+            colorViewFive.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: colorViewHeightMutiplier),
             
-            congratsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 130),
+            congratsLabel.bottomAnchor.constraint(equalTo: totalCountsLabel.topAnchor, constant: -10),
             congratsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
             
-            totalCountsLabel.topAnchor.constraint(equalTo: congratsLabel.bottomAnchor, constant: 20),
+            // totalCountsLabel.bottomAnchor.constraint(equalTo: backToMainPageButton.topAnchor, constant: -view.frame.height * colorViewHeightMutiplier / 1.3),
             totalCountsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 5),
             
-            backToMainPageButton.topAnchor.constraint(equalTo: totalCountsLabel.bottomAnchor, constant: 90),
+            backToMainPageButton.bottomAnchor.constraint(equalTo: colorViewFive.topAnchor, constant:  -view.frame.height * colorViewHeightMutiplier / 1.3),
             backToMainPageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             backIconImageView.centerYAnchor.constraint(equalTo: backToMainPageButton.centerYAnchor),

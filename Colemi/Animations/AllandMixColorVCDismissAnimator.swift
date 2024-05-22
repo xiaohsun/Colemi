@@ -43,45 +43,31 @@ final class AllandMixColorVCDismissAnimator: NSObject, UIViewControllerAnimatedT
         }
         
         guard let toVC = toVC,
-              let cell = toVC.selectedCell,
-              let fromVCHeader = fromVC.headerView
+              let cell = toVC.selectedCell
         else { return }
         
-        
-        // cell?.isHidden = true
+        let fromVCHeader = fromVC.headerView
+
         fromVC.view.isHidden = true
         
-        // let snapShotView = fromVC.headerView?.photoImageView.snapshotView(afterScreenUpdates: false)
-        // let snapShotView = UIImageView(image: fromVC.headerView?.photoImageView.image)
         let snapShotView = cell.snapshotView(afterScreenUpdates: false)
         guard let snapShotView = snapShotView else { return }
         
-        // snapShotView.frame = (fromVC.headerView?.photoImageView.frame)!
-        // snapShotView.frame.origin.y += fromVC.view.safeAreaLayoutGuide.layoutFrame.origin.y
-        
         var frame = fromVCHeader.photoImageView.frame
         frame.origin.x += fromVC.xPosition
-        frame.origin.y += fromVC.view.safeAreaLayoutGuide.layoutFrame.origin.y + fromVC.yPosition
+        frame.origin.y += 60 + fromVC.yPosition
         snapShotView.frame = frame
         
-        // toVC.view.frame =
-        // toVC.view.alpha = 0
-        
-        // containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
         
         toVC.view.layoutIfNeeded()
         
         UIView.animate(withDuration: duration) {
             snapShotView.frame = toVC.postsCollectionView.convert(cell.frame, to: nil)
-            // toVC.view.alpha = 1
             
         } completion: { _ in
             
             cell.isHidden = false
-           
-            // fromVC.selectedImageView!.isHidden = false
-            // toVC.toViewImageView.image = UIImage.image
             snapShotView.removeFromSuperview()
             tabBarController.lobbyViewController?.scrollView.addSubview(toVC.view)
             transitionContext.completeTransition(true)

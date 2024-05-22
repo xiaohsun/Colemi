@@ -45,14 +45,6 @@ class FirstColorViewController: UIViewController, TodayColorVCProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-//        viewModel.readData {
-//            DispatchQueue.main.async {
-//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                self.postsCollectionView.reloadData()
-//            }
-//        }
-        
         Task.detached {
             await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#B5C0BA" : UserManager.shared.colorSetToday[0]) {
                 DispatchQueue.main.async {
@@ -61,23 +53,6 @@ class FirstColorViewController: UIViewController, TodayColorVCProtocol {
                 }
             }
         }
-    }
-    
-//    func loadData() {
-//        if !loadedBefore {
-//            Task.detached {
-//                await self.viewModel.getSpecificPosts(colorCode: "#B5C0BA") {
-//                    DispatchQueue.main.async {
-//                        self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                        self.postsCollectionView.reloadData()
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-    override func viewIsAppearing(_ animated: Bool) {
-        print("hahaha, this is viewIsAppearing")
     }
 }
 
@@ -128,10 +103,8 @@ extension FirstColorViewController: UICollectionViewDataSource, UICollectionView
         
         postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
         postDetailViewController.postID = viewModel.posts[indexPath.item].id
-        postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+        postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
         postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-        postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-        postDetailViewController.post = viewModel.posts[indexPath.item]
         
         let navController = UINavigationController(rootViewController: postDetailViewController)
         

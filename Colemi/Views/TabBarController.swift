@@ -12,11 +12,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     var lobbyViewController: LobbyViewController?
     var profileViewController: ProfileViewController?
+    var chatRoomsNavController: UINavigationController?
+    let userData = UserManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabs()
         setButton()
+        
+        view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         if UserManager.shared.colorSetToday.isEmpty {
             UserManager.shared.colorSetToday = ["#A6EDED", "#FEFFA8", "#FF8A8A"]
@@ -44,11 +48,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         paletteViewController.tabBarItem.image = UIImage.palleteIcon
         paletteViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
-//        let pickPhotoViewController = PickPhotoViewController()
-//        let pickPhotoNavController = UINavigationController(rootViewController: pickPhotoViewController)
-//        pickPhotoNavController.tabBarItem.image = UIImage.postIcon
-//        pickPhotoNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
-        
         let writePostContentViewController = WritePostContentViewController()
         // let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
         // writePostContentNavController.tabBarItem.image = UIImage.postIcon
@@ -56,6 +55,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         
         let chatRoomsViewController = ChatRoomsViewController()
         let chatRoomsNavController = UINavigationController(rootViewController: chatRoomsViewController)
+        self.chatRoomsNavController = chatRoomsNavController
         chatRoomsNavController.tabBarItem.image = UIImage.chatIcon
         chatRoomsNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
@@ -75,13 +75,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         NSLayoutConstraint.activate([
             button.centerYAnchor.constraint(equalTo: tabBar.centerYAnchor, constant: -13),
             button.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor),
-            button.widthAnchor.constraint(equalToConstant: 70),
-            button.heightAnchor.constraint(equalToConstant: 50)
+            button.widthAnchor.constraint(equalToConstant: 30),
+            button.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         button.setImage(.postIcon, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
         
         view.layoutIfNeeded()
     }
@@ -91,12 +91,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
             return
         } else {
-            let writePostContentViewController = WritePostContentViewController()
-            let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
-            
-            writePostContentNavController.modalPresentationStyle = .fullScreen
-            
-            present(writePostContentNavController, animated: true)
+            if userData.postToday != "" {
+                let popUp = DidPostTodayPopUp()
+                popUp.appear(sender: self)
+            } else {
+                let writePostContentViewController = WritePostContentViewController()
+                let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
+                
+                writePostContentNavController.modalPresentationStyle = .fullScreen
+                
+                present(writePostContentNavController, animated: true)
+            }
         }
     }
     

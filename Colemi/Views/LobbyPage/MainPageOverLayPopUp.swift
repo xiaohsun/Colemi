@@ -103,11 +103,9 @@ class MainPageOverLayPopUp: UIViewController {
     func appear(sender: UIViewController) {
         self.modalPresentationStyle = .overFullScreen
         
-        
-        
         sender.present(self, animated: false) {
             
-            self.containerViewTopCons?.constant = self.gestureYPosision + 150
+            self.containerViewTopCons?.constant = self.gestureYPosision + 50
             self.containerViewLeadingCons?.constant = self.gestureXPosision
             self.view.layoutIfNeeded()
             

@@ -17,17 +17,19 @@ struct User: Codable {
     let description: String
     let savedPosts: [String]
     let signUpTime: Timestamp
-    let lastestLoginTime: Timestamp
+    let lastestLoginTime: Timestamp?
     let colorToday: String
     let colorSetToday: [String]
     let mixColorToday: String
+    let postToday: String
     let chatRooms: [SimpleChatRoom]
     let followers: [String]
     let following: [String]
     let blocking: [String]
     let beBlocked: [String]
-    let didUserPostToday: Bool
     let status: Int
+    let colorPoints: Int
+    let collectedColors: [String]
 }
 
 enum UserProperty: String {
@@ -43,14 +45,13 @@ enum UserProperty: String {
     case colorToday
     case colorSetToday
     case mixColorToday
+    case postToday
     case chatRooms
     case followers
     case following
     case blocking
     case beBlocked
-    case didUserPostToday
     case status
-}
-
-struct ChatRoom: Codable {
+    case colorPoints
+    case collectedColors
 }

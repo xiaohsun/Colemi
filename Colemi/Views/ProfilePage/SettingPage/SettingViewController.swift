@@ -16,6 +16,7 @@ class SettingViewController: UIViewController {
     let signOutCell = SignOutCell()
     let deleteAccountCell = DeleteAccountCell()
     let contactDeveloperCell = ContactDeveloperCell()
+    let changeNameCell = ChangeNameCell()
     let eulaCell = EULACell()
     
     private func setUpNavigationBar() {
@@ -23,7 +24,7 @@ class SettingViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = .white
         navigationItem.title = "設定"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     @objc private func popNav() {
@@ -71,7 +72,7 @@ class SettingViewController: UIViewController {
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        6
+        7
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -86,15 +87,18 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             return avatarEditCell
             
         } else if indexPath.row == 2 {
-            return signOutCell
+            return changeNameCell
             
         } else if indexPath.row == 3 {
-            return deleteAccountCell
+            return signOutCell
             
         } else if indexPath.row == 4 {
-            return contactDeveloperCell
+            return deleteAccountCell
             
         } else if indexPath.row == 5 {
+            return contactDeveloperCell
+            
+        } else if indexPath.row == 6 {
             return eulaCell
             
         } else {

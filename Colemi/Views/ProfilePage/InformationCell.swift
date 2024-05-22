@@ -4,6 +4,7 @@
 //
 //  Created by 徐柏勳 on 4/18/24.
 //
+// swiftlint:disable cyclomatic_complexity
 
 import UIKit
 import Kingfisher
@@ -14,6 +15,7 @@ class InformationCell: UITableViewCell {
     var isOthersPage: Bool = false
     
     let viewModel = InformationCellViewModel()
+    var viewController: ProfileViewController?
     
     weak var delegate: InformationCellDelegate?
     
@@ -21,7 +23,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "Hello"
         
@@ -32,7 +34,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = ""
         
@@ -53,7 +55,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "粉絲"
         addFollowerTappedGes(label: label, action: #selector(followersTapped))
@@ -65,7 +67,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "999"
         addFollowerTappedGes(label: label, action: #selector(followersTapped))
@@ -77,7 +79,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_M.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "追蹤中"
         addFollowerTappedGes(label: label, action: #selector(followingTapped))
@@ -89,7 +91,7 @@ class InformationCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "50"
         addFollowerTappedGes(label: label, action: #selector(followingTapped))
@@ -104,14 +106,10 @@ class InformationCell: UITableViewCell {
     }
     
     @objc private func followersTapped() {
-        print("Followers get tapped")
-        // isOthersPage ? print(viewModel.otherUserData?.followers) : print(viewModel.userData.followers)
         delegate?.pushToFollowVC(isFollowersTapped: true)
     }
     
     @objc private func followingTapped() {
-        print("Following get tapped")
-        // isOthersPage ? print(viewModel.otherUserData?.following) : print(viewModel.userData.following)
         delegate?.pushToFollowVC(isFollowersTapped: false)
     }
     
@@ -179,8 +177,9 @@ class InformationCell: UITableViewCell {
         collectionView.register(FollowOrEditInfoCell.self, forCellWithReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier)
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.reuseIdentifier)
         collectionView.register(ColorFootprintCell.self, forCellWithReuseIdentifier: ColorFootprintCell.reuseIdentifier)
-        collectionView.register(BestColorCell.self, forCellWithReuseIdentifier: BestColorCell.reuseIdentifier)
+        collectionView.register(CollectedColorCell.self, forCellWithReuseIdentifier: CollectedColorCell.reuseIdentifier)
         collectionView.register(AchievementCell.self, forCellWithReuseIdentifier: AchievementCell.reuseIdentifier)
+        collectionView.delegate = self
         // configureDataSource()
     }
     
@@ -192,11 +191,59 @@ class InformationCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func configureSelfPageCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.row {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.delegate = self
+            cell.update(description: self.viewModel.userData.description, isOthersPage: self.isOthersPage)
+            return cell
+            
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.changeToSetting()
+            cell.delegate = self
+            return cell
+        }
+    }
+    
+    private func configureOthersPageCell(collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        switch indexPath.row {
+        case 0:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.delegate = self
+            cell.update(description: self.viewModel.otherUserData?.description ?? "", isOthersPage: self.isOthersPage)
+            return cell
+            
+        case 1:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else {
+                fatalError("Can't create new cell")
+            }
+            let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
+            cell.changeToFollow(isFollowing: isFollowing)
+            cell.delegate = self
+            return cell
+            
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else {
+                fatalError("Can't create new cell")
+            }
+            cell.delegate = self
+            cell.viewModel.otherUserData = self.viewModel.otherUserData
+            return cell
+        }
+    }
 }
 
 extension InformationCell {
     func update(name: String, followers: [String], following: [String], isOthersPage: Bool, avatarUrl: String) {
-        // nameLabel.text = name
         idLabel.text = name
         followersNumberLabel.text = "\(followers.count)"
         followingNumberLabel.text = "\(following.count)"
@@ -284,57 +331,12 @@ extension InformationCell {
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Int>(collectionView: self.collectionView) { (collectionView, indexPath, _) -> UICollectionViewCell? in
             
-            if indexPath.section == 0 && !self.isOthersPage {
+            if indexPath.section == 0 {
                 
-                switch indexPath.row {
-                    
-                case 0:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
-                    
-                    cell.delegate = self
-                    cell.update(description: UserManager.shared.description, isOthersPage: self.isOthersPage)
-                    
-                    return cell
-                    
-                default:
-                    
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
-                    
-                    cell.changeToSetting()
-                    
-                    cell.delegate = self
-                    
-                    return cell
-                }
-            } else if indexPath.section == 0 && self.isOthersPage {
-                switch indexPath.row {
-                case 0:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TextViewCell.reuseIdentifier, for: indexPath) as? TextViewCell else { fatalError("Can't create new cell") }
-                    
-                    cell.delegate = self
-                    cell.update(description: self.viewModel.otherUserData?.description ?? "", isOthersPage: self.isOthersPage)
-                    
-                    return cell
-                    
-                case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier, for: indexPath) as? FollowOrEditInfoCell else { fatalError("Can't create new cell") }
-                    
-                    let isFollowing = self.viewModel.userData.following.contains(self.viewModel.otherUserData?.id ?? "")
-                    
-                    cell.changeToFollow(isFollowing: isFollowing)
-                    
-                    cell.delegate = self
-                    
-                    return cell
-                    
-                default:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCell.reuseIdentifier, for: indexPath) as? ChatCell else { fatalError("Can't create new cell") }
-                        // cell.changeToFollow()
-                    
-                    cell.delegate = self
-                    cell.viewModel.otherUserData = self.viewModel.otherUserData
-                    
-                    return cell
+                if self.isOthersPage {
+                    return self.configureOthersPageCell(collectionView: collectionView, indexPath: indexPath)
+                } else {
+                    return self.configureSelfPageCell(collectionView: collectionView, indexPath: indexPath)
                 }
                 
             } else {
@@ -342,16 +344,21 @@ extension InformationCell {
                 case 0:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorFootprintCell.reuseIdentifier, for: indexPath) as? ColorFootprintCell else { fatalError("Can't create new cell") }
                     
+                    if self.isOthersPage {
+                        cell.update(colorPoints: self.viewModel.otherUserData?.colorPoints ?? 0)
+                    } else {
+                        cell.update(colorPoints: self.viewModel.userData.colorPoints)
+                    }
+                    
                     return cell
                 case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BestColorCell.reuseIdentifier, for: indexPath) as? BestColorCell else { fatalError("Can't create new cell") }
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectedColorCell.reuseIdentifier, for: indexPath) as? CollectedColorCell else { fatalError("Can't create new cell") }
                     
                     return cell
                 default:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AchievementCell.reuseIdentifier, for: indexPath) as? AchievementCell else { fatalError("Can't create new cell") }
                     
                     return cell
-                    
                 }
             }
         }
@@ -368,9 +375,29 @@ extension InformationCell {
             initialSnapshot.appendItems(Array(4...6), toSection: .bottom)
         }
         
-        
-        
         dataSource?.apply(initialSnapshot, animatingDifferences: false)
+    }
+}
+
+extension InformationCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let vc = viewController else { return }
+        
+        if indexPath == IndexPath(row: 0, section: 1) {
+            let colorFootprintPopUp = ColorFootprintPopUp()
+            colorFootprintPopUp.appear(sender: vc)
+        } else if indexPath == IndexPath(row: 1, section: 1) {
+            let collectedColorPopUp = CollectedColorPopUp()
+            if isOthersPage {
+                collectedColorPopUp.collectedColors = viewModel.otherUserData?.collectedColors ?? []
+            } else {
+                collectedColorPopUp.collectedColors = viewModel.userData.collectedColors
+            }
+            collectedColorPopUp.appear(sender: vc)
+        } else {
+            let achievementPopUp = AchievementPopUp()
+            achievementPopUp.appear(sender: vc)
+        }
     }
 }
 

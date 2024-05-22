@@ -11,6 +11,7 @@ class TodayColorViewController: UIViewController {
     
     var currentIndex: Int = 0
     var buttons: [UIButton] = []
+    var bottomLabels: [UILabel] = []
     var buttonWidth: CGFloat = 25
     var buttonHeight: CGFloat = 25
     
@@ -69,6 +70,16 @@ class TodayColorViewController: UIViewController {
         }
     }
     
+    func makeBottomLabel() -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "滑到底囉～！"
+        label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
+        label.textColor = ThemeColorProperty.darkColor.getColor()
+        
+        return label
+    }
+    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.bounds)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +98,15 @@ class TodayColorViewController: UIViewController {
         
         for (index, childVC) in children.enumerated() {
             childVC.view.frame = CGRect(x: CGFloat(index) * scrollView.bounds.width, y: 0, width: scrollView.bounds.width, height: scrollView.bounds.height)
+            bottomLabels.append(makeBottomLabel())
             scrollView.addSubview(childVC.view)
+            scrollView.addSubview(bottomLabels[index])
+            
+            NSLayoutConstraint.activate([
+                bottomLabels[index].topAnchor.constraint(equalTo: childVC.view.bottomAnchor, constant: 80),
+                bottomLabels[index].centerXAnchor.constraint(equalTo: childVC.view.centerXAnchor)
+            ])
+            
             childVC.didMove(toParent: self)
         }
     }
@@ -167,7 +186,7 @@ extension TodayColorViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y != 0 {
-                scrollView.contentOffset.y = 0
+                // scrollView.contentOffset.y = 0
         } else {
             let pageWidth = scrollView.bounds.width
             let currentPage = Int((scrollView.contentOffset.x + pageWidth / 2) / pageWidth)
@@ -202,5 +221,11 @@ extension TodayColorViewController: UIScrollViewDelegate {
         let indicatorOffset = offset / scrollViewWidth * (buttonTwo.center.x - buttonOne.center.x)
 
         indicatorLeading?.constant = indicatorOffset
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
+            self.scrollView.contentOffset.y = 0
+        }
     }
 }

@@ -23,7 +23,7 @@ class OverLayPopUpCell: UITableViewCell {
     lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "檢舉"
         

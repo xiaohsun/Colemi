@@ -42,18 +42,6 @@ class SecondColorViewController: UIViewController, TodayColorVCProtocol {
         setUpUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-
-//        viewModel.readData {
-//            DispatchQueue.main.async {
-//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                self.postsCollectionView.reloadData()
-//            }
-//        }
-    }
-    
     func loadData() {
         if !loadedBefore {
             Task.detached {
@@ -98,7 +86,6 @@ extension SecondColorViewController: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if Auth.auth().currentUser == nil {
             CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
             return
@@ -114,10 +101,8 @@ extension SecondColorViewController: UICollectionViewDataSource, UICollectionVie
             
             postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
             postDetailViewController.postID = viewModel.posts[indexPath.item].id
-            postDetailViewController.authorID = viewModel.posts[indexPath.item].authorId
+            postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
             postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
-            postDetailViewController.comments = viewModel.posts[indexPath.item].comments
-            postDetailViewController.post = viewModel.posts[indexPath.item]
             
             let navController = UINavigationController(rootViewController: postDetailViewController)
             
@@ -125,7 +110,8 @@ extension SecondColorViewController: UICollectionViewDataSource, UICollectionVie
             navController.transitioningDelegate = self
             navController.navigationBar.isHidden = true
             present(navController, animated: true)
-        }    }
+        }
+    }
 }
 
 // MARK: - LobbyLayoutDelegate

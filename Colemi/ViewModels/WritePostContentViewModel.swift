@@ -13,8 +13,10 @@ import FirebaseStorage
 class WritePostContentViewModel {
     
     weak var delegate: WritePostContentViewModelDelegate?
+    var postDocID: String = ""
+    let userData = UserManager.shared
     
-    func addData(authorId: String, content: String, type: Int, color: String, colorSimularity: String, tags: [String], imageUrl: String, imageHeight: Double, imageWidth: Double) {
+    func addData(authorId: String, content: String, type: Int, color: String, tag: String, imageUrl: String, imageHeight: Double, imageWidth: Double) {
         
         let posts = Firestore.firestore().collection("posts")
         let document = posts.document()
@@ -25,31 +27,37 @@ class WritePostContentViewModel {
             PostProperty.type.rawValue: 0,
             PostProperty.color.rawValue: color,
             PostProperty.createdTime.rawValue: FieldValue.serverTimestamp(),
-            PostProperty.colorSimularity.rawValue: colorSimularity,
             PostProperty.totalSaved.rawValue: [] as [String],
             PostProperty.reports.rawValue: [] as [String],
             PostProperty.imageUrl.rawValue: imageUrl,
             PostProperty.imageHeight.rawValue: imageHeight,
             PostProperty.imageWidth.rawValue: imageWidth,
-            PostProperty.comments.rawValue: []
+            PostProperty.comments.rawValue: [],
+            PostProperty.colorPoints.rawValue: 0,
+            PostProperty.tag.rawValue: tag
         ]
         document.setData(data)
+        postDocID = document.documentID
         
         Task {
-            await self.updateData(postID: document.documentID, docID: UserManager.shared.id)
+            await self.updateData(postID: postDocID)
         }
     }
-
-    func updateData(postID: String, docID: String) async {
+    
+  
+    func updateData(postID: String) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        guard let user: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: docID), var postsArray = user?.posts else { return }
+        userData.posts.append(postID)
+        userData.postToday = postID
         
-        postsArray.append(postID)
-        UserManager.shared.posts.append(postID)
+        let updateData: [String: Any] = [
+            UserProperty.posts.rawValue: userData.posts,
+            UserProperty.postToday.rawValue: postID
+        ]
         
-        firestoreManager.updateDocument(data: [ UserProperty.posts.rawValue: postsArray], collection: ref, docID: docID)
+        firestoreManager.updateMutipleDocument(data: updateData, collection: ref, docID: userData.id)
     }
     
     func makeContentJson(content: Content) -> String {
@@ -75,6 +83,7 @@ class WritePostContentViewModel {
         return contentJSON
     }
     
+    // 有兩個地方用到，要改成可複用
     func uploadImgToFirebase(imageData: Data, imageSize: CGSize) {
        
         let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")

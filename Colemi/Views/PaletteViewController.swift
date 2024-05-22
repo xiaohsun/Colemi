@@ -4,6 +4,7 @@
 //
 //  Created by 徐柏勳 on 4/13/24.
 //
+// swiftlint:disable type_body_length
 
 import UIKit
 import MultipeerConnectivity
@@ -38,21 +39,11 @@ class PaletteViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.text = "尋找附近的顏色中..."
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 30)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 30)
         label.textColor = .white
         
         return label
     }()
-    
-    //    lazy var distanceLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.translatesAutoresizingMaskIntoConstraints = false
-    //        label.numberOfLines = 0
-    //        label.text = "距離為"
-    //        label.textColor = .white
-    //
-    //        return label
-    //    }()
     
     lazy var myColorView: UIView = {
         let view = UIView()
@@ -128,17 +119,6 @@ class PaletteViewController: UIViewController {
     //        return label
     //    }()
     
-    //    lazy var passDataButton: UIButton = {
-    //        let button = UIButton()
-    //        button.setTitle("傳遞顏色", for: .normal)
-    //        button.backgroundColor = ThemeColorProperty.lightColor.getColor()
-    //        button.addTarget(self, action: #selector(passDataButtonTapped), for: .touchUpInside)
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
-    //        button.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
-    //        return button
-    //    }()
-    
     @objc func passDataButtonTapped() {
         //        if let peer = peer {
         //            mpc?.sendData(colorToSend: userDataReadyToSend, peers: [peer], mode: .reliable)
@@ -151,7 +131,7 @@ class PaletteViewController: UIViewController {
         button.backgroundColor = .white
         button.addTarget(self, action: #selector(mixColorButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 30)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .normal)
         button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         button.alpha = 0
@@ -169,6 +149,10 @@ class PaletteViewController: UIViewController {
             sunnyDayChangeColorView()
         } else {
             rainyDayChangeColorView()
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.tabBarController?.tabBar.alpha = 0
         }
         
         mixColorAnimation()
@@ -256,7 +240,7 @@ class PaletteViewController: UIViewController {
         button.backgroundColor = ThemeColorProperty.darkColor.getColor()
         button.addTarget(self, action: #selector(saveMixColorButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+        button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 20)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
         button.alpha = 0
@@ -274,7 +258,9 @@ class PaletteViewController: UIViewController {
             viewModel.updateMixColor(colorHex: hexColor)
         }
         
-        navigationController?.popViewController(animated: true)
+//        UIView.animate(withDuration: 0.4) {
+//            self.tabBarController?.selectedIndex = 0
+//        }
     }
     
     private func setUpUI() {
@@ -335,12 +321,7 @@ class PaletteViewController: UIViewController {
             //
             //            nearbyDeviceNameLabel.topAnchor.constraint(equalTo: myColorView.bottomAnchor, constant: 20),
             //            nearbyDeviceNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //
-            //            passDataButton.heightAnchor.constraint(equalToConstant: 50),
-            //            passDataButton.widthAnchor.constraint(equalToConstant: 100),
-            //            passDataButton.topAnchor.constraint(equalTo: nearbyDeviceNameLabel.bottomAnchor, constant: 20),
-            //            passDataButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //
+            
             mixColorButton.heightAnchor.constraint(equalToConstant: 50),
             mixColorButton.widthAnchor.constraint(equalToConstant: 100),
             mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160),
@@ -372,7 +353,7 @@ class PaletteViewController: UIViewController {
             mpc?.peerDisconnectedHandler = disconnectedFromPeer
         } else {
             findColorLabel.text = "已經混色過囉，明天再來吧"
-            findColorLabel.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+            findColorLabel.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 20)
         }
     }
     
@@ -393,7 +374,7 @@ class PaletteViewController: UIViewController {
             mpc?.start()
         } else {
             findColorLabel.text = "已經混色過囉，明天再來吧"
-            findColorLabel.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 20)
+            findColorLabel.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 20)
         }
     }
     
@@ -402,6 +383,11 @@ class PaletteViewController: UIViewController {
         stopLoopAnimation()
         mpc?.invalidate()
     }
+    
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        NotificationCenter.default.post(name: NSNotification.Name("ToMixPostColorView"), object: nil)
+//    }
     
     func connectedToPeer(peer: MCPeerID) {
         self.peer = peer
@@ -489,12 +475,13 @@ class PaletteViewController: UIViewController {
                                     self.mixColorView.layer.cornerRadius = self.mixColorView.frame.width / 2
                                     
                                 } completion: { _ in
+                                    self.findColorLabel.textColor = ThemeColorProperty.darkColor.getColor()
                                     self.findColorLabel.text = "完成混色！"
-                                    self.findColorLabel.textColor = ThemeColorProperty.lightColor.getColor()
                                     
                                     UIView.animate(withDuration: 0.4, delay: 0.5) {
                                         self.findColorLabel.alpha = 1
                                         self.saveMixColorButton.alpha = 1
+                                        self.tabBarController?.tabBar.alpha = 1
                                     }
                                 }
                             }

@@ -30,7 +30,7 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(authorTapped))
@@ -47,7 +47,7 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
@@ -111,10 +111,13 @@ class AuthorInfoAndTitleCell: UITableViewCell {
 }
 
 extension AuthorInfoAndTitleCell {
-    func update(content: Content) {
+    func update(content: Content, userData: User) {
         self.content = content
-        authorNameLabel.text = content.authorName
+        authorNameLabel.text = userData.name
         titleLabel.text = content.title
+        
+        let url = URL(string: userData.avatarPhoto)
+        authorImageView.kf.setImage(with: url)
     }
 }
 

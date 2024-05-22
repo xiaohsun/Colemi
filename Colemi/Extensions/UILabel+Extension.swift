@@ -8,12 +8,12 @@
 import UIKit
 
 extension UILabel {
-    func addLineSpacing() {
+    func addLineSpacing(lineSpacing: CGFloat = 5) {
         if let labelText = text, !labelText.isEmpty {
             
             let attributedString = NSMutableAttributedString(string: labelText)
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 5
+            paragraphStyle.lineSpacing = lineSpacing
             attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
             
             attributedText = attributedString

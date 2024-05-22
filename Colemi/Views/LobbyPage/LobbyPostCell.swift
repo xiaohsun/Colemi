@@ -21,6 +21,11 @@ class LobbyPostCell: UICollectionViewCell {
         return imageView
     }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(imageView)

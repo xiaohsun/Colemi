@@ -92,31 +92,31 @@ class AuthenticationViewModel: ObservableObject {
 // MARK: - Email and Password Authentication
 
 extension AuthenticationViewModel {
-    func signInWithEmailPassword() async -> Bool {
-        authenticationState = .authenticating
-        do {
-            try await Auth.auth().signIn(withEmail: self.email, password: self.password)
-            return true
-        } catch {
-            print(error)
-            errorMessage = error.localizedDescription
-            authenticationState = .unauthenticated
-            return false
-        }
-    }
-    
-    func signUpWithEmailPassword() async -> Bool {
-        authenticationState = .authenticating
-        do {
-            try await Auth.auth().createUser(withEmail: email, password: password)
-            return true
-        } catch {
-            print(error)
-            errorMessage = error.localizedDescription
-            authenticationState = .unauthenticated
-            return false
-        }
-    }
+//    func signInWithEmailPassword() async -> Bool {
+//        authenticationState = .authenticating
+//        do {
+//            try await Auth.auth().signIn(withEmail: self.email, password: self.password)
+//            return true
+//        } catch {
+//            print(error)
+//            errorMessage = error.localizedDescription
+//            authenticationState = .unauthenticated
+//            return false
+//        }
+//    }
+//    
+//    func signUpWithEmailPassword() async -> Bool {
+//        authenticationState = .authenticating
+//        do {
+//            try await Auth.auth().createUser(withEmail: email, password: password)
+//            return true
+//        } catch {
+//            print(error)
+//            errorMessage = error.localizedDescription
+//            authenticationState = .unauthenticated
+//            return false
+//        }
+//    }
     
     func signOut() {
         do {
@@ -133,10 +133,11 @@ extension AuthenticationViewModel {
         guard let lastSignInDate = user.metadata.lastSignInDate else { return false }
         let needsReauth = !lastSignInDate.isWithinPast(minutes: 5)
         
-        let needsTokenRevocation = user.providerData.contains { $0.providerID == "apple.com" }
+        // let needsTokenRevocation = user.providerData.contains { $0.providerID == "apple.com" }
+        let providers = user.providerData.map { $0.providerID }
         
         do {
-            if needsReauth || needsTokenRevocation {
+            if needsReauth || providers.contains("apple.com") {
                 let signInWithApple = SignInWithApple()
                 let appleIDCredential = try await signInWithApple()
                 
@@ -158,12 +159,14 @@ extension AuthenticationViewModel {
                     try await user.reauthenticate(with: credential)
                 }
                 
-                if needsTokenRevocation {
+                if providers.contains("apple.com") {
                     guard let authorizationCode = appleIDCredential.authorizationCode else { return false }
                     guard let authCodeString = String(data: authorizationCode, encoding: .utf8) else { return false }
                     
                     try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
                 }
+                
+            } else if providers.contains("google.com") {
                 
             }
             
@@ -185,7 +188,6 @@ extension AuthenticationViewModel {
     
     func deleteAccountWithRevocationHelper() async -> Bool {
         do {
-            // add code to find out if the user is connected to SiwA
             try await TokenRevocationHelper().revokeToken()
             try await user?.delete()
             return true
@@ -241,6 +243,8 @@ class SignInWithApple: NSObject, ASAuthorizationControllerDelegate {
         continuation?.resume(throwing: error)
     }
 }
+
+
 
 class TokenRevocationHelper: NSObject, ASAuthorizationControllerDelegate {
     
@@ -326,9 +330,8 @@ extension AuthenticationViewModel {
                     let credentialState = try await appleIDProvider.credentialState(forUserID: appleProviderData.uid)
                     switch credentialState {
                     case .authorized:
-                        break // The Apple ID credential is valid.
+                        break
                     case .revoked, .notFound:
-                        // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
                         self.signOut()
                     default:
                         break
@@ -350,7 +353,7 @@ extension ASAuthorizationAppleIDCredential {
 }
 
 // Adapted from https://auth0.com/docs/api-auth/tutorials/nonce#generate-a-cryptographically-random-nonce
-private func randomNonceString(length: Int = 32) -> String {
+func randomNonceString(length: Int = 32) -> String {
     precondition(length > 0)
     let charset: [Character] =
     Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -384,7 +387,7 @@ private func randomNonceString(length: Int = 32) -> String {
     return result
 }
 
-private func sha256(_ input: String) -> String {
+func sha256(_ input: String) -> String {
     let inputData = Data(input.utf8)
     let hashedData = SHA256.hash(data: inputData)
     let hashString = hashedData.compactMap {

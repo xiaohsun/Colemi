@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MyChatBubbleTableViewCell: UITableViewCell {
+class MyChatTextBubbleTableViewCell: UITableViewCell {
     
-    static let reuseIdentifier = "\(MyChatBubbleTableViewCell.self)"
+    static let reuseIdentifier = "\(MyChatTextBubbleTableViewCell.self)"
     
     lazy var messageView: UIView = {
         let view = UIView()
@@ -28,7 +28,7 @@ class MyChatBubbleTableViewCell: UITableViewCell {
         label.numberOfLines = 0
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "嗨嗨"
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 16)
         
         return label
     }()
@@ -40,12 +40,11 @@ class MyChatBubbleTableViewCell: UITableViewCell {
         contentView.addSubview(messageView)
         contentView.addSubview(messageLabel)
         
-        
         NSLayoutConstraint.activate([
             messageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            messageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             messageView.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 100),
-            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -10),
+            messageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -15),
             
             messageLabel.leadingAnchor.constraint(equalTo: messageView.leadingAnchor, constant: 15),
             messageLabel.trailingAnchor.constraint(equalTo: messageView.trailingAnchor, constant: -15),
@@ -59,7 +58,7 @@ class MyChatBubbleTableViewCell: UITableViewCell {
     }
 }
 
-extension MyChatBubbleTableViewCell {
+extension MyChatTextBubbleTableViewCell {
     func update(messageData: Message) {
         messageLabel.text = messageData.body
     }

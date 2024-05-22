@@ -25,7 +25,7 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         label.text = "臭芭樂"
         
@@ -36,7 +36,7 @@ class CommentCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 14)
+        label.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 14)
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
         return label
@@ -51,7 +51,6 @@ class CommentCell: UITableViewCell {
         NSLayoutConstraint.activate([
             authorImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             authorImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            // authorImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             authorImageView.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/10),
             authorImageView.widthAnchor.constraint(equalTo: authorImageView.heightAnchor),
             
@@ -88,6 +87,9 @@ extension CommentCell {
     func update(comment: Comment) {
         commentLabel.text = comment.body
         authorNameLabel.text = comment.userName
+        let url = URL(string: comment.avatarURL)
+        authorImageView.kf.setImage(with: url)
+        
         commentLabel.addLineSpacing()
     }
 }

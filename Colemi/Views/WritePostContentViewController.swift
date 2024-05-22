@@ -16,7 +16,6 @@ class WritePostContentViewController: UIViewController {
     var selectedImage: UIImage?
     var selectedImageSize: CGSize?
     var imageData: Data?
-    let userManager = UserManager.shared
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -33,7 +32,7 @@ class WritePostContentViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 16)
+        label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 16)
         label.text = "任務顏色"
         label.textColor = ThemeColorProperty.darkColor.getColor()
         
@@ -42,7 +41,7 @@ class WritePostContentViewController: UIViewController {
     
     lazy var colorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(hex: userManager.colorToday)
+        view.backgroundColor = UIColor(hex: viewModel.userData.colorToday)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = RadiusProperty.radiusTen.rawValue
         
@@ -53,7 +52,7 @@ class WritePostContentViewController: UIViewController {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        textField.font = UIFont(name: FontProperty.GenSenRoundedTW_B.rawValue, size: 40)
+        textField.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 40)
         textField.textColor = ThemeColorProperty.darkColor.getColor()
         textField.placeholder = "標題"
         
@@ -75,7 +74,7 @@ class WritePostContentViewController: UIViewController {
         textView.addLineSpacing()
         textView.textColor = .white
         textView.textContainerInset = .init(top: 25, left: 20, bottom: 25, right: 20)
-        textView.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        textView.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         textView.text = "多大埔的傍晚 5 點 23 分，在綠色曠野撒上一抹陽光，春天好像偷偷地來了呢。"
         
         return textView
@@ -86,7 +85,7 @@ class WritePostContentViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = ThemeColorProperty.lightColor.getColor()
         textField.placeholder = "#標籤"
-        textField.font = UIFont(name: FontProperty.GenSenRoundedTW_R.rawValue, size: 18)
+        textField.font = ThemeFontProperty.GenSenRoundedTW_R.getFont(size: 18)
         textField.textAlignment = .right
         textField.textColor = ThemeColorProperty.darkColor.getColor()
         
@@ -151,7 +150,7 @@ class WritePostContentViewController: UIViewController {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage.arrorIcon
+        imageView.image = UIImage.arrowIcon
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(arrowTapped))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
@@ -223,10 +222,10 @@ class WritePostContentViewController: UIViewController {
             missionColorLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 40),
             missionColorLabel.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
             
-            colorView.topAnchor.constraint(equalTo: missionColorLabel.bottomAnchor, constant: 25),
-            colorView.centerXAnchor.constraint(equalTo: missionColorLabel.centerXAnchor),
-            colorView.heightAnchor.constraint(equalToConstant: 70),
-            colorView.widthAnchor.constraint(equalToConstant: 70),
+            colorView.heightAnchor.constraint(equalTo: colorView.widthAnchor),
+            colorView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -30),
+            colorView.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 30),
+            colorView.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -30),
             
             imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
             imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.21),
@@ -297,14 +296,16 @@ class WritePostContentViewController: UIViewController {
 
 extension WritePostContentViewController: WritePostContentViewModelDelegate {
     func addDataToFireBase(_ imageUrl: String, imageSize: CGSize) {
-        let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: userManager.name))
+        let content = viewModel.makeContentJson(content: Content(imgURL: imageUrl, title: titleTextField.text ?? "", description: descriptionTextView.text, authorName: viewModel.userData.name))
         let imageHeight = Double(imageSize.height)
         let imageWidth = Double(imageSize.width)
+        let tag = tagTextField.text ?? ""
         
-        viewModel.addData(authorId: userManager.id, content: content, type: 0, color: userManager.colorToday, colorSimularity: "", tags: ["Cute"], imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
+        viewModel.addData(authorId: viewModel.userData.id, content: content, type: 0, color: viewModel.userData.colorToday, tag: tag, imageUrl: imageUrl, imageHeight: imageHeight, imageWidth: imageWidth)
         
         colorSimilarityViewController.selectedImage = selectedImage
         colorSimilarityViewController.selectedImageURL = imageUrl
+        colorSimilarityViewController.viewModel.postID = viewModel.postDocID
         
         navigationController?.pushViewController(colorSimilarityViewController, animated: true)
     }
