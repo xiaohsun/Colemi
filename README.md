@@ -1,7 +1,7 @@
 <img width="3278" alt="colemiTitle" src="https://github.com/xiaohsun/Colemi/assets/111532363/3eb7ab19-6d22-4f2d-8961-23abbdaf2067">
 <img width="3278" alt="colemiFeature" src="https://github.com/xiaohsun/Colemi/assets/111532363/24cae3c6-3162-4f07-8f57-46d6f4962b66">
 
-![realtimeFeature](https://github.com/xiaohsun/Colemi/assets/111532363/000ae297-2010-4319-9534-73e9bec5e7c5)
+![realTimeFeature](https://github.com/xiaohsun/Colemi/assets/111532363/b0890e44-013c-4fc0-b6c7-6a333895a176)
 ![animationFeature](https://github.com/xiaohsun/Colemi/assets/111532363/51cab557-3a7c-42f6-9e1a-a42712fd9868)
 
 # Colemi - Color your world!
@@ -12,6 +12,9 @@ Colemi is a **social media platform** designed to connect **color enthusiasts** 
 It fosters a vibrant community where users can share discoveries, spark inspiration, and interact with fellow color lovers in **real-time** – both **online** and **offline**!
 <br/>
 <br/>
+
+[<img width="200" alt="appleStroe" src="https://github.com/xiaohsun/Colemi/assets/111532363/5b2ff704-96d9-4055-883c-f4863c5285f1">](https://apps.apple.com/us/app/colemi/id6499223471?uo=2)
+
 
 # Features
 
@@ -67,7 +70,7 @@ communication and data transfer
 
 # Requirements
 
-- iOS device iOS 17+
+- iOS device 17+
 - To run this project, you'll need Firestore Plist and APIKey. Feel free to contact me for further assistance
 - To access core features, please agree to the privacy requirements
 <br/>
