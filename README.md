@@ -1,6 +1,5 @@
-<img width="3278" alt="colemiTitle" src="https://github.com/xiaohsun/Colemi/assets/111532363/3eb7ab19-6d22-4f2d-8961-23abbdaf2067">
-<img width="3278" alt="colemiFeature" src="https://github.com/xiaohsun/Colemi/assets/111532363/24cae3c6-3162-4f07-8f57-46d6f4962b66">
-
+![colemiTitle](https://github.com/xiaohsun/Colemi/assets/111532363/854beb80-5fa3-4b58-90ac-b43edb04da78)
+![colemiFeature](https://github.com/xiaohsun/Colemi/assets/111532363/a4e7f2e9-c441-4ba5-86e5-06aa427de426)
 ![realTimeFeature](https://github.com/xiaohsun/Colemi/assets/111532363/b0890e44-013c-4fc0-b6c7-6a333895a176)
 ![animationFeature](https://github.com/xiaohsun/Colemi/assets/111532363/51cab557-3a7c-42f6-9e1a-a42712fd9868)
 
