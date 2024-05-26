@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct APIKey: Decodable {
     let CloudVisionAPIKey: String
@@ -13,7 +14,7 @@ struct APIKey: Decodable {
 
 class CloudVisionManager {
     
-    weak var delegate: CloudVisionManagerDelegate?
+    private var subscriptions = Set<AnyCancellable>()
     
     var apiKey: String {
         guard let plistPath = Bundle.main.path(forResource: "APIKey", ofType: "plist"),
@@ -24,60 +25,59 @@ class CloudVisionManager {
         return apiKey
     }
     
-    func analyzeImageWithVisionAPI(imageData: Data, url: String) {
-        
-        let url = URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(apiKey)")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let base64Image = imageData.base64EncodedString(options: .lineLength64Characters)
-        
-        let requestBody: [String: Any] = [
-            "requests": [
-                [
-                    "image": [
-                        "content": base64Image
-                    ],
-                    "features": [
-                        [
-                            "maxResults": 5,
-                            "type": "IMAGE_PROPERTIES"
+    func analyzeImageWithVisionAPI(imageData: Data, url: String) -> Future<[Color], Error> {
+        return Future { [weak self] promise in
+            guard let self = self else { return }
+            
+            let url = URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(self.apiKey)")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let base64Image = imageData.base64EncodedString(options: .lineLength64Characters)
+            
+            let requestBody: [String: Any] = [
+                "requests": [
+                    [
+                        "image": [
+                            "content": base64Image
+                        ],
+                        "features": [
+                            [
+                                "maxResults": 5,
+                                "type": "IMAGE_PROPERTIES"
+                            ]
                         ]
                     ]
                 ]
             ]
-        ]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: requestBody)
-        request.httpBody = jsonData
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
-            if let error = error {
-                print(error.localizedDescription)
+            
+            guard let jsonData = try? JSONSerialization.data(withJSONObject: requestBody) else {
+                promise(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to serialize request body"])))
                 return
             }
+            request.httpBody = jsonData
             
-            if let safeData = data {
-                 let content = String(data: safeData, encoding: .utf8)
-                 print(content!)
-                
-                let decoder = JSONDecoder()
-                do {
-                    let decodedData = try decoder.decode(CloudVisionResponse.self, from: safeData)
-                    let colors = decodedData.responses[0].imagePropertiesAnnotation.dominantColors.colors
-                    
-                    self.delegate?.getColorsRGB(colors: colors)
-                    
-                } catch {
-                    print("error: \(error)")
-                    return
+            URLSession.shared.dataTaskPublisher(for: request)
+                .tryMap { result -> Data in
+                    if let httpResponse = result.response as? HTTPURLResponse, httpResponse.statusCode != 200 {
+                        throw URLError(.badServerResponse)
+                    }
+                    return result.data
                 }
-            }
+                .decode(type: CloudVisionResponse.self, decoder: JSONDecoder())
+                .map { $0.responses[0].imagePropertiesAnnotation.dominantColors.colors }
+                .receive(on: DispatchQueue.main)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        promise(.failure(error))
+                    }
+                } receiveValue: { colors in
+                    promise(.success(colors))
+                }
+                .store(in: &self.subscriptions)
         }
-        task.resume()
     }
-}
-
-protocol CloudVisionManagerDelegate: AnyObject {
-    func getColorsRGB(colors: [Color])
 }
