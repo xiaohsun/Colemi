@@ -32,7 +32,7 @@ class NormalSettingCell: UITableViewCell {
         return imageView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         contentView.addSubview(label)
         contentView.addSubview(iconImageView)
         contentView.backgroundColor = ThemeColorProperty.darkColor.getColor()
@@ -51,7 +51,7 @@ class NormalSettingCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

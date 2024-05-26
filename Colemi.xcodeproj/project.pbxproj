@@ -151,6 +151,8 @@
 		289D72A72BDD4FCB00051D07 /* ThemeFontProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */; };
 		289D72A92BDE0D2500051D07 /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D72A82BDE0D2500051D07 /* UITextView+Extension.swift */; };
 		28A076EF2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A076EE2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift */; };
+		28A419A22C0303000022CFAF /* ChooseColorAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A419A12C0303000022CFAF /* ChooseColorAnimations.swift */; };
+		28A419A52C0305D20022CFAF /* PaletteAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A419A42C0305D20022CFAF /* PaletteAnimations.swift */; };
 		28A91F7C2BEA185F0078F4C9 /* PaletteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A91F7B2BEA185F0078F4C9 /* PaletteViewModel.swift */; };
 		28B0CD632BE9C0CA00485A95 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */; };
 		28B0CD652BE9EF6400485A95 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B0CD642BE9EF6400485A95 /* LaunchViewController.swift */; };
@@ -292,6 +294,8 @@
 		289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFontProperty.swift; sourceTree = "<group>"; };
 		289D72A82BDE0D2500051D07 /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		28A076EE2BEF4009005F6044 /* ChatRoomVCDismissAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomVCDismissAnimator.swift; sourceTree = "<group>"; };
+		28A419A12C0303000022CFAF /* ChooseColorAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseColorAnimations.swift; sourceTree = "<group>"; };
+		28A419A42C0305D20022CFAF /* PaletteAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteAnimations.swift; sourceTree = "<group>"; };
 		28A91F7B2BEA185F0078F4C9 /* PaletteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteViewModel.swift; sourceTree = "<group>"; };
 		28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		28B0CD642BE9EF6400485A95 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
@@ -372,7 +376,7 @@
 				281C657E2BCFEAB5003D2ECE /* PostDetailPage */,
 				281C65AF2BD0C490003D2ECE /* ProfilePage */,
 				28569EE52BFB93A8005837C8 /* ChooseColorPage */,
-				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
+				28A419A32C0305B50022CFAF /* PalettePage */,
 				281240A22BC7BDDD00777F91 /* PickPhotoViewController.swift */,
 				281240A42BC7C23D00777F91 /* PhotoCollectionViewCell.swift */,
 				281240A62BC7EAC700777F91 /* WritePostContentViewController.swift */,
@@ -401,6 +405,7 @@
 				287A62F92BE7551F00E09788 /* FollowViewModel.swift */,
 				28564D792BE87CB8003B3FBA /* OverLayPopUpViewModel.swift */,
 				28B0CD622BE9C0CA00485A95 /* SignInViewModel.swift */,
+				28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -499,17 +504,16 @@
 			isa = PBXGroup;
 			children = (
 				284F32C52BC98E0B00A61E88 /* ColorModel.swift */,
-				284F32CB2BCA641900A61E88 /* MPCSession.swift */,
 				282F57EC2BCC0F0E00E3DBE6 /* CloudVisionManager.swift */,
 				2823431A2BCCF2210040C1CA /* CloudVisionResponseModel.swift */,
 				282343922BCEB5D20040C1CA /* Post.swift */,
 				2880644A2BD14A7000FC2EFA /* User.swift */,
 				283EF6572BD757420007C8D8 /* Comment.swift */,
+				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
 				28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */,
 				28D2530D2BD40F2300864187 /* DetailedChatRoom.swift */,
 				28C69B882BD270BA00725BE7 /* Content.swift */,
 				288064462BD143A300FC2EFA /* FirestoreManager.swift */,
-				28564D7F2BE913C6003B3FBA /* AuthenticationViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -518,6 +522,7 @@
 			isa = PBXGroup;
 			children = (
 				281240E62BC9231800777F91 /* ChooseColorViewController.swift */,
+				28A419A12C0303000022CFAF /* ChooseColorAnimations.swift */,
 				2815FE152BEE12C700A2757B /* WeatherInfoPopUp.swift */,
 			);
 			path = ChooseColorPage;
@@ -587,6 +592,33 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		28A419A32C0305B50022CFAF /* PalettePage */ = {
+			isa = PBXGroup;
+			children = (
+				284F32C92BCA48BD00A61E88 /* PaletteViewController.swift */,
+				28A419A42C0305D20022CFAF /* PaletteAnimations.swift */,
+			);
+			path = PalettePage;
+			sourceTree = "<group>";
+		};
+		28A419A62C036C480022CFAF /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
+				289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */,
+				286106282BFAFCC3005614AD /* CustomFunc.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		28A419A72C0371CC0022CFAF /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				284F32CB2BCA641900A61E88 /* MPCSession.swift */,
+			);
+			path = Connectivity;
+			sourceTree = "<group>";
+		};
 		28C69B822BD2638600725BE7 /* LobbyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -628,13 +660,11 @@
 				281240E82BC9315400777F91 /* Colemi.entitlements */,
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
-				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
-				289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
-				286106282BFAFCC3005614AD /* CustomFunc.swift */,
-				282F57E82BCA848800E3DBE6 /* UserDataReadyToSend.swift */,
+				28A419A62C036C480022CFAF /* Helpers */,
 				289D72992BDD4BDC00051D07 /* Fonts */,
 				2840D89F2BDB71F300A6B3DC /* Animations */,
+				28A419A72C0371CC0022CFAF /* Connectivity */,
 				284F32C12BC9831700A61E88 /* Extensions */,
 				284F32C42BC98DF500A61E88 /* Models */,
 				2812409D2BC7844E00777F91 /* Views */,
@@ -881,12 +911,14 @@
 				284F32C02BC950AE00A61E88 /* ChooseColorViewModel.swift in Sources */,
 				281C65802BCFEB66003D2ECE /* DetailTableViewHeaderView.swift in Sources */,
 				28D533AC2BF0A51C00851B9A /* ColorFootprintPopUp.swift in Sources */,
+				28A419A22C0303000022CFAF /* ChooseColorAnimations.swift in Sources */,
 				284F32CC2BCA641900A61E88 /* MPCSession.swift in Sources */,
 				284F32C32BC9839400A61E88 /* UIColor+Extension.swift in Sources */,
 				2818B7422BDA3C2900434EBF /* TodayColorViewController.swift in Sources */,
 				287A62F62BE751BB00E09788 /* FollowViewController.swift in Sources */,
 				281C65862BCFFE29003D2ECE /* TagCell.swift in Sources */,
 				2815FE122BEDF10800A2757B /* EULAPopUp.swift in Sources */,
+				28A419A52C0305D20022CFAF /* PaletteAnimations.swift in Sources */,
 				282F57EB2BCBDB0500E3DBE6 /* ColorSimilarityViewController.swift in Sources */,
 				282343932BCEB5D20040C1CA /* Post.swift in Sources */,
 				28966AC22BE099AD0088A526 /* UILabel+Extension.swift in Sources */,

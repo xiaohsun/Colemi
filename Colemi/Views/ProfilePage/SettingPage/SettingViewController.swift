@@ -19,12 +19,12 @@ class SettingViewController: UIViewController {
     let changeNameCell = ChangeNameCell()
     let eulaCell = EULACell()
     
-    private func setUpNavigationBar() {
+    private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = .white
         navigationItem.title = "設定"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18), NSAttributedString.Key.foregroundColor: UIColor.white]
     }
     
     @objc private func popNav() {
@@ -44,10 +44,10 @@ class SettingViewController: UIViewController {
         return tableView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
-        setUpNavigationBar()
+        setupNavigationBar()
         
         view.addSubview(tableView)
         
@@ -62,7 +62,7 @@ class SettingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         deleteAccountCell.delegate = self
         signOutCell.delegate = self
         contactDeveloperCell.delegate = self

@@ -26,6 +26,5 @@ class LaunchViewController: UIViewController {
         } else {
             signInViewModel.loginUser()
         }
-        
     }
 }

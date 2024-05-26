@@ -27,7 +27,7 @@ class ColorPointsCell: UITableViewCell {
         return view
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         contentView.addSubview(colorView)
@@ -57,7 +57,7 @@ class ColorPointsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

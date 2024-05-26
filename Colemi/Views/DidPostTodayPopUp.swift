@@ -67,7 +67,7 @@ class DidPostTodayPopUp: UIViewController {
         hide()
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = .clear
         view.addSubview(backgroundView)
         view.addSubview(containerView)
@@ -105,7 +105,7 @@ class DidPostTodayPopUp: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         backgroundAddGesture()
     }
     

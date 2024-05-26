@@ -11,11 +11,11 @@ protocol FollowChildVCProtocol: UIViewController {
     var viewModel: FollowViewModel? { get set }
     var tableView: UITableView { get }
     
-    func setUpUI()
+    func setupUI()
 }
 
 extension FollowChildVCProtocol {
-    func setUpUI() {
+    func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         

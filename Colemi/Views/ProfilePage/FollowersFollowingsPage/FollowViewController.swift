@@ -73,19 +73,19 @@ class FollowViewController: UIViewController {
         }
     }
     
-    func setUpNavBar() {
+    func setupNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         
         navigationItem.title = viewModel.userName
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
     @objc private func popNav() {
         navigationController?.popViewController(animated: true)
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(scrollView)
         view.addSubview(buttonOne)
@@ -130,12 +130,12 @@ class FollowViewController: UIViewController {
     }()
     
     override func viewWillAppear(_ animated: Bool) {
-        setUpNavBar()
+        setupNavBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         addChildVCs()
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)

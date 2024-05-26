@@ -11,7 +11,6 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     static let reuseIdentifier = "\(SelectorHeaderView.self)"
     weak var delegate: SelectorHeaderViewDelegate?
     
-    // let viewModel = ProfileViewModel()
     var isShowingMyPosts = true
     
     lazy var postsButton: UIButton = {
@@ -54,7 +53,7 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
         delegate?.changeShowingPostsOrSaved(isShowingMyPosts: isShowingMyPosts)
     }
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(postsButton)
         contentView.addSubview(savesButton)
         contentView.layer.cornerRadius = RadiusProperty.radiusTwenty.rawValue
@@ -76,7 +75,7 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class ColorSimilarityViewController: UIViewController {
     
@@ -20,6 +21,8 @@ class ColorSimilarityViewController: UIViewController {
     var roundedColorSimilarity: [Double] = []
     
     var colorDistancesString: [String] = []
+    
+    var subscriptions = Set<AnyCancellable>()
     
     // 測試用
     // var roundedColorSimilarity: [Double] = [1,1,1,1,1]
@@ -216,7 +219,8 @@ class ColorSimilarityViewController: UIViewController {
     
     @objc private func showSimilarityButtonTapped() {
         
-        searchColorAnimation {
+        searchColorAnimation { [weak self] in
+            guard let self else { return }
             self.searchColorAnimation {
                 
                 UIView.animate(withDuration: 0.4, delay: 0.4) {
@@ -324,7 +328,7 @@ class ColorSimilarityViewController: UIViewController {
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         let colorViewOne = createColorView()
         let colorViewTwo = createColorView()
         let colorViewThree = createColorView()
@@ -442,10 +446,21 @@ class ColorSimilarityViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
-        cloudVisionManager.delegate = self
+        setupUI()
+        
         if let selectedImageData = selectedImageData, let url = selectedImageURL {
             cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)
+                .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] colors in
+                guard let self = self else { return }
+                self.colors = colors
+            }.store(in: &subscriptions)
         }
     }
     
@@ -457,11 +472,5 @@ class ColorSimilarityViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         NotificationCenter.default.post(name: NSNotification.Name("BackToMainPage"), object: nil)
-    }
-}
-
-extension ColorSimilarityViewController: CloudVisionManagerDelegate {
-    func getColorsRGB(colors: [Color]) {
-        self.colors = colors
     }
 }

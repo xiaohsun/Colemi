@@ -50,7 +50,7 @@ class AvatarEditCell: UITableViewCell {
         return imageView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         contentView.addSubview(avatarImageView)
         contentView.addSubview(plusImageView)
         
@@ -72,7 +72,7 @@ class AvatarEditCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

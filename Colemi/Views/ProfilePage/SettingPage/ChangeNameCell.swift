@@ -54,7 +54,7 @@ class ChangeNameCell: UITableViewCell {
         return imageView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         contentView.addSubview(label)
         contentView.addSubview(iconImageView)
         contentView.addSubview(nameTextField)
@@ -77,7 +77,7 @@ class ChangeNameCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

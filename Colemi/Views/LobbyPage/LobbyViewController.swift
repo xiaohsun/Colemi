@@ -32,7 +32,6 @@ class LobbyViewController: UIViewController {
     
     func createButton() -> UIButton {
         let button = UIButton()
-        button.setTitle("今日混色", for: .normal)
         button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
@@ -104,7 +103,7 @@ class LobbyViewController: UIViewController {
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         navigationController?.navigationBar.isHidden = true
@@ -151,7 +150,7 @@ class LobbyViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
+        setupUI()
         addChildVCs()
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)
@@ -182,7 +181,6 @@ extension LobbyViewController: UIScrollViewDelegate {
             
             if currentIndex != currentPage {
                 currentIndex = currentPage
-                print("Switched to child view controller at index \(currentIndex)")
             }
         }
     }

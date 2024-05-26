@@ -39,13 +39,14 @@ class FirstColorViewController: UIViewController, TodayColorVCProtocol {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        setUpUI()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Task.detached {
+        Task.detached { [weak self] in
+            guard let self else { return }
             await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#B5C0BA" : UserManager.shared.colorSetToday[0]) {
                 DispatchQueue.main.async {
                     self.postsCollectionView.collectionViewLayout.invalidateLayout()
@@ -101,10 +102,10 @@ extension FirstColorViewController: UICollectionViewDataSource, UICollectionView
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
         
-        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-        postDetailViewController.postID = viewModel.posts[indexPath.item].id
+        postDetailViewController.viewModel.contentJSONString = viewModel.contentJSONString[indexPath.item]
+            postDetailViewController.viewModel.postID = viewModel.posts[indexPath.item].id
         postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
-        postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
+            postDetailViewController.viewModel.imageUrl = viewModel.posts[indexPath.item].imageUrl
         
         let navController = UINavigationController(rootViewController: postDetailViewController)
         

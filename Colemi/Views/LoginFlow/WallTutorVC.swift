@@ -17,7 +17,7 @@ class WallTutorVC: UIViewController {
         return imageView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         view.addSubview(imageView)
         
         NSLayoutConstraint.activate([
@@ -30,6 +30,6 @@ class WallTutorVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
     }
 }

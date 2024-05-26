@@ -195,7 +195,7 @@ class WritePostContentViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         
         navigationController?.navigationBar.isHidden = true
         
@@ -279,7 +279,7 @@ class WritePostContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         viewModel.delegate = self
         
         NotificationCenter.default.addObserver(self,

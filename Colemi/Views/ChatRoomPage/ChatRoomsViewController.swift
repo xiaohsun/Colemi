@@ -23,16 +23,16 @@ class ChatRoomsViewController: UIViewController {
         return tableView
     }()
     
-    private func setUpNav() {
+    private func setupNav() {
         navigationItem.title = "訊息"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         
-        setUpNav()
+        setupNav()
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -44,7 +44,7 @@ class ChatRoomsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         
         viewModel.getSimpleChatRoomDataRealTime {
             self.tableView.reloadData()

@@ -22,7 +22,7 @@ class TagCell: UITableViewCell {
         return label
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(tagLabel)
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
@@ -36,7 +36,7 @@ class TagCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

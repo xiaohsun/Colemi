@@ -17,7 +17,7 @@ class PostsTutorVC: UIViewController {
         return imageView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         view.addSubview(imageView)
         
         NSLayoutConstraint.activate([
@@ -30,6 +30,6 @@ class PostsTutorVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
     }
 }

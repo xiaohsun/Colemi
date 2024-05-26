@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import Combine
 
 class PostDetailViewModel {
     
@@ -21,13 +22,19 @@ class PostDetailViewModel {
     var comments: [Comment] = []
     let userData = UserManager.shared
     let firestoreManager = FirestoreManager.shared
-    var authorName: String = ""
+    // var authorName: String = ""
     var authorData: User?
     var authorID = ""
-    var tag = ""
+    let authorName = CurrentValueSubject<String, Never>("")
     
-    func decodeContent(jsonString: String, completion: @escaping (Content) -> Void) {
-        let cleanedString = jsonString.replacingOccurrences(of: "\\", with: "")
+    var tag = ""
+    var contentJSONString = ""
+    var postID = ""
+    var imageUrl = ""
+    var content: Content?
+    
+    func decodeContent() {
+        let cleanedString = contentJSONString.replacingOccurrences(of: "\\", with: "")
         
         guard let jsonData = cleanedString.data(using: .utf8) else {
             print("Can't transform String to jsonData")
@@ -36,17 +43,23 @@ class PostDetailViewModel {
         
         do {
             let decodedData = try JSONDecoder().decode(Content.self, from: jsonData)
-            completion(decodedData)
+            self.content = decodedData
         } catch {
             print("error: \(error.localizedDescription)")
         }
     }
     
-    func updateSavedPosts(savedPostsArray: [String], postID: String, docID: String) async {
+    func updateSavedPosts(docID: String) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        firestoreManager.updateDocument(data: [UserProperty.savedPosts.rawValue: savedPostsArray], collection: ref, docID: docID)
+        if userData.savedPosts.contains(postID) {
+            userData.savedPosts.removeAll { $0 == postID }
+        } else {
+            userData.savedPosts.append(postID)
+        }
+        
+        firestoreManager.updateDocument(data: [UserProperty.savedPosts.rawValue: userData.savedPosts], collection: ref, docID: docID)
     }
     
     func updateComments(commentText: String) {
@@ -60,7 +73,7 @@ class PostDetailViewModel {
         firestoreManager.updateDocument(data: [PostProperty.comments.rawValue: comments], collection: ref, docID: post.id)
     }
     
-    func getPostData(completion: ((Post) -> Void)? = nil ) {
+    func getPostData() {
         let ref = FirestoreEndpoint.posts.ref
         guard let post = post else { return }
         
@@ -69,12 +82,12 @@ class PostDetailViewModel {
             
             if let postData = postData {
                 self.post = postData
-                completion?(postData)
+                self.getAuthorData()
             }
         }
     }
     
-    func getAuthorData(completion: ((User) -> Void)? = nil ) {
+    private func getAuthorData() {
         let ref = FirestoreEndpoint.users.ref
         guard let post = post else { return }
         
@@ -83,8 +96,7 @@ class PostDetailViewModel {
             
             if let userData = userData {
                 self.authorData = userData
-                self.authorName = userData.name
-                completion?(userData)
+                self.authorName.value = userData.name
             }
         }
     }

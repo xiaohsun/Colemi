@@ -21,7 +21,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         contentView.addSubview(imageView)
         
         NSLayoutConstraint.activate([
@@ -34,7 +34,7 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

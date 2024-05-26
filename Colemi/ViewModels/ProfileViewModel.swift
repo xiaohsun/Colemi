@@ -8,12 +8,9 @@
 import UIKit
 import Kingfisher
 import FirebaseFirestore
-// import Combine
+import Combine
 
 class ProfileViewModel {
-    
-    //    @Published var isShowingPosts: Bool = false
-    //    private var cancellables = Set<AnyCancellable>()
     
     let firestoreManager = FirestoreManager.shared
     var posts: [Post] = []
@@ -24,53 +21,24 @@ class ProfileViewModel {
     var contentJSONString: [String] = []
     var savesContentJSONString: [String] = []
     var userData = UserManager.shared
+    var userID = ""
     
-    var otherUserData: User? {
-        didSet {
-            otherUserFollowers = otherUserData?.followers
-        }
-    }
+    let otherUserData = CurrentValueSubject<User?, Never>(nil)
+    
     var otherUserFollowers: [String]?
     
-    //    init() {
-    //        $isShowingPosts.sink(receiveValue: { _ in
-    //            print("Status Change")
-    //        }).store(in: &cancellables)
-    //    }
-    //
-    //    deinit {
-    //        cancellables.forEach { $0.cancel() }
-    //    }
-    
-    
-//    func updateFollower(otherUserData: User, completion: @escaping ([String]) -> Void ) {
-//        let firestoreManager = FirestoreManager.shared
-//        let ref = FirestoreEndpoint.users.ref
-//        
-//        var otherUserFollowers = otherUserData.followers
-//        var myUserFollowing = userData.following
-//        
-//        if !otherUserFollowers.contains(userData.id) {
-//            otherUserFollowers.append(userData.id)
-//            myUserFollowing.append(otherUserData.id)
-//            
-//        } else {
-//            if let index = otherUserFollowers.firstIndex(of: userData.id) {
-//                otherUserFollowers.remove(at: index)
-//            }
-//            
-//            if let index = myUserFollowing.firstIndex(of: otherUserData.id) {
-//                myUserFollowing.remove(at: index)
-//            }
-//        }
-//        
-//        userData.following = myUserFollowing
-//        
-//        firestoreManager.updateDocument(data: [UserProperty.followers.rawValue: otherUserFollowers], collection: ref, docID: otherUserData.id)
-//        firestoreManager.updateDocument(data: [UserProperty.following.rawValue: myUserFollowing], collection: ref, docID: userData.id)
-//        
-//        completion(otherUserFollowers)
-//    }
+    func getOtherUserData() {
+        let ref = FirestoreEndpoint.users.ref
+        
+        Task {
+            let userData: User? = await firestoreManager.getSpecificDocument(collection: ref, docID: userID)
+            
+            if let userData = userData {
+                self.otherUserFollowers = userData.followers
+                self.otherUserData.value = userData
+            }
+        }
+    }
     
     func getUserData(completion: @escaping() -> Void) async {
         let ref = FirestoreEndpoint.users.ref
@@ -133,13 +101,4 @@ class ProfileViewModel {
         }
         completion()
     }
-    
-//    func updateUserDescription(text: String) {
-//        let firestoreManager = FirestoreManager.shared
-//        let ref = FirestoreEndpoint.users.ref
-//        
-//        userData.description = text
-//        
-//        firestoreManager.updateDocument(data: [ UserProperty.description.rawValue: text], collection: ref, docID: userData.id)
-//    }
 }

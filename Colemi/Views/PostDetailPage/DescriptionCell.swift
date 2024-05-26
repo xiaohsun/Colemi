@@ -21,7 +21,7 @@ class DescriptionCell: UITableViewCell {
         return label
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(descriptionLabel)
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
@@ -36,7 +36,7 @@ class DescriptionCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

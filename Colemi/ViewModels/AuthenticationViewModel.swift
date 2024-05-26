@@ -57,7 +57,7 @@ class AuthenticationViewModel: ObservableObject {
     
     func registerAuthStateHandler() {
         if authStateHandler == nil {
-            authStateHandler = Auth.auth().addStateDidChangeListener { auth, user in
+            authStateHandler = Auth.auth().addStateDidChangeListener { _, user in
                 self.user = user
                 self.authenticationState = user == nil ? .unauthenticated : .authenticated
                 self.displayName = user?.displayName ?? user?.email ?? ""
@@ -347,7 +347,7 @@ extension AuthenticationViewModel {
 extension ASAuthorizationAppleIDCredential {
     func displayName() -> String {
         return [self.fullName?.givenName, self.fullName?.familyName]
-            .compactMap( {$0})
+            .compactMap({ $0 })
             .joined(separator: " ")
     }
 }

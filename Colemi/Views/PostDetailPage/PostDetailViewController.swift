@@ -7,16 +7,11 @@
 
 import UIKit
 import FirebaseFirestore
+import Combine
 
 class PostDetailViewController: UIViewController {
     
     let viewModel = PostDetailViewModel()
-    var contentJSONString = ""
-    var photoImage: UIImage?
-    var content: Content?
-    var postID = ""
-    var imageUrl = ""
-    
     var headerView = DetailTableViewHeaderView()
     
     var commentTextViewTrailing: NSLayoutConstraint?
@@ -27,6 +22,8 @@ class PostDetailViewController: UIViewController {
     
     var xPosition: CGFloat = 0
     var yPosition: CGFloat = 0
+    
+    var subscriptions = Set<AnyCancellable>()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -132,33 +129,28 @@ class PostDetailViewController: UIViewController {
         let userData = viewModel.userData
         starTappedAnimation()
         
-        if userData.savedPosts.contains(postID) {
-            userData.savedPosts.removeAll { $0 == postID }
+        if userData.savedPosts.contains(viewModel.postID) {
             starImageView.image = UIImage(systemName: "star")
-            Task {
-                await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
-            }
-            
         } else {
-            userData.savedPosts.append(postID)
             starImageView.image = UIImage(systemName: "star.fill")
-            Task {
-                await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
-            }
+        }
+        
+        Task {
+            await viewModel.updateSavedPosts(docID: userData.id)
         }
     }
     
-    private func setUpStarImageView() {
+    private func setupStarImageView() {
         let userData = viewModel.userData
         
-        if userData.savedPosts.contains(postID) {
+        if userData.savedPosts.contains(viewModel.postID) {
             starImageView.image = UIImage(systemName: "star.fill")
         } else {
             starImageView.image = UIImage(systemName: "star")
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(commentTextView)
@@ -166,7 +158,7 @@ class PostDetailViewController: UIViewController {
         view.addSubview(sendButton)
         view.addSubview(backImageView)
         view.layer.cornerRadius = 30
-        setUpStarImageView()
+        setupStarImageView()
         commentTextViewInit()
         
         commentTextViewTrailing = commentTextView.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -10)
@@ -208,22 +200,19 @@ class PostDetailViewController: UIViewController {
         ])
     }
     
+    // MARK: - Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
-        viewModel.decodeContent(jsonString: contentJSONString) { [weak self] content in
-            guard let self = self else { return }
-            self.content = content
-        }
-        
-        viewModel.getPostData { [weak self] _ in
-            guard let self = self else { return }
-            self.viewModel.getAuthorData { _ in
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+        setupUI()
+        viewModel.decodeContent()
+        viewModel.getPostData()
+        viewModel.authorName.sink { _ in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
-        }
+        }.store(in: &subscriptions)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -243,7 +232,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let content = content else { return UITableViewCell() }
+        guard let content = viewModel.content else { return UITableViewCell() }
         
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AuthorInfoAndTitleCell.reuseIdentifier, for: indexPath) as? AuthorInfoAndTitleCell else { return UITableViewCell() }
@@ -304,16 +293,9 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            //            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
-            // if let photoImage = photoImage {
-            // self.headerView = headerView
-            let url = URL(string: imageUrl)
+            let url = URL(string: viewModel.imageUrl)
             headerView.photoImageView.kf.setImage(with: url)
-            // }
-            // headerView.photoImageView.image?.size.height
-            
             headerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
-            
             
             return headerView
         } else {
@@ -340,30 +322,21 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
         profileViewController.isFromDetailPage = true
         
         if viewModel.authorID == userData.id {
-            profileViewController.setUpNavBar()
+            profileViewController.setupNavBar()
+            
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
-            
             profileViewController.isOthersPage = true
-            profileViewController.setUpNavBar()
+            profileViewController.setupNavBar()
+            profileViewController.viewModel.userID = viewModel.authorID
             
-            viewModel.getAuthorData(completion: { userData in
-                DispatchQueue.main.async {
-                    profileViewController.viewModel.otherUserData = userData
-                    self.navigationController?.pushViewController(profileViewController, animated: true)
-                }
-            })
+            navigationController?.pushViewController(profileViewController, animated: true)
         }
     }
     
     func showReportPopUp() {
         let overLayPopUp = OverLayPopUp()
         overLayPopUp.fromDetailPage = true
-        //        if let otherUserID = authorID,
-        //           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
-        //            overLayPopUp.viewModel.otherUserID = otherUserID
-        //            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
-        //        }
         overLayPopUp.appear(sender: self)
     }
 }
@@ -414,9 +387,7 @@ extension PostDetailViewController {
         } else if gesture.state == .changed {
             let translation = gesture.translation(in: self.view)
             let transform = CGAffineTransform(translationX: translation.x, y: translation.y)
-            // headerView?.photoImageView.transform = transform
             view.transform = transform
-            // self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             
             
         } else if gesture.state == .ended {
@@ -426,10 +397,7 @@ extension PostDetailViewController {
                 dismiss(animated: true)
             } else {
                 UIView.animate(withDuration: 0.4) {
-                    // self.headerView?.photoImageView.transform = .identity
                     self.view.transform = .identity
-                    // startPoint = CGAffineTransform(translationX: 0, y: self.view.safeAreaLayoutGuide.layoutFrame.origin.y)
-                    // self.view.transform = startPoint
                 }
             }
         }

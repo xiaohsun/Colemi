@@ -153,7 +153,7 @@ class TutorViewController: UIViewController {
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         for index in 0..<5 {
             let btn = createCircularButton()
             circularButtons.append(btn)
@@ -194,7 +194,7 @@ class TutorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         circularButtonTapped(sender: circularButtons[0])
     }
     

@@ -61,7 +61,7 @@ class AchievementPopUp: UIViewController {
         hide()
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = .clear
         view.addSubview(backgroundView)
         view.addSubview(containerView)
@@ -93,17 +93,12 @@ class AchievementPopUp: UIViewController {
             
             waitLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             waitLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
-            
-//            tableView.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 10),
-//            tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10),
-//            tableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-//            tableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor)
         ])
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         backgroundAddGesture()
     }
     
@@ -119,7 +114,6 @@ class AchievementPopUp: UIViewController {
             self.containerViewTopCons?.isActive = false
             self.containerViewTopCons = self.containerView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
             self.containerViewTopCons?.isActive = true
-            // self.containerViewTopCons?.constant = -self.containerViewHeight
             
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
                 self.backgroundView.alpha = 1
@@ -137,22 +131,8 @@ class AchievementPopUp: UIViewController {
             self.view.layoutIfNeeded()
             self.backgroundView.alpha = 0
         } completion: { _ in
-            // self.tableView.alpha = 1
             self.dismiss(animated: false)
             self.removeFromParent()
         }
     }
 }
-
-//extension ColorFootprintPopUp: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        1
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//            return UITableViewCell()
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//    }
-//}

@@ -16,7 +16,7 @@ class UserManager {
     var selectedUIColor: UIColor?
     var selectedHexColor: String?
     var id = ""
-    var name = "柏勳一號"
+    var name = ""
     var posts: [String] = []
     var likes: [String] = []
     var avatarPhoto = ""

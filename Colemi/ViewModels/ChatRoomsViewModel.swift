@@ -17,7 +17,9 @@ class ChatRoomsViewModel {
         Task {
             let ref = FirestoreEndpoint.users.ref
         
-            await firestoreManager.getSpecificDocumentRealtime(collection: ref, docID: userData.id) { (userData: User?) in
+            await firestoreManager.getSpecificDocumentRealtime(collection: ref, docID: userData.id) { [weak self] (userData: User?) in
+                guard let self else { return }
+                
                 DispatchQueue.main.async {
                     if let userData = userData {
                         self.userData.chatRooms = userData.chatRooms.reversed()

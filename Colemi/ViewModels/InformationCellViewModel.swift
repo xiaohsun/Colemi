@@ -19,7 +19,6 @@ class InformationCellViewModel {
     
     var otherUserFollowers: [String]?
     
-    
     func updateFollower(completion: @escaping ([String], Bool) -> Void ) {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
@@ -60,6 +59,6 @@ class InformationCellViewModel {
         
         userData.description = text
         
-        firestoreManager.updateDocument(data: [ UserProperty.description.rawValue: text], collection: ref, docID: userData.id)
+        firestoreManager.updateDocument(data: [UserProperty.description.rawValue: text], collection: ref, docID: userData.id)
     }
 }

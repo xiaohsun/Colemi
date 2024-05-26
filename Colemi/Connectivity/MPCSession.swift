@@ -8,7 +8,6 @@
 import Foundation
 import MultipeerConnectivity
 
-// 目前不知道是幹嘛用的
 struct MPCSessionConstants {
     static let kKeyIdentity: String = "identity"
 }
@@ -24,17 +23,12 @@ class MPCSession: NSObject {
     private let mcBrowser: MCNearbyServiceBrowser
     private let localPeerID = MCPeerID(displayName: UIDevice.current.name)
     private let serviceString: String
-    // private let identityString: String
     private var peerInvitee: MCPeerID?
     
-    // 目前 identity 用不到
     init(service: String, identity: String) {
         
         mcSession = MCSession(peer: localPeerID, securityIdentity: nil, encryptionPreference: .none)
         serviceString = service
-        // identityString = identity
-        
-        // discoveryInfo 先改成 nil，原本是這個 [MPCSessionConstants.kKeyIdentity: identityString]
         mcAdvertiser = MCNearbyServiceAdvertiser(peer: localPeerID, discoveryInfo: nil, serviceType: serviceString)
         mcBrowser = MCNearbyServiceBrowser(peer: localPeerID, serviceType: serviceString)
         
@@ -61,10 +55,6 @@ class MPCSession: NSObject {
         suspend()
         mcSession.disconnect()
     }
-    
-//    func sendDataToAllPeers(data: Data) {
-//        sendData(data: data, peers: mcSession.connectedPeers, mode: .reliable)
-//    }
 
     func sendData(colorToSend: UserDataReadyToSend, peers:[MCPeerID], mode: MCSessionSendDataMode) {
         do {
@@ -79,30 +69,17 @@ class MPCSession: NSObject {
 // MARK: - MCNearbyServiceBrowserDelegate, MCNearbyServiceAdvertiserDelegate
 
 extension MPCSession: MCNearbyServiceBrowserDelegate {
-    // 查找別人
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
-//        guard let identityValue = info?[MPCSessionConstants.kKeyIdentity] else {
-//            return
-//        }
-        // if identityValue == identityString {
-        
-        // invite 應該要寫在別的地方
-        // 可能這裡 show peerID 在 UI 上
             browser.invitePeer(peerID, to: mcSession, withContext: nil, timeout: 10)
-        // }
     }
     
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
-        // lost peer 後的處理
+        // lost peer
     }
 }
 
 extension MPCSession: MCNearbyServiceAdvertiserDelegate {
-    // 讓自己可以被查詢到
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        
-        // invite 完對方就會調到這裡
-        // 這裡就可以用 context 接收資訊
         invitationHandler(true, mcSession)
     }
 }
@@ -146,9 +123,6 @@ extension MPCSession: MCSessionDelegate {
                 handler(peerID)
             }
         }
-//        if mcSession.connectedPeers.count == maxNumPeers {
-//            self.suspend()
-//        }
     }
 
     private func peerDisconnected(peerID: MCPeerID) {
@@ -157,8 +131,5 @@ extension MPCSession: MCSessionDelegate {
                 handler(peerID)
             }
         }
-//        if mcSession.connectedPeers.count < maxNumPeers {
-//            self.start()
-//        }
     }
 }

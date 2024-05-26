@@ -126,7 +126,7 @@ class InformationCell: UITableViewCell {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
     
-    func setUpUI() {
+    func setupUI() {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(nameLabel)
@@ -172,7 +172,7 @@ class InformationCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        setUpUI()
+        setupUI()
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: TextViewCell.reuseIdentifier)
         collectionView.register(FollowOrEditInfoCell.self, forCellWithReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier)
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.reuseIdentifier)
@@ -270,8 +270,6 @@ extension InformationCell {
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(0.33))
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [leftItem, rightItem])
-                
-                //group.interItemSpacing = .fixed(20)
                 
                 let section = NSCollectionLayoutSection(group: group)
                 
@@ -405,7 +403,8 @@ extension InformationCell: FollowOrEditInfoCellDelegate {
     func updateFollower() {
         guard let otherUserFollowers = viewModel.otherUserFollowers else { return }
         viewModel.updateFollower { otherUserFollowers, isFollowing in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
                 self.followersNumberLabel.text = "\(otherUserFollowers.count)"
                 let indexPath = IndexPath(row: 1, section: 0)
                 let cell = self.collectionView.cellForItem(at: indexPath) as? FollowOrEditInfoCell

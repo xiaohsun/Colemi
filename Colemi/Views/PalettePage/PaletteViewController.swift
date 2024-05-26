@@ -4,7 +4,6 @@
 //
 //  Created by 徐柏勳 on 4/13/24.
 //
-// swiftlint:disable type_body_length
 
 import UIKit
 import MultipeerConnectivity
@@ -108,16 +107,6 @@ class PaletteViewController: UIViewController {
         
         return view
     }()
-    
-    //    lazy var nearbyDeviceNameLabel: UILabel = {
-    //        let label = UILabel()
-    //        label.translatesAutoresizingMaskIntoConstraints = false
-    //        label.numberOfLines = 0
-    //        label.text = "早安少女"
-    //        label.textColor = .white
-    //
-    //        return label
-    //    }()
     
     @objc func passDataButtonTapped() {
         //        if let peer = peer {
@@ -257,13 +246,9 @@ class PaletteViewController: UIViewController {
             viewModel.updateColorToday(colorHex: hexColor)
             viewModel.updateMixColor(colorHex: hexColor)
         }
-        
-//        UIView.animate(withDuration: 0.4) {
-//            self.tabBarController?.selectedIndex = 0
-//        }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = UIColor(hex: "#3c3c3c")
         
         // view.addSubview(distanceLabel)
@@ -271,8 +256,6 @@ class PaletteViewController: UIViewController {
         view.addSubview(midColorContainerView)
         view.addSubview(myColorView)
         view.addSubview(nearbyColorView)
-        //        view.addSubview(nearbyDeviceNameLabel)
-        //        view.addSubview(passDataButton)
         view.addSubview(mixColorButton)
         view.addSubview(mixColorView)
         view.addSubview(findColorLabel)
@@ -304,8 +287,6 @@ class PaletteViewController: UIViewController {
             findColorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10),
             findColorLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
             
-            // distanceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            // distanceLabel.topAnchor.constraint(equalTo: findColorLabel.bottomAnchor, constant: 50),
             bigColorContainerView.centerXAnchor.constraint(equalTo: myColorView.centerXAnchor),
             bigColorContainerView.centerYAnchor.constraint(equalTo: myColorView.centerYAnchor),
             bigColorContainerView.widthAnchor.constraint(equalTo: myColorView.widthAnchor, multiplier: 3),
@@ -318,20 +299,15 @@ class PaletteViewController: UIViewController {
             
             nearbyColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 70),
             nearbyColorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -70),
-            //
-            //            nearbyDeviceNameLabel.topAnchor.constraint(equalTo: myColorView.bottomAnchor, constant: 20),
-            //            nearbyDeviceNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             mixColorButton.heightAnchor.constraint(equalToConstant: 50),
             mixColorButton.widthAnchor.constraint(equalToConstant: 100),
             mixColorButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -160),
             mixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //
+            
             mixColorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             mixColorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            //            mixColorView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            //            mixColorView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.3),
-            //
+            
             saveMixColorButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             saveMixColorButton.heightAnchor.constraint(equalToConstant: 50),
             saveMixColorButton.widthAnchor.constraint(equalToConstant: 100),
@@ -341,7 +317,7 @@ class PaletteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         
         if userManager.mixColorToday == "" {
             userDataReadyToSend.color = userManager.colorToday
@@ -396,131 +372,6 @@ class PaletteViewController: UIViewController {
         mpc?.sendData(colorToSend: userDataReadyToSend, peers: [peer], mode: .reliable)
         
         meetColorAnimation()
-    }
-    
-    private func meetColorAnimation() {
-        
-        myColorViewXCons?.constant = -70
-        myColorViewYCons?.constant = 70
-        
-        UIView.animate(withDuration: 0.4) {
-            self.view.layoutIfNeeded()
-            self.stopLoopAnimation()
-            self.nearbyColorView.layer.cornerRadius = self.nearbyColorView.frame.width / 2
-            
-        } completion: { _ in
-            self.nearbyColorViewWidthCons?.constant = 60
-            self.nearbyColorViewHeightCons?.constant = 60
-            
-            UIView.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 0.6, initialSpringVelocity: 0.8) {
-                self.view.layoutIfNeeded()
-                
-            } completion: { _ in
-                UIView.animate(withDuration: 0.4) {
-                    self.mixColorButton.alpha = 1
-                }
-            }
-        }
-    }
-    
-    private func mixColorAnimation() {
-        UIView.animate(withDuration: 0.4) {
-            self.saveMixColorButton.alpha = 0
-            self.mixColorButton.alpha = 0
-            self.findColorLabel.alpha = 0
-            
-        } completion: { _ in
-            self.myColorViewWidthCons?.constant = 100
-            self.myColorViewHeightCons?.constant = 100
-            
-            UIView.animate(withDuration: 0.4, delay: 0.6, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                self.view.layoutIfNeeded()
-                
-            } completion: { _ in
-                self.nearbyColorViewWidthCons?.constant = 100
-                self.nearbyColorViewHeightCons?.constant = 100
-                
-                UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                    self.view.layoutIfNeeded()
-                    
-                } completion: { _ in
-                    self.myColorViewWidthCons?.constant = 140
-                    self.myColorViewHeightCons?.constant = 140
-                    
-                    UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                        self.view.layoutIfNeeded()
-                        
-                    } completion: { _ in
-                        self.nearbyColorViewWidthCons?.constant = 140
-                        self.nearbyColorViewHeightCons?.constant = 140
-                        
-                        UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                            self.view.layoutIfNeeded()
-                            
-                        } completion: { _ in
-                            self.nearbyColorViewWidthCons?.constant = 0
-                            self.nearbyColorViewHeightCons?.constant = 0
-                            self.myColorViewWidthCons?.constant = 0
-                            self.myColorViewHeightCons?.constant = 0
-                            
-                            UIView.animate(withDuration: 0.4, delay: 0.5, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8) {
-                                self.view.layoutIfNeeded()
-                                
-                            } completion: { _ in
-                                self.mixColorViewWidthCons?.constant = 1000
-                                self.mixColorViewHeightCons?.constant = 1000
-                                
-                                UIView.animate(withDuration: 0.4, delay: 0.5) {
-                                    self.view.layoutIfNeeded()
-                                    self.mixColorView.layer.cornerRadius = self.mixColorView.frame.width / 2
-                                    
-                                } completion: { _ in
-                                    self.findColorLabel.textColor = ThemeColorProperty.darkColor.getColor()
-                                    self.findColorLabel.text = "完成混色！"
-                                    
-                                    UIView.animate(withDuration: 0.4, delay: 0.5) {
-                                        self.findColorLabel.alpha = 1
-                                        self.saveMixColorButton.alpha = 1
-                                        self.tabBarController?.tabBar.alpha = 1
-                                    }
-                                }
-                            }
-                        }
-                        
-                    }
-                }
-            }
-        }
-        
-    }
-    
-    private func stopLoopAnimation() {
-        midColorContainerView.alpha = 0
-        bigColorContainerView.alpha = 0
-        animationShouldStop = true
-    }
-    
-    private func containerViewAppearAnimate() {
-        UIView.animate(withDuration: 0.6, delay: 0.5) {
-            self.midColorContainerView.alpha = 0.3
-        } completion: { _ in
-            UIView.animate(withDuration: 0.6) {
-                self.bigColorContainerView.alpha = 0.3
-            } completion: { _ in
-                self.containerViewDisappearAnimate()
-            }
-        }
-    }
-    
-    private func containerViewDisappearAnimate() {
-        UIView.animate(withDuration: 0.6) {
-            self.midColorContainerView.alpha = 0
-            self.bigColorContainerView.alpha = 0
-        } completion: { _ in
-            if !self.animationShouldStop {
-                self.containerViewAppearAnimate()
-            }
-        }
     }
     
     func showGetDataAlert(color: String) {
