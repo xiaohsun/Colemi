@@ -12,9 +12,6 @@ import Combine
 class PostDetailViewController: UIViewController {
     
     let viewModel = PostDetailViewModel()
-    var photoImage: UIImage?
-    var content: Content?
-    
     var headerView = DetailTableViewHeaderView()
     
     var commentTextViewTrailing: NSLayoutConstraint?
@@ -208,10 +205,7 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        viewModel.decodeContent { [weak self] content in
-            guard let self = self else { return }
-            self.content = content
-        }
+        viewModel.decodeContent()
         
         viewModel.getPostData { [weak self] _ in
             guard let self = self else { return }
@@ -240,7 +234,7 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let content = content else { return UITableViewCell() }
+        guard let content = viewModel.content else { return UITableViewCell() }
         
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AuthorInfoAndTitleCell.reuseIdentifier, for: indexPath) as? AuthorInfoAndTitleCell else { return UITableViewCell() }

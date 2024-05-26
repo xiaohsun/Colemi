@@ -28,8 +28,9 @@ class PostDetailViewModel {
     var contentJSONString = ""
     var postID = ""
     var imageUrl = ""
+    var content: Content?
     
-    func decodeContent(completion: @escaping (Content) -> Void) {
+    func decodeContent() {
         let cleanedString = contentJSONString.replacingOccurrences(of: "\\", with: "")
         
         guard let jsonData = cleanedString.data(using: .utf8) else {
@@ -39,7 +40,7 @@ class PostDetailViewModel {
         
         do {
             let decodedData = try JSONDecoder().decode(Content.self, from: jsonData)
-            completion(decodedData)
+            self.content = decodedData
         } catch {
             print("error: \(error.localizedDescription)")
         }

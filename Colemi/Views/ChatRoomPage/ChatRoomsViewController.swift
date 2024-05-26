@@ -25,7 +25,7 @@ class ChatRoomsViewController: UIViewController {
     
     private func setupNav() {
         navigationItem.title = "訊息"
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
     private func setupUI() {

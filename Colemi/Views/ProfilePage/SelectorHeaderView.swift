@@ -11,7 +11,6 @@ class SelectorHeaderView: UITableViewHeaderFooterView {
     static let reuseIdentifier = "\(SelectorHeaderView.self)"
     weak var delegate: SelectorHeaderViewDelegate?
     
-    // let viewModel = ProfileViewModel()
     var isShowingMyPosts = true
     
     lazy var postsButton: UIButton = {

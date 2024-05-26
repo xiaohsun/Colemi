@@ -73,7 +73,6 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         
         setupUI()
         setCtaLabel()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

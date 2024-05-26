@@ -271,8 +271,6 @@ extension InformationCell {
                 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [leftItem, rightItem])
                 
-                //group.interItemSpacing = .fixed(20)
-                
                 let section = NSCollectionLayoutSection(group: group)
                 
                 section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 20, trailing: 10)

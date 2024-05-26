@@ -78,7 +78,7 @@ class FollowViewController: UIViewController {
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         
         navigationItem.title = viewModel.userName
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18) ?? UIFont.systemFont(ofSize: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
+        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.font: ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18), NSAttributedString.Key.foregroundColor: ThemeColorProperty.darkColor.getColor()]
     }
     
     @objc private func popNav() {

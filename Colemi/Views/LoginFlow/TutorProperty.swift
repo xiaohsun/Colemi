@@ -49,7 +49,7 @@ enum TutorContentProperty: Int {
             """
             拿著您手上的顏色，
             去跟周圍的朋友混合顏色，
-            究竟能混色什麼的顏色呢？
+            究竟能混出什麼樣的顏色呢？
             真令人期待！
             """
         case .two:
