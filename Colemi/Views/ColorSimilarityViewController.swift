@@ -219,7 +219,8 @@ class ColorSimilarityViewController: UIViewController {
     
     @objc private func showSimilarityButtonTapped() {
         
-        searchColorAnimation {
+        searchColorAnimation { [weak self] in
+            guard let self else { return }
             self.searchColorAnimation {
                 
                 UIView.animate(withDuration: 0.4, delay: 0.4) {
@@ -446,7 +447,6 @@ class ColorSimilarityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        // cloudVisionManager.delegate = self
         
         if let selectedImageData = selectedImageData, let url = selectedImageURL {
             cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)

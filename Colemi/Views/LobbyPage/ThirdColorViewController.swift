@@ -44,7 +44,8 @@ class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
     
     func loadData() {
         if !loadedBefore {
-            Task.detached {
+            Task.detached { [weak self] in
+                guard let self else { return }
                 await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#025A6A" : UserManager.shared.colorSetToday[2]) {
                     DispatchQueue.main.async {
                         self.postsCollectionView.collectionViewLayout.invalidateLayout()

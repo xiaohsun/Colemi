@@ -403,7 +403,8 @@ extension InformationCell: FollowOrEditInfoCellDelegate {
     func updateFollower() {
         guard let otherUserFollowers = viewModel.otherUserFollowers else { return }
         viewModel.updateFollower { otherUserFollowers, isFollowing in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
                 self.followersNumberLabel.text = "\(otherUserFollowers.count)"
                 let indexPath = IndexPath(row: 1, section: 0)
                 let cell = self.collectionView.cellForItem(at: indexPath) as? FollowOrEditInfoCell

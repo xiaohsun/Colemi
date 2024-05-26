@@ -31,7 +31,8 @@ class ChatCell: UICollectionViewCell {
         var chatRoomID = ""
         
         Task { 
-            await viewModel.getUserData {
+            await viewModel.getUserData { [weak self] in
+                guard let self else { return }
                 DispatchQueue.main.async {
                     for chatRoom in self.viewModel.userData.chatRooms where chatRoom.receiverID == self.viewModel.otherUserData?.id {
                         isChattedBefore = true

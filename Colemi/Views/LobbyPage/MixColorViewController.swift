@@ -85,7 +85,8 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
         if userManager.mixColorToday != "" {
             colorImageView.backgroundColor = UIColor(hex: userManager.mixColorToday)
             colorImageView.image = nil
-            Task.detached {
+            Task.detached { [weak self] in
+                guard let self else { return }
                 await self.viewModel.getSpecificPosts(colorCode: self.userManager.mixColorToday) {
                     DispatchQueue.main.async {
                         self.postsCollectionView.collectionViewLayout.invalidateLayout()

@@ -93,14 +93,16 @@ class ProfileViewController: UIViewController {
         
         if !isOthersPage {
             Task {
-                await viewModel.getUserData {
+                await viewModel.getUserData { [weak self] in
+                    guard let self else { return }
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
                 }
             }
         } else {
-            viewModel.otherUserData.sink(receiveValue: { _ in
+            viewModel.otherUserData.sink(receiveValue: { [weak self] _ in
+                guard let self else { return }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -168,12 +170,14 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
             
             if !isOthersPage {
                 
-                Task {
-                    await viewModel.getMyPosts(postIDs: userData.posts) {
+                Task { 
+                    await viewModel.getMyPosts(postIDs: userData.posts) { [weak self] in
+                        guard let self else { return }
                         self.postsAndSavesCell.updatePostsCollectionViewLayout()
                     }
                     
-                    await viewModel.getMySaves(savesIDs: userData.savedPosts) {
+                    await viewModel.getMySaves(savesIDs: userData.savedPosts) { [weak self] in
+                        guard let self else { return }
                         self.postsAndSavesCell.updateSavesCollectionViewLayout()
                     }
                 }
@@ -185,11 +189,13 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 Task {
-                    await viewModel.getMyPosts(postIDs: otherUserData.posts) {
+                    await viewModel.getMyPosts(postIDs: otherUserData.posts) { [weak self] in
+                        guard let self else { return }
                         self.postsAndSavesCell.updatePostsCollectionViewLayout()
                     }
                     
-                    await viewModel.getMySaves(savesIDs: otherUserData.savedPosts) {
+                    await viewModel.getMySaves(savesIDs: otherUserData.savedPosts) { [weak self] in
+                        guard let self else { return }
                         self.postsAndSavesCell.updateSavesCollectionViewLayout()
                     }
                 }

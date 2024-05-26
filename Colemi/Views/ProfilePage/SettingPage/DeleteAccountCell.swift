@@ -31,7 +31,7 @@ class DeleteAccountCell: UITableViewCell {
         let alert1 = UIAlertController(title: "刪除帳號", message: "你確定要刪除帳號嗎？所有的資料將會消失唷！", preferredStyle: .alert)
         
         alert1.addAction(UIAlertAction(title: "確定", style: .default, handler: { _ in
-            Task {
+            Task { 
                 await self.authenticationViewModel.deleteAccount { title, content, isSuccess in
                     let alert2 = UIAlertController(title: title, message: content, preferredStyle: .alert)
                     alert2.addAction(UIAlertAction(title: "好的", style: .default, handler: { _ in

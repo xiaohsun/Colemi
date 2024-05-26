@@ -223,10 +223,6 @@ class SignInViewController: UIViewController {
         return button
     }()
     
-//    private func chooseAppleButtonStyle() -> ASAuthorizationAppleIDButton.Style {
-//        return (UITraitCollection.current.userInterfaceStyle == .light) ? .black : .white
-//    }
-    
     fileprivate var currentNonce: String?
     
     @objc private func signInWithApple() {
@@ -239,9 +235,9 @@ class SignInViewController: UIViewController {
                 self.signInWithAppleBtn.isEnabled = true
             }
             
-            // performAppleSignIn()
             Task {
-                await signInWithApple { credential in
+                await signInWithApple { [weak self] credential in
+                    guard let self else { return }
                     self.firebaseSignInWithApple(credential: credential)
                 }
             }

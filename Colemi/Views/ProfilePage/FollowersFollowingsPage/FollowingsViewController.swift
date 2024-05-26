@@ -31,7 +31,7 @@ class FollowingsViewController: UIViewController, FollowChildVCProtocol {
         guard let followings = viewModel?.followings else { return }
         Task {
             await self.viewModel?.getFollowData(userIDs: followings, getFollowers: false, completion: { [weak self] in
-                guard let self = self else { return }
+                guard let self else { return }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }

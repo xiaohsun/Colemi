@@ -45,7 +45,8 @@ class FirstColorViewController: UIViewController, TodayColorVCProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Task.detached {
+        Task.detached { [weak self] in
+            guard let self else { return }
             await self.viewModel.getSpecificPosts(colorCode: UserManager.shared.colorSetToday.isEmpty ? "#B5C0BA" : UserManager.shared.colorSetToday[0]) {
                 DispatchQueue.main.async {
                     self.postsCollectionView.collectionViewLayout.invalidateLayout()

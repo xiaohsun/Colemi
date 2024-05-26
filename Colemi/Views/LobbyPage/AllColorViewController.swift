@@ -76,7 +76,8 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
         viewModel.userManager = UserManager.shared
         
         if viewModel.userManager.blocking.isEmpty {
-            viewModel.readData {
+            viewModel.readData { [weak self] in
+                guard let self else { return }
                 DispatchQueue.main.async {
                     self.postsCollectionView.collectionViewLayout.invalidateLayout()
                     self.postsCollectionView.reloadData()
@@ -84,7 +85,8 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
             }
         } else {
             Task {
-                await viewModel.getNotInPosts {
+                await viewModel.getNotInPosts { [weak self] in
+                    guard let self else { return }
                     DispatchQueue.main.async {
                         self.postsCollectionView.collectionViewLayout.invalidateLayout()
                         self.postsCollectionView.reloadData()

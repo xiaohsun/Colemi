@@ -66,7 +66,8 @@ extension MyChatImageBubbleTableViewCell {
         
         let url = URL(string: messageData.body)
         
-        KingfisherManager.shared.retrieveImage(with: url!) { result in
+        KingfisherManager.shared.retrieveImage(with: url!) { [weak self] result in
+            guard let self else { return }
             switch result {
             case .success(let value):
                 let image = value.image

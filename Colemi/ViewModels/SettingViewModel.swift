@@ -19,8 +19,9 @@ class SettingViewModel {
         let storageRef = Storage.storage().reference().child("images/\(UUID().uuidString).jpg")
         
         storageRef.putData(imageData, metadata: nil) { (_, error) in
-            
-            storageRef.downloadURL { (downloadURL, error) in
+            storageRef.downloadURL { [weak self] (downloadURL, error) in
+                guard let self else { return }
+                
                 if let downloadURL = downloadURL {
                     print("Image uploaded to: \(downloadURL.absoluteString)")
                     self.updateUserImage(url: downloadURL.absoluteString)

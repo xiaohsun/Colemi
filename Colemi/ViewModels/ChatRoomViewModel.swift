@@ -29,7 +29,9 @@ class ChatRoomViewModel {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.chatRooms.ref
         
-            await firestoreManager.getSpecificDocumentRealtime(collection: ref, docID: chatRoomID) { (chatRoomData: DetailedChatRoom?) in
+            await firestoreManager.getSpecificDocumentRealtime(collection: ref, docID: chatRoomID) { [weak self] (chatRoomData: DetailedChatRoom?) in
+                guard let self else { return }
+                
                 DispatchQueue.main.async {
                     if let chatRoomData = chatRoomData {
                         self.messages = chatRoomData.messages
