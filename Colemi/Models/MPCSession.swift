@@ -8,7 +8,6 @@
 import Foundation
 import MultipeerConnectivity
 
-// 目前不知道是幹嘛用的
 struct MPCSessionConstants {
     static let kKeyIdentity: String = "identity"
 }

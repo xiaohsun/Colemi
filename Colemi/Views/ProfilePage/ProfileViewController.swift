@@ -6,16 +6,13 @@
 //
 
 import UIKit
-// import Combine
+import Combine
 
 class ProfileViewController: UIViewController {
     
     let viewModel = ProfileViewModel()
     var isOthersPage: Bool = false
-    
-    var othersID: String?
     var isShowingPosts: Bool = true
-    
     var isFromDetailPage: Bool = false
     
     var selectedCell: LobbyPostCell?
@@ -29,6 +26,8 @@ class ProfileViewController: UIViewController {
     let missionCell = MissionCell()
     let postsAndSavesCell = PostsAndSavesCell()
     let selectorHeaderView = SelectorHeaderView()
+    
+    var subscriptions = Set<AnyCancellable>()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -73,8 +72,8 @@ class ProfileViewController: UIViewController {
     
     @objc private func openPopUp() {
         let overLayPopUp = OverLayPopUp()
-        if let otherUserID = viewModel.otherUserData?.id,
-           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
+        if let otherUserID = viewModel.otherUserData.value?.id,
+           let otherUserBeBlocked = viewModel.otherUserData.value?.beBlocked {
             overLayPopUp.viewModel.otherUserID = otherUserID
             overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
         }
@@ -96,13 +95,19 @@ class ProfileViewController: UIViewController {
             Task {
                 await viewModel.getUserData {
                     DispatchQueue.main.async {
-                        self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .none)
+                        self.tableView.reloadData()
                     }
                 }
             }
+        } else {
+            viewModel.otherUserData.sink(receiveValue: { _ in
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }).store(in: &subscriptions)
+            viewModel.getOtherUserData()
         }
         
-        self.tableView.reloadData()
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
     }
@@ -123,7 +128,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 informationCell.update(name: userData.name, followers: userData.followers, following: userData.following, isOthersPage: isOthersPage, avatarUrl: userData.avatarPhoto)
                 
             } else {
-                guard let otherUserData = viewModel.otherUserData else {
+                guard let otherUserData = viewModel.otherUserData.value else {
                     print("Error get otherUserData.")
                     return informationCell
                 }
@@ -139,7 +144,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         case 1:
             
             if isOthersPage {
-                guard let otherUserData = viewModel.otherUserData else {
+                guard let otherUserData = viewModel.otherUserData.value else {
                     print("Error get otherUserData.")
                     return missionCell
                 }
@@ -159,7 +164,6 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         default:
 
             postsAndSavesCell.update(viewModel: viewModel)
-            // postsAndSavesCell.countContentSize(viewWidth: view.frame.width)
             postsAndSavesCell.delegate = self
             
             if !isOthersPage {
@@ -175,7 +179,7 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
             } else {
-                guard let otherUserData = viewModel.otherUserData else {
+                guard let otherUserData = viewModel.otherUserData.value else {
                     print("Error get otherUserData.")
                     return postsAndSavesCell
                 }
@@ -246,9 +250,11 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
     }
     
     func reloadTableView() {
-        tableView.beginUpdates()
-        tableView.layoutIfNeeded()
-        tableView.endUpdates()
+        UIView.performWithoutAnimation {
+            tableView.beginUpdates()
+            tableView.layoutIfNeeded()
+            tableView.endUpdates()
+        }
     }
     
     func presentDetailPage(index: Int, isMyPosts: Bool, selectedCell: LobbyPostCell, collectionView: UICollectionView, selectedImageView: UIImageView) {
@@ -313,7 +319,7 @@ extension ProfileViewController: InformationCellDelegate {
     }
     
     func pushToChatRoom(chatRoomID: String, avatarImage: UIImage) {
-        guard let otherUserData = viewModel.otherUserData else { return }
+        guard let otherUserData = viewModel.otherUserData.value else { return }
         
         let chatRoomViewController = ChatRoomViewController()
         chatRoomViewController.viewModel.chatRoomID = chatRoomID
@@ -326,7 +332,7 @@ extension ProfileViewController: InformationCellDelegate {
     func pushToFollowVC(isFollowersTapped: Bool) {
         let followViewController = FollowViewController()
         if isOthersPage {
-            guard let otherUserData = viewModel.otherUserData else { return }
+            guard let otherUserData = viewModel.otherUserData.value else { return }
             followViewController.viewModel.userName = otherUserData.name
             followViewController.viewModel.followers = otherUserData.followers
             followViewController.viewModel.followings = otherUserData.following

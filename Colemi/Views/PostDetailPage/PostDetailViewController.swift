@@ -206,15 +206,13 @@ class PostDetailViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         viewModel.decodeContent()
-        
-        viewModel.getPostData { [weak self] _ in
-            guard let self = self else { return }
-            self.viewModel.getAuthorData { _ in
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
+        viewModel.getPostData()
+        viewModel.authorName.sink { _ in
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
-        }
+        }.store(in: &subscriptions)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -325,18 +323,14 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
         
         if viewModel.authorID == userData.id {
             profileViewController.setupNavBar()
+            
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
-            
             profileViewController.isOthersPage = true
             profileViewController.setupNavBar()
+            profileViewController.viewModel.userID = viewModel.authorID
             
-            viewModel.getAuthorData(completion: { userData in
-                DispatchQueue.main.async {
-                    profileViewController.viewModel.otherUserData = userData
-                    self.navigationController?.pushViewController(profileViewController, animated: true)
-                }
-            })
+            navigationController?.pushViewController(profileViewController, animated: true)
         }
     }
     

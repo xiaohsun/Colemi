@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import Combine
 
 class PostDetailViewModel {
     
@@ -21,9 +22,11 @@ class PostDetailViewModel {
     var comments: [Comment] = []
     let userData = UserManager.shared
     let firestoreManager = FirestoreManager.shared
-    var authorName: String = ""
+    // var authorName: String = ""
     var authorData: User?
     var authorID = ""
+    let authorName = CurrentValueSubject<String, Never>("")
+    
     var tag = ""
     var contentJSONString = ""
     var postID = ""
@@ -70,7 +73,7 @@ class PostDetailViewModel {
         firestoreManager.updateDocument(data: [PostProperty.comments.rawValue: comments], collection: ref, docID: post.id)
     }
     
-    func getPostData(completion: ((Post) -> Void)? = nil ) {
+    func getPostData() {
         let ref = FirestoreEndpoint.posts.ref
         guard let post = post else { return }
         
@@ -79,12 +82,12 @@ class PostDetailViewModel {
             
             if let postData = postData {
                 self.post = postData
-                completion?(postData)
+                self.getAuthorData()
             }
         }
     }
     
-    func getAuthorData(completion: ((User) -> Void)? = nil ) {
+    private func getAuthorData() {
         let ref = FirestoreEndpoint.users.ref
         guard let post = post else { return }
         
@@ -93,8 +96,7 @@ class PostDetailViewModel {
             
             if let userData = userData {
                 self.authorData = userData
-                self.authorName = userData.name
-                completion?(userData)
+                self.authorName.value = userData.name
             }
         }
     }
