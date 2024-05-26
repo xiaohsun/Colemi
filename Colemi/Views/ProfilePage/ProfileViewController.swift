@@ -259,16 +259,16 @@ extension ProfileViewController: PostsAndSavesCellDelegate {
         
         if isMyPosts {
             postDetailViewController.viewModel.post = viewModel.posts[index]
-            postDetailViewController.contentJSONString = viewModel.contentJSONString[index]
-            postDetailViewController.imageUrl = viewModel.posts[index].imageUrl
-            postDetailViewController.postID = viewModel.posts[index].id
+            postDetailViewController.viewModel.contentJSONString = viewModel.contentJSONString[index]
+            postDetailViewController.viewModel.imageUrl = viewModel.posts[index].imageUrl
+            postDetailViewController.viewModel.postID = viewModel.posts[index].id
             postDetailViewController.viewModel.authorID = viewModel.posts[index].authorId
             
         } else {
             postDetailViewController.viewModel.post = viewModel.saves[index]
-            postDetailViewController.contentJSONString = viewModel.savesContentJSONString[index]
-            postDetailViewController.imageUrl = viewModel.saves[index].imageUrl
-            postDetailViewController.postID = viewModel.saves[index].id
+            postDetailViewController.viewModel.contentJSONString = viewModel.savesContentJSONString[index]
+            postDetailViewController.viewModel.imageUrl = viewModel.saves[index].imageUrl
+            postDetailViewController.viewModel.postID = viewModel.saves[index].id
             postDetailViewController.viewModel.authorID = viewModel.saves[index].authorId
         }
         

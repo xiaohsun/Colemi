@@ -99,10 +99,10 @@ extension SecondColorViewController: UICollectionViewDataSource, UICollectionVie
             let postDetailViewController = PostDetailViewController()
             postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
             
-            postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-            postDetailViewController.postID = viewModel.posts[indexPath.item].id
+            postDetailViewController.viewModel.contentJSONString = viewModel.contentJSONString[indexPath.item]
+            postDetailViewController.viewModel.postID = viewModel.posts[indexPath.item].id
             postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
-            postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
+            postDetailViewController.viewModel.imageUrl = viewModel.posts[indexPath.item].imageUrl
             
             let navController = UINavigationController(rootViewController: postDetailViewController)
             

@@ -79,16 +79,9 @@ class MixColorViewController: UIViewController, AllAndMixVCProtocol {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        viewModel.readData {
-//            DispatchQueue.main.async {
-//                self.postsCollectionView.collectionViewLayout.invalidateLayout()
-//                self.postsCollectionView.reloadData()
-//            }
-//        }
         if viewModel.userManager.mixColorToday != "" {
             ctaLabel.isHidden = true
         }
-        
         
         if userManager.mixColorToday != "" {
             colorImageView.backgroundColor = UIColor(hex: userManager.mixColorToday)
@@ -135,7 +128,6 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(viewModel.posts[indexPath.item].imageUrl)
         
         if Auth.auth().currentUser == nil {
             CustomFunc.needLoginAlert(title: "需要登入", message: "登入才能使用此功能唷", vc: self, actionHandler: nil )
@@ -149,10 +141,10 @@ extension MixColorViewController: UICollectionViewDataSource, UICollectionViewDe
         
         let postDetailViewController = PostDetailViewController()
         postDetailViewController.viewModel.post = viewModel.posts[indexPath.item]
-        postDetailViewController.contentJSONString = viewModel.contentJSONString[indexPath.item]
-        postDetailViewController.postID = viewModel.posts[indexPath.item].id
+        postDetailViewController.viewModel.contentJSONString = viewModel.contentJSONString[indexPath.item]
+            postDetailViewController.viewModel.postID = viewModel.posts[indexPath.item].id
         postDetailViewController.viewModel.authorID = viewModel.posts[indexPath.item].authorId
-        postDetailViewController.imageUrl = viewModel.posts[indexPath.item].imageUrl
+            postDetailViewController.viewModel.imageUrl = viewModel.posts[indexPath.item].imageUrl
         
         let navController = UINavigationController(rootViewController: postDetailViewController)
         

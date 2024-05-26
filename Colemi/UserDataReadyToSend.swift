@@ -9,7 +9,6 @@ import UIKit
 
 class UserDataReadyToSend: Codable, Identifiable {
     var id = UUID()
-    // let name: String
     var color: String
     
     init(color: String) {

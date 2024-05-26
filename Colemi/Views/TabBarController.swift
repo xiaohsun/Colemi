@@ -30,9 +30,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                 UserManager.shared.colorToday = UserManager.shared.mixColorToday
             }
         }
-        
-        // tabBar.barTintColor = UIColor(hex: "#414141")
-        // tabBar.tintColor = UIColor(hex: "#F9F4E8")
+
         self.delegate = self
     }
     
@@ -49,9 +47,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         paletteViewController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
         let writePostContentViewController = WritePostContentViewController()
-        // let writePostContentNavController = UINavigationController(rootViewController: writePostContentViewController)
-        // writePostContentNavController.tabBarItem.image = UIImage.postIcon
-        // writePostContentNavController.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: -10, right: 0)
         
         let chatRoomsViewController = ChatRoomsViewController()
         let chatRoomsNavController = UINavigationController(rootViewController: chatRoomsViewController)

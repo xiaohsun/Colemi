@@ -32,7 +32,6 @@ class LobbyViewController: UIViewController {
     
     func createButton() -> UIButton {
         let button = UIButton()
-        button.setTitle("今日混色", for: .normal)
         button.titleLabel?.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 18)
         button.setTitleColor(ThemeColorProperty.darkColor.getColor(), for: .selected)
         button.setTitleColor(.lightGray, for: .normal)
@@ -182,7 +181,6 @@ extension LobbyViewController: UIScrollViewDelegate {
             
             if currentIndex != currentPage {
                 currentIndex = currentPage
-                print("Switched to child view controller at index \(currentIndex)")
             }
         }
     }

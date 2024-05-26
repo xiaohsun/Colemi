@@ -11,11 +11,8 @@ import FirebaseFirestore
 class PostDetailViewController: UIViewController {
     
     let viewModel = PostDetailViewModel()
-    var contentJSONString = ""
     var photoImage: UIImage?
     var content: Content?
-    var postID = ""
-    var imageUrl = ""
     
     var headerView = DetailTableViewHeaderView()
     
@@ -132,26 +129,21 @@ class PostDetailViewController: UIViewController {
         let userData = viewModel.userData
         starTappedAnimation()
         
-        if userData.savedPosts.contains(postID) {
-            userData.savedPosts.removeAll { $0 == postID }
+        if userData.savedPosts.contains(viewModel.postID) {
             starImageView.image = UIImage(systemName: "star")
-            Task {
-                await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
-            }
-            
         } else {
-            userData.savedPosts.append(postID)
             starImageView.image = UIImage(systemName: "star.fill")
-            Task {
-                await viewModel.updateSavedPosts(savedPostsArray: userData.savedPosts, postID: postID, docID: userData.id)
-            }
+        }
+        
+        Task {
+            await viewModel.updateSavedPosts(docID: userData.id)
         }
     }
     
     private func setUpStarImageView() {
         let userData = viewModel.userData
         
-        if userData.savedPosts.contains(postID) {
+        if userData.savedPosts.contains(viewModel.postID) {
             starImageView.image = UIImage(systemName: "star.fill")
         } else {
             starImageView.image = UIImage(systemName: "star")
@@ -211,7 +203,7 @@ class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        viewModel.decodeContent(jsonString: contentJSONString) { [weak self] content in
+        viewModel.decodeContent { [weak self] content in
             guard let self = self else { return }
             self.content = content
         }
@@ -304,16 +296,9 @@ extension PostDetailViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
-            //            guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: DetailTableViewHeaderView.reuseIdentifier) as? DetailTableViewHeaderView else { return nil }
-            // if let photoImage = photoImage {
-            // self.headerView = headerView
-            let url = URL(string: imageUrl)
+            let url = URL(string: viewModel.imageUrl)
             headerView.photoImageView.kf.setImage(with: url)
-            // }
-            // headerView.photoImageView.image?.size.height
-            
             headerView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
-            
             
             return headerView
         } else {
@@ -359,11 +344,6 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
     func showReportPopUp() {
         let overLayPopUp = OverLayPopUp()
         overLayPopUp.fromDetailPage = true
-        //        if let otherUserID = authorID,
-        //           let otherUserBeBlocked = viewModel.otherUserData?.beBlocked {
-        //            overLayPopUp.viewModel.otherUserID = otherUserID
-        //            overLayPopUp.viewModel.otherUserbeBlocked = otherUserBeBlocked
-        //        }
         overLayPopUp.appear(sender: self)
     }
 }
@@ -414,9 +394,7 @@ extension PostDetailViewController {
         } else if gesture.state == .changed {
             let translation = gesture.translation(in: self.view)
             let transform = CGAffineTransform(translationX: translation.x, y: translation.y)
-            // headerView?.photoImageView.transform = transform
             view.transform = transform
-            // self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             
             
         } else if gesture.state == .ended {
@@ -426,10 +404,7 @@ extension PostDetailViewController {
                 dismiss(animated: true)
             } else {
                 UIView.animate(withDuration: 0.4) {
-                    // self.headerView?.photoImageView.transform = .identity
                     self.view.transform = .identity
-                    // startPoint = CGAffineTransform(translationX: 0, y: self.view.safeAreaLayoutGuide.layoutFrame.origin.y)
-                    // self.view.transform = startPoint
                 }
             }
         }

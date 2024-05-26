@@ -30,32 +30,17 @@ class TodayColorViewController: UIViewController {
         return view
     }()
     
-    lazy var buttonOne: UIButton = {
-        let button = UIButton()
-        // button.backgroundColor = UIColor(hex: "#B5C0BA")
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
-        return button
-    }()
+    lazy var buttonOne = createButton()
+    lazy var buttonTwo = createButton()
+    lazy var buttonThree = createButton()
     
-    lazy var buttonTwo: UIButton = {
+    func createButton() -> UIButton {
         let button = UIButton()
-        // button.backgroundColor = UIColor(hex: "#8BAEAA")
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
         return button
-    }()
-    
-    lazy var buttonThree: UIButton = {
-        let button = UIButton()
-        // button.backgroundColor = UIColor(hex: "#025A6A")
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
-        return button
-    }()
+    }
     
     @objc private func buttonTapped(_ sender: UIButton) {
         switch sender {

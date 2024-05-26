@@ -25,9 +25,12 @@ class PostDetailViewModel {
     var authorData: User?
     var authorID = ""
     var tag = ""
+    var contentJSONString = ""
+    var postID = ""
+    var imageUrl = ""
     
-    func decodeContent(jsonString: String, completion: @escaping (Content) -> Void) {
-        let cleanedString = jsonString.replacingOccurrences(of: "\\", with: "")
+    func decodeContent(completion: @escaping (Content) -> Void) {
+        let cleanedString = contentJSONString.replacingOccurrences(of: "\\", with: "")
         
         guard let jsonData = cleanedString.data(using: .utf8) else {
             print("Can't transform String to jsonData")
@@ -42,11 +45,17 @@ class PostDetailViewModel {
         }
     }
     
-    func updateSavedPosts(savedPostsArray: [String], postID: String, docID: String) async {
+    func updateSavedPosts(docID: String) async {
         let firestoreManager = FirestoreManager.shared
         let ref = FirestoreEndpoint.users.ref
         
-        firestoreManager.updateDocument(data: [UserProperty.savedPosts.rawValue: savedPostsArray], collection: ref, docID: docID)
+        if userData.savedPosts.contains(postID) {
+            userData.savedPosts.removeAll { $0 == postID }
+        } else {
+            userData.savedPosts.append(postID)
+        }
+        
+        firestoreManager.updateDocument(data: [UserProperty.savedPosts.rawValue: userData.savedPosts], collection: ref, docID: docID)
     }
     
     func updateComments(commentText: String) {
