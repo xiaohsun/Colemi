@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import Combine
 
 class PostDetailViewController: UIViewController {
     
@@ -24,6 +25,8 @@ class PostDetailViewController: UIViewController {
     
     var xPosition: CGFloat = 0
     var yPosition: CGFloat = 0
+    
+    var subscriptions = Set<AnyCancellable>()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .grouped)
@@ -140,7 +143,7 @@ class PostDetailViewController: UIViewController {
         }
     }
     
-    private func setUpStarImageView() {
+    private func setupStarImageView() {
         let userData = viewModel.userData
         
         if userData.savedPosts.contains(viewModel.postID) {
@@ -150,7 +153,7 @@ class PostDetailViewController: UIViewController {
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(commentTextView)
@@ -158,7 +161,7 @@ class PostDetailViewController: UIViewController {
         view.addSubview(sendButton)
         view.addSubview(backImageView)
         view.layer.cornerRadius = 30
-        setUpStarImageView()
+        setupStarImageView()
         commentTextViewInit()
         
         commentTextViewTrailing = commentTextView.trailingAnchor.constraint(equalTo: starImageView.leadingAnchor, constant: -10)
@@ -200,9 +203,11 @@ class PostDetailViewController: UIViewController {
         ])
     }
     
+    // MARK: - Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         viewModel.decodeContent { [weak self] content in
             guard let self = self else { return }
             self.content = content
@@ -325,12 +330,12 @@ extension PostDetailViewController: AuthorInfoAndTitleCellDelegate {
         profileViewController.isFromDetailPage = true
         
         if viewModel.authorID == userData.id {
-            profileViewController.setUpNavBar()
+            profileViewController.setupNavBar()
             navigationController?.pushViewController(profileViewController, animated: true)
         } else {
             
             profileViewController.isOthersPage = true
-            profileViewController.setUpNavBar()
+            profileViewController.setupNavBar()
             
             viewModel.getAuthorData(completion: { userData in
                 DispatchQueue.main.async {

@@ -263,7 +263,7 @@ class PaletteViewController: UIViewController {
 //        }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = UIColor(hex: "#3c3c3c")
         
         // view.addSubview(distanceLabel)
@@ -341,7 +341,7 @@ class PaletteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         
         if userManager.mixColorToday == "" {
             userDataReadyToSend.color = userManager.colorToday

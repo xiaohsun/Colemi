@@ -18,7 +18,7 @@ class DetailTableViewHeaderView: UITableViewHeaderFooterView {
         return imageView
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(photoImageView)
         
         NSLayoutConstraint.activate([
@@ -31,7 +31,7 @@ class DetailTableViewHeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {

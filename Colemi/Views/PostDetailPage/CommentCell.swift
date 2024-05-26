@@ -42,7 +42,7 @@ class CommentCell: UITableViewCell {
         return label
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(authorImageView)
         contentView.addSubview(authorNameLabel)
         contentView.addSubview(commentLabel)
@@ -70,7 +70,7 @@ class CommentCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

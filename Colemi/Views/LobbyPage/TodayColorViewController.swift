@@ -96,7 +96,7 @@ class TodayColorViewController: UIViewController {
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         
         view.addSubview(scrollView)
         view.addSubview(buttonOne)
@@ -141,7 +141,7 @@ class TodayColorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
+        setupUI()
         addChildVCs()
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)

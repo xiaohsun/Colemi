@@ -27,7 +27,7 @@ class EULACell: UITableViewCell {
         delegate?.presentEULAPopUp()
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         contentView.addSubview(button)
         contentView.backgroundColor = ThemeColorProperty.darkColor.getColor()
         
@@ -41,7 +41,7 @@ class EULACell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

@@ -18,11 +18,11 @@ protocol TodayColorVCProtocol: UIViewController {
     
     var postsCollectionView: UICollectionView { get }
     
-    func setUpUI()
+    func setupUI()
 }
 
 extension TodayColorVCProtocol {
-    func setUpUI() {
+    func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         view.addSubview(postsCollectionView)

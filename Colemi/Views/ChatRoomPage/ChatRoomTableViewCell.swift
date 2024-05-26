@@ -44,7 +44,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         return label
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         self.selectionStyle = .none
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(avatarImageView)
@@ -71,7 +71,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        setupUI()
     }
     
     override func draw(_ rect: CGRect) {

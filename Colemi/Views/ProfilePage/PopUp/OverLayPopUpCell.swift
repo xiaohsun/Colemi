@@ -30,7 +30,7 @@ class OverLayPopUpCell: UITableViewCell {
         return label
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(iconImageView)
         contentView.addSubview(label)
         
@@ -49,7 +49,7 @@ class OverLayPopUpCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

@@ -21,11 +21,11 @@ protocol AllAndMixVCProtocol: UIViewController {
     var colorImageView: UIImageView { get }
     var postsCollectionView: UICollectionView { get }
     
-    func setUpUI()
+    func setupUI()
 }
 
 extension AllAndMixVCProtocol {
-    func setUpUI() {
+    func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(colorImageView)
         view.addSubview(postsCollectionView)

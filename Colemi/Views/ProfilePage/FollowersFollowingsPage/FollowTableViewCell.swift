@@ -31,7 +31,7 @@ class FollowTableViewCell: UITableViewCell {
         return label
     }()
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(avatarImageView)
         contentView.addSubview(label)
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
@@ -51,7 +51,7 @@ class FollowTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

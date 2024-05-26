@@ -93,7 +93,7 @@ class SignInViewController: UIViewController {
         return view
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.addSubview(squareBlueView)
         view.addSubview(squareGreenView)
         
@@ -170,7 +170,7 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        setUpUI()
+        setupUI()
     }
     
     override func viewDidLayoutSubviews() {

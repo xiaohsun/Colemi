@@ -186,7 +186,7 @@ class ChooseColorViewController: UIViewController {
         UIView.animate(withDuration: 0.4) {
             self.tapScreenLabel.alpha = 0
         }
-        setUpSunnyInitPosition()
+        setupSunnyInitPosition()
         sunnyAnimation()
         userData.colorSetToday = colorModel.sunnyColorsHex
     }
@@ -198,7 +198,7 @@ class ChooseColorViewController: UIViewController {
         UIView.animate(withDuration: 0.4) {
             self.tapScreenLabel.alpha = 0
         }
-        setUpRainInitPosition()
+        setupRainInitPosition()
         rainAnimation()
         userData.colorSetToday = colorModel.rainColorsHex
     }
@@ -246,7 +246,7 @@ class ChooseColorViewController: UIViewController {
     lazy var raindropImageView2 = createRaindropImageView()
     lazy var raindropImageView3 = createRaindropImageView()
     
-    private func setUpUI() {
+    private func setupUI() {
         
         view.backgroundColor = UIColor(hex: "#333333")
         
@@ -334,7 +334,7 @@ class ChooseColorViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        setUpUI()
+        setupUI()
     }
     
     override func viewDidLayoutSubviews() {
@@ -439,7 +439,7 @@ extension ChooseColorViewController: ChooseColorViewModelDelegate {
 
 extension ChooseColorViewController {
     // 晴天最初的位置
-    private func setUpSunnyInitPosition() {
+    private func setupSunnyInitPosition() {
         view.addSubview(auraImageView)
         
         NSLayoutConstraint.activate([
@@ -451,7 +451,7 @@ extension ChooseColorViewController {
     }
     
     // 下雨天最初的位置
-    private func setUpRainInitPosition() {
+    private func setupRainInitPosition() {
         raindropView1TopCons = raindropImageView1.topAnchor.constraint(equalTo: colorView1.bottomAnchor, constant: -100)
         raindropView2TopCons = raindropImageView2.topAnchor.constraint(equalTo: colorView2.bottomAnchor, constant: -90)
         raindropView3TopCons = raindropImageView3.topAnchor.constraint(equalTo: colorView3.bottomAnchor, constant: -100)

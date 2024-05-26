@@ -73,7 +73,7 @@ class FollowViewController: UIViewController {
         }
     }
     
-    func setUpNavBar() {
+    func setupNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         
@@ -85,7 +85,7 @@ class FollowViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(scrollView)
         view.addSubview(buttonOne)
@@ -130,12 +130,12 @@ class FollowViewController: UIViewController {
     }()
     
     override func viewWillAppear(_ animated: Bool) {
-        setUpNavBar()
+        setupNavBar()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         addChildVCs()
         
         scrollView.contentSize = CGSize(width: scrollView.bounds.width * CGFloat(children.count), height: scrollView.bounds.height)

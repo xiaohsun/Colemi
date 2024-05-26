@@ -122,7 +122,7 @@ class PickPhotoViewController: UIViewController {
         updateSpanshot()
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         
         view.addSubview(missionColorLabel)
@@ -159,7 +159,7 @@ class PickPhotoViewController: UIViewController {
         
         photosCollectionView.delegate = self
         
-        setUpUI()
+        setupUI()
         fetchPhotosFromUser {
             self.enumeratePHFetchResult(index: self.nowPhotoCount) {
                 DispatchQueue.main.async {

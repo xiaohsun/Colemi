@@ -184,7 +184,7 @@ class ChatRoomViewController: UIViewController {
         dismissPictureView()
     }
     
-    private func setUpNavigationBar() {
+    private func setupNavigationBar() {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barTintColor = ThemeColorProperty.lightColor.getColor()
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
@@ -208,7 +208,7 @@ class ChatRoomViewController: UIViewController {
         navigationController?.present(imageDetailViewController, animated: true)
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
         view.addSubview(tableView)
         view.addSubview(containerView)
@@ -220,7 +220,7 @@ class ChatRoomViewController: UIViewController {
         containerView.addSubview(sendPicLabel)
         
         tabBarController?.tabBar.isHidden = true
-        setUpNavigationBar()
+        setupNavigationBar()
         chatTextViewInit()
         
         chatTextViewHeightCons = chatTextView.heightAnchor.constraint(equalToConstant: textViewInitHeight)
@@ -272,7 +272,7 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         viewModel.delegate = self
         viewModel.getDetailedChatRoomDataRealTime(chatRoomID: viewModel.chatRoomID)
     }

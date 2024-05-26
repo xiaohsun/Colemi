@@ -23,7 +23,7 @@ class FollowingsViewController: UIViewController, FollowChildVCProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         getFollowingsData()
     }
     

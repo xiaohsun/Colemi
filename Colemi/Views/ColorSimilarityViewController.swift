@@ -324,7 +324,7 @@ class ColorSimilarityViewController: UIViewController {
         }
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         let colorViewOne = createColorView()
         let colorViewTwo = createColorView()
         let colorViewThree = createColorView()
@@ -442,7 +442,7 @@ class ColorSimilarityViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         cloudVisionManager.delegate = self
         if let selectedImageData = selectedImageData, let url = selectedImageURL {
             cloudVisionManager.analyzeImageWithVisionAPI(imageData: selectedImageData, url: url)

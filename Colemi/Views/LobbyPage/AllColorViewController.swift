@@ -68,7 +68,7 @@ class AllColorViewController: UIViewController, AllAndMixVCProtocol {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        setUpUI()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {

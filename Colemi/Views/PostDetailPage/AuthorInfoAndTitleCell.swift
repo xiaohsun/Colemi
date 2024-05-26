@@ -68,7 +68,7 @@ class AuthorInfoAndTitleCell: UITableViewCell {
         delegate?.showReportPopUp()
     }
     
-    func setUpUI() {
+    func setupUI() {
         contentView.addSubview(authorImageView)
         contentView.addSubview(authorNameLabel)
         contentView.addSubview(titleLabel)
@@ -97,7 +97,7 @@ class AuthorInfoAndTitleCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        setUpUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {

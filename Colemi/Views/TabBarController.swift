@@ -17,7 +17,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpTabs()
+        setupTabs()
         setButton()
         
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
@@ -34,7 +34,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         self.delegate = self
     }
     
-    private func setUpTabs() {
+    private func setupTabs() {
         
         let lobbyViewController = LobbyViewController()
         self.lobbyViewController = lobbyViewController

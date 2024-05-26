@@ -95,7 +95,7 @@ class PreLoginInViewController: UIViewController {
         })
     }
     
-    private func setUpUI() {
+    private func setupUI() {
         view.addSubview(containerView)
         view.addSubview(colorImageView)
         containerView.addSubview(withLabel)
@@ -146,7 +146,7 @@ class PreLoginInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ThemeColorProperty.lightColor.getColor()
-        setUpUI()
+        setupUI()
     }
     
     override func viewDidLayoutSubviews() {

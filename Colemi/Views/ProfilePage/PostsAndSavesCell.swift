@@ -53,7 +53,7 @@ class PostsAndSavesCell: UITableViewCell {
         return collectionView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         contentView.addSubview(scrollView)
         scrollView.addSubview(postsCollectionView)
         scrollView.addSubview(savesCollectionView)
@@ -83,7 +83,7 @@ class PostsAndSavesCell: UITableViewCell {
         savesCollectionView.delegate = self
         savesCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        setUpUI()
+        setupUI()
     }
     
     override func draw(_ rect: CGRect) {

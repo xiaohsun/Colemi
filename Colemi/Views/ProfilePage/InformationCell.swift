@@ -126,7 +126,7 @@ class InformationCell: UITableViewCell {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Int>?
     
-    func setUpUI() {
+    func setupUI() {
         contentView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         collectionView.backgroundColor = ThemeColorProperty.lightColor.getColor()
         contentView.addSubview(nameLabel)
@@ -172,7 +172,7 @@ class InformationCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        setUpUI()
+        setupUI()
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: TextViewCell.reuseIdentifier)
         collectionView.register(FollowOrEditInfoCell.self, forCellWithReuseIdentifier: FollowOrEditInfoCell.reuseIdentifier)
         collectionView.register(ChatCell.self, forCellWithReuseIdentifier: ChatCell.reuseIdentifier)

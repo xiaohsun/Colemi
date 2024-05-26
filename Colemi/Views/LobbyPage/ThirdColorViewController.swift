@@ -39,7 +39,7 @@ class ThirdColorViewController: UIViewController, TodayColorVCProtocol {
         postsCollectionView.delegate = self
         postsCollectionView.register(LobbyPostCell.self, forCellWithReuseIdentifier: LobbyPostCell.reuseIdentifier)
         
-        setUpUI()
+        setupUI()
     }
     
     func loadData() {

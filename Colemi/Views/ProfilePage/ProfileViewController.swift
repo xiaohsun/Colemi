@@ -46,7 +46,7 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private func setUpUI() {
+    private func setupUI() {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -57,7 +57,7 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    func setUpNavBar() {
+    func setupNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(popNav))
         navigationItem.leftBarButtonItem?.tintColor = ThemeColorProperty.darkColor.getColor()
         
@@ -83,7 +83,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        setupUI()
         
         popAnimator = ProfileVCPopAnimator(fromVC: self, isFromDetailPage: isFromDetailPage)
         dismissAnimator = ProfileVCDismissAnimator(toVC: self)
