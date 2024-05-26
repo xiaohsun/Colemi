@@ -607,6 +607,7 @@
 			children = (
 				2844CDC82BD65AB10086F67A /* ThemeColorProperty.swift */,
 				289D72A62BDD4FCB00051D07 /* ThemeFontProperty.swift */,
+				286106282BFAFCC3005614AD /* CustomFunc.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -653,7 +654,6 @@
 				28D24DCA2BC6C24200B7E114 /* AppDelegate.swift */,
 				28D24DCC2BC6C24200B7E114 /* SceneDelegate.swift */,
 				284F32C72BC98F8B00A61E88 /* UserManager.swift */,
-				286106282BFAFCC3005614AD /* CustomFunc.swift */,
 				28A419A62C036C480022CFAF /* Helpers */,
 				289D72992BDD4BDC00051D07 /* Fonts */,
 				2840D89F2BDB71F300A6B3DC /* Animations */,
