@@ -266,64 +266,7 @@ class SignInViewController: UIViewController {
             print(error)
         }
     }
-    
-//    func performAppleSignIn() {
-//        
-//        let nonce = randomNonceString()
-//        currentNonce = nonce
-//        let appleIDProvider = ASAuthorizationAppleIDProvider()
-//        
-//        let request = appleIDProvider.createRequest()
-//        request.requestedScopes = [.fullName, .email]
-//        request.nonce = sha256(nonce)
-//        
-//        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-//        authorizationController.delegate = self
-//        authorizationController.presentationContextProvider = self
-//        authorizationController.performRequests()
-//    }
 }
-
-//extension SignInViewController: ASAuthorizationControllerDelegate {
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-//        
-//        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-//            guard let nonce = currentNonce else {
-//                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-//            }
-//            guard let appleIDToken = appleIDCredential.identityToken else {
-//                CustomFunc.customAlert(title: "", message: "Unable to fetch identity token", vc: self, actionHandler: nil)
-//                return
-//            }
-//            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-//                CustomFunc.customAlert(title: "", message: "Unable to serialize token string from data\n\(appleIDToken.debugDescription)", vc: self, actionHandler: nil)
-//                return
-//            }
-//            
-//            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-//            
-//            firebaseSignInWithApple(credential: credential)
-//        }
-//    }
-//    
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-//        CustomFunc.customAlert(title: "請再試一次", message: "", vc: self, actionHandler: nil)
-////        switch error {
-////        case ASAuthorizationError.canceled:
-////            CustomFunc.customAlert(title: "使用者取消登入", message: "", vc: self, actionHandler: nil)
-////        case ASAuthorizationError.failed:
-////            CustomFunc.customAlert(title: "授權請求失敗", message: "", vc: self, actionHandler: nil)
-////        case ASAuthorizationError.invalidResponse:
-////            CustomFunc.customAlert(title: "授權請求無回應", message: "", vc: self, actionHandler: nil)
-////        case ASAuthorizationError.notHandled:
-////            CustomFunc.customAlert(title: "授權請求未處理", message: "", vc: self, actionHandler: nil)
-////        case ASAuthorizationError.unknown:
-////            CustomFunc.customAlert(title: "授權失敗，原因不知", message: "", vc: self, actionHandler: nil)
-////        default:
-////            break
-////        }
-//    }
-//}
 
 // MARK: - ASAuthorizationControllerPresentationContextProviding
 // 在畫面上顯示授權畫面

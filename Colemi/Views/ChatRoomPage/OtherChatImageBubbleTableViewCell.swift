@@ -10,8 +10,6 @@ import Kingfisher
 
 class OtherChatImageBubbleTableViewCell: UITableViewCell {
     
-    weak var delegate: OtherChatImageBubbleTableViewCellDelegate?
-    
     static let reuseIdentifier = "\(OtherChatImageBubbleTableViewCell.self)"
     
     var imageMessageViewWidthCons: NSLayoutConstraint?
@@ -111,15 +109,9 @@ extension OtherChatImageBubbleTableViewCell {
                 
                 self.contentView.layoutIfNeeded()
                 
-                self.delegate?.updateTableView2(cell: self)
-                
             case .failure(let error):
                 print("Error retrieving image: \(error)")
             }
         }
     }
-}
-
-protocol OtherChatImageBubbleTableViewCellDelegate: AnyObject {
-    func updateTableView2(cell: UITableViewCell)
 }

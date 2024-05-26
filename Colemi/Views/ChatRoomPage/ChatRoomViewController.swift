@@ -305,7 +305,6 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyChatImageBubbleTableViewCell.reuseIdentifier, for: indexPath) as? MyChatImageBubbleTableViewCell else { return UITableViewCell() }
             
             cell.update(messageData: message)
-            cell.delegate = self
             
             return cell
             
@@ -322,7 +321,6 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             else { return UITableViewCell() }
             
             cell.update(messageData: message, avatarImage: viewModel.otherUserAvatarImage ?? UIImage())
-            cell.delegate = self
             
             return cell
         }
@@ -431,37 +429,5 @@ extension ChatRoomViewController: UIViewControllerTransitioningDelegate {
         }
         
         return dismissAnimator
-    }
-}
-
-extension ChatRoomViewController: MyChatImageBubbleTableViewCellDelegate, OtherChatImageBubbleTableViewCellDelegate {
-    // 完全沒被執行到
-    func updateTableView1(cell: UITableViewCell) {
-        //        view.layoutIfNeeded()
-        //        tableView.layoutIfNeeded()
-        // UIView.performWithoutAnimation {
-        //            tableView.beginUpdates()
-        ////            if let indexPath = tableView.indexPath(for: cell) {
-        ////                tableView.reloadRows(at: [indexPath], with: .none)
-        ////            }
-        ////            view.layoutIfNeeded()
-        ////            tableView.layoutIfNeeded()
-        //            tableView.endUpdates()
-        //}
-    }
-    
-    func updateTableView2(cell: UITableViewCell) {
-        //        view.layoutIfNeeded()
-        //        tableView.layoutIfNeeded()
-        
-        //UIView.performWithoutAnimation {
-        //            tableView.beginUpdates()
-        ////            if let indexPath = tableView.indexPath(for: cell) {
-        ////                tableView.reloadRows(at: [indexPath], with: .none)
-        ////            }
-        ////            view.layoutIfNeeded()
-        ////            tableView.layoutIfNeeded()
-        //            tableView.endUpdates()
-        // }
     }
 }
