@@ -13,6 +13,11 @@ class InformationCell: UITableViewCell {
     
     static let reuseIdentifier = "\(InformationCell.self)"
     var isOthersPage: Bool = false
+    private let verificationConfig = AchievementVerificationConfig.demo
+    private lazy var verificationService = AchievementVerificationService(config: verificationConfig)
+    private var verificationResult = AchievementVerificationResult.locked(config: .demo, checkedAt: nil)
+    private var lastVerificationMode: Bool?
+    private var verificationTask: Task<Void, Never>?
     
     let viewModel = InformationCellViewModel()
     var viewController: ProfileViewController?
@@ -243,6 +248,32 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
+    private func refreshAchievementVerificationIfNeeded(isOthersPage: Bool) {
+        if lastVerificationMode == isOthersPage { return }
+        lastVerificationMode = isOthersPage
+
+        verificationTask?.cancel()
+
+        if isOthersPage {
+            verificationResult = .locked(config: verificationConfig, checkedAt: nil)
+            collectionView.reloadData()
+            return
+        }
+
+        verificationResult = .loading(config: verificationConfig)
+        collectionView.reloadData()
+
+        verificationTask = Task { [weak self] in
+            guard let self else { return }
+            let result = await verificationService.verifyAchievement()
+            guard !Task.isCancelled else { return }
+            await MainActor.run {
+                self.verificationResult = result
+                self.collectionView.reloadData()
+            }
+        }
+    }
+
     func update(name: String, followers: [String], following: [String], isOthersPage: Bool, avatarUrl: String) {
         idLabel.text = name
         followersNumberLabel.text = "\(followers.count)"
@@ -252,6 +283,7 @@ extension InformationCell {
         self.isOthersPage = isOthersPage
         
         configureDataSource()
+        refreshAchievementVerificationIfNeeded(isOthersPage: isOthersPage)
     }
 }
 
@@ -353,10 +385,13 @@ extension InformationCell {
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectedColorCell.reuseIdentifier, for: indexPath) as? CollectedColorCell else { fatalError("Can't create new cell") }
                     
                     return cell
-                default:
+                case 2:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AchievementCell.reuseIdentifier, for: indexPath) as? AchievementCell else { fatalError("Can't create new cell") }
+                    cell.update(result: self.verificationResult)
                     
                     return cell
+                default:
+                    fatalError("Can't create new cell")
                 }
             }
         }
@@ -380,11 +415,11 @@ extension InformationCell {
 extension InformationCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let vc = viewController else { return }
-        
-        if indexPath == IndexPath(row: 0, section: 1) {
+        switch (indexPath.section, indexPath.row) {
+        case (1, 0):
             let colorFootprintPopUp = ColorFootprintPopUp()
             colorFootprintPopUp.appear(sender: vc)
-        } else if indexPath == IndexPath(row: 1, section: 1) {
+        case (1, 1):
             let collectedColorPopUp = CollectedColorPopUp()
             if isOthersPage {
                 collectedColorPopUp.collectedColors = viewModel.otherUserData?.collectedColors ?? []
@@ -392,9 +427,12 @@ extension InformationCell: UICollectionViewDelegate {
                 collectedColorPopUp.collectedColors = viewModel.userData.collectedColors
             }
             collectedColorPopUp.appear(sender: vc)
-        } else {
+        case (1, 2):
             let achievementPopUp = AchievementPopUp()
+            achievementPopUp.verificationResult = verificationResult
             achievementPopUp.appear(sender: vc)
+        default:
+            break
         }
     }
 }

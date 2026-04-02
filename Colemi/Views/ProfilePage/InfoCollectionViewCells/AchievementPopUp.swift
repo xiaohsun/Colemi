@@ -11,7 +11,12 @@ class AchievementPopUp: UIViewController {
     
     var containerViewTopCons: NSLayoutConstraint?
     var containerViewHeight: CGFloat = 340
-    var verificationResult: AchievementVerificationResult = .loading(config: .demo)
+    var verificationResult: AchievementVerificationResult = .loading(config: .demo) {
+        didSet {
+            guard isViewLoaded else { return }
+            render()
+        }
+    }
     
     lazy var backgroundView: UIView = {
         let view = UIView()
