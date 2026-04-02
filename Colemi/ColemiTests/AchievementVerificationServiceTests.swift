@@ -114,6 +114,66 @@ final class AchievementVerificationServiceTests: XCTestCase {
         XCTAssertNotNil(result.lastCheckedAt)
     }
 
+    func test_verifyAchievement_fallsBackToBalanceOf_whenHasAchievementReturnsJsonRpcError() async {
+        let config = AchievementVerificationConfig.demo
+        let transport = StubAchievementRPCTransport(
+            responses: [
+                .success(StubPayload.error),
+                .success(StubPayload.result("0x" + String(repeating: "0", count: 63) + "2"))
+            ]
+        )
+        let service = AchievementVerificationService(
+            config: config,
+            transport: transport
+        )
+
+        let result = await service.verifyAchievement()
+
+        XCTAssertEqual(result.state, .verified)
+        XCTAssertEqual(transport.requests.count, 2)
+        XCTAssertEqual(transport.requestURLs, [config.rpcURL, config.rpcURL])
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
+        assertRequest(
+            transport.requests.dropFirst().first,
+            matches: config,
+            selector: "0x70a08231"
+        )
+    }
+
+    func test_verifyAchievement_fallsBackToBalanceOf_whenHasAchievementMissingResult() async {
+        let config = AchievementVerificationConfig.demo
+        let transport = StubAchievementRPCTransport(
+            responses: [
+                .success(StubPayload.missingResult),
+                .success(StubPayload.result("0x" + String(repeating: "0", count: 63) + "2"))
+            ]
+        )
+        let service = AchievementVerificationService(
+            config: config,
+            transport: transport
+        )
+
+        let result = await service.verifyAchievement()
+
+        XCTAssertEqual(result.state, .verified)
+        XCTAssertEqual(transport.requests.count, 2)
+        XCTAssertEqual(transport.requestURLs, [config.rpcURL, config.rpcURL])
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
+        assertRequest(
+            transport.requests.dropFirst().first,
+            matches: config,
+            selector: "0x70a08231"
+        )
+    }
+
     func test_verifyAchievement_returnsUnavailable_whenRpcFails() async {
         let config = AchievementVerificationConfig.demo
         let transport = StubAchievementRPCTransport(
@@ -155,6 +215,8 @@ private func assertRequest(
     let decoded = try? JSONDecoder().decode(JSONRPCRequest.self, from: recordedRequest.body)
     XCTAssertNotNil(decoded, file: file, line: line)
     XCTAssertEqual(decoded?.method, "eth_call", file: file, line: line)
+    XCTAssertEqual(decoded?.jsonrpc, "2.0", file: file, line: line)
+    XCTAssertEqual(decoded?.id, 1, file: file, line: line)
     XCTAssertEqual(decoded?.call.to, config.contractAddress, file: file, line: line)
     XCTAssertEqual(decoded?.blockTag, "latest", file: file, line: line)
     XCTAssertTrue(decoded?.call.data.hasPrefix(selector) == true, file: file, line: line)
@@ -193,11 +255,15 @@ private final class StubAchievementRPCTransport: AchievementRPCTransport {
 }
 
 private struct JSONRPCRequest: Decodable {
+    let jsonrpc: String
+    let id: Int
     let method: String
     let call: Call
     let blockTag: String
 
     private enum CodingKeys: String, CodingKey {
+        case jsonrpc
+        case id
         case method
         case params
     }
@@ -209,6 +275,8 @@ private struct JSONRPCRequest: Decodable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        jsonrpc = try container.decode(String.self, forKey: .jsonrpc)
+        id = try container.decode(Int.self, forKey: .id)
         method = try container.decode(String.self, forKey: .method)
 
         var params = try container.nestedUnkeyedContainer(forKey: .params)
@@ -241,6 +309,18 @@ private enum StubPayload {
     static func result(_ hex: String) -> Data {
         """
         {"jsonrpc":"2.0","id":1,"result":"\(hex)"}
+        """.data(using: .utf8)!
+    }
+
+    static var error: Data {
+        """
+        {"jsonrpc":"2.0","id":1,"error":{"code":-32000,"message":"stub"}}
+        """.data(using: .utf8)!
+    }
+
+    static var missingResult: Data {
+        """
+        {"jsonrpc":"2.0","id":1}
         """.data(using: .utf8)!
     }
 }
