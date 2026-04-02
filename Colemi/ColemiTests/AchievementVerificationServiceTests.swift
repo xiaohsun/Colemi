@@ -111,6 +111,7 @@ final class AchievementVerificationServiceTests: XCTestCase {
             matches: config,
             selector: "0x70a08231"
         )
+        XCTAssertNotNil(result.lastCheckedAt)
     }
 
     func test_verifyAchievement_returnsUnavailable_whenRpcFails() async {
@@ -156,9 +157,10 @@ private func assertRequest(
     XCTAssertEqual(decoded?.method, "eth_call", file: file, line: line)
     XCTAssertEqual(decoded?.call.to, config.contractAddress, file: file, line: line)
     XCTAssertEqual(decoded?.blockTag, "latest", file: file, line: line)
+    XCTAssertTrue(decoded?.call.data.hasPrefix(selector) == true, file: file, line: line)
     XCTAssertEqual(
-        decoded?.call.data,
-        expectedFullCalldata(selector: selector, config: config),
+        decoded?.call.data.lowercased(),
+        expectedFullCalldata(selector: selector, config: config).lowercased(),
         file: file,
         line: line
     )
@@ -229,7 +231,9 @@ private func makeCustomConfig() -> AchievementVerificationConfig {
     AchievementVerificationConfig(
         rpcURL: URL(string: "https://rpc.example.test")!,
         contractAddress: "0x1234567890ABCDEF1234567890ABCDEF12345678",
-        demoWalletAddress: "0xAbCdEf0123456789ABCDEF0123456789ABCDEF01"
+        demoWalletAddress: "0xAbCdEf0123456789ABCDEF0123456789ABCDEF01",
+        badgeName: "Custom badge",
+        chainName: "Custom chain"
     )
 }
 
