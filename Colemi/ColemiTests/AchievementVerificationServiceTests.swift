@@ -3,7 +3,7 @@ import XCTest
 
 final class AchievementVerificationServiceTests: XCTestCase {
     func test_verifyAchievement_returnsVerified_whenHasAchievementReturnsTrue() async {
-        let config = AchievementVerificationConfig.demo
+        let config = makeCustomConfig()
         let transport = StubAchievementRPCTransport(
             responses: [
                 .success(StubPayload.result("0x" + String(repeating: "0", count: 63) + "1"))
@@ -17,6 +17,7 @@ final class AchievementVerificationServiceTests: XCTestCase {
         let result = await service.verifyAchievement()
 
         XCTAssertEqual(result.state, .verified)
+        XCTAssertNotNil(result.lastCheckedAt)
         XCTAssertEqual(transport.requests.count, 1)
         XCTAssertEqual(transport.requests.first?.url, config.rpcURL)
         assertRequest(
@@ -67,6 +68,37 @@ final class AchievementVerificationServiceTests: XCTestCase {
         let result = await service.verifyAchievement()
 
         XCTAssertEqual(result.state, .verified)
+        XCTAssertNotNil(result.lastCheckedAt)
+        XCTAssertEqual(transport.requests.count, 2)
+        XCTAssertEqual(transport.requestURLs, [config.rpcURL, config.rpcURL])
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
+        assertRequest(
+            transport.requests.dropFirst().first,
+            matches: config,
+            selector: "0x70a08231"
+        )
+    }
+
+    func test_verifyAchievement_returnsLocked_whenBalanceOfReturnsZero_afterHasAchievementCannotBeDecoded() async {
+        let config = AchievementVerificationConfig.demo
+        let transport = StubAchievementRPCTransport(
+            responses: [
+                .success(StubPayload.result("0x")),
+                .success(StubPayload.result("0x" + String(repeating: "0", count: 64)))
+            ]
+        )
+        let service = AchievementVerificationService(
+            config: config,
+            transport: transport
+        )
+
+        let result = await service.verifyAchievement()
+
+        XCTAssertEqual(result.state, .locked)
         XCTAssertEqual(transport.requests.count, 2)
         XCTAssertEqual(transport.requestURLs, [config.rpcURL, config.rpcURL])
         assertRequest(
@@ -191,6 +223,14 @@ private func expectedFullCalldata(
         .lowercased()
         .replacingOccurrences(of: "0x", with: "")
     return selector + String(repeating: "0", count: 24) + normalizedWalletAddress
+}
+
+private func makeCustomConfig() -> AchievementVerificationConfig {
+    AchievementVerificationConfig(
+        rpcURL: URL(string: "https://rpc.example.test")!,
+        contractAddress: "0x1234567890ABCDEF1234567890ABCDEF12345678",
+        demoWalletAddress: "0xAbCdEf0123456789ABCDEF0123456789ABCDEF01"
+    )
 }
 
 private enum StubPayload {
