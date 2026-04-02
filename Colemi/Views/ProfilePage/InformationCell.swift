@@ -17,6 +17,7 @@ class InformationCell: UITableViewCell {
     private lazy var verificationService = AchievementVerificationService(config: verificationConfig)
     private var verificationResult = AchievementVerificationResult.locked(config: .demo, checkedAt: nil)
     private var lastVerificationMode: Bool?
+    private var verificationGeneration: Int = 0
     private var verificationTask: Task<Void, Never>?
     private weak var achievementPopUp: AchievementPopUp?
     
@@ -252,6 +253,8 @@ extension InformationCell {
     private func refreshAchievementVerificationIfNeeded(isOthersPage: Bool, force: Bool = false) {
         if !force, lastVerificationMode == isOthersPage { return }
         lastVerificationMode = isOthersPage
+        verificationGeneration &+= 1
+        let currentGeneration = verificationGeneration
 
         verificationTask?.cancel()
 
@@ -271,6 +274,7 @@ extension InformationCell {
             let result = await verificationService.verifyAchievement()
             guard !Task.isCancelled else { return }
             await MainActor.run {
+                guard self.verificationGeneration == currentGeneration else { return }
                 self.verificationResult = result
                 self.collectionView.reloadData()
                 self.achievementPopUp?.verificationResult = result
