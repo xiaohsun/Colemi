@@ -40,10 +40,9 @@ final class AchievementVerificationService {
     }
 
     func verifyAchievement() async -> AchievementVerificationResult {
-        let checkedAt = Date()
-
         do {
             if let hasAchievement = try await fetchHasAchievement() {
+                let checkedAt = Date()
                 return hasAchievement
                     ? .verified(config: config, checkedAt: checkedAt)
                     : .locked(config: config, checkedAt: checkedAt)
@@ -51,23 +50,25 @@ final class AchievementVerificationService {
         } catch AchievementVerificationError.rpcError {
             do {
                 let hasBalance = try await fetchBalanceOf()
+                let checkedAt = Date()
                 return hasBalance
                     ? .verified(config: config, checkedAt: checkedAt)
                     : .locked(config: config, checkedAt: checkedAt)
             } catch {
-                return .unavailable(config: config, checkedAt: checkedAt)
+                return .unavailable(config: config, checkedAt: Date())
             }
         } catch {
-            return .unavailable(config: config, checkedAt: checkedAt)
+            return .unavailable(config: config, checkedAt: Date())
         }
 
         do {
             let hasBalance = try await fetchBalanceOf()
+            let checkedAt = Date()
             return hasBalance
                 ? .verified(config: config, checkedAt: checkedAt)
                 : .locked(config: config, checkedAt: checkedAt)
         } catch {
-            return .unavailable(config: config, checkedAt: checkedAt)
+            return .unavailable(config: config, checkedAt: Date())
         }
     }
 
@@ -116,8 +117,7 @@ final class AchievementVerificationService {
     }
 
     private func encodedWalletAddress(_ address: String) throws -> String {
-        let normalizedAddress = address
-            .replacingOccurrences(of: "0x", with: "")
+        let normalizedAddress = stripHexPrefix(address)
             .lowercased()
 
         guard normalizedAddress.count == 40, normalizedAddress.allSatisfy(\.isHexDigit) else {
@@ -128,7 +128,7 @@ final class AchievementVerificationService {
     }
 
     private func decodeBoolWord(_ hex: String) -> Bool? {
-        let cleanedHex = hex.replacingOccurrences(of: "0x", with: "").lowercased()
+        let cleanedHex = stripHexPrefix(hex).lowercased()
         guard cleanedHex.count == 64 else {
             return nil
         }
@@ -145,12 +145,20 @@ final class AchievementVerificationService {
     }
 
     private func decodeBalanceWord(_ hex: String) throws -> Bool {
-        let cleanedHex = hex.replacingOccurrences(of: "0x", with: "").lowercased()
+        let cleanedHex = stripHexPrefix(hex).lowercased()
         guard cleanedHex.count == 64, cleanedHex.allSatisfy(\.isHexDigit) else {
             throw AchievementVerificationError.invalidResult
         }
 
         return cleanedHex.contains(where: { $0 != "0" })
+    }
+
+    private func stripHexPrefix(_ value: String) -> String {
+        if value.hasPrefix("0x") || value.hasPrefix("0X") {
+            return String(value.dropFirst(2))
+        }
+
+        return value
     }
 }
 
