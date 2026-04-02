@@ -98,6 +98,11 @@ final class AchievementVerificationServiceTests: XCTestCase {
         XCTAssertEqual(result.state, .unavailable)
         XCTAssertEqual(transport.requests.count, 1)
         XCTAssertEqual(transport.requests.first?.url, config.rpcURL)
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
         XCTAssertNotNil(result.lastCheckedAt)
     }
 }
@@ -117,8 +122,14 @@ private func assertRequest(
     let decoded = try? JSONDecoder().decode(JSONRPCRequest.self, from: recordedRequest.body)
     XCTAssertNotNil(decoded, file: file, line: line)
     XCTAssertEqual(decoded?.method, "eth_call", file: file, line: line)
-    XCTAssertEqual(decoded?.params.first?.to, config.contractAddress, file: file, line: line)
-    XCTAssertTrue(decoded?.params.first?.data.hasPrefix(selector) == true, file: file, line: line)
+    XCTAssertEqual(decoded?.call.to, config.contractAddress, file: file, line: line)
+    XCTAssertEqual(decoded?.blockTag, "latest", file: file, line: line)
+    XCTAssertEqual(
+        decoded?.call.data,
+        expectedFullCalldata(selector: selector, config: config),
+        file: file,
+        line: line
+    )
 }
 
 private final class StubAchievementRPCTransport: AchievementRPCTransport {
@@ -149,12 +160,37 @@ private final class StubAchievementRPCTransport: AchievementRPCTransport {
 
 private struct JSONRPCRequest: Decodable {
     let method: String
-    let params: [Call]
+    let call: Call
+    let blockTag: String
+
+    private enum CodingKeys: String, CodingKey {
+        case method
+        case params
+    }
 
     struct Call: Decodable {
         let to: String
         let data: String
     }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        method = try container.decode(String.self, forKey: .method)
+
+        var params = try container.nestedUnkeyedContainer(forKey: .params)
+        call = try params.decode(Call.self)
+        blockTag = try params.decode(String.self)
+    }
+}
+
+private func expectedFullCalldata(
+    selector: String,
+    config: AchievementVerificationConfig
+) -> String {
+    let normalizedWalletAddress = config.demoWalletAddress
+        .lowercased()
+        .replacingOccurrences(of: "0x", with: "")
+    return selector + String(repeating: "0", count: 24) + normalizedWalletAddress
 }
 
 private enum StubPayload {
