@@ -18,6 +18,7 @@ class InformationCell: UITableViewCell {
     private var verificationResult = AchievementVerificationResult.locked(config: .demo, checkedAt: nil)
     private var lastVerificationMode: Bool?
     private var verificationTask: Task<Void, Never>?
+    private weak var achievementPopUp: AchievementPopUp?
     
     let viewModel = InformationCellViewModel()
     var viewController: ProfileViewController?
@@ -248,8 +249,8 @@ class InformationCell: UITableViewCell {
 }
 
 extension InformationCell {
-    private func refreshAchievementVerificationIfNeeded(isOthersPage: Bool) {
-        if lastVerificationMode == isOthersPage { return }
+    private func refreshAchievementVerificationIfNeeded(isOthersPage: Bool, force: Bool = false) {
+        if !force, lastVerificationMode == isOthersPage { return }
         lastVerificationMode = isOthersPage
 
         verificationTask?.cancel()
@@ -257,11 +258,13 @@ extension InformationCell {
         if isOthersPage {
             verificationResult = .locked(config: verificationConfig, checkedAt: nil)
             collectionView.reloadData()
+            achievementPopUp?.verificationResult = verificationResult
             return
         }
 
         verificationResult = .loading(config: verificationConfig)
         collectionView.reloadData()
+        achievementPopUp?.verificationResult = verificationResult
 
         verificationTask = Task { [weak self] in
             guard let self else { return }
@@ -270,6 +273,7 @@ extension InformationCell {
             await MainActor.run {
                 self.verificationResult = result
                 self.collectionView.reloadData()
+                self.achievementPopUp?.verificationResult = result
             }
         }
     }
@@ -283,7 +287,7 @@ extension InformationCell {
         self.isOthersPage = isOthersPage
         
         configureDataSource()
-        refreshAchievementVerificationIfNeeded(isOthersPage: isOthersPage)
+        refreshAchievementVerificationIfNeeded(isOthersPage: isOthersPage, force: !isOthersPage)
     }
 }
 
@@ -430,6 +434,7 @@ extension InformationCell: UICollectionViewDelegate {
         case (1, 2):
             let achievementPopUp = AchievementPopUp()
             achievementPopUp.verificationResult = verificationResult
+            self.achievementPopUp = achievementPopUp
             achievementPopUp.appear(sender: vc)
         default:
             break
