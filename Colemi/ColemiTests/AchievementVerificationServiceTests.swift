@@ -3,13 +3,14 @@ import XCTest
 
 final class AchievementVerificationServiceTests: XCTestCase {
     func test_verifyAchievement_returnsVerified_whenHasAchievementReturnsTrue() async {
+        let config = AchievementVerificationConfig.demo
         let transport = StubAchievementRPCTransport(
             responses: [
                 .success(StubPayload.result("0x" + String(repeating: "0", count: 63) + "1"))
             ]
         )
         let service = AchievementVerificationService(
-            config: .demo,
+            config: config,
             transport: transport
         )
 
@@ -17,20 +18,23 @@ final class AchievementVerificationServiceTests: XCTestCase {
 
         XCTAssertEqual(result.state, .verified)
         XCTAssertEqual(transport.requests.count, 1)
-        XCTAssertEqual(transport.requests.first?.url, service.config.rpcURL)
-        XCTAssertTrue(transport.requests.first?.bodyString.contains("eth_call") == true)
-        XCTAssertTrue(transport.requests.first?.bodyString.contains(service.config.contractAddress) == true)
-        XCTAssertTrue(transport.requests.first?.bodyString.contains("0x0fb0764d") == true)
+        XCTAssertEqual(transport.requests.first?.url, config.rpcURL)
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
     }
 
     func test_verifyAchievement_returnsLocked_whenHasAchievementReturnsFalse() async {
+        let config = AchievementVerificationConfig.demo
         let transport = StubAchievementRPCTransport(
             responses: [
                 .success(StubPayload.result("0x" + String(repeating: "0", count: 64)))
             ]
         )
         let service = AchievementVerificationService(
-            config: .demo,
+            config: config,
             transport: transport
         )
 
@@ -38,12 +42,17 @@ final class AchievementVerificationServiceTests: XCTestCase {
 
         XCTAssertEqual(result.state, .locked)
         XCTAssertEqual(transport.requests.count, 1)
-        XCTAssertEqual(transport.requests.first?.url, service.config.rpcURL)
-        XCTAssertTrue(transport.requests.first?.bodyString.contains("0x0fb0764d") == true)
+        XCTAssertEqual(transport.requests.first?.url, config.rpcURL)
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
         XCTAssertNotNil(result.lastCheckedAt)
     }
 
     func test_verifyAchievement_fallsBackToBalanceOf_whenHasAchievementCannotBeDecoded() async {
+        let config = AchievementVerificationConfig.demo
         let transport = StubAchievementRPCTransport(
             responses: [
                 .success(StubPayload.result("0x")),
@@ -51,7 +60,7 @@ final class AchievementVerificationServiceTests: XCTestCase {
             ]
         )
         let service = AchievementVerificationService(
-            config: .demo,
+            config: config,
             transport: transport
         )
 
@@ -59,19 +68,28 @@ final class AchievementVerificationServiceTests: XCTestCase {
 
         XCTAssertEqual(result.state, .verified)
         XCTAssertEqual(transport.requests.count, 2)
-        XCTAssertEqual(transport.requestURLs, [service.config.rpcURL, service.config.rpcURL])
-        XCTAssertTrue(transport.requests.first?.bodyString.contains("0x0fb0764d") == true)
-        XCTAssertTrue(transport.requests.dropFirst().first?.bodyString.contains("0x70a08231") == true)
+        XCTAssertEqual(transport.requestURLs, [config.rpcURL, config.rpcURL])
+        assertRequest(
+            transport.requests.first,
+            matches: config,
+            selector: "0x0fb0764d"
+        )
+        assertRequest(
+            transport.requests.dropFirst().first,
+            matches: config,
+            selector: "0x70a08231"
+        )
     }
 
     func test_verifyAchievement_returnsUnavailable_whenRpcFails() async {
+        let config = AchievementVerificationConfig.demo
         let transport = StubAchievementRPCTransport(
             responses: [
                 .failure(StubError.transport)
             ]
         )
         let service = AchievementVerificationService(
-            config: .demo,
+            config: config,
             transport: transport
         )
 
@@ -79,19 +97,34 @@ final class AchievementVerificationServiceTests: XCTestCase {
 
         XCTAssertEqual(result.state, .unavailable)
         XCTAssertEqual(transport.requests.count, 1)
-        XCTAssertEqual(transport.requests.first?.url, service.config.rpcURL)
+        XCTAssertEqual(transport.requests.first?.url, config.rpcURL)
         XCTAssertNotNil(result.lastCheckedAt)
     }
+}
+
+private func assertRequest(
+    _ recordedRequest: StubAchievementRPCTransport.RecordedRequest?,
+    matches config: AchievementVerificationConfig,
+    selector: String,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    guard let recordedRequest else {
+        XCTFail("Expected a recorded request", file: file, line: line)
+        return
+    }
+
+    let decoded = try? JSONDecoder().decode(JSONRPCRequest.self, from: recordedRequest.body)
+    XCTAssertNotNil(decoded, file: file, line: line)
+    XCTAssertEqual(decoded?.method, "eth_call", file: file, line: line)
+    XCTAssertEqual(decoded?.params.first?.to, config.contractAddress, file: file, line: line)
+    XCTAssertTrue(decoded?.params.first?.data.hasPrefix(selector) == true, file: file, line: line)
 }
 
 private final class StubAchievementRPCTransport: AchievementRPCTransport {
     struct RecordedRequest {
         let body: Data
         let url: URL
-
-        var bodyString: String {
-            String(decoding: body, as: UTF8.self)
-        }
     }
 
     private(set) var requests: [RecordedRequest] = []
@@ -111,6 +144,16 @@ private final class StubAchievementRPCTransport: AchievementRPCTransport {
 
     var requestURLs: [URL] {
         requests.map(\.url)
+    }
+}
+
+private struct JSONRPCRequest: Decodable {
+    let method: String
+    let params: [Call]
+
+    struct Call: Decodable {
+        let to: String
+        let data: String
     }
 }
 
