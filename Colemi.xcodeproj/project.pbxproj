@@ -167,6 +167,8 @@
 		28D24DD22BC6C24200B7E114 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28D24DD02BC6C24200B7E114 /* Main.storyboard */; };
 		28D24DD42BC6C24400B7E114 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28D24DD32BC6C24400B7E114 /* Assets.xcassets */; };
 		28D24DD72BC6C24400B7E114 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28D24DD52BC6C24400B7E114 /* LaunchScreen.storyboard */; };
+		3A100000000000000000000E /* AchievementVerificationServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1000000000000000000002 /* AchievementVerificationServiceTests.swift */; };
+		3A1000000000000000000004 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A1000000000000000000003 /* XCTest.framework */; };
 		28D253082BD3740700864187 /* ChatRoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253072BD3740700864187 /* ChatRoomsViewController.swift */; };
 		28D2530A2BD374BE00864187 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */; };
 		28D2530C2BD40EA200864187 /* SimpleChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */; };
@@ -311,6 +313,9 @@
 		28D24DD32BC6C24400B7E114 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28D24DD62BC6C24400B7E114 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28D24DD82BC6C24400B7E114 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A1000000000000000000001 /* ColemiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColemiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A1000000000000000000002 /* AchievementVerificationServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementVerificationServiceTests.swift; sourceTree = "<group>"; };
+		3A1000000000000000000003 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = System/Library/Frameworks/XCTest.framework; sourceTree = SDKROOT; };
 		28D253072BD3740700864187 /* ChatRoomsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomsViewController.swift; sourceTree = "<group>"; };
 		28D253092BD374BE00864187 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		28D2530B2BD40EA200864187 /* SimpleChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleChatRoom.swift; sourceTree = "<group>"; };
@@ -361,7 +366,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3A1000000000000000000005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A1000000000000000000004 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		3A100000000000000000000C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28D24DBF2BC6C24200B7E114 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28D24DC62BC6C24200B7E114;
+			remoteInfo = Colemi;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXGroup section */
 		2812409D2BC7844E00777F91 /* Views */ = {
@@ -650,6 +673,7 @@
 			isa = PBXGroup;
 			children = (
 				28D24DC72BC6C24200B7E114 /* Colemi.app */,
+				3A1000000000000000000001 /* ColemiTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -675,8 +699,17 @@
 				28D24DD82BC6C24400B7E114 /* Info.plist */,
 				28569EF22BFDB5B1005837C8 /* GoogleService-Info.plist */,
 				28569EE62BFC4351005837C8 /* APIKey.plist */,
+				3A1000000000000000000007 /* ColemiTests */,
 			);
 			path = Colemi;
+			sourceTree = "<group>";
+		};
+		3A1000000000000000000007 /* ColemiTests */ = {
+			isa = PBXGroup;
+			children = (
+				3A1000000000000000000002 /* AchievementVerificationServiceTests.swift */,
+			);
+			path = ColemiTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -734,6 +767,23 @@
 			productReference = 28D24DC72BC6C24200B7E114 /* Colemi.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3A1000000000000000000008 /* ColemiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A1000000000000000000009 /* Build configuration list for PBXNativeTarget "ColemiTests" */;
+			buildPhases = (
+				3A1000000000000000000006 /* Sources */,
+				3A1000000000000000000005 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A100000000000000000000D /* PBXTargetDependency */,
+			);
+			name = ColemiTests;
+			productName = ColemiTests;
+			productReference = 3A1000000000000000000001 /* ColemiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -770,6 +820,7 @@
 			projectRoot = "";
 			targets = (
 				28D24DC62BC6C24200B7E114 /* Colemi */,
+				3A1000000000000000000008 /* ColemiTests */,
 			);
 		};
 /* End PBXProject section */
@@ -952,12 +1003,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3A1000000000000000000006 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A100000000000000000000E /* AchievementVerificationServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		2854A7BF2BC7775A008F6A58 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 2854A7BE2BC7775A008F6A58 /* SwiftLintPlugin */;
+		};
+		3A100000000000000000000D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28D24DC62BC6C24200B7E114 /* Colemi */;
+			targetProxy = 3A100000000000000000000C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1185,6 +1249,57 @@
 			};
 			name = Release;
 		};
+		3A100000000000000000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 28BKW6LP2H;
+				GENERATE_INFOPLIST_FILE = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoHsunHsu.ColemiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Colemi.app/Colemi";
+			};
+			name = Debug;
+		};
+		3A100000000000000000000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 28BKW6LP2H;
+				GENERATE_INFOPLIST_FILE = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoHsunHsu.ColemiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Colemi.app/Colemi";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1202,6 +1317,15 @@
 			buildConfigurations = (
 				28D24DDC2BC6C24400B7E114 /* Debug */,
 				28D24DDD2BC6C24400B7E114 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A1000000000000000000009 /* Build configuration list for PBXNativeTarget "ColemiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A100000000000000000000A /* Debug */,
+				3A100000000000000000000B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
