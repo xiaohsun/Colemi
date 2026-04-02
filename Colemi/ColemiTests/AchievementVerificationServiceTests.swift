@@ -16,7 +16,11 @@ final class AchievementVerificationServiceTests: XCTestCase {
         let result = await service.verifyAchievement()
 
         XCTAssertEqual(result.state, .verified)
-        XCTAssertEqual(transport.requestCount, 1)
+        XCTAssertEqual(transport.requests.count, 1)
+        XCTAssertEqual(transport.requests.first?.url, service.config.rpcURL)
+        XCTAssertTrue(transport.requests.first?.bodyString.contains("eth_call") == true)
+        XCTAssertTrue(transport.requests.first?.bodyString.contains(service.config.contractAddress) == true)
+        XCTAssertTrue(transport.requests.first?.bodyString.contains("0x0fb0764d") == true)
     }
 
     func test_verifyAchievement_returnsLocked_whenHasAchievementReturnsFalse() async {
@@ -33,7 +37,9 @@ final class AchievementVerificationServiceTests: XCTestCase {
         let result = await service.verifyAchievement()
 
         XCTAssertEqual(result.state, .locked)
-        XCTAssertEqual(transport.requestCount, 1)
+        XCTAssertEqual(transport.requests.count, 1)
+        XCTAssertEqual(transport.requests.first?.url, service.config.rpcURL)
+        XCTAssertTrue(transport.requests.first?.bodyString.contains("0x0fb0764d") == true)
         XCTAssertNotNil(result.lastCheckedAt)
     }
 
@@ -52,7 +58,10 @@ final class AchievementVerificationServiceTests: XCTestCase {
         let result = await service.verifyAchievement()
 
         XCTAssertEqual(result.state, .verified)
-        XCTAssertEqual(transport.requestCount, 2)
+        XCTAssertEqual(transport.requests.count, 2)
+        XCTAssertEqual(transport.requestURLs, [service.config.rpcURL, service.config.rpcURL])
+        XCTAssertTrue(transport.requests.first?.bodyString.contains("0x0fb0764d") == true)
+        XCTAssertTrue(transport.requests.dropFirst().first?.bodyString.contains("0x70a08231") == true)
     }
 
     func test_verifyAchievement_returnsUnavailable_whenRpcFails() async {
@@ -69,13 +78,23 @@ final class AchievementVerificationServiceTests: XCTestCase {
         let result = await service.verifyAchievement()
 
         XCTAssertEqual(result.state, .unavailable)
-        XCTAssertEqual(transport.requestCount, 1)
+        XCTAssertEqual(transport.requests.count, 1)
+        XCTAssertEqual(transport.requests.first?.url, service.config.rpcURL)
         XCTAssertNotNil(result.lastCheckedAt)
     }
 }
 
 private final class StubAchievementRPCTransport: AchievementRPCTransport {
-    private(set) var requestCount: Int = 0
+    struct RecordedRequest {
+        let body: Data
+        let url: URL
+
+        var bodyString: String {
+            String(decoding: body, as: UTF8.self)
+        }
+    }
+
+    private(set) var requests: [RecordedRequest] = []
     private var responses: [Result<Data, Error>]
 
     init(responses: [Result<Data, Error>]) {
@@ -83,8 +102,15 @@ private final class StubAchievementRPCTransport: AchievementRPCTransport {
     }
 
     func send(requestBody: Data, to url: URL) async throws -> Data {
-        requestCount += 1
+        requests.append(RecordedRequest(body: requestBody, url: url))
+        guard !responses.isEmpty else {
+            throw StubError.unexpectedRequest(callIndex: requests.count)
+        }
         return try responses.removeFirst().get()
+    }
+
+    var requestURLs: [URL] {
+        requests.map(\.url)
     }
 }
 
@@ -98,4 +124,5 @@ private enum StubPayload {
 
 private enum StubError: Error {
     case transport
+    case unexpectedRequest(callIndex: Int)
 }
