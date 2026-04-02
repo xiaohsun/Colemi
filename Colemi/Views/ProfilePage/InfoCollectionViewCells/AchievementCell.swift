@@ -26,7 +26,7 @@ class AchievementCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.font = ThemeFontProperty.GenSenRoundedTW_M.getFont(size: 14)
         label.textColor = .white
-        label.text = "成就"
+        label.text = "On-Chain Badge"
         
         return label
     }()
@@ -37,7 +37,7 @@ class AchievementCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.font = ThemeFontProperty.GenSenRoundedTW_B.getFont(size: 16)
         label.textColor = .white
-        label.text = "0"
+        label.text = "Checking"
         
         return label
     }()
@@ -61,6 +61,11 @@ class AchievementCell: UICollectionViewCell {
             footprintNumberLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
             footprintNumberLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
         ])
+    }
+
+    func update(result: AchievementVerificationResult) {
+        achievementLabel.text = "On-Chain Badge"
+        footprintNumberLabel.text = result.cellStatusText
     }
     
     required init?(coder: NSCoder) {

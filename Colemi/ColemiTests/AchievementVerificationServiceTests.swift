@@ -2,6 +2,25 @@ import XCTest
 @testable import Colemi
 
 final class AchievementVerificationServiceTests: XCTestCase {
+    func test_lastCheckedText_returnsNotChecked_forOtherProfileLockedState() {
+        let result = AchievementVerificationResult.locked(
+            config: .demo,
+            checkedAt: nil
+        )
+
+        XCTAssertEqual(result.lastCheckedText, "Not checked")
+    }
+
+    func test_popupStatusText_returnsVerificationUnavailable_forUnavailableState() {
+        let result = AchievementVerificationResult.unavailable(
+            config: .demo,
+            checkedAt: Date(timeIntervalSince1970: 0)
+        )
+
+        XCTAssertEqual(result.popupStatusText, "Verification unavailable")
+        XCTAssertEqual(result.cellStatusText, "Unavailable")
+    }
+
     func test_verifyAchievement_returnsVerified_whenHasAchievementReturnsTrue() async {
         let config = makeCustomConfig()
         let transport = StubAchievementRPCTransport(
