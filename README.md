@@ -42,11 +42,27 @@ Embrace the challenge of color matching and reap the rewards.The higher your col
 Dive into a world of colors through the eyes of fellow enthusiasts! Browse a captivating stream of photos that capture the essence of colors. Engage in real-time conversations, connect with fellow color enthusiasts. Share your passion for colors and discover a universe of inspiration!
 <br/>
 <br/>
+### 6. Verify Cross-App Credentials
+
+Colemi can verify an external SugarSwap achievement credential directly from Sepolia and show the result in the profile achievement surface. The verifier reads public contract state instead of calling a private SugarSwap API.
+<br/>
+<br/>
+
+# Cross-App Credential Verification
+
+Colemi includes an experimental verifier for a non-transferable SugarSwap achievement credential. The verifier checks the Sepolia contract directly and renders the profile achievement as `Verified On-Chain`, `Locked`, or `Verification unavailable`.
+
+- Credential experiment: [sugarswap-colemi-credentials](https://github.com/xiaohsun/sugarswap-colemi-credentials)
+- Sepolia contract: [`0x6BC8C77525F41B0A9F786c9a45477F799995adaC`](https://sepolia.etherscan.io/address/0x6BC8C77525F41B0A9F786c9a45477F799995adaC)
+- Sample mint transaction: [`0xf528e64ffc31705ecfddc061cb311368bd237d683dff1575e77fb5413927c43e`](https://sepolia.etherscan.io/tx/0xf528e64ffc31705ecfddc061cb311368bd237d683dff1575e77fb5413927c43e)
+<br/>
+
 # Technologies
 
 - **MVVM** design pattern
 - Utilized **WeatherKit**, **Core Location** to detect weather conditions at the user's location
 - **Combine** framework
+- Implemented Sepolia credential verification through direct JSON-RPC contract reads
 - Harnessed **Multipeer Connectivity** to empower direct device-to-device
 communication and data transfer
 - Built **real-time chatrooms**, comments, and following features with **Firestore**, enabling seamless user interaction and data management
