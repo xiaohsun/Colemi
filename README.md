@@ -57,9 +57,10 @@ Colemi includes an experimental verifier for a non-transferable SugarSwap achiev
 - Sample mint transaction: [`0xf528e64ffc31705ecfddc061cb311368bd237d683dff1575e77fb5413927c43e`](https://sepolia.etherscan.io/tx/0xf528e64ffc31705ecfddc061cb311368bd237d683dff1575e77fb5413927c43e)
 <br/>
 
-<img src="docs/images/colemi-verifier-profile.png" width="320" alt="Colemi profile showing a verified SugarSwap credential">
-
-<img src="docs/images/colemi-verifier-detail.png" width="320" alt="Colemi achievement popup showing Sepolia verification details">
+<p>
+  <img src="docs/images/colemi-verifier-profile.jpg" width="320" alt="Colemi profile showing a verified SugarSwap credential">
+  <img src="docs/images/colemi-verifier-detail.jpg" width="320" alt="Colemi achievement popup showing Sepolia verification details">
+</p>
 
 # Technologies
 
